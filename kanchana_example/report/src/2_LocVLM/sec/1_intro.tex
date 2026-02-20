@@ -1,0 +1,26 @@
+\section{Introduction}
+\label{locVLM_sec:intro}
+
+Holistic visual understanding requires learning beyond simply content of an image to encompass awareness on spatial locations of objects and their relations \cite{marr1982vision}. In the context of visual question answering (VQA), such spatial awareness allows better reasoning involving structural and contextual information contained within an image \cite{chen2023shikra}.
+
+Since the introduction of powerful large-language models (LLMs) such as GPT-3 \cite{brown2020language}, Chat-GPT \cite{gpt4}, Vicuna \cite{vicuna2023}, and LLaMA~\citep{touvron2023llama,touvron2023llama2} that are capable of human style conversation, their visual counterparts such as BLIP-2 \cite{li2023blip}, LLaVA \cite{liu2023visual} have enabled novel tasks within the vision modality. However, despite their \cite{li2023blip,liu2023visual} highly generic visual understanding, these models exhibit poor language-based spatial reasoning \cite{chen2023shikra}. In fact, they fail at simple tasks such as distinguishing whether an object lies to the left or right of another object (see \cref{locvlm_tbl:spatial_icl}). 
+% half of the image
+
+\input{src/2_LocVLM/figures/intro}
+
+In the case of contrastive language image models (such as CLIP \cite{radford2021learning}, ALIGN \cite{Jia2021ScalingUV}), recent works explore how injecting explicit spatial awareness \cite{Zhang2023AssociatingSG,Luo2022SegCLIPPA,Mukhoti2022OpenVS,Ranasinghe2022PerceptualGI} can enable more holistic visual understanding. In fact, \cite{Ranasinghe2022PerceptualGI} shows how such improved spatial awareness benefits model robustness in adversarial domains. 
+This raises the question of how generative language image models, particularly those connecting LLMs to visual encoders \cite{li2023blip,liu2023visual} can benefit from such spatial awareness specific training. We refer to models of this category that generate textual outputs given joint image-text inputs (e.g. \cite{li2023blip,liu2023visual}) as visual-LLMs (V-LLMs). 
+
+In this work, we explore location specific instruction fine-tuning objectives that explicitly enforce V-LLMs to meaningfully process and generate textual image-space coordinates. We hypothesize that such training would lead to improved spatial awareness in these V-LLMs, therein improving performance on VQA tasks. To this end, we propose three instruction fine-tuning objectives that unify location representation with natural language. We also explore optimal representation forms for image-space locations and how pseudo-data generation can be leveraged for efficient scaling of our framework. We name our resulting model as LocVLM.  
+
+While the idea of adapting V-LLMs to perform localization related tasks (e.g. detection, segmentation) using V-LLMs has been explored in multiple recent works \cite{zhang2023gpt4roi,zhao2023bubogpt,zang2023contextual,peng2023kosmos,You2023FerretRA,wang2023visionllm,lai2023lisa}, these approaches depend on task specific architectural modifications or treat localization inputs / outputs differently from natural language. In contrast, our LocVLM focuses on a unified framework treating location and language as a single modality of inputs with the goal of complementing performance in each task. We intuit that processing location represented in textual form would enforce the LLM to select appropriate image regions as opposed to relying on region level features provided by the architecture. At the same time, textual form location outputs promote spatial awareness at language level in a human interpretable manner, in contrast to using secondary heads or specialized tokens for location prediction.  
+Concurrent work in \cite{chen2023shikra} also explores textual location representation with a generic V-LLM architecture similar to our work. Our proposed LocVLM differs with focus on optimal location representation forms, data-efficient pseudo-labelling, and video domain operation. 
+
+Our proposed framework exhibits improved spatial awareness in VQA style conversation demonstrated through experimentation on 14 datasets across 5 vision-language tasks: Spatial Reasoning, Image VQA, Video VQA, Object Hallucination, and Region Description. 
+We summarize our key contributions as follows: 
+\begin{itemize}[leftmargin=2em,noitemsep,topsep=0.0ex,itemsep=-1.0ex,partopsep=0ex,parsep=1ex]
+    \item Inject textual spatial coordinate awareness into V-LLMs 
+    \item Propose three novel localization based instruction fine-tuning objectives for V-LLMs 
+    \item Discover optimal coordinate representation forms 
+    \item Pseudo-Data generation for improved region description and scaling to video domain
+\end{itemize} 

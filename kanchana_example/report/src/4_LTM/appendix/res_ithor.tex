@@ -1,0 +1,21 @@
+\begin{table}[ht]
+\small
+\centering
+\def\arraystretch{1.3}  % height
+\setlength\tabcolsep{1.0em}  % width
+\scalebox{0.90}{
+\begin{tabular}{lccccc}
+\toprule
+Method  & Kitchen & Living Room  & Bedroom & Bathroom & Overall \\ \midrule
+BC-Scratch &  1.7 & 3.3  & 1.7  & 1.7  & 2.1  \\
+BC-R3M     &  0.0 & 0.0  & 1.7  & 0.0  & 0.4  \\
+AVDC       & 26.7 & 23.3 & 38.3 & 36.7 & 31.3 \\ \rowcolor{Gray}
+LTM-H (ours) & 27.3 & 23.7 & 40.0 & 36.7 & 31.9 \\ \bottomrule
+\end{tabular}}
+\vspace{0.5em}
+\caption[Results on iThor Benchmark]{
+    \textbf{Results on iThor Benchmark:} 
+    We follow the iThor dataset based evalution setup used in AVDC paper to demonstrate that our method generalizes to robot movement based control as well (i.e. where ego motion occurs). Results indicate that our method outperforms AVDC across categories and overall.
+}
+\label{ltm_app:ithor}
+\end{table}

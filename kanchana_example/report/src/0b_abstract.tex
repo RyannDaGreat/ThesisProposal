@@ -1,0 +1,20 @@
+\begin{center}
+\noindent \textbf{\Large Abstract}
+%\chapter*{\centering Abstract}
+\vspace{0.8em}
+\end{center}
+
+Humans understand their surrounding world processing multi-sensory signals, with visual perception, especially in the form of video, playing a dominant role. 
+Leveraging naturally occurring patterns such as \textit{spatio-temporal relationships}, \textit{simultaneous multi-sensory signals}, and \textit{3D geometry}, humans build strong internal world models without specific supervision, that is under what we call \textit{self-supervised} settings. 
+Recent advances in language processing and computer vision have led to large language models (LLMs) and their multimodal variants, which are trained under similar self-supervised settings, to build certain degrees of their own internal world models. 
+However, in the context of video understanding, these models are still far from human-level performance. 
+\vspace{0.3em}
+
+In this work, we first explore how traditional video self-supervised learning (SSL), where learning involves only the visual modality, can be connected to natural language for improved video understanding. 
+We leverage existing strong language-image models (CLIP) to guide a video SSL process, learning not only strong representations but also unlocking zero-shot inference capabilities given the language alignment of features. 
+We achieve this language alignment using LLM generated descriptions of action concepts and CLIP based frame-level alignment of the generated descriptions. This retains the scalable SSL paradigm of not depending on human annotations of individual videos for training.
+\vspace{0.3em}
+
+Our initial investigation focusses on video classification tasks, where ability of models to perform fine-grained spatio-temporal reasoning may often not be crucial. As a next step, we explore a more complex language-tied task: video question answering (QnA). Multi-modal LLMs (MLLMs) excel at these tasks, but often face challenges in correctly modeling spatio-temporal object relationships in videos (i.e. spatial reasoning). We investigate how explicit object localization supervision can improve spatial reasoning of MLLMs. Utilizing natural language based location representations, we seamlessly integrate localization supervision into MLLM training, learning stronger video representations with better spatial awareness. 
+We next extend to explicit motion representations, following a similar natural language formulation, leading to further improvements in video understanding. Language alone however struggles to capture fine-grained motion cues, motivating exploration into structered intermediate motion representations. As a final step, we learn explicit language to structured motion representation mappings from internet-scale video-caption data. We use these mappings beyond video QnA into real world interaction in the form of robot control, taking a significant step towards human-level world-models capable of video understanding.
+

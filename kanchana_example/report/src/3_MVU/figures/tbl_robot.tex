@@ -1,0 +1,43 @@
+\begin{table}[t]
+\centering
+\small
+\caption[OpenX Evaluation]{
+\textbf{OpenX Detailed Results:}
+We report accuracy (\%) for the VideoQA formulation of Open X-Embodiment benchmark. MVU achieves clear improvements over random selection and LLoVi baseline \citep{zhang2023llovi}. 
+In table header, Obs. (observation), size, CC (class count) stand for camera used, number of videos, and number of unique language instructions per dataset, respectively. In observation column, T stands for third-person view (stationary camera that does not move with robot), while F denotes first-person view where camera is mounted on moving robot. Note that total is average weighted by dataset size.  
+}
+\label{mvu_tbl:robotics}
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{1.0em}  % width
+\scalebox{0.85}{
+\begin{tabular}{lcccccc}
+\toprule
+Dataset                         & Obs. & Size  & CC  & Random & Baseline & MVU  \\ \midrule
+ASU TableTop Manipulation       & T    & 110   & 83  & 13.6   & 19.1   & \textbf{20.9} \\
+Berkeley MVP Data               & F    & 480   & 6   & 20     & 26.0   & \textbf{33.1} \\
+Berkeley RPT Data               & F    & 908   & 4   & 24.6   & 23.1   & \textbf{26.2} \\
+CMU Play Fusion                 & T    & 576   & 44  & 20.3   & 34.0   & \textbf{35.6} \\
+CMU Stretch                     & T    & 135   & 5   & 23     & 18.5   & \textbf{24.4} \\
+Furniture Bench                 & T    & 5100  & 9   & 20.2   & 24.8   & \textbf{26.4} \\
+Furniture Bench                 & F    & 5100  & 9   & 20.2   & 22.6   & \textbf{24.9} \\
+CMU Franka Pick-Insert Data     & T    & 631   & 7   & 18.7   & 19.3   & \textbf{21.2} \\
+CMU Franka Pick-Insert Data     & F    & 631   & 7   & 23.1   & \textbf{57.8}   & 49.3 \\
+Imperial F Cam                  & T    & 170   & 17  & 20     & 22.9   & \textbf{24.1} \\
+Imperial F Cam                  & F    & 170   & 17  & 23.5   & 20.6   & \textbf{24.7} \\
+USC Jaco Play                   & T    & 1085  & 89  & 21.8   & 26.4   & \textbf{30.6} \\
+USC Jaco Play                   & F    & 1085  & 89  & 19.4   & 28.6   & \textbf{32.4} \\
+NYU ROT                         & T    & 14    & 12  & 21.4   & \textbf{57.1}   & \textbf{57.1} \\
+Roboturk                        & T    & 1959  & 3   & 34.7   & 43.0   & \textbf{44.2} \\
+Stanford HYDRA                  & T    & 570   & 3   & 35.1   & 54.7   & \textbf{68.2} \\
+Stanford HYDRA                  & F    & 570   & 3   & 31.2   & 45.3   & \textbf{48.9} \\
+Freiburg Franka Play            & F    & 3603  & 406 & 20.4   & \textbf{32.2}   & 31.6 \\
+Freiburg Franka Play            & T    & 3603  & 406 & 19.7   & 21.8   & \textbf{24.0} \\
+LSMO Dataset                    & T    & 50    & 2   & 34.0   & 68.0   & \textbf{72.0} \\
+UCSD Kitchen                    & T    & 150   & 8   & 19.3   & 32.0   & \textbf{32.7} \\
+Austin VIOLA                    & T    & 150   & 3   & 26.7   & 32.7   & \textbf{33.3} \\
+Austin VIOLA                    & F    & 150   & 3   & 30.0   & 33.3   & \textbf{34.0} \\ \midrule
+Total                           & -    & 27000 & -   & 22.1   & 28.5   & \textbf{30.4} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

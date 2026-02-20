@@ -1,0 +1,24 @@
+\section{Language Based Video Self-Supervised Learning}
+\label{lss:related}
+
+\bhdr{Self-Supervised Learning in Videos} was initially dominated by pretext tasks specific to the video domain \cite{mathieu2015deep, PatrauceanHC16, walker2016uncertain, pmlr-v37-srivastava15, Vondrick16a, vondrick2018tracking, Agrawal_2015_ICCV, Goroshin_2015_ICCV, DBLP:journals/corr/IsolaZKA15, Misra-2016-5596, 7410677, piergiovanni2020evolving}. Recently a shift to contrastive losses led to \cite{Feichtenhofer_large, han2019video, han2020self, qian2020spatiotemporal, hjelm2020representation, recasens2021broaden} with some variants focused on video specific view generation \cite{Huang_2021_ICCV, chen2021rspnet, Behrmann2021LongSV, Dave2021TCLRTC, Ran2021SVT}. An alternate direction has been masked auto-encoders \cite{Tong2022VidMAE}.
+To the best of our knowledge, existing video self-supervised learning (SSL) approaches operate purely within the visual domain. By video SSL, we refer to methods that utilize only videos with no paired captions (or labels) for each video during training.
+In contrast, our proposed LSS learns purely from videos in a self-supervised manner, integrating pre-trained language-image models to learn language aligned representations. 
+
+\vspace{0.5em}
+
+
+\bhdr{Zero-shot Action Recognition} began with manual attribute and feature selection \cite{liu2011recognizing,zellers2017zero, jain2015objects2action,gao2019know,gao2020learning} with later works utilizing action word embeddings \cite{brattoli2020rethinking,xu2017transductive}. The idea of connecting action categories with elaborate descriptions of those actions, within language embedding spaces \cite{chen2021erzsar,zhu2018ur} has been a next step and is closely related to our work. This idea is also explored in image domain to boost zero-shot performance \cite{menon2022visual}. While our work is inspired by such approaches, in contrast, we use relations between such actions and descriptions as self-supervised signals for learning. 
+Recent image CLIP models \cite{radford2021clip,jia2021align} are another line of works achieving strong performance on some video classification tasks, with only single frame processing. Multiple approaches build on image CLIP \cite{radford2021clip} to learn video level representations \cite{wang2021actionclip, luo2022clip4clip, bain2022cliphitchhiker, lin2022evl, ma2022xclip, Kahatapitiya2023VicTRVT} under fully-supervised settings. While achieving strong performance on the training datasets, their zero-shot improvements over CLIP are minimal or even subpar (see \cref{lss_tbl:zeroshot}). Therein, LSS focuses on zero-shot performance under self-supervised settings while retaining (and improving) the generality of the representation space.
+
+\vspace{0.5em}
+
+\bhdr{Self-training} methods leverage pseudo-labels on unlabeled data \cite{mean_teacher,fixmatch,remixmatch} for supervised-fashion training. Recently they have been combined with CLIP models for zero-shot operation \cite{Li2022MaskedUS, Kahana2022ImprovingZM}. While inspired by such self-training approaches, our proposed LSS differs in its continuous feature space self-distillation, language-based relations enforcing, video domain operation, and cross-dataset transfer for zero-shot operation. 
+
+\vspace{0.5em}
+
+\bhdr{Adapting image-CLIP models to video} under fully-supervised settings has gathered much interest \cite{xue2022clipvip, yan2022videococa, qian2022multimodal, ju2022prompting, rasheed2022fine, cheng2022vindlu}. Expanding backbones for temporal modeling, multi-modal fusion, secondary training objectives, partial parameter updates, and scaling-up data are key ideas explored \cite{Kahatapitiya2023VicTRVT,cheng2022vindlu}. In contrast, LSS is a first to operate under self-supervised settings using no video annotations. 
+
+\vspace{0.5em}
+
+\bhdr{Contemporary work} in \cite{Lin2023MAtchEA} adapts image CLIP features to video tasks label free similar to our work. ViFi-CLIP \cite{Rasheed2022FinetunedCM} introduces zero-shot action recognition benchmarks and similarly adapts CLIP to videos retaining generality. Using LLMs for action recognition is also explored in \cite{Hanu2023LanguageAT}. 

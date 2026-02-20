@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.6em}  % width
+\scalebox{0.95}{
+\begin{tabular}{l|c|ccc|ccc}
+\toprule
+Method                      & ICL    & All   & Left  & Right & All  & Above & Below \\ \midrule
+BLIP-2 \cite{li2023blip}    & \xmark & 45.5  & 86.1  & 4.74  & 49.2 & 50.4  & 48.6  \\
+LLava  \cite{liu2023visual} & \xmark & 55.1  & 84.5  & 36.5  & 58.9 & 57.8  & 59.3  \\ \rowcolor{Gray}
+Ours                        & \xmark & 69.5  & 79.7  & 59.2  & 65.4 & 64.2  & 65.9  \\ \midrule
+BLIP-2 \cite{li2023blip}    & \cmark & 14.7  & 17.8  & 11.6  & 15.8 & 16.5  & 15.2  \\ 
+LLaVa \cite{liu2023visual}  & \cmark & 55.1  & 84.7  & 36.4  & 58.2 & 57.7  & 58.5  \\ \rowcolor{Gray}
+Ours                        & \cmark & 76.5  & 90.4  & 61.5  & 74.1 & 73.5  & 74.4  \\ \bottomrule
+\end{tabular}
+}
+\caption[Spatial Reasoning Evaluation]{\textbf{Spatial Reasoning}: We report accuracy (\%) on a spatial localization dataset derived from COCO annotations to highlight weak spatial awareness of existing V-LLMs. We query these models to answer whether one object is to the left or right / above or below of another object. The SOTA V-LLMs evaluated exhibit close to random performance. Our proposed setup outperforms existing methods. Ours refers to LocVLM-B variant.}
+\label{locvlm_tbl:spatial_icl}
+\end{table}

@@ -1,0 +1,80 @@
+\section{Experiments}
+\label{locvlm_sec:exp}
+
+In this section, we present experimental results to highlight existing weaknesses of SOTA V-LLMs and how our proposed framework addresses these issues. We also evaluate on standard VQA benchmarks across domains to showcase the better reasoning abilities of our model and highlight novel abilities of our framework. 
+
+\subsection{Experimental Setup}
+\label{locvlm_subsec:exp_setup}
+\textbf{Datasets}: 
+We utilize the COCO dataset \cite{lin2014microsoft} and our model (post stage one training) to construct a localization related VQA dataset as outlined in \cref{locvlm_subsec:train_obj,locvlm_subsec:pseudo}. We name this dataset \textit{Localize-Instruct-200K}. In detail, this contains LocPred and RevLoc question-answer pairs that use pseudo-captions instead of COCO categories as well as NegPred. We define a second video dataset, \textit{Localize-ActivityNet}, containing question-answer pairs constructed from Activity-Net pseudo-bounding boxes following \cref{locvlm_subsec:video}. 
+Our models are primarily trained on our Localize-Instruct-200K dataset. Our stage one training uses CC3M dataset \cite{Changpinyo2021Conceptual1P}. 
+% LLaVA-Instruct-80K dataset from \cite{liu2023visual}. 
+Additionally, our Localize-ActivityNet dataset and ActivityNet dataset \cite{Heilbron2015ActivityNetAL} are used for video domain training. 
+
+\noindent \textbf{Training}: We train our models on 8xA100 GPUs (each 80GB) following a two-phase training schedule. Our first phase trains on CC3M \cite{Changpinyo2021Conceptual1P} following the setup in \cite{liu2023visual}. 
+The second phase uses our Localize-Instruct-200K dataset and trains for 10 epochs with a batch size of 64, ADAM-W optimizer with initial learning rate $2e-5$, 0.3 warm-up ratio, and cosine-decay learning rate schedule. 
+% The third phase uses our Localize-Instruct-200K dataset jointly with LLaVA-Instruct-80K dataset \cite{liu2023visual} to train for 1 epoch (with all other settings identical to phase two). 
+Both the training phases we conduct use standard next-token-prediction loss used in LLM training. 
+
+\noindent \textbf{Evaluation}: During evaluation, following standard protocol \cite{liu2023visual}, we iteratively generate next tokens, given visual and textual inputs. The LLM output is a distribution across the entire token vocabulary. The next token is selected through multinomial sampling of this output using a softmax temperature term of 0.2 during normalization. 
+
+
+\subsection{Spatial Reasoning: A Toy Experiment}
+\label{locvlm_subsec:spatial}
+We investigate spatial reasoning abilities of two SOTA V-LLMs, LLaVA \cite{liu2023visual} and BLIP-2 \cite{li2023blip}, using a simple toy experiment. We create an evaluation dataset from COCO annotations containing images with distinct category object triplets (only one instance occurrence of each object category), where each object is entirely to the left or right half of the image and two objects are on opposite sides. 
+The ground-truth bounding box annotation are utilized to automate this dataset creation procedure. 
+This evaluation set, referred as \textit{COCO-Spatial-27K}, contains 26,716 image-question pairs (see \cref{locvlm_supp:dataset} for details). 
+We introduce two evaluation settings, direct VQA and in-context learning (ICL) VQA to understand spatial reasoning abilities of these models. In direct VQA, given an image we query the model whether an object lies above or below another object. In ICL VQA, before a similar final query, we provide two example question-answer pairs (involving the other two objects in the image) in the same format as our query. 
+Refer to \cref{locvlm_supp:toy} for further details on task. We perform the same for objects in top vs bottom halves of images. 
+
+These results are presented in \cref{locvlm_tbl:spatial_icl}. Our results indicate near random performance for existing V-LLMs. 
+% that are instruction fine-tuned on question answer data. 
+For the case of LLaVA, we perform keyword (\textit{left} and \textit{right}) frequency analysis on its instruction tuning dataset (LLaVA-Instruct-80K dataset) to verify the presence of terms \textit{left} and \textit{right} in its training corpus. These keywords are present in 0.37\% and 1.13\% of its conversations respectively (see \cref{locvlm_supp:llava_dataset} for more) indicating presence of these concepts in the image-text training corpus. In contrast to these methods, our proposed framework notably improves performance over both BLIP-2 \cite{li2023blip} and the LLaVA baseline \cite{liu2023visual}. 
+
+
+\subsection{Image VQA}
+Image VQA involves correctly answering natural language questions regarding content within an image. We evaluate our model for Image VQA on two standard datasets, GQA and VQAv2. The GQA dataset focuses on questions requiring compositional reasoning, particularly involving surrounding information of objects within an image. We evaluate on its test-dev split containing 12,578 image-question pairs. The VQAv2 dataset contains open-ended questions about each image that require an understanding of vision, language and commonsense knowledge to answer. We use its validation split containing 214,354 image-question pairs for our evaluation. 
+For each dataset, we follow standard V-LLM evaluation protocol following \cite{li2023blip,Maaz2023VideoChatGPT} and report top-1 accuracy metric. Our results in \cref{locvlm_tbl:res_im_vqa} indicate clear improvements for LocVLM over our baseline and prior work, establishing the usefulness of our proposed framework. The closest to our work, Shikra \cite{chen2023shikra} achieves performance competitive to our LocVLM-B, but unlike ours they use VQA datasets (containing similar domain question-answer pairs) during training. 
+
+\input{src/2_LocVLM/figures/spatial_icl}
+\input{src/2_LocVLM/figures/eval_im_vqa}
+\input{src/2_LocVLM/figures/eval_vid_vqa}
+
+
+\subsection{Video VQA}
+Our model is also applicable to video tasks following our video domain adaptation described in \cref{locvlm_subsec:video}. We simply adopt the additional video instruction fine-tuning phase from \cite{Maaz2023VideoChatGPT} on the ActivityNet dataset after our initial two phases of training to obtain LocVLM-Vid-B. This third phase involves fine-tuning only the adapter layer of our model. We also explore video variants of our IFT objectives that train both adapter layer and LLM. The resulting model is termed LocVLM-Vid-B+. 
+
+Video VQA focuses on correctly answering questions regarding a given video that require spatio-temporal awareness to answer. 
+We evaluate our video-adapted model on the task of zero-shot video VQA on four benchmark datasets, ActivityNet-QA, MSRVTT-QA, MSVD-QA, and TGIF-QA. We evaluate on the validation splits of these four datasets. ActivityNet-QA videos cover a wide range of complex human activities relevant to daily living with its question-answer pairs focusing on long-term spatio-temporal reasoning. MSRVTT-QA builds off the MSRVTT dataset that contains web videos covering a comprehensive range of categories and diverse visual content. MSVD-QA is a similar dataset building off the MSVD dataset. TGIF-QA contains question-answer pairs from an dataset constructed of animated GIFs. For each dataset, we report the accuracy metric following evaluation protocol in \cite{Maaz2023VideoChatGPT}.
+Our results on these four datasets reported in \cref{locvlm_tbl:res_vid_vqa} demonstrate state-of-the-art performance of our proposed LocVLM-Vid-B, with consistent improvements over the baseline from \cite{Maaz2023VideoChatGPT}. Here we use the LocVLM-Vid-B variant for fairer comparison with the baseline from \cite{Maaz2023VideoChatGPT}. We attribute the performance gains exhibited by our model to its stronger spatial awareness (see \cref{locvlm_subsec:spatial}). Particularly in the case of video understanding, awareness of content at spatial level of each frame is significant to understand object motions and interactions \cite{Ryoo2006RecognitionOC,Aggarwal2011HumanAA}. We also report more results involving additional model variants in \cref{locvlm_tbl:vid_more}. 
+
+
+\subsection{Object Hallucination}
+Current state-of-the-art V-LLMs suffer from object hallucination, generating image descriptions inconsistent with the image content \cite{li2023evaluating}. For example, a V-LLM would respond to ``Where is the cat in this image?" with ``The cat is on the table" when in reality there is no cat in the image. We evaluate the extent of hallucination in V-LLMs using three datasets we introduce (details in \cref{locvlm_supp:dataset}) and the POPE dataset \cite{li2023evaluating}. Our three datasets, Hal-COCO, Hal-ADE, and Hal-Act build off COCO, ADE-20K, and ActivityNet datasets respectively. The first two involve images and the latter videeos. These datasets contain `Is there \textit{obj} in image / video?'' type questions per sample, for two objects present and not present in the image / video. Hal-ADE object categories contain \textit{no overlap} with COCO classes allowing evaluation on novel object categories unseen during our instruction fine-tuning. Results reported in \cref{locvlm_tbl:res_hallucinate} show clear improvements of LocVLM-B over baselines. We also evaluate LocVLM-B on the POPE benchmark \cite{li2023evaluating} that builds off the COCO dataset object annotations and report results in \cref{locvlm_tbl:pope}. Our LocVLM showcases similar performance improvements on this dataset. 
+
+\input{src/2_LocVLM/figures/eval_vid_vqa_more}
+\input{src/2_LocVLM/figures/eval_hallucinate}
+\input{src/2_LocVLM/figures/eval_pope}
+\input{src/2_LocVLM/figures/eval_revloc}
+
+
+\subsection{Region Description}
+\label{locvlm_subsec:revloc}
+A unique characteristic of our model (in contrast to V-LLMs like LLaVA \cite{liu2023visual} \& BLIP-2 \cite{li2023blip}) is its ability to reason with prompts involving coordinate based image space locations without any input modifications. Given a point or bounding box location, we prompt our model to generate an output describing that location. We refer to this unique ability of our model as \textit{region description} (RD). We evaluate this RD capability of our model by generating object level descriptions focused on contextual information (e.g. surrounding of that object in the image). Following evaluation protocol in \cite{peng2023kosmos} for region description, we extend their evaluation to three standard referring localization datasets from RefCOCO \cite{kazemzadeh2014referitgame} and report these results in \cref{locvlm_tbl:res_revloc}. We select the METEOR score as the evaluation metric to account for variations in word choice in generated answers which may be acceptable in various cases (e.g. different sentence structure leading to alternate word ordering). Our results indicate clear improvements over the LLaVA baseline \cite{liu2023visual} as well as prior state-of-the-art. We attribute these improvements to our pseudo-data based training. 
+
+
+\subsection{Ablations}
+\label{locvlm_subsec:ablation}
+Next we conduct ablative studies on separate components of our proposed setup: IFT objectives, location type, and pseudo-data. We follow the same training strategy as described in \cref{locvlm_subsec:exp_setup} and present these results in \cref{locvlm_tbl:ablate_rest}. LocVLM-B is used for all these experiments. The significance of each IFT objective is verified in \cref{locvlm_tbl:ablate_rest} (top) with consistent performance improvements across tasks. 
+The generality of our approach to differing location type (i.e. points vs bounding boxes) and usefulness of pseudo-data is visible in \cref{locvlm_tbl:ablate_rest} (bottom). In particular, we highlight the notable performance improvement for RD task gained from using pseudo-data. 
+We also conduct ablations for our video domain training setup and report these results in \cref{locvlm_tbl:ablate_vid}. The LocVLM-Vid-B+ variant is used in these experiments. Our results showcase the usefulness of proposed IFT objectives for video domain learning as well. 
+
+\input{src/2_LocVLM/figures/ablate_all}
+\input{src/2_LocVLM/figures/ablate_vid}
+
+
+
+
+
+
+

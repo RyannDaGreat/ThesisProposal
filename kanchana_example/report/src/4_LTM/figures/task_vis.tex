@@ -1,0 +1,45 @@
+\begin{figure*}[t]
+    \centering
+    \begin{minipage}{\linewidth}
+    {\small
+        \hspace{0.6em} {\texttt{Start State}} 
+        \hspace{0.4em} {\texttt{Predicted Motion Overlaid on Intermediate States}}
+        \hspace{0.4em} {\texttt{End State}}
+    }
+    \end{minipage}
+    \begin{minipage}{0.03\linewidth}
+    \centering
+    \begin{tabular}{c}
+         \rotatebox{90}{\texttt{Task-1}}   \\[2.7em] 
+         \rotatebox{90}{\texttt{Task-2}}   \\[2.8em] 
+         \rotatebox{90}{\texttt{Task-3}}   \\[2.9em] 
+         \rotatebox{90}{\texttt{Task-4}}  \\
+    \end{tabular}
+    \end{minipage}
+    \begin{minipage}{0.96\linewidth}
+    % 
+    \begin{minipage}{\linewidth}
+        \centering\centering
+        \includegraphics[width=\linewidth]{src/4_LTM/figures/task_vis/task1.png}
+    \end{minipage}
+    \begin{minipage}{\linewidth}
+        \centering\centering
+        \includegraphics[width=\linewidth]{src/4_LTM/figures/task_vis/task2.png}
+    \end{minipage}
+    \begin{minipage}{\linewidth}
+        \centering\centering
+        \includegraphics[width=\linewidth]{src/4_LTM/figures/task_vis/task3.png}
+    \end{minipage}
+    \begin{minipage}{\linewidth}
+        \centering\centering
+        \includegraphics[width=\linewidth]{src/4_LTM/figures/task_vis/task4.png}
+    \end{minipage}
+    % 
+    \end{minipage}
+    \caption[Real World Tasks]{
+    \textbf{Real World Tasks:} 
+    We illustrate the four real-world tasks following LLaRA~\cite{Li2024LLaRASR}. Start and end states are shown in the first and last columns, with predicted pixel motion (color indicates motion direction) overlaid on intermediate states. 
+    LangToMo performs these challenging tasks successfully (see results in \Cref{ltm_table:real}).
+    }
+    \label{ltm_fig:task_vis}
+\end{figure*}

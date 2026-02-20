@@ -1,0 +1,34 @@
+\begin{table}[t]
+\begin{minipage}{1.0\linewidth}
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.7em}  % width
+\scalebox{0.95}{
+\begin{tabular}{c|c|c|c|c|c}
+\toprule
+LocPred & NegPred & RevLoc  & GQA & RD & A-QA \\ \midrule
+\xmark  & \xmark  & \xmark  & 44.7 & 10.3 & 35.2 \\ 
+\cmark  & \xmark  & \xmark  & 45.2 & 12.2 & 35.8 \\ 
+\cmark  & \cmark  & \xmark  & 46.9 & 12.5 & 37.2 \\ \rowcolor{Gray}
+\cmark  & \cmark  & \cmark  & 47.3 & 20.7 & 37.4 \\ \bottomrule
+\end{tabular}}
+\vspace{1.0em}
+\end{minipage}
+\begin{minipage}{1.0\linewidth}
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{1.1em}  % width
+\scalebox{0.96}{
+\begin{tabular}{l|c|c|c|c}
+\toprule
+Location Type    & PD     & GQA  & RD   & A-QA \\ \midrule
+Point & \cmark & 47.3 & 20.6 & 37.4 \\ \rowcolor{Gray}
+Bounding Box  & \cmark & 47.3 & 20.7 & 37.4 \\ 
+Bounding Box  & \xmark & 46.5 & 11.6 & 37.1 \\ \bottomrule
+\end{tabular}}
+\end{minipage}
+\caption[Ablations on LocVLM]{\textbf{Ablations:} We report top-1 accuracy (\%) on GQA and ActivityNet-QA (A-QA) datasets and METEOR scores for RD task on RefCOCOg test split. (top) We ablate proposed instruction fine-tuning objectives to verify usefulness of each objective. (bottom) We first ablate point based and bounding box based location forms to showcase minimal difference across them. We next ablate use of object description pseudo-data (PD). We highlight the improvements due to pseudo-data, especially on the RD task.}
+\label{locvlm_tbl:ablate_rest}
+\end{table}

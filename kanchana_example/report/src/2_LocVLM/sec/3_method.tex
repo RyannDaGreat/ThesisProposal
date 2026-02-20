@@ -1,0 +1,96 @@
+\section{Method}
+\label{locvlm_sec:method}
+Current V-LLMs \cite{liu2023visual,li2023blip} exhibit weak understanding of spatial locations within images \cite{chen2023shikra}. We explore and benchmark such shortcomings, and propose three novel instruction fine-tuning objectives aimed at overcoming these drawbacks of existing V-LLMs. We build these objectives based on spatial-coordinate based prompting and demonstrate how LLMs can directly both process and generate meaningful numerical coordinates in image-space after suitable training. In the rest of this section we describe our architecture and training framework, followed by coordinate processing \& generation, instruction fine-tuning objectives, pseudo-data generation, and video domain operation.   
+
+\input{src/2_LocVLM/figures/llava}
+
+\subsection{Architecture and Training}
+\label{locvlm_subsec:arch}
+The focus of our work is to explore how spatial localization related training can improve a generic V-LLM such as LLaVA \cite{liu2023visual}. Therein, our architecture and training framework is inspired from \cite{liu2023visual}. We use a visual encoder, adapter layer, and LLM stacked sequentially (illustrated in \cref{locvlm_fig:llava}), and follow a multi-stage training strategy similar to \cite{liu2023visual}. 
+
+Consider an image $X \in \mathbb{R}^{H,W,C}$ where $H,W,C$ ($=3$) denote height, width, channels of image and a textual prompt $T$ composed of natural language (asking a question about the image). We define two variants of our model, LocVLM-B and LocVLM-L for better comparison with prior work. We first describe LocVLM-B that processes images with $H=W=224$. Our visual encoder, ViT-L/14 from CLIP \cite{radford2021learning}, processes the image $X$ to produce a set of $256$ visual tokens in $\mathbb{R}^{1024}$, which are in turn projected to $\mathbb{R}^{4096}$ by an adapter layer (implemented as a linear layer). The LLaMA \cite{touvron2023llama} text tokenizer processes the textual prompt $T$ to produce textual tokens in $\mathbb{R}^{4096}$. The joint set of visual and textual tokens (of dimension $\mathbb{R}^{4096}$) are processed by a LLaMA \cite{touvron2023llama} LLM to produce the final set of textual tokens which are in turn untokenized to convert to natural language. The final natural language output is expected to be a suitable response to the input textual prompt, $T$. In variant LocVLM-L, we use images sized $H=W=336$ resulting in 576 visual token, an adapter layer implemented as an MLP, and the LLM from LLaMA-2 \cite{touvron2023llama2}. All other design choices remain unchanged.   
+
+We also highlight the BPE tokenization that is employed in our setup. This learned tokenization scheme may split a single word into sub-parts (that alone can appear meaningless to humans) and handles numerical text (including decimal point) as individual tokens (e.g. $12.34$ would be split into 5 separate tokens). 
+
+In terms of training, we follow a two-stage strategy. Inspired by LLaVA \cite{liu2023visual}, we adopt an initial pre-training stage that only updates weights of the intermediate adapter layer to align the visual encoder outputs with LLM inputs. Next, we jointly instruction fine-tune the adapter layer and LLaMA LLM with our proposed objectives and template-based localization datasets (see \cref{locvlm_subsec:exp_setup}). 
+% Finally, we utilize the LLaVA-Instruct-150K \cite{liu2023visual} dataset and our localization datasets for the third training phase. 
+Video domain operation introduces an additional phase (see \cref{locvlm_subsec:video}). 
+
+\input{src/2_LocVLM/figures/ablate_coord}
+
+\subsection{Coordinate Processing and Generation}
+Humans contain the ability to reason about images using image-space coordinates. This is in contrast to existing V-LLMs that can describe the contents of an image elegantly, but lack spatial awareness regarding image contents. 
+We hypothesize that injecting LLMs with additional spatial awareness, through coordinate based reasoning could improve their generic reasoning ability as well. To this end, we introduce our first goal of directly using textual coordinate based image locations in both natural language prompts and LLM generated outputs. For textual coordinates, we explore three different representation forms:
+\begin{enumerate}[leftmargin=3em,noitemsep,topsep=-0.2ex,itemsep=-1.0ex,partopsep=0ex,parsep=1ex]
+    \item Normalized Floating Point Values
+    \item Integer Valued Binning (across image dimensions)
+    \item Deviation from Image-Grid based Anchors 
+\end{enumerate} 
+
+
+\noindent
+For image locations, we explore point based (e.g. center coordinates [cx, cy] of object) and bounding box based (e.g. top-left and bottom-right extreme coordinates of object region [x1, y1, x2, y2]) forms. We next discuss the three representations for coordinates used for either location. 
+
+\noindent
+\textbf{Normalized Floating Point Values} calculates absolute image coordinates and normalizes with image dimensions to a (0, 1) range. We use a 4 decimal point representation for these floating point values. While this representation is simple and generic, given the nature of BPE tokenization, each individual coordinate will be represented by up to 6 tokens. 
+
+\noindent
+\textbf{Integer Valued Binning} discretizes the absolute image coordinates to one of $n_b$ (=224, 336 for variant B \& L respectively) bins spread uniformly across the two image dimensions. Based on the binning parameter, $n_b$, each coordinate will be represented some number of tokens, in our case up to 3 (less than the floating point variant).
+
+\noindent
+\textbf{Deviation from Image-Grid based Anchors} is motivated from prior object detection works that estimate an initial anchor followed by deviation from that anchor center to estimate bounding box coordinates. We follow a similar setup, where one of $n_a$ anchors is predicted by the model, followed by deviation of coordinate from that anchor center. Our intuition is that, given the sequential next-token prediction setup of LLMs, such a two-stage strategy would lead to faster learning and more accurate coordinates. 
+
+We refer to \cref{locvlm_supp:coord} for further details on each variant. In \cref{locvlm_tbl:ablate_coord}, we ablate each representation format on three different tasks (see \cref{locvlm_subsec:ablation} for more details) of image VQA (GQA), region description (RD), and video VQA (A-QA). Our experiments indicate optimal performance for integer valued binning (IVB). In all following experimentation, we fix our coordinate representation to IVB. 
+
+\subsection{Instruction Fine-Tuning Objectives}
+\label{locvlm_subsec:train_obj}
+Given suitable coordinate representations, we now have a mechanism to directly prompt LLMs with image locations in textual form. Our second goal is to build training objectives using these image coordinates that directly inject spatial awareness into V-LLMs. We propose three instruction fine-tuning objectives for this purpose. 
+
+Let us first revisit the visual instruction fine-tuning methodology in \cite{liu2023visual}. Building off the COCO dataset, they construct a VQA dataset containing conversation style question-answer pairs relevant to each COCO image. Question-answer pairs are generated using an LLM that is fed with the ground-truth bounding-box annotations for each image. Inspired by this setup, we build a similar spatial-VQA dataset using images and annotations of the COCO dataset, but instead of LLM prompting, we utilize hand-crafted templates and pseudo-captions (discussed in \cref{locvlm_subsec:pseudo}) to generate conversations. 
+
+We propose three types of question-answer pairs that relate to our three instruction fine-tuning objectives: Location Prediction (LocPred), Negative Prediction (NegPred), and Reverse-Location Prediction (RevLoc). 
+See \cref{locvlm_tbl:ift-obj} for examples.
+Considering the LLM based final text generation in our architecture, we utilize next-token prediction loss to achieve each objective during our training. 
+
+\input{src/2_LocVLM/figures/ift_obj}
+
+\noindent \textbf{Location Prediction}: 
+Given an object category, we query the model to generate a point or bounding box localizing that object in the image. The object category and bounding box are derived from the COCO train set annotations. To avoid object mismatches (i.e. multiple object of same category), we first filter images containing only a single object of a given class. 
+
+\noindent \textbf{Negative Prediction}: Using the same prompt templates as in \textit{LocPred} above, we query the model to generate a point or bounding box localizing a specified object in the image. However, in this case we select an object category not present in the image and accordingly provide a target text of ``no such object in image''. For each image, we utilize COCO bounding-box annotations to discover objects (belonging to COCO classes) that are not present in that image. 
+
+\noindent \textbf{Reverse-Location Prediction}: We perform the reverse of \textit{LocPred} here. Given a point or bounding box in image space, we query the model to describe the object in that location. The bounding box and object category are derived from the COCO train set annotations. 
+
+While introducing three novel train objectives aimed at injecting location information, we highlight that our proposed framework relies on training data (i.e. human annotations) identical to those used by LLaVA \cite{liu2023visual}. We do not use any additional ground-truth annotations for training. Next we explore how we could augment the generality of our framework while limiting to this same annotated data. 
+
+
+\subsection{Pseudo-Data Generation}
+\label{locvlm_subsec:pseudo}
+
+We introduced three train objectives, each utilizing template based conversations as prompts and targets. However, our reliance on categories of COCO dataset limits the object vocabulary seen during training. Therein, we propose a pre-trained V-LLM based pseudo-data generation strategy. 
+In fact, we utilize our model after stage one training as the V-LLM
+% a pre-trained LLaVA model \cite{liu2023visual} (sharing the same architecture as ours) 
+leading to a form of self-training based learning. Given the abundance of only image-level annotated datasets (i.e. no bounding box ground-truth), we also explore how an object-detector generated pseudo-bounding boxes could augment our framework. 
+
+\noindent \textbf{Self-Training}:
+Given an image and bounding box annotations from the COCO train set, we prompt the V-LLM to caption each distinct object in the image. In order to prevent ambiguous object queries, we filter images to select only those containing at most one instance of a single category. We additionally prompt the V-LLM to describe the object using relational information (i.e. relative to other objects in image). This process provides us a dataset with object level bounding boxes and descriptive captions that are not limited to the COCO object categories (dataset details in \cref{locvlm_supp:dataset}). In turn, we use this data generated by the V-LLM (our stage one model) to further improve performance of our framework.
+% (a variant of the original V-LLM). 
+We modify each of our three train objectives (in \cref{locvlm_subsec:train_obj}) to utilize these image-specific pseudo-captions instead of the generic dataset level category labels.  
+
+\noindent \textbf{Weak Supervision}: 
+We explore how datasets containing no object level annotation (e.g. video classification / VQA datasets) could be leveraged to adapt our framework into domains beyond images. Therein, we utilize an off-the-shelf panoptic segmentation framework from SEEM \cite{Zou2023SegmentEE} to generate pseudo-bounding boxes for selected object categories within any image as well as exhaustive pixel level labels (enabling negative class identification). We leverage this setup to extend our introduced train objectives to the video domain as well. 
+
+% \noindent \textbf{Weak Supervision}: 
+% We explore how classification datasets like ImageNet (which are of much larger scale than COCO) could be leveraged to further improve our framework. We also note the greater level of diversity in these datasets (compared to object detection ones). Therein, we utilize an off-the-shelf object detector from OWL-ViT to generate a single pseudo-bounding box for the category of each image. 
+% In the case of this data, we utilize this data with our train objectives \textit{LocPred} and \textit{RevLoc} as additional data for scaling our model training. 
+
+
+\subsection{Video Domain Operation}
+\label{locvlm_subsec:video}
+Inspired by the simple modifications to LLaVA \cite{liu2023visual} in \cite{Maaz2023VideoChatGPT} enabling video domain operation, we follow a similar strategy of modifying our LocVLM-B architecture to process videos while introducing no additional components. The visual backbone process multiple video frames individually (as images) and resulting tokens are averaged across spatial ($S$) and temporal ($T$) axes to obtain $S+T$ tokens. These are processed by the adapter layer and LLM to generate the textual outputs. Further details on our video architecture are discussed in \cref{locvlm_supp:video}. 
+
+In addition to our two training phases discussed in \cref{locvlm_subsec:arch}, we introduce a third video instruction fine-tuning stage using a dataset we derive from ActivityNet \cite{Heilbron2015ActivityNetAL}. 
+% using the video-caption dataset from \cite{Maaz2023VideoChatGPT}. 
+Following \cite{Maaz2023VideoChatGPT}, only the adapter layer is fine-tuned leaving all other parameters frozen. This resulting model is referred to as LocVLM-Vid-B. 
+
+We next introduce video variants of our three instruction fine-tuning objectives focused on static objects in videos. We utilize our proposed pseudo-labeling strategy to generate necessary video annotations and train both the adapter layer and LLM to obtain a second video model tagged LocVLM-Vid-B+. Futher details on our video fine-tuning objectives are presented in \cref{locvlm_supp:video}. 

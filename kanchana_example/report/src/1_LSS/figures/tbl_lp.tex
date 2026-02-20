@@ -1,0 +1,48 @@
+\begin{table}[t]
+\centering
+\small
+\caption[Linear Probing on HMDB-51 and UCF-101]{\small
+    \textbf{Linear Probing on HMDB-51 \cite{kuehne2011hmdb} and UCF-101 \cite{soomro2012ucf101}:} We compare our method against prior work, reporting top-1 (\%) accuracy (following evaluation procedure in \cite{Ran2021SVT}). `ITP' stands for image-text pre-training. Gray shaded methods use additional optical flow (OF) inputs for training. Nevertheless, our performance is comparable to such methods using per-video OF modality information. In contrast, we use generic language modality information and require no one-to-one language relations with individual videos to train. 
+}
+\label{lss_tbl:linear}
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{0.6em}  % width
+\scalebox{0.85}{
+\begin{tabular}{l|c|c|c|c|c|c|c} %
+\toprule
+Method & Backbone & ITP & TFLOPS & Frames & Epochs & HMDB & UCF \\ \midrule
+MemDPC \cite{han2019video} \venue{(ECCV ‘20)}         & R2D3D-34   & \xmark & -    & 64  & -   & 30.5 & 54.1\\ 
+CoCLR \cite{han2020self} \venue{(NeurIPS ‘20)}        & S3D        & \xmark & 0.07 & 32  & 100 & 52.4 & 77.8\\ 
+% ELo \cite{piergiovanni2020evolving} \venue{(CVPR ’20)}& R(2+1)D    & \xmark & 17.5 &  -  & 100 & -    &  -  \\ 
+% RSPNet \cite{chen2021rspnet} \venue{(AAAI '21)}       & S3D-G      & \xmark & 0.07 & 16  & 200 & -    &  -  \\ 
+VideoMoCo \cite{pan2021videomoco}\venue{(CVPR ‘21)}   & R(2+1)D    & \xmark & 17.5 & 32  & 200 & 49.2 & 78.7\\ 
+% BE \cite{wang2021removing} \venue{(CVPR ‘21)}         & I3D        & \xmark & 2.22 & 16  & 50  & -    &  -  \\
+% CMD \cite{Huang2021SSVR}\venue{(CVPR ‘21)}            & R(2+1)D-26 & \xmark & -    & 16  & 120 & -    &  -  \\ 
+CVRL \cite{qian2020spatiotemporal}\venue{(CVPR ‘21)}  & R3D-50     & \xmark & 3.19 & 32  & 800 & 57.3 & 89.2\\ 
+% TCLR \cite{Dave2021TCLRTC} \venue{(Arxiv ’21)}        &R(2+1)D-18  & \xmark & -    & 16  & 100 & -    &  -  \\
+\dht{MoDist \cite{xiao2021modist} \venue{(Arxiv ’21)}}&\dht{R3D-50}&\dht{\xmark} &\dht{3.19}&\dht{8}&\dht{100}&\dht{63.0}&\dht{91.5}\\ 
+\dht{BraVe \cite{recasens2021broaden}\venue{(ICCV '21)}}&\dht{R3D-50}&\dht{\xmark} &\dht{3.19}&\dht{16}&\dht{-}&\dht{68.3}&\dht{92.5}\\  
+Vi$^2$CLR \cite{Diba_2021_ICCV} \venue{(ICCV '21)}    & S3D        & \xmark & 0.07 & 32  & 300 & 47.3 & 75.4\\ 
+% ASCNet \cite{Huang_2021_ICCV} \venue{(ICCV '21)}      & S3D-G      & \xmark & 0.07 & 64  & 200 & -    &  -  \\ 
+% TEC \cite{Jenni_2021_ICCV} \venue{(ICCV '21)}         & S3D-G      & \xmark & 0.07 & 32  & 200 & -    &  -  \\
+% LSFD \cite{Behrmann2021LongSV} \venue{(ICCV '21)}     & C3D        & \xmark & -    & 16  & -   & -    &  -  \\ 
+MCN \cite{Lin_2021_ICCV} \venue{(ICCV '21)}           & R3D        & \xmark & 3.19 & 32  & 50  & 42.9 & 73.1\\ 
+CORP \cite{Hu_2021_ICCV} \venue{(ICCV '21)}           & R3D-50     & \xmark & 3.19 & 16  & 800 & 58.7 & 90.2\\ 
+SVT \cite{Ran2021SVT}\venue{(CVPR ‘22)}               & ViT-B      & \xmark & 0.59 & 16  & 20  & 57.8 & 90.8\\ 
+VideoMAE \cite{Tong2022VidMAE}\venue{(NeurIPS ‘22)}   & ViT-B      & \xmark & 0.59 & 16  & 800 & 60.3 & 84.7\\ 
+\midrule
+MERLOT \cite{Zellers2021MERLOTMN}\venue{(NeurIPS ‘21)}& ViT-B      & \cmark & -    & 16  & -   & 55.4 & 80.1\\ 
+VATT \cite{Akbari2021VATTTF}\venue{(NeurIPS ‘21)}     & ViT-B      & \cmark & -    & 32  & -   & 66.4 & 87.6\\ 
+TVTS \cite{Zeng2022LearningTS}\venue{(CVPR ‘23)}      & ViT-B      & \cmark & 0.59 & 16  & 20  & 58.4 & 83.4\\ 
+LaViLa \cite{Zhao2022LearningVR}\venue{(CVPR ‘23)}    & ViT-L      & \cmark & -    & 4   & 5   & 61.5 & 88.1\\ 
+\rowcolor{Gray} 
+LSS-A (ours)                                          & ViT-B      & \cmark & 0.59  & 8   & 20  & 69.2 & 91.0\\
+\rowcolor{Gray} 
+LSS-B (ours)                                          & ViT-B      & \cmark & 0.59  & 8   & 20  & \textbf{69.4} & \textbf{91.1}\\
+\rowcolor{Gray} 
+LSS-C (ours)                                          & ViT-B      & \cmark & 0.59  & 8   & 20  & {69.1} & {90.8}\\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+

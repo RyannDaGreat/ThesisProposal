@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: abbrvnat.bst
+Reallocated field_info (elt_size=4) to 14408 items from 5000.
+Database file #1: src/1_LSS/lss.bib
+Database file #2: src/2_LocVLM/locvlm.bib
+Database file #3: src/3_MVU/mvu.bib
+Database file #4: src/4_LTM/ltm.bib
+Reallocated str_pool (elt_size=1) to 130000 items from 65000.
+You've used 336 entries,
+            2773 wiz_defined-function locations,
+            2205 strings with 79616 characters,
+and the built_in function-call counts, 208796 in all, are:
+= -- 16571
+> -- 19486
+< -- 105
++ -- 6576
+- -- 6176
+* -- 18797
+:= -- 33264
+add.period$ -- 1069
+call.type$ -- 336
+change.case$ -- 3036
+chr.to.int$ -- 272
+cite$ -- 672
+duplicate$ -- 7624
+empty$ -- 12596
+format.name$ -- 6573
+if$ -- 42588
+int.to.chr$ -- 65
+int.to.str$ -- 1
+missing$ -- 301
+newline$ -- 1732
+num.names$ -- 1346
+pop$ -- 6392
+preamble$ -- 1
+purify$ -- 2700
+quote$ -- 0
+skip$ -- 6945
+stack$ -- 0
+substring$ -- 3169
+swap$ -- 1183
+text.length$ -- 60
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 3691
+warning$ -- 0
+while$ -- 1183
+width$ -- 0
+write$ -- 4286

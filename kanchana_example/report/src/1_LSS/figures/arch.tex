@@ -1,0 +1,9 @@
+\begin{figure}
+\includegraphics[width=\textwidth]{src/1_LSS/figures/arch1.pdf}
+\vspace{-1.5em}
+\caption[Architecture Overview]{\small
+\textbf{Architecture Overview:}
+Our overall setup contains three components: visual teacher model (green), visual student model (red), and language model (blue). We utilize the text encoder of CLIP as our language model and extract \textit{concept vectors} relevant to action labels and descriptions of those actions. A visual encoder (containing a space-time backbone) is partially initialized with CLIP's visual encoder and used to obtain sample specific features. Generated concept vectors are used to project these features to a \textit{concept space} where our proposed \textit{concept distillation} and \textit{concept alignment} losses are applied.
+}
+\label{lss_fig:arch}
+\end{figure}

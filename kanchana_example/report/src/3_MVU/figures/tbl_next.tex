@@ -1,0 +1,59 @@
+\begin{table}[t]
+\centering
+\small
+\caption[Next-QA Dataset Evaluation]{\textbf{Next-QA Dataset Evaluation}:
+We report top-1 accuracy (\%) for the Next-QA dataset \citep{dataset_xiao2021nextqa}. Our proposed MVU achieves state-of-the-art results under zero-shot settings with \textit{no video-level training}. 
+% We also highlight our competitive performance across the dataset's causal, why, and how sub-categories. 
+In table header, ZS stands for zero-shot and VT stands for video level training. 
+}
+\label{mvu_tbl:next}
+\vspace{-0.5em}
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{1.1em}  % width
+\scalebox{0.88}{
+\begin{tabular}{lccccccc}
+\toprule
+Method & ZS & VT & Params & Cau. & Tem. & Des. & All  \\ \midrule
+Random Selection                       & -   & -  &             & 20.0 & 20.0 & 20.0 & 20.0 \\ \midrule
+CoVGT \citep{xiao2023covgt}             & \xmark & \cmark & 149M & 58.8 & 57.4 & 69.3 & 60.0 \\
+SeViT \citep{kim2023sevit}              & \xmark & \cmark & 215M & - & - & - & 60.6 \\
+HiTeA \citep{ye2023hitea}               & \xmark & \cmark & 297M & 62.4 & 58.3 & 75.6 & 63.1 \\ 
+InternVideo \citep{wang2022internvideo} & \xmark & \cmark & 478M & 62.5 & 58.5 & 75.8 & 63.2 \\
+MC-ViT-L \citep{Balavzevic2024MemoryCE} & \xmark & \cmark & 424M & - & - & - & 65.0 \\
+BLIP-2 \citep{li2023blip2}              & \xmark & \cmark & 4B   & 70.1 & 65.2 & 80.1 & 70.1 \\ 
+SeViLA \citep{yu2024sevila}             & \xmark & \cmark & 4B   & 74.2 & 69.4 & 81.3 & 73.8 \\ 
+LLama-VQA-7B \citep{ko2023llama-vqa}    & \xmark & \cmark & 7B   & 72.7 & 69.2 & 75.8 & 72.0 \\ 
+Vamos \citep{wang2023vamos}             & \xmark & \cmark & 7B   & 72.6 & 69.6 & 78.0 & 72.5 \\ \midrule
+Just-Ask \citep{yang2021justask}        & \cmark & \cmark & 66M  & 31.8 & 30.4 & 36.0 & 38.4 \\ 
+VFC \citep{momeni2023vfc}               & \cmark & \cmark & 164M & 45.4 & 51.6 & 64.1 & 51.5 \\
+InternVideo \citep{wang2022internvideo} & \cmark & \cmark & 478M & 43.4 & 48.0 & 65.1 & 49.1 \\
+{SeViLA}\citep{yu2024sevila} & {\cmark} & {\cmark}&{4B}&{61.3}&{61.5} & {75.6} & {63.6} \\ 
+CaKE-LM \citep{Su2023LanguageMA}& \cmark & \xmark & 2.7B & 35.7 & 35.3 & 36.8 & 34.9 \\
+LLoVi \citep{zhang2023llovi}            & \cmark & \xmark & 13B  & 55.6 & 47.9 & 63.2 & 54.3 \\ 
+ViperGPT \citep{suris2023vipergpt}       & \cmark & \xmark & 175B & - & -  & - & 60.0 \\
+LLoVi \citep{zhang2023llovi} (GPT-4)     & \cmark & \xmark & 1.8T & 69.5 & 61.0 & 75.6 & 67.7 \\
+MoreVQA \citep{min2024morevqa}           & \cmark & \xmark & 1.7T & 70.2 & 64.6 & -    & 69.2 \\
+VideoAgent \citep{wang2025videoagent}    & \cmark & \xmark & 1.7T & 72.7 & 64.5 & 81.1 & 71.3 \\
+VideoTree \citep{wang2024videotree}      & \cmark & \xmark & 1.7T & 75.2 & 67.0 & 81.3 & 73.5 \\
+LVNet \citep{Park2024TooMF}              & \cmark & \xmark & 1.8T & 75.0 & 65.5 & 81.5 & 72.9 \\ \midrule
+SF-VLM + MVU (ours)              & \cmark & \xmark & 13B  & 55.7 & 48.2 & 64.2 & 55.4 \\ \rowcolor{Gray}
+LVNet + MVU (ours)               & \cmark & \xmark & 1.8T & 75.2 & 66.8 & 81.3 & 73.3 \\ 
+\bottomrule
+\end{tabular}}
+\vspace{-1.0em}
+\end{table}
+
+
+% MoreVQA \citep{min2024morevqa}           & \cmark & \xmark & 1.7T & 70.2 & 64.6 & -    & 69.2 \\
+% VideoAgent \citep{wang2025videoagent}    & \cmark & \xmark & 1.7T & 72.7 & 64.5 & 81.1 & 71.3 \\
+% VideoTree \citep{wang2024videotree}      & \cmark & \xmark & 1.7T & 75.2 & 67.0 & 81.3 & 73.5 \\
+% LVNet \citep{Park2024TooMF}              & \cmark & \xmark & 1.8T & 75.0 & 65.5 & 81.5 & 72.9 \\ \midrule
+% SF-VLM + MVU (ours)              & \cmark & \xmark & 13B  & 55.7 & 48.2 & 64.2 & 55.4 \\ \rowcolor{Gray}
+% LVNet + MVU (ours)               & \cmark & \xmark & 1.8T & 75.2 & 66.8 & 81.3 & 73.3 \\ 
+
+% forestgreen
+
+% \dht{SeViLA}\cite{yu2024sevila} & \dht{\cmark} & \dht{\cmark}&\dht{4B}&\dht{61.3}&\dht{61.5} & \dht{75.6} & \dht{63.6} \\ 
+% ViperGPT \cite{suris2023vipergpt} & 175B & - & -  & - & 60.0 \\
+% LLoVi \cite{zhang2023llovi} (GPT-4) & 1.7T & 69.5 & 61.0 & 75.6 & 67.7 \\
+% CaKE-LM w HGA \citep{Su2023LanguageMA}  & \cmark & \xmark & 2.7B & 35.3 & 34.7 & 36.9 & 34.8 \\

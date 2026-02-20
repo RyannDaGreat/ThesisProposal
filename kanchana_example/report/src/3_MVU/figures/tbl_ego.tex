@@ -1,0 +1,46 @@
+\begin{table}[t]
+\centering
+\small
+\caption[EgoSchema Evaluation]{\textbf{Ego-Schema Dataset Evaluation}: 
+We report top-1 accuracy (\%) for video question answering on Ego-Schema \citep{Mangalam2023EgoSchemaAD} test set (5031 videos). Our proposed MVU achieves state-of-the-art performance on this benchmark under \textit{zero-shot operation with no video level training}. We also draw attention to our modality-constrained SF-VLM baseline that achieves surprisingly competitive performance.}
+\label{mvu_tbl:ego_schema}
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{1.1em}  % width
+\scalebox{0.88}{
+\begin{tabular}{lccccc}
+\toprule
+Method &
+  \begin{tabular}[c]{@{}c@{}}Zero\\ Shot\end{tabular} &
+  \begin{tabular}[c]{@{}c@{}}Video\\ Training\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}Closed\\ Model\end{tabular} & 
+                            Params &  Full \\ \midrule 
+Random Selection                                &   -    &    -   &   -    &  -   & 20.0 \\ \midrule
+VIOLET \citep{violet}                           & \cmark & \cmark & \xmark & 198M & 19.9 \\
+FrozenBiLM \citep{yang2022frozenblim}           & \cmark & \cmark & \xmark & 1.2B & 26.9 \\
+SeViLA \citep{yu2024sevila}                     & \cmark & \cmark & \xmark & 4B   & 22.7 \\ 
+mPLUG-Owl \citep{ye2023mplug}                   & \cmark & \cmark & \xmark & 7.2B & 31.1 \\
+InternVideo \citep{wang2022internvideo}         & \cmark & \cmark & \xmark & 478M & 32.1 \\
+ImageViT \citep{papalampidi2023simple}          & \xmark & \cmark & \xmark & 1B   & 30.9 \\ 
+SeViLA+ShortViViT \citep{papalampidi2023simple} & \xmark & \cmark & \xmark & 5B   & 31.3 \\ 
+LongViViT \citep{papalampidi2023simple}         & \xmark & \cmark & \xmark & 1B   & 33.3 \\ 
+MC-ViT-L \citep{Balavzevic2024MemoryCE}         & \xmark & \cmark & \xmark & 424M & 44.4 \\ 
+InternVideo2 \citep{wang2024internvideo2}       & \cmark & \cmark & \xmark & 7B   & 55.8 \\
+Tarsier \citep{wang2024tarsier}                 & \cmark & \cmark & \xmark & 7B   & 49.9 \\ 
+Tarsier \citep{wang2024tarsier}                 & \cmark & \cmark & \xmark & 34B  & 61.7 \\ 
+Vamos \citep{wang2023vamos}                     & \cmark & \xmark & \xmark & 13B  & 36.7 \\ 
+LLoVi \citep{zhang2023llovi}                    & \cmark & \xmark & \xmark & 13B  & 33.5 \\
+LangRepo \citep{Kahatapitiya2024}               & \cmark & \xmark & \xmark & 12B  & 41.2 \\ 
+Vamos \citep{wang2023vamos}                     & \cmark & \xmark & \cmark & 1.8T & 48.3 \\ 
+LLoVi \citep{zhang2023llovi}                    & \cmark & \xmark & \cmark & 1.8T & 50.3 \\ 
+LifelongMemory \citep{Wang2023LifelongMemoryLL} & \cmark & \xmark & \cmark & 1.8T & 62.4 \\  
+MoreVQA \citep{min2024morevqa}                  & \cmark & \xmark & \cmark &  -   & 51.7 \\ 
+VideoAgent \citep{wang2025videoagent}           & \cmark & \xmark & \cmark & 1.8T & 54.1 \\  
+VideoTree \citep{wang2024videotree}             & \cmark & \xmark & \cmark & 1.8T & 61.1 \\ 
+LVNet \citep{Park2024TooMF}                     & \cmark & \xmark & \cmark & 1.8T & 61.1 \\ \midrule 
+SF-VLM (ours)                                   & \cmark & \xmark & \xmark & 13B  & 36.4 \\ 
+SF-VLM + MVU (ours)                      & \cmark & \xmark & \xmark & 13B  & 37.6 \\ \rowcolor{Gray}
+LVNet + MVU (ours)                       & \cmark & \xmark & \cmark & 1.8T & 61.3 \\ 
+\bottomrule
+\end{tabular}
+}
+\end{table}

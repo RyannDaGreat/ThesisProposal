@@ -1,0 +1,72 @@
+\section{Additional Details}
+
+\begin{table}[t]
+\centering\small
+\caption[Additional Experiments with LSS]{
+We report top-1 (\%) accuracy on the Kinetics-400 \cite{kinetics400} validation set for linear probing evaluation (left). All models are pre-trained on the training set of Kinetics-400 dataset. We also report a CLIP baseline for comparison purposes. Performance of our proposed approach is on-par with prior state-of-the-art and showcases improvements over our baseline method. We also report retrieval scores (top-right) for MSR-VTT and classification mAP (bottom-right) for Charades dataset.}
+\vspace{0.5em}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \setlength{\tabcolsep}{4pt}
+    \scalebox{0.90}{
+    \begin{tabular}{l|c|c}
+    \toprule
+    \rowcolor{Gray} 
+    Method                                              & Backbone & Acc (\%) \\ \midrule
+    CVRL \cite{qian2020spatiotemporal} \venue{(CVPR’21)}& R3D-101  & 67.6  \\
+    BraVe \cite{recasens2021broaden} \venue{(ICCV'21)}  & R3D-50   & 66.7  \\ 
+    Vi$^2$CLR \cite{Diba_2021_ICCV} \venue{(ICCV '21)}  & S3D      & 63.4  \\ 
+    CORP \cite{Hu_2021_ICCV}        \venue{(ICCV '21)}  & R3D-50   & 66.6  \\ 
+    SVT \cite{Ran2021SVT} \venue{(CVPR `22)}                              & ViT-B    & 68.1  \\ 
+    VideoMAE \cite{Tong2022VidMAE} \venue{(NeurIPS `22)}                      & ViT-B    & 61.3  \\ 
+    CLIP \cite{radford2021clip}                         & ViT-B    & 66.4  \\ \midrule
+    LSS (ours)                                          & ViT-B    & 67.3  \\ 
+    \bottomrule
+    \end{tabular}}       
+    \label{lss_tbl:sota_k400}
+\end{minipage}
+%
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{l|c|c|c} 
+    \toprule \rowcolor{Gray} 
+    Method & R@1  & R@5  & R@10 \\ \midrule
+    CLIP \cite{radford2021clip}  & 30.6 & 54.4 & 64.3 \\
+    LSS (ours)    & 33.8 & 58.2 & 70.3 \\ \bottomrule
+    \end{tabular}
+    
+    \vspace{2em}
+    
+    \begin{tabular}{l|c}
+    \toprule \rowcolor{Gray} 
+    Method & Classification mAP \\ \midrule
+    CLIP \cite{radford2021clip}  & 19.7         \\
+    LSS (ours)  & 23.1         \\ \bottomrule
+    \end{tabular}
+\end{minipage}
+
+\end{table}
+
+
+\subsection{Prompting details}
+\label{app:gpt_prompting}
+Our proposed approach utilizes two sets of language based captions: categories and descriptions. While categories are obtained directly from the class labels of datasets (set of unique labels - e.g. 400 classes in Kinetics-400 dataset), the descriptions are generated automatically utilizing GPT-3 \cite{brown2020language}. For each category caption, we query GPT-3 to provide a set of descriptions and visual characteristics. 
+
+In detail, we use the following two prompts to generate descriptions and visual characteristics:
+\\
+\texttt{prompt1 = "Give 4 different descriptions for the phrase: \{category\}?"} \\
+\texttt{prompt2 = "List visual objects or characteristics usually seen with the action: \{category\}?"}
+\\
+The resulting two sets of captions are converted to text embeddings using our text-encoder, and a single average text embedding is computed. This averaged embedding is used as the description basis vector for that category. Also, the resulting dataset containing these category-description pairs is made available publicly. 
+
+
+\subsection{Additional Experiments}
+
+\noindent \textbf{Linear Probing Evaluation:}
+We present more results for linear probing in \cref{lss_tbl:sota_k400} (left). Our proposed LSS improves over the baseline achieving competitive performance on Kinetics-400. 
+
+\noindent \textbf{Text-to-video retrieval:}
+An important characteristic of CLIP \cite{radford2021clip} is its retrieval ability across both language and visual modalities. In order to verify if proposed LSS retains these strengths, we run experiments on MSR-VTT text-to-video retrieval benchmark. We demonstrate how LSS improves over our baseline CLIP, reporting these results in \cref{lss_tbl:sota_k400} (top-right). 
+
+\noindent \textbf{Charades Evaluation:}
+ We explore an alternate task of zero-shot multi-label classification on the Charades video dataset. We report mAP results for this task in \cref{lss_tbl:sota_k400} (bottom-right) as an additional point of comparison.

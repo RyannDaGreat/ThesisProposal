@@ -1,0 +1,37 @@
+\begin{table}[t]
+\centering
+\small
+\begin{minipage}{0.48\textwidth}
+\vspace{0.5em}
+\caption[Modality Constrained Variants]{\textbf{Modality Constrained Variants:} 
+We report accuracy (\%) and inference time per sample (s) on the public subset of EgoSchema (ES-S) and test set of NextQA (NextQA-T) datasets. 
+Note that recent state-of-the-art from \cite{zhang2023llovi} (SOTA) and our variants are implemented with common LLMs / VLMs and evaluated under identical settings. 
+}
+\label{mvu_tbl:baseline}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.48\textwidth}
+\vspace{-0.5em}
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.6em}  % width
+\scalebox{0.80}{
+\begin{tabular}{lcccccc}
+\toprule
+\multirow{2}{*}{Method} & \multirow{2}{*}{Param} 
+& \multirow{2}{*}{
+\begin{tabular}[c]{@{}c@{}}Video\\ Frames\end{tabular}
+}
+& \multicolumn{2}{c}{ES-S} & \multicolumn{2}{c}{NextQA-T} \\
+\cmidrule(lr){4-7}
+             &      &   & Acc & Time & Acc  & Time \\ \midrule
+Random       & -    & -  & 20.0     &  -      &  20.0    & -          \\ \midrule
+\llmbaseline & 7B   & 0  & 45.8     &  0.41   &  40.1    & 0.55       \\ 
+SF-VLM       & 13B  & 1  & 55.8     &  1.89   &  51.2    & 2.03       \\ \midrule
+SOTA         & 20B  & 180  & 50.8     & 381     &  54.3    & 207        \\ 
+\bottomrule
+\end{tabular}
+}
+\end{minipage}
+\end{table}

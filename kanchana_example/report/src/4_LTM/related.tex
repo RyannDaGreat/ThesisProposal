@@ -1,0 +1,27 @@
+\section{Learning Motion Representations from Videos}
+\label{ltm:related}
+
+
+\bhdr{Learning from Videos:} 
+Robot learning has a rich history of leveraging videos to extract sub-goal information, learn strong representations, or build dynamics models for planning~\citep{lee2017learning,finn2017deep,sun2018neural,kurutach2018learning,pari2021surprising,nair2022r3m,shao2021concept2robot,chen2021learning,bahl2022human,sharma2019third,du2023learning,sivakumar2022robotic,Sudhakar2024ControllingTW,Ko2023LearningTA,Hu2024VideoPP,Ren2025MotionTA}.
+Several recent works learn representations connected to language modality from video-caption data~\citep{du2023learning,Sudhakar2024ControllingTW,Ko2023LearningTA,Hu2024VideoPP}, but depend on additional action-trajectory annotations, pretrained segmentation models, or task-specific heuristics for robot control. 
+We explore a similar direction, learning language-conditioned motion representations from video-caption data.  
+In contrast to these works, our LangToMo learns representations that are \textit{interpretable} and \textit{motion-focused}, which we use for robot control with no additional supervision. Our focus on pixel motion also allows faster learning of more generalizable representations.
+
+\vspace{0.5em}
+
+\bhdr{Pixel Motion to Actions:} 
+Robot navigation and control, especially in the context of aerial drones, has long benefited from optical flow representations \cite{Croon2021EnhancingOC,Lee2020AggressivePN,Hu2024SeeingTP,Argus2020FlowControlOF}, inspired by animal perception system that use optical flow for stable control and movement \cite{Gtz1968FlightCI,Arnold1974RHEOTROPISMIF,Baird2021TheEO,Ros2016OpticFS}. 
+Video self-supervised learning has also extensively leveraged optical flow to learn motion representations \cite{Han2020SelfsupervisedCF,Sharma2022PixellevelCF}. 
+In contrast to prior works, our LangToMo is the first to model optical flow from a single image (pixel motion) conditioned on textual action descriptions, allowing language conditioned robot control. 
+
+\vspace{0.5em}
+
+\bhdr{Diffusion-Based Motion Generation:}
+Diffusion models have emerged as powerful generative frameworks capable of capturing complex data distributions through iterative denoising processes~\citep{ho2020denoising,ho2022video,ramesh2022hierarchical,zhang2023adding,singer2022makeavideo,villegas2022phenaki,ge2022long,kumari2023multiconcept,zhang2022motiondiffuse,ren2022diffusion,chen2023moddm,janner2022diffuser,du2023reduce,liu2022structdiffusion,wang2023diffusion,Chi2023DiffusionPV,Shridhar2024GenerativeIA}. 
+While some works directly predict optical flow from image pairs~\citep{Saxena2023TheSE,Luo2024FlowDiffuserAO}, these tackle well-defined inputs. In contrast, LangToMo generates pixel motion from a single image and language command, capturing the multimodal nature of future motions. By also conditioning on past motion, our approach introduces temporal grounding, making it well-suited for robot control.
+
+\vspace{0.5em}
+
+\bhdr{Language-Conditioned Robotic Manipulation:}
+Several recent works use vision-language models for robot control ~\citep{rt1,rt2,padalkar2023open,reed2022gato,wu2023unleashing,octo_2023,driess2023palm,kim2024openvla,yuan2024robopoint,niu2024llarva,zheng2024tracevla,Li2024LLaRASR,Zawalski2024RoboticCV,Hu2024VideoPP,Sudhakar2024ControllingTW,Ko2023LearningTA,Tian2024PredictiveID,Jeong2025ObjectCentricWM} taking advantage of large-scale training with web-scale vision-language data. In contrast to prior work using sequential language models, we learn motion representations under weak supervision (only video-caption data) using zero action trajectory annotations. We also utilize an image diffusion model similar to~\citep{Hu2024VideoPP,Sudhakar2024ControllingTW,Ko2023LearningTA} but differ by learning universal and interpretable motion representations directly, which even allows conversion to robot actions directly with no further training. 

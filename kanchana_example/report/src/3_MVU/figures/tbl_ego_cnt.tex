@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.2}  % height
+\setlength\tabcolsep{1.1em}  % width
+\scalebox{0.90}{
+\begin{tabular}{lcccccc}
+\toprule
+Method           & Zero-Shot & VT    & PM     & Inf-Time & E-S  & E-F \\ \midrule
+LLoVi            & \xmark & \cmark & \cmark & 70s* & 58.3 &  50.3 \\
+MC-ViT-L         & \xmark & \cmark & \xmark &  -   & 62.6 &  44.4 \\  \midrule
+LVNet            & \cmark & \xmark & \cmark & 66s  & 34.7 &   -   \\ \rowcolor{Gray}
+\modelname (our) & \cmark & \xmark & \xmark & 1.9s & 60.3 &  37.6 \\ \bottomrule
+\end{tabular}}
+\vspace{0.5em}
+\caption{\textbf{EgoSchema comparison with contemporary LLM based works:} Results on both EgoSchema public subset (E-S) and full dataset (E-F). VT for video level training, PM for proprietary model usage, and Inf Time refers to inference time (s) per videos averaged over the 500 video subset (E-S).}
+% EVT for Ego-Centric Video Training,
+\label{tbl:egoschema_c}
+\end{table}

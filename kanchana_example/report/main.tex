@@ -1,0 +1,86 @@
+\documentclass[12pt]{report}
+
+\input{preamble}
+\input{math_commands}
+
+\begin{document}
+\begin{sloppypar}
+
+%------------------------------------------
+\input{src/0a_title_page}
+
+
+%------------------------------------------
+\thispagestyle{empty}
+\pagenumbering{roman}
+\vspace{-3cm}
+\pdfbookmark[1]{Abstract}{abstract}
+\input{src/0b_abstract}
+
+
+%------------------------------------------
+\cleardoublepage
+\hypersetup{linkbordercolor = {white}}
+\addtocontents{toc}{\vspace*{-20pt}}
+\pdfbookmark[1]{Table of Contents}{toc}
+\tableofcontents
+\cleardoublepage
+
+\listoffigures
+\addtocontents{lof}{\vspace*{-25pt}}
+\cleardoublepage
+
+\listoftables
+\addtocontents{lot}{\vspace*{-15pt}}
+%\cleardoublepage
+
+\hypersetup{linkbordercolor = {green}}
+%\noindent \eject 
+
+
+%------------------------------------------
+\input{src/0c_publications}
+
+
+%------------------------------------------
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+
+%------------------------------------------
+%------------------------------------------
+
+%%% Chapter 1 Introduction
+\input{src/1_introduction}
+
+%%% Chapter 2 Literature Review
+\input{src/2_literature}
+
+%%% Chapter 3 LSS 
+\input{src/3_lss}
+
+%%% Chapter 4 LocVLM
+\input{src/4_locVLM}
+
+%%% Chapter 5 MVU
+\input{src/5_mvu}
+
+%%% Chapter 6 LTM
+\input{src/6_ltm}
+
+%%% Chapter 7 Future work
+\input{src/7_future_work}
+
+%------------------------------------------
+%------------------------------------------
+\begingroup
+\renewcommand\bibsection{\chapter*{Bibliography}}
+
+\bibliographystyle{abbrvnat}
+\bibliography{src/1_LSS/lss, src/2_LocVLM/locvlm, src/3_MVU/mvu, src/4_LTM/ltm}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\endgroup
+
+\end{sloppypar}
+\end{document}

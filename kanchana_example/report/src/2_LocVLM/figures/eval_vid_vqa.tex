@@ -1,0 +1,27 @@
+\begin{table*}[t]
+\centering
+\small
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{0.7em}  % width
+\scalebox{0.85}{
+\begin{tabular}{l|c|c|c|c|c}
+\toprule
+Method          & Zero-Shot & ActivityNet-QA & MSRVTT-QA & MSVD-QA  & TGIF-QA \\ \midrule
+JustAsk \cite{yang2021justask}        & \xmark    & 38.9            & 41.8      & 47.5     &  -      \\
+FrozenBiLM \cite{yang2022zero}      & \xmark    & 43.2            & 47.0      & 54.8     &  -      \\
+VideoCoCa \cite{Yan2022VideoCoCaVM}       & \xmark    & 56.1            & 46.3      & 56.9     &  -      \\ \midrule
+Flamingo \cite{alayrac2022flamingo}        & \cmark    &   -             & 17.4      & 35.6     &  -      \\ 
+BLIP-2 \cite{li2023blip}          & \cmark    &   -             & 17.4      & 34.4     &  -      \\ 
+% BLIP-2 (Vicuna) & \cmark    &   -             & 10.3      & 20.3     &  -      \\
+InstructBLIP \cite{dai2023instructblip}    & \cmark    &   -             & 25.6      & 44.3     &  -      \\
+FrozenBiLM \cite{yang2022zero}      & \cmark    & 24.7            & 16.8      & 32.2     & 41.0    \\
+Video Chat \cite{2023videochat}     & \cmark    & 26.5            & 45.0      & 56.3     & 34.4    \\
+LLaMA Adapter \cite{Zhang2023LLaMAAdapterEF}   & \cmark    & 34.2            & 43.8      & 54.9     & -       \\
+Video LLaMA \cite{Zhang2023VideoLLaMAAI}     & \cmark    & 12.4            & 29.6      & 51.6     & -       \\
+Video-ChatGPT \cite{Maaz2023VideoChatGPT}   & \cmark    & 35.2            & 49.3      & 64.9     & 51.4    \\ \rowcolor{Gray}
+LocVLM-Vid-B  & \cmark    & \textbf{37.4}   & \textbf{51.2} & \textbf{66.1} & \textbf{51.8}     \\ \bottomrule
+\end{tabular}
+}
+\caption[Video VQA Results]{\textbf{Video VQA Results}: Our proposed LocVLM-Vid-B improves over Video-ChatGPT \cite{Maaz2023VideoChatGPT} and achieves state-of-the-art results (Top-1 Accuracy \%) across four different video VQA benchmarks. Note the zero-shot setting of all these evaluations.} 
+\label{locvlm_tbl:res_vid_vqa}
+\end{table*}

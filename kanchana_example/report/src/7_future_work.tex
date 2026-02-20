@@ -1,0 +1,66 @@
+\chapter{Conclusion and Future Work}
+\label{chapter:conclusion}
+
+In this thesis, we explored how language can be leveraged to guide and improve video representation learning. Inspired by how humans build internal models of the world through multi-sensory inputs, we proposed a framework that connects natural language supervision to video understanding with minimal supervision from task specific human annotations. Our approach unfolds over four stages, each addressing a distinct gap in the video understanding pipeline.
+
+We began by introducing {Language-based Self-Supervised Learning (LSS)} for videos, which adapts CLIP-style image-language models to the video domain through the construction of language-aligned concept spaces. LSS learns from unlabelled video data while retaining the generality and zero-shot capabilities of image-language pretraining.
+
+In {LocVLM}, we addressed the lack of spatial awareness in multimodal language models. By representing object locations as natural language coordinates and integrating them through instruction tuning, we significantly improved spatial reasoning, reduced object hallucination, and enabled precise region-level localization and description. Our video QnA evaluations highlight how such improved spatial awareness leads to clear improvements in complex video understanding tasks.
+
+Extending our scope further to tackle the challenges of reasoning over long videos, we proposed {Multimodal Video Understanding (MVU)} framework. This framework extracts object-centric information—global presence, spatial location, and motion trajectories—and expresses them in natural language. We define this as our language based representation for object motions. 
+These motion representations allow off-the-shelf LLMs to perform long-range reasoning about actions and interactions, improving performance on temporally complex video tasks.
+
+Finally, we introduced {LangToMo}, an approach to modeling motion that bridges natural language and vision with structured motion representations. By learning to map language to pixel-level motion using internet-scale video-caption data, LangToMo enables temporally grounded understanding. Going beyond evalutions on visual datasets, we explored real world interaction based downstream tasks such as robot control.
+
+Together, these contributions form a unified language-grounded video learning framework that is self-supervised, scalable, and generalizable across diverse video understanding problems. Our experiments demonstrate improvements in video classification, question answering, spatial localization, and robotic interaction—highlighting the value of integrating language priors with structured video representations.
+
+
+\section{Contemporary Work and Impact}
+\label{sec:impact}
+
+Our early research explored video self-supervised learning (SSL) its integration with natural language, leading to two foundational projects: SVT~\cite{Ran2021SVT} and LSS~\cite{Ranasinghe2023LanguagebasedAC}. These works introduced effective mechanisms that leverage modern architectures for video SLL while aligning representations with their language descriptions, and have since served as benchmarks in subsequent research.
+
+Expanding on this foundation, our next line of inquiry focused on spatial reasoning within vision language models (VLMs). LocVLM~\cite{RanLearningtoLoc23} proposed a framework for grounding spatial understanding through textual coordinate supervision—a technique that has since been adopted in modern VLM training pipelines to enhance spatial awareness and mitigate object hallucination. Parallel research efforts, such as Shikra~\cite{chen2023shikra} and Ferret~\cite{You2023FerretRA}, have independently converged on similar strategies, reinforcing the relevance of this approach.
+
+The influence of these ideas has extended into video understanding and robotics, inspiring a number of follow-up works that explore spatial grounding across modalities~\cite{Song2024RoboSpatialTS,li2024llara,Wu2024ControlMLLMTV,Ranasinghe2024UnderstandingLV,Liao2024VideoINSTAZL}. Most recently, we advanced this trajectory toward motion reasoning by introducing MVU~\cite{Ranasinghe2025PixelMA}, a model that incorporates language-based representations of dynamic scene understanding. This work has begun to shape emerging directions in video question answering and robot control.
+
+Our ongoing project, LangToMo~\cite{Ranasinghe2025PixelMA}, continues this line of investigation by developing structured motion representations grounded in language, a direction we elaborate on in the following section.
+
+
+
+\section{Future Work}
+
+Looking ahead, we identify several directions for extending our work on structured motion representations. First, we aim to move beyond 2D pixel motion and toward \textit{explicit modeling of motion in 3D}. Incorporating depth and geometric reasoning can support richer understanding of actions, object dynamics, and physical interactions. This opens the door to more generalizable and physically grounded models, especially important for tasks such as embodied AI and robotics.
+
+Second, we propose to expand our training and evaluation to \textit{videos with ego motion}, such as first-person or mobile-camera footage. Handling ego motion introduces challenges in disentangling camera and object movement, but it is critical for building robust, real-world video understanding systems. Developing motion-invariant representations or explicitly modeling egocentric geometry will be key in this direction.
+
+Together, these directions will continue the trajectory of this thesis: toward language-aligned, structured, and grounded models of the visual world that approach the abstraction and reasoning capabilities of humans.
+
+
+\subsection{3D Aware Motion Modeling}
+
+One promising direction for extending this work is the explicit modeling of motion in 3D. While our current approach focuses on 2D pixel motion trajectories, real-world actions and interactions unfold in three-dimensional space. Understanding such motion in 3D is essential for more generalizable and physically grounded representations—particularly in domains like embodied AI, robotics, and augmented reality.
+
+To this end, we propose a pipeline that begins by leveraging single-image or video-based \textit{depth estimation} methods to project 2D pixel motion trajectories into 3D space. This process will transform observed pixel displacements into camera-aligned 3D trajectories, taking into account geometric structure and depth cues.
+
+We will then design a \textit{structured representation} of these 3D motion trajectories that captures their spatio-temporal dynamics in a compact and learnable format. This representation will serve as the output domain for a generative model trained to predict motion given visual and language context.
+
+To model the distribution of plausible 3D motion trajectories, we plan to use a \textit{diffusion model}, which has shown strong performance in structured generative tasks. By conditioning the diffusion process on both visual state and language input, we aim to generate coherent and grounded 3D motions that reflect both observed scene structure and high-level intent.
+
+This direction not only enhances the expressiveness of our framework but also strengthens its applicability in real-world scenarios where depth, physicality, and interaction matter. It represents a key step toward building systems that perceive, reason about, and act in the world with the richness and flexibility of human understanding.
+
+
+\subsection{Compatibility with Ego Motion in Videos}
+
+Another important direction is the expansion of our framework to handle \textit{ego motion}—the motion of the camera itself—as commonly encountered in first-person videos, drone footage, or mobile robotic platforms. Unlike static-camera settings, videos with ego motion present a significant challenge: distinguishing between object motion and camera-induced motion becomes non-trivial. Yet, this setting is essential for robust real-world video understanding and action grounding. This is also a task simple for humans, that in fact happens almost unconsciously.
+
+We propose to address this by estimating camera motion using established ego-motion estimation or structure-from-motion algorithms. Given any video, we aim to compute the camera's trajectory and subsequently represent pixel or object motion \textit{relative to the camera frame}. This enables the disentangling of observed dynamics into camera-centric motion representations, allowing the model to focus on true object or agent behavior.
+
+In one setup, ego motion compensation will be applied only during training. That is, motion will be normalized with respect to camera movement during training to encourage invariance, while inference will be conducted on videos with fixed cameras. This training regime allows the model to benefit from any video sources without limitations to fixed camera assumptions in training videos.
+
+We also plan to explore a fully generalizable setup where ego motion is present during both training and inference. In this case, the model must learn to reason about motion \textit{relative to the current camera state}, effectively building an internal frame of reference. This direction may involve conditioning motion prediction on estimated egocentric pose or explicitly modeling camera-centric coordinate systems.
+
+By developing motion-invariant representations and egocentric modeling capabilities, our framework can extend to more diverse and unconstrained video domains, enhancing generalization to real-world deployment scenarios in robotics, augmented reality, and embodied learning.
+
+
+

@@ -1,0 +1,28 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.2}  % height
+\setlength\tabcolsep{0.6em}  % width
+\scalebox{0.80}{
+\begin{tabular}{lcccccccccccc}
+\toprule
+& \rotatebox{75}{door-open} & \rotatebox{75}{door-close} & \rotatebox{75}{basketball} & \rotatebox{75}{shelf-place} 
+& \rotatebox{75}{btn-press} & \rotatebox{75}{btn-top} & \rotatebox{75}{faucet-close} & \rotatebox{75}{faucet-open} 
+& \rotatebox{75}{handle-press} & \rotatebox{75}{hammer} & \rotatebox{75}{assembly} & \rotatebox{75}{Overall} \\
+\midrule
+BC-Scratch     & 21.3 & 36.0 & 0.0 & 0.0 & 34.7 & 12.0 & 18.7 & 17.3 & 37.3 & 0.0 & 1.3 & 16.2 \\
+BC-R3M         & 1.3 & 58.7 & 0.0 & 0.0 & 36.0 & 4.0 & 18.7 & 22.7 & 28.0 & 0.0 & 0.0 & 15.4 \\
+UniPi (With Replan) & 0.0 & 36.0 & 0.0 & 0.0 & 6.7 & 0.0  & 4.0 & 9.3 & 13.3 & 4.0 & 0.0 & 6.1 \\
+AVDC (Flow)    & 0.0 & 0.0 & 0.0 & 0.0 & 1.3 & 40.0 & 42.7 & 0.0 & 66.7 & 0.0 & 0.0 & 13.7 \\
+AVDC (Default) & 72.0 & 89.3 & 37.3 & \textbf{18.7} & 60.0 & 24.0 & 53.3 & 24.0 & 81.3 & \textbf{8.0} & 6.7 & 43.1 \\ \rowcolor{Gray}
+LTM-H (Ours)    & 76.0 & 94.7 & 38.0 & 15.2 & \textbf{82.0} & \textbf{84.7} & 41.3 & 33.3 & 97.3 & 4.2 & \textbf{6.9} & 52.1 \\ \rowcolor{Gray}
+LTM-S (Ours)    & \textbf{77.3} & \textbf{95.0} & \textbf{39.0} & \textbf{18.7} & \textbf{82.0} & 84.3 & \textbf{46.7} & \textbf{35.3} & \textbf{98.0} & 6.7 & \textbf{6.9} & \textbf{53.6} \\
+\bottomrule
+\end{tabular}
+}
+\vspace{0.5em}
+\caption[Results on MetaWorld Environment]{
+\textbf{Results on MetaWorld Environment:}
+We report the mean success rate across tasks. Each entry of the table shows the average success rate aggregated from $3$ camera poses with $25$ seeds for each camera pose.}
+\label{ltm_table:res_mw}
+\end{table}

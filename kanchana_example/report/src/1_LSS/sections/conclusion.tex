@@ -1,0 +1,18 @@
+\section{Conclusion}
+\label{lss_sec:conclusion}
+
+We introduce a novel language-based self-supervised learning (SSL) approach for videos, termed LSS, capable of adapting strong language-aligned image representations (CLIP \cite{radford2021clip}) to the video domain. 
+In particular, we propose two self-distillation based SSL objectives, \textit{concept distillation} and \textit{concept alignment}.
+Our approach trains with no video level labels or paired captions similar to prior video SSL works, but retains language alignment from image CLIP enabling direct zero-shot inference. We demonstrate state-of-the art performance in terms of linear probing with the learned representations on downstream tasks. For zero-shot operation, LSS demonstrates strong performance under both standard and transductive settings, indicating a promising direction for video SSL. 
+
+\vspace{2em}
+\noindent \textbf{Limitations, Future Work, \& Broader Impact}: 
+The language alignment of LSS may be limited mostly to per-frame static information since the alignment is derived from image CLIP \cite{radford2021clip}. LSS cannot distinguish motion based categories like \texttt{"moving object left to right"}. Moreover, while containing highly discriminative and generic information at image level, CLIP features lack spatial awareness at an object level \cite{ranasinghe2022perceptual}. Our proposed model building off these representations in inherently limited in understanding object level motion and interaction within videos. However, recent progress in localization aware CLIP models \cite{ranasinghe2022perceptual,Xu2023LearningOS,xu2022groupvit} opens avenues for leveraging their object-centric or pixel-level representations to better model such video motion patterns, opening up interesting future directions. 
+In terms of broader impact, the datasets and pre-trained models we use possibly contain biases, which may be reflected in LSS. However, our reduced reliance on human annotations may lower additional biases.
+
+% % \vspace{-0.5em}
+% \textbf{Reproducibility Statement}: 
+% We build a codebase derived from source code of SVT \cite{Ran2021SVT} \& CLIP \cite{radford2021clip} and use pre-trained CLIP weights from \texttt{https://github.com/openai}. All experiments use publicly available datasets. Our action descriptions will be released publicly along with our codebase.
+
+% \textbf{Acknowledgements}:
+% We thank Xiang Li for helpful discussions and server setup. We also thank Kumara Kahatapitiya and Cristina Mata for helpful discussions.

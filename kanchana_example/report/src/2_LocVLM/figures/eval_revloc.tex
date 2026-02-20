@@ -1,0 +1,48 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.58em}  % width
+\scalebox{0.92}{
+\begin{tabular}{l|c|c|c|cc}
+\toprule
+\multirow{2}{*}{Method} & \multirow{2}{*}{ZS} & \multirow{2}{*}{RefCOCO} & \multirow{2}{*}{RefCOCO+} & \multicolumn{2}{c}{RefCOCOg} \\
+                              &        &   &   & Val  & Test \\ \midrule
+SLR \cite{Yu2016AJS}          & \xmark & -    & -    &  -   & 15.4 \\
+SLR + Rerank \cite{Yu2016AJS} & \xmark & -    & -    &  -   & 15.9 \\
+Kosmos-2 \cite{peng2023kosmos}& \xmark & 8.67 & 8.82 & 14.3 & 14.1 \\
+Shikra \cite{chen2023shikra}  & \xmark & 10.4 & 11.1 & 19.7 & 19.5 \\ 
+LLaVa \cite{liu2023visual}    & \xmark & 8.43 & 8.73 & 13.5 & 13.5 \\ \rowcolor{Gray}
+LocVLM-B                  & \xmark & \textbf{14.6} & \textbf{15.2} & \textbf{26.0} & \textbf{26.2} \\ \midrule
+Kosmos-2 \cite{peng2023kosmos}& \cmark & 6.34 & 8.25 & 12.4 & 12.2 \\
+LLava \cite{liu2023visual}    & \cmark & 4.23 & 7.26 & 10.6 & 10.3 \\ \rowcolor{Gray}
+LocVLM-B                  & \cmark & \textbf{11.0} & \textbf{11.1} & \textbf{20.6} & \textbf{20.7}  \\ \bottomrule
+\end{tabular}   
+}
+\caption[Region Description Results]{\textbf{Region Description:} We report METEOR scores for RD task \cite{peng2023kosmos}. Test-B split is used for RefCOCO \& RefCOCO+ datasets. Our method outperforms all prior work.} 
+\label{locvlm_tbl:res_revloc}
+\end{table}
+
+
+% \begin{table*}[t]
+% \centering
+% \small
+% \def\arraystretch{1.0}  % height
+% \setlength\tabcolsep{0.9em}  % width
+% \begin{tabular}{l|c|ccc|ccc|cc}
+% \toprule
+% \multirow{2}{*}{Method} & \multirow{2}{*}{Zero-shot} & \multicolumn{3}{c|}{RefCOCO} & \multicolumn{3}{c|}{RefCOCO+} & \multicolumn{2}{c}{RefCOCOg} \\
+%                   &  & val    & test-A & test-B & val    & test-A & test-B & val-u  & test-u \\ \midrule
+% SLR               & \xmark & TBA & TBA & TBA & TBA & TBA & TBA                   &  -   & 15.4 \\
+% SLR + Rerank      & \xmark & TBA & TBA & TBA & TBA & TBA & TBA                   &  -   & 15.9 \\
+% Kosmos-2          & \xmark & TBA & TBA & TBA & TBA & TBA & TBA                   & 14.3 & 14.1 \\
+% Shikra            & \xmark &        &        &        &        &        &        & 19.7 &  19.5 \\ 
+% LLaVa             & \xmark &        &        &        &        &        &        & 13.5 &  13.5 \\ 
+% Ours              & \xmark &        &        &        &        &        &        & 26.0 &  26.2 \\ \midrule
+% Kosmos-2 \cite{peng2023kosmos}& \cmark & TBA & TBA & TBA & TBA & TBA & TBA       & 12.4 & 12.2 \\
+% LLava \cite{liu2023visual}    & \cmark & 4.88 & 4.90 & 4.23 & 5.90 & 4.50 & 7.26 & 10.6 & 10.3 \\
+% Ours                          & \cmark & 8.77 & 6.53 & 11.0 & 9.06 & 7.23 & 11.1 & 20.6 & 20.7  \\ \bottomrule
+% \end{tabular}
+% \caption{\todo{WIP: numbers need normalizing / fill missing values.} We report METEOR scores for the referring expression generation task introduced in \cite{peng2023kosmos}. \todo{name for task: grounding caption generation?}}
+% \label{tbl:res_revloc}
+% \end{table*}

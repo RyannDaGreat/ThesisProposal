@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.6em}  % width
+\scalebox{0.85}{
+\begin{tabular}{l|c|c|c|c|c|c}
+\toprule
+Method & LLM & VS              & Zero-Shot     & GQA  & VQA-V & VQA-T \\ \midrule
+SR \cite{Banerjee2021WeaklySR} & -  &  -  & \xmark & 62.1 & 72.9 & -    \\
+Shikra \cite{chen2023shikra}   & 7B & 224 & \xmark & -    & 75.3 & 77.4 \\
+LLaVA-v1.5                     & 7B & 336 & \xmark & 62.0 & 78.1 & 78.4 \\ \rowcolor{Gray}
+LocVLM-L                    & 7B & 336 & \xmark & \textbf{63.5} & \textbf{78.2} & \textbf{78.6} \\ \midrule
+% Viper-GPT                    & 7B & 224 & \cmark & 48.1 & -    & -    \\
+% Shikra                       & 7B & 224 & \cmark & 49.7 & -    & -    \\
+LLaVA-v1                       & 7B & 224 & \cmark & 44.7 & 49.8 & 49.3 \\ \rowcolor{Gray}
+LocVLM-B                    & 7B & 224 & \cmark & \textbf{47.3} & \textbf{50.3} & \textbf{50.8} \\ \midrule
+Viper-GPT                      & 175B & - & \cmark & 48.1 & -    & -    \\
+BLIP-2                         & 11B& - & \cmark & 44.7 & 54.3 & 53.9 \\
+LLaVA-v1.5                     & 7B & 336 & \cmark & 48.7 & 55.7 & 55.3 \\ \rowcolor{Gray}
+LocVLM-L                    & 7B & 336 & \cmark & \textbf{50.2} & \textbf{55.9} & \textbf{56.2} \\ \bottomrule
+\end{tabular}}
+\caption[Image VQA Results]{\textbf{Image VQA Results}: We report accuracy (\%) on the test-dev split of GQA dataset (GQA) and the validation / test splits of VQAv2 dataset (VQA-V / VQA-T). Our proposed LocVLM improves over prior works achieving state-of-the-art performance.}
+\label{locvlm_tbl:res_im_vqa}
+\end{table}

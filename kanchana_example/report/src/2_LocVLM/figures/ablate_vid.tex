@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{1.0em}  % width
+\scalebox{0.95}{
+\begin{tabular}{c|c|c|c}
+\toprule
+LocPred & NegPred & RevLoc  & A-QA  \\ \midrule
+\xmark  & \xmark  & \xmark  & 37.4  \\ 
+\cmark  & \xmark  & \xmark  & 37.6  \\ 
+\cmark  & \cmark  & \xmark  & 38.2  \\ \rowcolor{Gray}
+\cmark  & \cmark  & \cmark  & 38.2  \\ \bottomrule
+\end{tabular}}
+\caption[LocVLM Video Ablation]{\textbf{Video Ablation:} We report top-1 accuracy (\%) on ActivityNet-QA (A-QA) dataset. Results indicate the generality of proposed IFT objectives for video domain training as well.}
+\label{locvlm_tbl:ablate_vid}
+\end{table}

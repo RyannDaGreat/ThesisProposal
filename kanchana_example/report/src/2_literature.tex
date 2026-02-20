@@ -1,0 +1,16 @@
+\chapter{Literature Review}
+\label{chapter:literature}
+
+Recent advances in video understanding have evolved through several interconnected directions. Early video self-supervised learning (SSL) methods relied on visual-only pretext tasks such as frame prediction, temporal shuffling, and future generation, enabling representation learning without labels. These were followed by contrastive methods and masked autoencoders, which improved performance by leveraging better view sampling and reconstruction objectives. A parallel thread explored adapting image-based CLIP models to the video domain, either by extending frame-wise embeddings or fine-tuning with video data. While effective in supervised scenarios, many of these adaptations showed limited gains in zero-shot settings, motivating the need for more generalizable, language-aligned representations. In tandem, image-text foundation models like CLIP and ALIGN drove a broader shift toward multimodal learning, enabling zero-shot classification by aligning visual inputs with natural language supervision. Some approaches extend this idea to videos by embedding temporal information or using action descriptions as proxies for labels.
+
+Building on this progression, the rise of large language models (LLMs) has catalyzed a new wave of vision-language research focused on more flexible, instruction-following systems. Generative visual-language models (V-LLMs) such as LLaVA and Video-ChatGPT combine CLIP-like visual encoders with LLMs to support open-ended tasks like captioning, reasoning, and question answering. However, these models often exhibit poor spatial grounding, leading to growing interest in enhancing spatial reasoning. Recent methods address this through textual coordinate prompts, region-level tokenization, or spatially-aware instruction tuning. In the video domain, long-form question answering has emerged as a benchmark for temporal and causal understanding, with approaches incorporating object-centric representations, efficient video encoding, and LLM-based reasoning. Meanwhile, diffusion models have gained traction for generating pixel-level motion—such as optical flow or trajectories—further bridging perception and action. These trends converge in robotics, where vision-language models are increasingly used for language-conditioned control, leveraging general-purpose pretrained representations with minimal task-specific data.
+
+Motivated by these converging trends, our work investigates unifying video representation learning with natural language based systems. By leveraging the compositional and interpretable nature of language, we align video learning with human like abstraction and reasoning. We further incorporate spatial awareness by focusing on object-centric cues such as locations and motion to enhance the grounding and interpretability of video-language models. Finally, we explore how motion itself can be modeled as a structured, language-conditioned representation under self-supervised settings, enabling more generalizable and semantically aligned video understanding as well as real-world interaction.
+
+\input{src/1_LSS/sections/related_work}
+
+\input{src/2_LocVLM/sec/2_related}
+
+\input{src/3_MVU/related}
+
+\input{src/4_LTM/related}

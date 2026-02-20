@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{0.9em}  % width
+\scalebox{0.97}{
+\begin{tabular}{l|c|c|c}
+\toprule
+CR   & GQA (Acc)  & RD (METEOR)  & A-QA (Acc)\\ \midrule
+NFP  & 46.1 & 19.6 & 37.1 \\ 
+\rowcolor{Gray}
+IVB  & 47.3 & 20.7 & 37.4 \\ 
+DIGA & 47.0 & 20.8 & 37.3 \\ \bottomrule
+\end{tabular}
+}
+\caption[Ablation on Coordinate Representation]{Ablation on Coordinate Representation (CR) methods: we compare each of the three proposed CR variants, namely normalized floating point values (NFP), integer valued binning (IVB), and deviation from image-grid based anchors (DIGA).}
+\label{locvlm_tbl:ablate_coord}
+\end{table}

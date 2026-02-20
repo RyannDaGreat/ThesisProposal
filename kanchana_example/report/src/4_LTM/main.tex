@@ -1,0 +1,390 @@
+\documentclass{article}
+
+% \usepackage{corl_2025} % Use this for the initial submission.
+% \usepackage[final]{corl_2025} % Uncomment for the camera-ready ``final'' version.
+\usepackage[preprint]{corl_2025} % Uncomment for pre-prints (e.g., arxiv); This is like ``final'', but will remove the CORL footnote.
+
+\input{math_commands.tex}  % https://github.com/goodfeli/dlbook_notation.
+\input{preamble}
+
+% \title{Language Conditioned Motion Representations \\for Robot Control}
+% \title{Optical Flow as Universal Motion Representation \\for Robot Control}
+\title{Pixel Motion as Universal Representation \\for Robot Control}
+
+% NOTE: authors (\And and \AND commands) will be visible only in the camera-ready and preprint versions (i.e., when using the option 'final' or 'preprint'). For the initial submission the authors will be anonymized.
+
+
+\author{
+Kanchana Ranasinghe, 
+Xiang Li, 
+Cristina Mata, 
+Jongwoo Park,
+Michael S Ryoo \vspace{0.5em} \\
+Stony Brook University \vspace{0.5em} \\
+\texttt{kranasinghe@cs.stonybrook.edu} \\
+}
+
+
+\begin{document}
+\maketitle
+
+\vspace{-1.0em}
+\input{figures/teaser}
+
+%===============================================================================
+% Abstracts should be a single paragraph, between 4--6 sentences long, ideally. 
+\begin{abstract}
+    We present \modelname, a vision-language-action framework structured as a dual-system architecture that uses pixel motion forecasts as intermediate representations. 
+    Our high-level \textit{System 2}, an image diffusion model, generates text-conditioned pixel motion sequences from a single frame to guide robot control.
+    Pixel motion—a universal, interpretable, and motion-centric representation—can be extracted from videos in a self-supervised manner, enabling diffusion model training on web-scale video-caption data.
+    % an initial observation and action command.
+    Treating generated pixel motion as learned \textit{universal representations}, our low level \textit{System 1} module translates these into robot actions via motion-to-action mapping functions, which can be either hand-crafted or learned with minimal supervision.
+    System 2 operates as a high-level policy applied at sparse temporal intervals, while System 1 acts as a low-level policy at dense temporal intervals.
+    This hierarchical decoupling enables flexible, scalable, and generalizable robot control under both unsupervised and supervised settings, bridging the gap between language, motion, and action.
+    % All our code and models will be released publicly. 
+    Checkout 
+    % \href{https://anonymous.4open.science/w/LangToMo}{\texttt{anonymous.4open.science/w/LangToMo}}
+    \href{https://kahnchana.github.io/LangToMo}{\texttt{kahnchana.github.io/LangToMo}}
+    for visualizations.
+\end{abstract}
+
+% Two or three meaningful keywords should be added here
+\keywords{Vision-Language-Action model, Self-Supervised, Diffusion} 
+\vspace{0.5em}
+%===============================================================================
+
+\section{Introduction}
+\label{sec:intro}
+
+% Overview: motivate, what do we do 
+Translating open-ended natural language instructions into robot actions is a cornerstone of flexible robot control. We identify two key requirements to enable this: (i) universal representations that support operating diverse embodiments \cite{nair2022r3m,Ren2025MotionTA,Zheng2025UniversalAF}, and (ii) benefiting from large-scale video-language data without action labels \cite{du2023learning,Gu2023SeerLI,Black2023ZeroShotRM,Ko2023LearningTA}. We explore their intersection, proposing \modelname, a vision–language–action framework structured as a \textit{dual-system architecture}, inspired by dual-process theories of cognition~\cite{Kahneman2011ThinkingFA} and recent hierarchical robotics frameworks~\cite{Belkhale2024RTHAH,Black20240AV,Shi2025HiRO,Nvidia2025GR00TNA,Intelligence2025pi05}. 
+In our high level \textit{System 2} module, we use pixel motion as the robot action representation. We use image diffusion to learn to predict pixel motion from a single image (initial observation) conditioned on a language described action.
+% Given how robot actions fundamentally correspond to some motion, LangToMo's high level \textit{System 2} module employs image-based diffusion models to map language to a universal motion representation, i.e. pixel motion structured as a 2D tensor, and is trained solely with video-language supervision.
+Subsequently, our embodiment-specific low level \textit{System 1} deterministically projects these action representations into executable robot actions.
+
+% Why pixel motion
+We adopt pixel motion—the apparent motion of pixels between frames—as our \textit{universal motion representation}, because it is agnostic to embodiments, viewpoints, and tasks. 
+By predicting pixel motion instead of full RGB images, \modelname captures essential motion patterns more efficiently than text-to-video generation \cite{du2023learning,Ko2023LearningTA,Gu2023SeerLI,Black2023ZeroShotRM}. 
+Pixel motion can be freely computed from videos using self-supervised methods like RAFT~\cite{teed2020raft}, enabling scalable, weakly supervised training on large video-caption datasets, similar to prior work on predictive world models \cite{Gu2023SeerLI,Black2023ZeroShotRM}.
+
+% Prior works
+Optical flows, essentially a set of pixel motion (PM) between two consecutive frames, has been leveraged to enhance motion-focused video generation \cite{Liang2024MoVideoMV, Koroglu2024OnlyFlowOF}. 
+\citet{Ko2023LearningTA} calculates flow from frame pairs to perform robot control, establishing the promise of this direction for robotics. In contrast, we directly generate PM from language and a single frame using our System-2 module, offering greater efficiency and performance. 
+Our predicted PM serves as an interpretable intermediate representation for downstream systems (e.g., our System-1), enabling even unsupervised control via hand-crafted mappings.
+% —unlike future-state features \cite{Hu2024VideoPP}, which are less interpretable \cite{Ko2023LearningTA}.
+Alternate motion signals in image-space are used in works like \cite{Sudhakar2024ControllingTW,Shridhar2024GenerativeIA,Huang2024ReKepSR,Shi2025ZeroMimicDR}, but they rely on explicit dense annotations limiting training scalability, unlike our System-2 formulation. 
+
+% Details of our setup
+Sequences of PM generated by our System 2 are then be transformed into robot actions via \textit{System 1}, a fast and deterministic controller.
+Specifically, System 1 consists of task-specific action mappings tailored to different embodiments and viewpoints. We explore two instantiations of System 1: (a) learning mappings directly from limited expert demonstrations, and (b) hand-crafting mappings by leveraging the interpretable nature of pixel motion (motivated by \cite{Ko2023LearningTA}). 
+Connecting System 1 and System 2 forms our overall language-conditioned robot control framework, \modelname. This hierarchical formulation allows operating the expensive high-level System 2 at sparse temporal intervals while invoking the lightweight low-level System 1 at dense temporal intervals for efficient control.
+
+In summary, our contributions are as follows:
+\begin{itemize}[leftmargin=2em,noitemsep,topsep=0.0ex,itemsep=-1.0ex,partopsep=0ex,parsep=1ex]
+    \item \textbf{Universal Action Representation:} pixel motion as a learnable, interpretable, and motion-focused representation for robot control tasks.
+    \item \textbf{Simple \& Scalable Learning:} mapping natural language actions to motion representations (pixel motion sequences) with a conditional diffusion model trained on web-scale video-caption data, without requiring pixel-level or action trajectory annotations.
+    \item \textbf{Robotics Application:} conversion of learned action representations into action policies with minimal supervision, enabling operation under zero-shot and even unsupervised settings.
+\end{itemize}
+We evaluate \modelname on both simulated and real-world environments, highlighting its effectiveness and generality across diverse robot control tasks.
+
+
+%===============================================================================
+
+\section{Related Work}
+\label{sec:related_work}
+
+\bhdr{Learning from Videos:} 
+Robot learning has a rich history of leveraging videos to extract sub-goal information, learn strong representations, or build dynamics models for planning~\citep{lee2017learning,finn2017deep,sun2018neural,kurutach2018learning,pari2021surprising,nair2022r3m,shao2021concept2robot,chen2021learning,bahl2022human,sharma2019third,du2023learning,sivakumar2022robotic,Sudhakar2024ControllingTW,Ko2023LearningTA,Hu2024VideoPP,Ren2025MotionTA}.
+Several recent works learn representations connected to language modality from video-caption data~\citep{du2023learning,Sudhakar2024ControllingTW,Ko2023LearningTA,Hu2024VideoPP}, but depend on additional action-trajectory annotations, pretrained segmentation models, or task-specific heuristics for robot control. 
+We explore a similar direction, learning language-conditioned motion representations from video-caption data.  
+In contrast to these works, our \modelname learns representations that are \textit{interpretable} and \textit{motion-focused}, which we use for robot control with no additional supervision. Our focus on pixel motion also allows faster learning of more generalizable representations.
+
+\bhdr{Pixel Motion to Actions:} 
+Robot navigation and control, especially in the context of aerial drones, has long benefited from optical flow representations \cite{Croon2021EnhancingOC,Lee2020AggressivePN,Hu2024SeeingTP,Argus2020FlowControlOF}, inspired by animal perception system that use optical flow for stable control and movement \cite{Gtz1968FlightCI,Arnold1974RHEOTROPISMIF,Baird2021TheEO,Ros2016OpticFS}. 
+Video self-supervised learning has also extensively leveraged optical flow to learn motion representations \cite{Han2020SelfsupervisedCF,Sharma2022PixellevelCF}. 
+In contrast to prior works, our \modelname is the first to model optical flow from a single image (pixel motion) conditioned on textual action descriptions, allowing language conditioned robot control. 
+
+
+\bhdr{Diffusion-Based Motion Generation:}
+Diffusion models have emerged as powerful generative frameworks capable of capturing complex data distributions through iterative denoising processes~\citep{ho2020denoising,ho2022video,ramesh2022hierarchical,zhang2023adding,singer2022makeavideo,villegas2022phenaki,ge2022long,kumari2023multiconcept,zhang2022motiondiffuse,ren2022diffusion,chen2023moddm,janner2022diffuser,du2023reduce,liu2022structdiffusion,wang2023diffusion,Chi2023DiffusionPV,Shridhar2024GenerativeIA}. 
+While some works directly predict optical flow from image pairs~\citep{Saxena2023TheSE,Luo2024FlowDiffuserAO}, these tackle well-defined inputs. In contrast, \modelname generates pixel motion from a single image and language command, capturing the multimodal nature of future motions. By also conditioning on past motion, our approach introduces temporal grounding, making it well-suited for robot control.
+
+\bhdr{Language-Conditioned Robotic Manipulation:}
+Several recent works use vision-language models for robot control ~\citep{rt1,rt2,padalkar2023open,reed2022gato,wu2023unleashing,octo_2023,driess2023palm,kim2024openvla,yuan2024robopoint,niu2024llarva,zheng2024tracevla,Li2024LLaRASR,Zawalski2024RoboticCV,Hu2024VideoPP,Sudhakar2024ControllingTW,Ko2023LearningTA,Tian2024PredictiveID,Jeong2025ObjectCentricWM} taking advantage of large-scale training with web-scale vision-language data. In contrast to prior work using sequential language models, we learn motion representations under weak supervision (only video-caption data) using zero action trajectory annotations. We also utilize an image diffusion model similar to~\citep{Hu2024VideoPP,Sudhakar2024ControllingTW,Ko2023LearningTA} but differ by learning universal and interpretable motion representations directly, which even allows conversion to robot actions directly with no further training. 
+
+% \kr{RT-H \cite{Belkhale2024RTHAH}, HiRobot \cite{Shi2025HiRO}, Pi0 \cite{Black20240AV}, Pi0.5 \cite{Intelligence2025pi05}, Groot-N1 \cite{Nvidia2025GR00TNA} has multi-system hierarchy, PIDM \cite{Tian2024PredictiveID}, Object Centric World Models \cite{Jeong2025ObjectCentricWM}, SuSIE \cite{Black2023ZeroShotRM},  Seer \cite{Gu2023SeerLI} uses predictive world model, VPT \cite{Baker2022VideoP} learns from unlabeled videos, UniAct \cite{Zheng2025UniversalAF} uses universal action representations in vector-quantized embedding space}
+
+
+%===============================================================================
+
+\input{figures/overview}
+
+\section{Methodology}
+\label{sec:method}
+
+We tackle the problem of robot control from natural language instructions by introducing a two-stage framework. Language and visual inputs are first encoded into pixel motion based representations, which are then decoded into robot actions. This dual-system architecture comprises: \textit{System 2}, a conditional image diffusion model that generates motion at sparse temporal intervals as a high-level controller; and \textit{System 1}, a task-specific low-level controller that maps these pixel motions to executable action vectors. An overview of our framework, \modelname, is shown in \Cref{fig:overview}.
+
+
+\subsection{System 2: Pixel Motion Forecast}
+\label{subsec:system2}
+
+Optical flow estimation from frame pairs is a well-defined problem (exact solutions exist) that has been extensively studied \cite{xu2022gmflow,liu2019self,teed2020raft,Luo2024FlowDiffuserAO}. 
+% In contrast, language conditioned OF estimation using a single frame involves a multi-modal output space: a single caption-frame pair could map to several distinct OF, since multiple optimal paths may exist to transform the current state towards achieving the language defined goal. 
+In contrast, estimating pixel motion (PM) from a single image and language instruction is inherently multi-modal: a caption-frame pair may correspond to multiple valid flows, each representing a different trajectory toward the goal.
+We use this challenging task as our self-supervision objective: learning a mapping from \textit{language to motion}. 
+Furthermore, we incorporate temporal context by conditioning on the motion of a previous state.
+
+% We chose a diffusion model architecture to learn this mapping function, $\gD$. This choice is motivated by the strong ability of diffusion models to represent such image-space relationships as demonstrated in numerous prior work \cite{ho2022video,ramesh2022hierarchical,singer2022makeavideo,villegas2022phenaki,zhang2022motiondiffuse}. 
+
+Consider a video clip $\vx \in \sR^{t \times h \times w \times c}$ with $t, h, w, c$ for frames, height, width, and channels respectively. Also consider an embedding vector, $\vc$ representing the paired caption for that clip. Denoting the $i$-th frame of video as $\vx_i$, we define pixel motion, $\vy_{i, i+k}$, that corresponds to motion between frames $\vx_i \rightarrow \vx_{i+k}$ where $k$ is a constant. Our language to motion mapping function, $\gD$ becomes, 
+% 
+\begin{align}
+    \hat{\vy}_{i, i+k} = \gD \left( \vx_i, \vy_{i-k,i}, \vc \ | \ \theta \right)
+    \label{eq:mapping}
+\end{align}
+% 
+where $\hat{\vy}_{i, i+k}$ is the predicted motion representation from the $i$-th state to $(i+k)$-th state \emph{without} knowing $\vx_{i+k}$. $\theta$ are learnable parameters.
+
+% \bhdr{Learnable Mapping Function:}
+We reiterate the multi-modal output aspect of our mapping described in \Cref{eq:mapping} (i.e. one to many mapping due to multiple optimal $\hat{\vy}_{i, i+k}$). Diffusion models have shown excellent abilities to model such distributions \cite{dhariwal2021diffusion,Chi2023DiffusionPV}. Considering the 2D structure present in our images and pixel motion, for $\mathcal{D}$ we elect to utilize a 2D conditional U-Net based diffusion model \cite{ramesh2022hierarchical} operating at pixel level. 
+% (efficient inference through latent operation is left as future direction). 
+% 
+Our goal is to learn a set of parameters, $\theta$ for this diffusion model based mapping as, 
+% 
+\begin{align}
+    \label{eq:train_obj}
+    \argmin_{\theta} || \vy_{i, i+k} - 
+     \gD \left( \vx_i, \vy_{i-k, i}, \vc \ | \ \theta \right) ||_2 
+\end{align}
+% 
+that allows our language to motion mapping to perform instruction based robot control.  
+Next we dive into the learning process of our diffusion based implementation for this mapping function. 
+
+\subsection{Diffusion based Motion Representation Learning}
+\label{subsec:ssl}
+
+\bhdr{Background:} 
+Diffusion Models generate data by progressively denoising corrupted signals, optionally conditioned on a goal input. While inference follows this iterative refinement process, training is conducted more efficiently using parallel denoising steps: the model is trained to predict less noisy versions of intermediate corrupted signals generated from clean data, a procedure analogous to teacher forcing (more details in \Cref{app:dm_detail}).
+
+
+\bhdr{Architecture:}
+The defacto architecture for diffusion based conditional image generation is the 2D conditional U-Net \cite{Ronneberger2015UNetCN}, which maps between 2D RGB images with an embedding based conditioning through cross-attention in the model intermediate layers. 
+Basing off this setup, we modify the input and output heads to process 7 and 2 channel tensors respectively (instead of default 3 channel RGB). Two of the input channels and the two output channels correspond to our pixel motion target (noise input and clean output). 
+The remaining 5 input channels correspond to our 2D-structured conditions:
+previous pixel motion (2 channels) and current state image (3 channels).
+These conditional inputs are not subject to the standard noise corruption schedule during training or inference (details in \Cref{app:dm_detail}). 
+The textual embedding is provided as the default embedding condition. 
+%  
+Our channel modification to accommodate additional structured conditions allows a minimal design, retaining the general structure of the U-Net that is known to excel at 2D generative modeling.   
+Such input channel concatenation based conditioning has been used in diffusion literature for different tasks \cite{Saxena2023TheSE,ho2022video} and is inspiration for our design.
+% 
+We illustrate this architecture in \Cref{fig:method} (left). 
+
+\input{figures/method}
+
+\bhdr{Calculating Pixel Motion Ground-truth:}
+% 
+We utilize the RAFT algorithm \cite{teed2020raft} to calculate our target pixel motion $\vy_{i, i+k}$, using frames $\vx_i$ and $\vx_{i+k}$. 
+This is an efficient iterative algorithm that calculates a good estimate of optical flow, in other words, pixel motion. Each pixel motion, $\vy_{i, i+k} \in \sR^{h \times w \times 2}$, contains two channels for spatial directions, that are normalized to a $(0, 1)$ range. All motion is represented within this 2D space - extensions to a third depth dimension are left as a future direction. Our experiments indicate the sufficiency of such 2D spaces to encode motions relevant to robot actions. 
+We note that given the presence of background motions in both natural and simulation images (e.g. shadows moving with objects), this target pixel motion contains noise that is not directly relevant to the underlying motion, underscoring the challenging nature of our self-supervision objective.    
+
+\bhdr{Previous Pixel Motion Representation:}
+The other input signal to our mapping function is past frames pixel motion. Motivated by success of teacher forcing in generative modeling of both language \cite{Radford2019LanguageMA} and videos \cite{Song2025HistoryGuidedVD}, we use the target pixel motion of previous time steps during our System-2 training. 
+% 
+We also note the importance of representing pixel motion relative to current state as our mapping function is conditioned on the current image (details in \Cref{app:relative_of}). Similar findings are observed in image-pair based optical flow calculation literature \cite{Saxena2023TheSE}.  
+
+\bhdr{Language Instruction Embeddding:}
+The primary input conditioning of our mapping function is the natural language based action description that is used to control the generated motions. Following prior robotics literature \cite{padalkar2023open}, we use a Universal Sentence Encoder model \cite{Cer2018UniversalSE} to convert textual instructions to fixed size embedding vectors. This embedding model is trained to capture sentence level meanings. We use an off-the-shelf pretrained version, keeping all model parameters unchanged (more details in \Cref{app:lang_embed}).   
+
+
+\bhdr{Training:}
+Our training uses the standard diffusion denoising objective \cite{ho2020denoising} between predicted ($\hat{\vy}_{i, i+k}$) and target ($\vy_{i, i+k}$) pixel motion. The conditional 2D inputs, $\vx_i$ and $\vy_{i-k, i}$ are not subject to a noising schedule. The image condition, $\vx_i$, remain uncorrupted while the previous pixel motion, $\vy_{i-1,i}$, is set to random noise or a partially corrupted version to align with inference settings. We also introduce zero motion to ends of videos such that when textual instruction is complete, those visual states map to zero motion. More details in \Cref{app:dm_detail}. 
+%
+
+\bhdr{Inference:}
+We forecast pixel motion from $i$ to $i+k$ timestamp using a 25-step DDIM schedule with only the current image observation $\vx_i$. At the initial step, the model only takes the image $\vx_i$ (state observation), language instruction $c$, and random noise as the previous pixel motion. For subsequent steps, the previously predicted motion is reused, enabling sequential pixel motion generation that drives the system toward fulfilling the language command.
+
+
+\subsection{System 1: Pixel Motion to Action Mapping}
+\label{subsec:system1}
+
+Our System 2 produces pixel motion conditioned on a given state-instruction pair.
+We next detail how these pixel motion representations are mapped into action vectors that directly control the robot. 
+Consider a mapping function, $\gF$, operating at dense temporal intervals:
+%
+\begin{align}
+    \label{eq:actions}
+    \hat{\va}_{i+j} = \gF \left( \hat{\vy}_{i, i+k}, \vx_i, \vx_{i+j} \right),
+\end{align}
+%
+where $ j \in \left[0,k\right]$, $i$ is a multiple of $k$ (for a hyperparameter $k$), and $\hat{\va}_{i+j}$ denotes the predicted action vector for the $(i+j)$-th state. 
+An overview of this formulation is shown in \Cref{fig:overview} (right).
+
+While \textit{System 2} is trained as a general-purpose motion generator across diverse embodiments, viewpoints, and environments, 
+action vectors $\va_i$ are inherently embodiment-specific.
+Hence, we design \textit{task-specific} mapping functions to serve as \textit{System 1 (Action Mapping)}, converting pixel motion into executable robot actions.
+
+\bhdr{Learned Mapping:}
+We implement a neural network-based mapping function that can be trained using ground-truth action trajectories. 
+Given the 2D spatial structure of the inputs to $\gF$ (i.e., $\hat{\vy}_{i,i+j}$, $\vx_i$, $\vx_{i+j}$), we channel-concatenate them and feed the resulting tensor to a lightweight vision transformer to predict action vectors.
+This architecture is illustrated in \Cref{fig:method} (right).
+The network is trained on a limited amount of task-specific demonstration data. 
+Connecting this learned \textit{System 1} with \textit{System 2} following \Cref{eq:actions}, we obtain a complete pipeline for language-conditioned robot control.
+We refer to the resulting system, which uses a supervised learned mapping, as \modelshort-S.
+
+\bhdr{Hand-Crafted Mapping:}
+The interpretable nature of pixel motion also enables hand-crafted designs for $\gF$.
+We refer to the resulting pipeline based on hand-crafted mappings as \modelshort-H.
+%
+For simulated environments where ground-truth segmentations and depth maps are available, we follow the methodology in~\cite{Ko2023LearningTA} to define action mappings, ensuring a fair evaluation of the utility of our pixel motion predictions compared to prior works.
+%
+For real-world robot control, we construct viewpoint-specific hand-crafted mappings following~\cite{Li2024LLaRASR}.
+Further details on both learned and hand-crafted mappings are provided in \Cref{app:handcraft_map}.
+
+We highlight how our System 1 operates at a frequency different to our System 2, allowing a balance between efficiency and dense control. Our System 1 is also designed to be lightweight, given how it performs an almost deterministic mapping.  
+
+% \bhdr{MPC based Mapping}
+% We demonstrate the applicability of \modelname in robotic manipulation tasks. By integrating the framework with a motion-based model predictive control (MPC) algorithm, we enable robots to perform actions described by natural language commands without prior task-specific training, as explored in recent studies \cite{bharadhwaj2023zero}.
+
+
+%===============================================================================
+
+\section{Experimental Results}
+\label{sec:result}
+
+We conduct experiments on 15 tasks spanning both simulated and real-world environments to highlight the strong performance of our proposed \modelname framework. 
+We also present multiple ablations to justify key design choices within our method.
+
+\bhdr{Implementation Details:}
+Our framework consists of \textit{System 2 (Motion Generation)} containing a diffusion model, and \textit{System 1 (Action Mapping)} containing either a learned or hand-crafted mapping function.
+%
+We pretrain the diffusion model on a subset of the OpenX dataset~\cite{padalkar2023open}, followed by optional fine-tuning on downstream task datasets. 
+Pretraining is performed for 300,000 iterations with a learning rate of $1\text{e-}4$, following a cosine learning rate schedule with 500 warmup steps, using 8 A100 GPUs (48GB) with a per-device batch size of 32 samples. 
+Fine-tuning is performed for 100,000 iterations on 4 A5000 GPUs (24GB) with a batch size of 32 and a learning rate of $1\text{e-}5$, again following a cosine schedule with 500 warmup steps.
+%
+The learned action mapping (System 1) is trained separately using a vision transformer for 10,000 iterations on a single A5000 GPU with a batch size of 128 and a learning rate of $1\text{e-}4$.
+% 
+During inference of our System 2 diffusion model, we use a DDIM scheduler with 25 steps to generate flow sequences, starting from noise. For each invocation of System 2, we run System 1 for 10 control steps (or until convergence in the hand-crafted setting). This hierarchical procedure is repeated until the episode terminates.
+
+
+\subsection{MetaWorld Simulated Environment}
+
+MetaWorld~\cite{yu2019meta} is a simulated benchmark containing several robot manipulation tasks with accompanying natural language instructions. 
+Each task episode corresponds to successfully completing an action described in language. 
+The environment utilizes a Sawyer robot arm.
+
+\bhdr{Training:}
+We train \textit{System 2} (diffusion model) first on the OpenX subset, followed by additional training on 165 MetaWorld videos (identical to the split used in~\cite{Ko2023LearningTA}). 
+For the learned variant of \textit{System 1}, we train on 20 expert demonstrations per task.
+We also implement a hand-crafted variant of System 1, following the design in~\cite{Ko2023LearningTA} to ensure fair comparison.
+
+\bhdr{Evaluation:}
+Following evaluation settings identical to~\cite{Ko2023LearningTA}, we evaluate each policy across 11 tasks.
+For each task, videos are rendered from 3 distinct camera poses, with 25 randomized trials (different initial positions of the robot arm and objects) for each view.
+We replicate multiple baselines from~\cite{du2023learning,Ko2023LearningTA} under common settings for comparison.
+
+\bhdr{Results:}
+We present the success rates for the 11 tasks and the average across tasks in \Cref{table:res_mw}.
+Both our \modelshort-H and \modelshort-S variants achieve strong overall performance, highlighting the effectiveness of our framework.
+%
+Notably, several strong approaches~\cite{du2023learning,Ko2023LearningTA} exhibit moderate success rates, underscoring the difficulty of the benchmark.
+An important point of comparison is the AVDC (flow) baseline from~\cite{Ko2023LearningTA}, which also uses pixel motion prediction but differs in model architecture, flow representation, and training procedures.
+The improved performance of \modelname over AVDC demonstrates the impact of our design choices.
+
+\input{tables/results_mw}
+% \input{tables/results_libero}
+\input{tables/results_real}
+
+\subsection{Real-World Environment}
+
+We next evaluate on 4 challenging tasks in an xArm Table Top environment, constructed following the real-world setup in~\cite{Li2024LLaRASR}. 
+Examples of these tasks are shown in \Cref{fig:task_vis}.
+The tasks involve tabletop manipulations specified by language commands (details in \Cref{app:real_world}).
+
+\bhdr{Training:}
+We train \textit{System 2} (diffusion model) on the OpenX subset, followed by optional fine-tuning on 10 videos per task collected in the same real-world environment.
+We replicate the AVDC baseline~\cite{Ko2023LearningTA} by training under identical conditions. 
+All other baselines are implemented following the settings used in~\cite{Li2024LLaRASR}.
+For \textit{System 1}, we construct a hand-crafted mapping function based on~\cite{Ko2023LearningTA,Li2024LLaRASR} (details in \Cref{app:real_world}).
+
+\bhdr{Evaluation:}
+We follow evaluation settings identical to~\cite{Li2024LLaRASR}, evaluating each policy across 4 tasks with a fixed camera view and 20 randomized trials per task.
+Each trial uses different initial positions of the objects present in the environment.
+
+\bhdr{Results:}
+We present results in \Cref{table:real,table:real_zs} to highlight the strong performance of \modelname (baseline details in \Cref{app:baselines}). The difficulty of these tasks is apparent by the moderate results from recent methods like LLaRA \cite{Li2024LLaRASR}.
+% Zero-shot evaluation corresponds to training only on the OpenX subset, while fine-tuning involves training with a small set of expert demonstrations from the target environment.
+Notably, despite relying on heuristic-based hand-crafted mappings in \textit{System 1}, \modelname outperforms several state-of-the-art baselines such as RT-2~\cite{rt2} and LLaRA~\cite{Li2024LLaRASR}, all without requiring action trajectory labels during training.
+Our framework learns directly from videos paired with natural language captions, showing the promise of this direction.
+
+\input{figures/task_vis}
+\input{tables/results_ablate}
+
+\subsection{Ablation Studies}
+\label{subsec:ablation}
+
+We conduct a series of ablative studies with LTM-S on the MetaWorld benchmark to evaluate the importance of key components within \modelname. Results are summarized in \Cref{table:ablate}.
+
+\bhdr{System 2 Input Conditioning \& Pretraining:}
+Removing visual (``Img"),  language (``Lang"), or previous flow (``Prev Flow") conditional inputs to the diffusion model significantly reduces performance, highlighting importance of each conditioning signal.
+On the other hand, removing diffusion model pretraining (``PT'') leads to a modest performance drop, indicating that while pretraining aids convergence and performance, the framework remains effective with limited finetuning alone.
+
+\bhdr{Simpler Baselines:}
+Replacing diffusion (``No diffusion") with an autoencoder breaks System-2 learning process. 
+Modifying conditioning strategy to cross-attention (``CA instead of concat") also degrades performance. 
+% We attribute this to loss of spatial information when performing cross-attention with a spatially-averaged visual embeddings. 
+Skipping the iterative System-1 design (running System-1 at same frequency), and generating multiple actions per System-2 generated motion at once (``Sys-1 \& 2 same freq") also degrades success rates, validating our design choices.
+Additionally, bypassing intermediate motion representations (``Only learned Sys-1") leads to poor results, underscoring the necessity of our two-stage architecture. See \Cref{app:ablate} for a detailed discussion. 
+
+
+%===============================================================================
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented \modelname, a scalable vision-language-action framework that decouples motion generation and action execution through a dual-system architecture. 
+By leveraging diffusion models to learn universal pixel motion representations from video-caption data, our \textit{System 2} enables generalizable, interpretable motion planning without dense supervision.
+These motions are translated into robot actions by \textit{System 1}, using either learned or hand-crafted mappings tailored to specific embodiments.
+Extensive experiments across simulated and real-world environments demonstrate strong performance of \modelname, highlighting the promise of universal motion representations as a bridge between language, vision, and action for scalable robot learning.
+
+
+\subsection*{Limitations}
+
+LangToMo is pretrained on large-scale video-caption data, but relies on hand-crafted or learned action mappings in System 1 which can be costly for each new downstream task. Learning robust, transferable mappings remains an open challenge.
+% 
+Also, our framework models motion using 2D pixel motions, which currently lacks depth cues. Extending to 3D motion representations is left as a future direction.
+% 
+In terms of speed, despite operating at sparse intervals, System 2 relies on diffusion models that remain computationally expensive at inference time, limiting use in resource-constrained deployments. This is another future direction we hope to explore further. 
+% 
+Finally, we currently do not account for ego motion in training videos: we limit our training to fixed camera videos (no ego motion). A key next direction is extending our System-2 training to include videos with ego motion, which would allow scaling to any kind of video.
+
+%===============================================================================
+
+% \clearpage
+% The contributions are automatically included only in the final and preprint versions of the paper.
+\contributions{
+KR led the project formulating the initial idea, coding the implementation, and performing most experiments. 
+XL proposed several design choices of the approach, built the initial setup for real world experiments, and discussed all aspects of the project. 
+CM contributed to ideas on experiment design, performed several real world experiments, and discussed most aspects of the project. 
+JP helped setup human and robot demonstrations in real world, supported data collection and evaluations, and discussed most aspects of the project. 
+MR organized the project, set the research direction, and discussed all aspects of the project idea, scope, and implementation.
+}
+
+% The acknowledgments are automatically included only in the final and preprint versions of the paper.
+\acknowledgments{
+% If a paper is accepted, the final camera-ready version will (and probably should) include acknowledgments. All acknowledgments go at the end of the paper, including thanks to reviewers who gave useful comments, to colleagues who contributed to the ideas, and to funding agencies and corporate sponsors that provided financial support.
+% We thank \kr{TBA}. 
+We thank Field AI for providing compute resources to support this research project. 
+We thank all members of the Robot Learning Lab at Stony Brook University for support, feedback and guidance. 
+}
+
+%===============================================================================
+\clearpage
+% no \bibliographystyle is required, since the corl style is automatically used.
+\input{sections/appendix.tex}
+
+\bibliography{main}  % .bib
+
+
+
+\end{document}

@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.9em}  % width
+\begin{tabular}{l|c|c}
+\toprule
+Objective  & Prompt             & Target                \\ \midrule
+LocPred    & Where is obj1?     & It’s at (x1,y1,x2,y2). \\
+NegPred    & Where is obj2?     & There’s no obj2.       \\
+RevLoc     & Describe (cx,cy)   & \textit{Detailed description}  \\ \bottomrule
+\end{tabular}
+\caption[IFT Objectives]{We summarize our three distinct instruction fine-tuning objectives. Refer to appendix (\cref{locvlm_supp:prompt}) for exact natural language prompts and targets used for training. For illustration, we use both point  and bounding-box based image locations here.}
+\label{locvlm_tbl:ift-obj}
+\end{table}

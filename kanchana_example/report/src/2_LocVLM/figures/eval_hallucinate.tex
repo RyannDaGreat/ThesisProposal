@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.9em}  % width
+\scalebox{0.95}{
+\begin{tabular}{l|c|c|c}
+\toprule
+Method        & Hal-COCO  & Hal-ADE & Hal-Act\\ \midrule
+Shikra \cite{chen2023shikra}       & 86.2 & 58.7 & -   \\ 
+LLaVa \cite{liu2023visual}        & 61.9 & 53.8 & - \\ \rowcolor{Gray}
+LocVLM-B  & \textbf{88.3} & \textbf{75.2} & - \\ \midrule
+Video-ChatGPT \cite{Maaz2023VideoChatGPT}   & - & - & 50.6 \\ \rowcolor{Gray}
+LocVLM-Vid-B & - & - & 68.7 \\ \rowcolor{Gray} 
+LocVLM-Vid-B+& - & - & \textbf{72.4} \\ \bottomrule
+\end{tabular}}
+\caption[Hallucination Evaluation]{\textbf{Hallucination Evaluation}: We report top-1 accuracy (\%) for object presence type questions and showcase reduced object hallucination in our proposed framework.}
+\label{locvlm_tbl:res_hallucinate}
+\end{table}
+
+% Baseline        & 61.9 & 53.8 & 50.6 \\ \rowcolor{Gray}
+% Ours      & \textbf{88.3} & \textbf{75.2} & \textbf{68.7} \\ \midrule/

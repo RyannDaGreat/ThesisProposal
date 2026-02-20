@@ -1,0 +1,83 @@
+\section{Additional Details}
+
+\subsection{Additional Experimental Results}
+\label{ltm_app:extra_exp}
+
+We first present additional results on our real world environment, focused on highlighting the usefulness of human demonstrations for our method. A key benefit of our pixel motion based control (similar to prior work AVDC \cite{Ko2023LearningTA}) is the ability to learn from human demonstrations directly (with no requirement for keypoint based remapping or other dense annotations). We investigate this aspect of our proposed LangToMo first, presenting results in \Cref{ltm_app:rw_transfer}. 
+Results indicate clear usefulness of incorporating human demonstrations in addition to robot demonstrations, as well as the ability to learn from human demonstrations directly. We illustrate some examples of human and robot demonstrations used for training in \Cref{ltm_app_fig:demos}. 
+
+\input{src/4_LTM/appendix/res_rw_transfer.tex}
+\input{src/4_LTM/appendix/demo_vis}
+
+We next explore the ability to extend our method to benchmarks that involve ego motion of the robot (e.g. simple navigation tasks). Following prior work AVDC \cite{Ko2023LearningTA}, we evaluate on the iThor benchmark and present results in \Cref{ltm_app:ithor}. Results indite clear improvements of our proposed LangToMo over naive baselines and prior work AVDC \cite{Ko2023LearningTA}.
+
+\input{src/4_LTM/appendix/res_ithor}
+% \input{src/4_LTM/appendix/res_libero}
+
+\subsection{Relative Pixel Motion}
+\label{ltm_app:relative_of}
+A key design choice in our formulation is to represent pixel motion with respect to the current frame ($\vx_t$), rather than the previous frame ($\vx_{t+1}$) or some other frame. This aligns with the structure of our conditional diffusion model, which receives $\vx_t$ as a secondary conditioning input. Predicting the transformation from $\vx_t$ to the next frame allows the model to more directly focus on the visual cues present in the current state. In contrast, predicting motion from $\vx_{t-1}$ or some other different frame would require indirect reasoning over a non-visible state, introducing additional complexity. Hence our approach is to represent past pixel motion (e.g. $\vx_{t-1}$  to $\vx_{t}$) as $\vx_{t}$ to $\vx_{t-1}$ instead. While this may seem counterintuitive, we note how prior literature on image-pair-based optical flow prediction for video tasks has also found that defining motion in terms of a reference image—particularly the current frame that is visible—can lead to more stable and accurate flow estimates \cite{Liang2024MoVideoMV}. Moreover, our experiments representing previous motion in a different manner lead to subpar performance, standing as further evidence. 
+
+We also experiment trying to predict an additional future motion relative to a future frame. We compare this against predicting that same future motion relative to the current frames. In this setting, the latter performs well while the former variant fails to learn meaningful motion signals predictions. 
+
+\subsection{Language Embedding Model}
+\label{ltm_app:lang_embed}
+For the language embedding model, we employ the Universal Sentence Encoder (USE), a pre-trained model from \cite{Cer2018UniversalSE}. USE generates fixed-length vector representations of text, capturing rich semantic meaning, making it suitable for various natural language processing (NLP) tasks. Its widespread use in research, including works like OpenX \cite{padalkar2023open}, highlights its effectiveness in transforming textual input into meaningful embeddings even for robotic tasks. In our framework, the USE serves as a key component, encoding language instructions into dense vectors that are later used to guide the generation of motion representations. The model's ability to produce consistent and high-quality embeddings enables seamless integration between language and vision modalities, ensuring that our system can accurately interpret and respond to diverse language commands.
+
+\subsection{Diffusion Model Details}
+\label{ltm_app:dm_detail}
+
+In our diffusion model training, input noising is applied by adding Gaussian noise to the target motion data (following standard settings \cite{ho2020denoising}). The image condition input and the previous flow are not subject to this noising. 
+The previous flow is corruption with a 50\% chance. During corruption, a random amount of Gaussian noise is added. 
+To ensure diverse and meaningful training, filtering and augmentation operations are performed on the frames as described next. 
+The indices corresponding to consecutive frames ($i$ and $i+1$) are selected such that they maintain fixed intervals based on the video frame rate. Frames with zero optical flow (i.e., no motion) between $i$ and $i+1$ are filtered out to avoid irrelevant data. Additionally, to handle the completion of textual instructions, we introduce zero motion at the ends of videos, ensuring that these states map to a lack of motion when the instruction concludes. The visual inputs (images and optical flow) are cropped and resized, with appropriate transformations applied to the flow data to maintain consistency.
+
+
+
+\subsection{Hand-Crafted Mapping Functions}
+\label{ltm_app:handcraft_map}
+
+\bhdr{Synthetic Environments:}
+We follow the formulation of \cite{Ko2023LearningTA} using a segmentation map of robot controller and a depth map of environment. The generated pixel motions are converted into directions in 3D space to move the robot controller based on these dense maps. We direct the reader to \citet{Ko2023LearningTA} for further details. 
+
+\bhdr{Real World Environments:}
+Following \citet{Li2024LLaRASR}, we build our real world environment with a single plane assumption (e.g. table top manipulation) and map the predicted pixel motions for the robot controller center points onto the plane (using visual geometry). An initial camera calibration is performed for the environment to obtain necessary camera matrices. 
+After extracting a start and end position for a manipulation task following this setting, our position to action vector conversion is identical to \cite{Li2024LLaRASR}.
+
+
+\subsection{Real World Experiments}
+\label{ltm_app:real_world}
+
+We perform four types of real world experiments as illustrated in \Cref{ltm_fig:task_vis}. The language instructions for the four tasks are as follows: 
+\begin{enumerate}
+  \item \texttt{Pick up the duck and place on the bowl.}
+  \item \texttt{Pick up the duck and place on the tray.}
+  \item \texttt{Pick up the avocado and place on the bowl.}
+  \item \texttt{Pick up the corn and place on the tray.}
+\end{enumerate}
+We select these following \citet{Li2024LLaRASR} to ensure fair comparisons to prior works. 
+
+\subsection{Baseline Details}
+\label{ltm_app:baselines}
+Our key baselines are from AVDC \cite{Ko2023LearningTA} and LLaRA \cite{Li2024LLaRASR}. For both methods, we use their official implementations to replicate their results and evaluate ours under identical settings. For LLaRA, all results are reported on their inBC variant for fair comparison against our method (i.e. similar inputs during inference / no external scene object information). 
+
+
+\subsection{Detailed Ablations}
+\label{ltm_app:ablate}
+
+We discuss our ablations in \Cref{ltm_table:ablate} in detail in the following section.
+
+\bhdr{System 2 Design Choices:}
+We first ablate critical inputs to \textit{System 2 (Motion Generation)}.
+Removing pretraining (``PT") leads to a modest performance drop (from 53.6\% to 53.1\%), indicating that while pretraining aids convergence, the framework remains effective with limited finetuning alone.
+Removing the previous optical flow input (``Prev Flow") results in a larger decline to 50.2\%, validating the importance of temporal conditioning.
+Ablating the language embedding leads to a significant drop (to 39.7\%), highlighting the necessity of semantic instruction guidance.
+Finally, removing the visual input (``Img") results in near-random performance (15.4\%), confirming that visual grounding is essential.
+
+\bhdr{High-Level Framework Design:}
+We next evaluate several higher-level architectural decisions.
+Removing the diffusion model (``No diffusion") and training a direct regressor leads to a sharp performance drop (to 16.2\%), underscoring the value of iterative, probabilistic modeling for motion generation.
+Replacing input concatenation with cross-attention (``CA instead of concat") similarly degrades performance, suggesting that simple spatial concatenation is a more effective conditioning strategy for our setting.
+Using a multi-action decoder within \textit{System 1} to run it at same frequency as our system 2 (``Sys-1 \& 2 same freq") results in slightly lower performance (48.7\%), indicating that our default action mapping is more effective.
+Training only a learned \textit{System 1} without leveraging pre-generated optical flows (``Only learned Sys-1") performs poorly (15.8\%), demonstrating that direct action generation without intermediate motion representation is insufficient for generalization.
+

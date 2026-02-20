@@ -1,0 +1,29 @@
+\section{Multimodal Language Models for Long Videos}
+\label{mvu:related}
+
+
+\noindent \textbf{Video Modality Exploration:}
+% Recent rapid progress in visual understanding has motivated 
+Multiple recent works dissect the video modality into individual components \citep{pmlr-v162-yun22a,Buch2022RevisitingT,Ranasinghe2021SelfsupervisedVT,Ramasinghe2018CombinedSA}. Single frame baselines are one interesting sub-class \citep{Buch2022RevisitingT,davis1997mei,Zhao_2017_ICCV,8658386,bilen2016dynamic}. Extracting object-centric video modalities is another idea, spanning back to \cite{davis1997mei} which extracts multiple small objects from frames followed by modeling relations across frames and objects. Similarly, \cite{8658386,Zhao_2017_ICCV} combine spatial information with single images to perform video tasks. However, these prior approaches focus on simple video tasks (i.e. action recognition) limited to visual modality. In contrast, our approach tackles the more complex language-tied task of long-video question answering that necessitates strong causal and temporal reasoning over long temporal windows. 
+This task is also explored in \cite{Buch2022RevisitingT}, but we differ with likelihood selection, multi-modal information fusion, and usage of modern LLMs.
+
+\vspace{0.5em}
+
+\noindent \textbf{Long Video Question Answering:}
+Long-video question-answering benchmarks are constructed to specifically test strong causal and temporal reasoning \citep{dataset_xiao2021nextqa} over long temporal windows \citep{Mangalam2023EgoSchemaAD}. 
+Early works explore querying objects or events based on referential and spatial relations \citep{xu2017msvdqavideo,videoqaaaai2017,Yu2019ActivityNetQAAD}, followed by focus on temporal modeling of sequential events \citep{dataset_lei2018tvqa,lei-etal-2020-tvqaplus,lmappce1_hosseini-etal-2022-knowledge,model_xiao2021hgqa,model_xiao2022vgt}. 
+While motivated by these works, MVU integrates such object information with large language models (LLMs) in a zero-shot manner requiring no video-level training. 
+More recent works leverage LLMs \citep{Yu2023SelfChainedIM,papalampidi2023simple,wang2024internvideo2,Balavzevic2024MemoryCE,wang2024tarsier} to directly perform these tasks but require video-caption training. In contrast, our MVU operates zero-shot on these tasks requiring no video-level training. 
+Zero-shot operation is explored in \cite{wang2023vamos,zhang2023llovi,min2024morevqa,Wang2023LifelongMemoryLL,wang2024videotree}, but we differ in using object-centric information modalities and efficient LLM sampling. 
+
+\vspace{0.5em}
+
+\noindent \textbf{Large Language Model Reasoning:}
+Recent LLMs \citep{gpt4,chowdhery2022palm,vicuna2023} demonstrate multiple forms of strong reasoning abilities \citep{Kcman2023CausalRA,Creswell2022FaithfulRU,Liu2023TheMO} including combining different information \citep{Weston2023System2A}. Their recent open-source variants \citep{touvron2023llama2,Anil2023GeminiAF,Jiang2023Mistral7} achieve equally promising skills using scaled-down models \citep{Jiang2023Mistral7} while also demonstrating strong world knowledge \citep{yu2023kola,alkhamissi2024investigating,zhao2023large,Wang2023GeminiIR,xu2024penetrative,li2023language} even in domains such as robotics \citep{li2024llara}. In our work, we leverage these strengths of LLMs for complex video-language tasks, focused on disentangling the effect of their abilities for video QnA tasks. 
+
+\vspace{0.5em}
+
+\noindent \textbf{Language based Fusion:}
+The idea of fusing different modality information using natural language as a medium has been explored in multiple recent works
+\citep{Ranasinghe2023LanguagebasedAC,lin2023match,Hanu2022VTCIV,Wang2017AlternativeSR,Hanu2023LanguageAT,zeng2022socratic}. In \cite{Ranasinghe2023LanguagebasedAC,lin2023match}, language is utilized as an implicit medium for self-supervising video action recognition. Multimodal information represented as language is fused with visual information for action recognition and robotics tasks in \citep{Hanu2022VTCIV,Wang2017AlternativeSR,Hanu2023LanguageAT,li2024llara}. We utilize a similar language-as-a-medium fusion of multimodal information, but explore this in the context of complex video-language tasks. 
+\cite{zeng2022socratic} is most similar to our work, but we differ with focus on long-video tasks and object-centric information.

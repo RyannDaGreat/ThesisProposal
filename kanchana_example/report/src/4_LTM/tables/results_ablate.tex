@@ -1,0 +1,50 @@
+\begin{table}[t]
+\centering
+\small
+\begin{minipage}{0.38\textwidth}
+\vspace{-0.5em}
+\caption[LTM Ablation Study]{
+    \textbf{Ablation Study:} 
+    We report mean success rate (overall) on MetaWorld benchmark with our LTM-S variant. (left) Results highlight importance of key components in our System-2 model. 
+    (right) Results justify several high-level design choices of our framework.
+}
+\label{ltm_table:ablate}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.30\textwidth}
+    \def\arraystretch{1.3}  % height
+    \setlength\tabcolsep{0.6em}  % width
+    \scalebox{0.75}{
+    \begin{tabular}{ccccc}
+    \toprule
+    Img  & Lang & Prev Flow & PT & Overall \\ \midrule \rowcolor{Gray}
+    \cmark & \cmark & \cmark & \cmark & 53.6 \\
+    \cmark & \cmark & \cmark & \xmark & 53.1 \\
+    \cmark & \cmark & \xmark & \xmark & 50.2 \\
+    \cmark & \xmark & \xmark & \xmark & 39.7 \\
+    \xmark & \cmark & \xmark & \xmark & 15.4 \\
+    \bottomrule
+    \end{tabular}}    
+\end{minipage}
+%
+\hspace{0.02\textwidth}
+% 
+\begin{minipage}{0.26\textwidth}
+    \def\arraystretch{1.3}  % height
+    \setlength\tabcolsep{0.6em}  % width
+    \scalebox{0.75}{
+    \begin{tabular}{lc}
+    \toprule
+    Method  & Overall \\ \midrule \rowcolor{Gray}
+    Ours (default)              & 53.6 \\
+    No diffusion                & 16.2 \\
+    CA instead of concat        & 15.8 \\
+    Sys-1 \& 2 same freq       & 48.7 \\
+    Only learned Sys-1          & 15.8 \\
+    \bottomrule
+    \end{tabular}}     
+\end{minipage}
+% 
+\end{table}

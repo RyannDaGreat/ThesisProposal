@@ -1,0 +1,64 @@
+\chapter{Introduction}
+\label{chapter:introduction}
+
+\section{Overview}
+
+Humans understand their world through a seamless integration of multi-sensory inputs, with visual perception—particularly in the form of video—playing a dominant role. Our ability to extract spatio-temporal relationships, synchronize audio-visual cues, and perceive 3D geometry enables us to build rich internal world models, even in the absence of explicit supervision. This self-supervised learning capability is fundamental to our capacity for abstraction, prediction, and reasoning across time and space.
+
+Replicating this ability in machines has been a longstanding goal of computer vision and artificial intelligence. Recent advances in large language models (LLMs) and their multimodal variants have enabled impressive capabilities in static image understanding and language processing. However, progress in video understanding has lagged behind. Despite being trained on internet-scale data, current models often struggle with fine-grained temporal reasoning, spatial awareness of objects, and motion understanding—especially in tasks requiring causal inference or real world interaction. These limitations reflect the inherent complexity of video data, where semantic information is distributed across time and dependent on both object dynamics and contextual cues.
+
+To address this gap, we propose leveraging natural language as a guiding prior for video representation learning, while adhering to certain degrees of self-supervised learning principles. Language is a powerful modality: it is compositional, universal (different models trained to output English language can communicate, as opposed to those generating embeddings), and closely aligned with human cognition. Our central thesis is that aligning video representations with natural language can unlock more general, interpretable, and transferable models of video understanding. Importantly, this alignment should not require excessive human supervision for the learning process. Instead we aim to retain the self-supervised nature of human learning, by using natural language to guide the representation learning process.
+
+Our work proceeds in four stages. We begin by aligning video representations with language using self-supervised learning (LSS), then enhance spatial reasoning in visual language models (LocVLM). We extend to long video understanding through language-based object motion modeling (MVU), and finally introduce structured motion representations (LangToMo) to bridge language, vision, and action for real world interaction tasks.
+
+\medskip
+\bhdr{Stage 1: Language-Guided Video Self-Supervised Learning (LSS).}
+We propose LSS, a novel self-supervised framework that adapts powerful image-language models like CLIP to the video domain without requiring any per-video human annotated labels or captions. LSS introduces concept spaces that are derived from LLM generated descriptions of action categories within a given domain, and distills video representations into these spaces via multi-view consistency objectives. The result is a video model that retains CLIP’s zero-shot capabilities while learning temporal patterns through video-only training.
+
+\medskip
+\bhdr{Stage 2: Enhancing Spatial Reasoning in Multimodal Language Models (LocVLM).}
+While multimodal LLMs demonstrate strong performance on tasks such as video question answering, they often struggle with precise spatial reasoning. Traditional neural approaches typically encode spatial information as structured numerical inputs, either as raw coordinates, matrices, or learned embeddings. In contrast, we explore whether representing spatial locations as plain-text coordinates (e.g., "(0.2, 0.4)")—leveraging the language-based reasoning capabilities of LLMs—can improve their spatial understanding.
+We introduce a training pipeline that integrates this form of language-based spatial supervision into visual LLM training. Our method requires no architectural modifications, preserving the original capabilities of the underlying LLM. Instead, it relies solely on location-aware prompts, enabling improved spatial reasoning, reduced hallucinations, and the ability to describe and localize arbitrary image regions within videos. Notably, this also yields a more human-aligned interface for localization-oriented video question answering—for example, answering queries such as, “What is that creature at point (0.2, 0.4) in this frame?”
+
+\medskip
+\bhdr{Stage 3: Extending to Long Video Understanding (MVU).}
+We extend our framework to long video understanding by introducing a modular language-based formulation of object motion trajectories. Our Multimodal Video Understanding (MVU) framework extracts object-centric information—such as object motion trajectories, spatial location of objects, and context of object surroundings—across multiple frames and expresses this as natural language. This enables explicit motion modeling in any off-the-shelf language model without requiring re-training. MVU significantly improves performance on temporally extended and motion-focused tasks while offering interpretability and scalability across diverse video domains.
+
+\medskip
+\bhdr{Stage 4: Structured Motion Representation via Language and Vision (LangToMo).}
+Motion understanding presents a unique challenge: while inherently tied to language (e.g., ``reach,'' ``move left''), motion representations also encode state-dependent information about the actor, task objectives, and environmental interactions—context that cannot be fully captured through language alone. We propose learning structured intermediate motion representations, conditioned jointly on language and video frames, to bridge this gap. Using large-scale video-caption data, we train models to map natural language commands to pixel-level motion, enabling applications such as zero-shot robotic control and interpretable motion representation.
+
+\medskip
+Together, these stages move towards a unified framework for video representation learning that is grounded in language, enriched by spatial and motion priors, and general enough to support zero-shot transfer across diverse tasks—from classification and question answering to real-world interaction. Through extensive experiments, we demonstrate how aligning video learning with language not only improves interpretability and generalization, but also brings us a step closer to human-level internal models of the world.
+
+
+
+
+% \subsection{Faster Inference}
+
+% TBA
+% % \input{src/CoarseFine/sections/2.1_introduction_brief}
+% % \input{src/OCD/sections/2.1_introduction_brief}
+
+% \subsection{Free Training Signals}
+
+% TBA
+% % \input{src/SSDet/sections/2.1_introduction_brief}
+% % \input{src/VicTR/sections/2.1_introduction_brief}
+
+
+\section{Organization}
+
+The remainder of this proposal is organized as follows. We begin with an overview of related work, followed by four core chapters corresponding to the key stages of our approach: self-supervised learning with language guidance, spatial reasoning in multimodal models, long video understanding, and structured motion representation. We conclude with a discussion of future directions.
+
+\paragraph{Chapter 2: Related Work.} This chapter surveys prior literature relevant to our contributions. We discuss foundational approaches in self-supervised video learning, vision-language modeling, spatial localization in multimodal systems, motion understanding, and their applications in both recognition and control tasks. This contextualizes our proposed framework within the broader research landscape.
+
+\paragraph{Chapter 3: Language-Guided Self-Supervised Learning (LSS).} We introduce LSS, a self-supervised video learning framework that aligns video representations with language-derived concept spaces. By leveraging pre-trained image-language models like CLIP and extending them to the video domain, LSS achieves strong zero-shot performance without requiring per-video labels or captions.
+
+\paragraph{Chapter 4: Enhancing Spatial Reasoning (LocVLM).} This chapter presents our approach to improving spatial understanding in visual-language models through language-based supervision of object locations. We demonstrate how representing coordinates as text and integrating them into instruction-tuning improves localization, spatial reasoning, and robustness to hallucination.
+
+\paragraph{Chapter 5: Motion for Long Video Understanding (MVU).} We extend our framework to long video understanding by constructing object-centric information streams—such as object trajectories—represented in natural language. This allows any off-the-shelf LLM to explicitly reason about motion and long-term dependencies, leading to improved performance on temporally complex tasks.
+
+\paragraph{Chapter 6: Structured Motion Representations (LangToMo).} We propose a structured representation of motion that captures fine-grained dynamics tied to language and visual state. By learning mappings from natural language to motion representations using large-scale video-caption data, LangToMo enables generalization extending even to real-world robotic control tasks.
+
+\paragraph{Chapter 7: Conclusion and Future Work.} We summarize the key contributions of the thesis and outline promising directions for future work. In particular, we propose to extend our framework to model motion in 3D and enable learning from videos that include ego motion. These capabilities would allow more general and physically grounded video representations, supporting richer understanding and interaction in real-world environments.

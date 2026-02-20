@@ -1,0 +1,59 @@
+\section{Experiments}
+\label{sec:experiments}
+In this section, we first describe our experimental setup followed by discussion of results for linear probing self-supervised representations and zero-shot analysis.
+
+\textbf{Datasets:}
+We use three standard action recognition benchmark datasets in our experiments: Kinetics-400 \cite{kinetics400}, UCF-101 \cite{soomro2012ucf}, and HMBD-51 \cite{kuehne2011hmdb}. Kinetics-400 is a large-scale dataset containing 240,000 training videos and 20,000 validation videos belonging to 400 different action classes. On average, these videos are of duration around 10 seconds, with 25 frames per second (i.e., around 250 frames per video). UCF-101 and  HMBD-51 are small-scale datasets each containing 13k videos (9.5k/3.7k train/test) belonging to 101 classes and 5k (3.5k/1.5k train/test) videos belonging to 51 classes respectively. They also contain similar duration videos. 
+
+\textbf{Self-supervised Training:} Our SSL training phase uses the train split of Kinetics-400 dataset \cite{kinetics400} \emph{without} using any per-video labels. We train for 15 epochs using a batch size of 32 across 4 NVIDIA-A5000 GPUs using ADAM-W \cite{kingma15adam,loshchilov2017adamw} optimizer on the student model with an initial learning rate of $1e-5$ following a cosine decay schedule. The EMA teacher is updated from student weights after each training iteration with a decay ratio of $2e-4$. 
+Unless otherwise specified, this model is used for all downstream task evaluations. 
+
+\textbf{Transductive Training:} For selected experiments, we additionally perform self-supervised training directly on the train split of each downstream dataset. For Kinetics-400, we follow the same setup described above. In the case of HMDB-51 and UCF-101, we perform self-supervised training for a longer duration of 100 epochs (smaller train sets) leaving all other hyper-parameters unchanged. 
+
+\textbf{View Generation:} Our self-supervised setup requires two views of a single video. We sample two clips from a video following global view generation in \cite{Ran2021SVT}. In detail, we select two random intervals from a video, and uniformly sample (equal time gaps between frames) 8 frames of 224x224 spatial dimensions from within that interval. Standard video augmentations from \cite{qian2021spatiotemporal} are also applied randomly for each view. 
+
+\textbf{Linear Probing:} 
+We follow standard linear probing settings on our two downstream datasets to evaluate quality of representations learned by our self-supervised learning phase. We follow the same settings in \cite{Ran2021SVT} for fair comparison. Our visual encoder is frozen and a randomly initialized linear layer is trained on the train split of the downstream dataset in a fully-supervised manner. We train for 15 epochs using a batch size of 128 across 4 NVIDIA-A5000 GPUs using ADAM-W \cite{kingma15adam,loshchilov2017adamw} optimizer with an initial learning rate of $1e-3$ following a cosine decay schedule. During inference, we sample three 224x224 dimensional spatial crops with 8 uniformly spaced frames from each video following prior work \cite{Ran2021SVT, qian2020spatiotemporal}. 
+
+\textbf{Zero-Shot Inference:}
+For zero-shot inference, we project class labels of downstream datasets to our text encoder feature space, and construct an alternate text classifier. Using this text classifier, we make zero-shot predictions. This setup is identical to dot-product similarity based inference in CLIP \cite{radford2021clip} (explanation in \cref{subsec:cd}). In line with prior work \cite{Ran2021SVT, qian2020spatiotemporal}, we feed three 224x224 dimensional spatial crops with 8 uniformly spaced frames sampled from each video to the visual encoder and average its output feature embedding prior to normalized dot-product calculation in the text encoder.
+
+\input{src/1_LSS/figures/tbl_lp}
+
+\subsection{Linear-Probing Analysis}
+We first evaluate LSS under linear probing settings on HMDB-51 \& UCF-101 datasets. Our results (top-1 accuracy) are reported in \cref{lss_tbl:linear}. Our proposed LSS achieves state-of-the-art results on both datasets, outperforming prior approaches. Note that MoDist \cite{xiao2021modist} and BraVe \cite{recasens2021brave}, both of which additionally utilize video-level optical flow (OF) for self-supervision, are not directly comparable. Still, our LSS showcases competitive performance to those, even without such motion information.  
+% Particularly in the case of HMDB-51, approaches utilizing OF for self-supervision \cite{xiao2021modist, recasens2021brave} obtain high accuracy values in comparison to other methods relying only on RGB inputs. We reiterate that our results are comparable, possibly indicating how language based self-supervision can provide similar action related information. 
+
+\input{src/1_LSS/figures/tbl_zs}
+
+\subsection{Zero-Shot Analysis}
+Our LSS provides the additional advantage of zero-shot operation unlike standard video SSL approaches. To this end, we conduct two forms of zero-shot experiments. First, we evaluate LSS on standard zero-shot classification, where our model trained on Kinetics-400 (under SSL settings) is evaluated on the two downstream datasets, HMDB-51 and UCF-101. We report these results (top-1 accuracy) in \cref{lss_tbl:zeroshot}. Compared to prior work utilizing per-video labels / captions for training, we achieve competitive performance. We note that MOV \cite{qian2022multimodal} trained under supervised settings with per-video labels and additional audio information is not a direct comparison. 
+
+In contrast to most prior approaches, LSS uses no video level labels for its Kinetics-400 training. In particular, LSS has not seen any labelled videos during its training process. Compared to prior work operating under these settings, LSS achieves state-of-the-art performance on both downstream datasets as seen in the bottom half of \cref{lss_tbl:zeroshot}. 
+
+An alternate setting in prior zero-shot work is transductive training, where self-supervised learning is perfomed directly on train splits of downstream datasets. Under this setting, we evaluate on all three datasets, Kinetics-400, HMDB-51, and UCF-101, reporting results (top-1 accuracy) in \cref{lss_tbl:transductive}. In the case of HMBD-51 and Kinetics-400, our method achieves state-of-the-art performance. For UCF-101, we achieve competitive results, and clear improvements over a CLIP \cite{radford2021clip} baseline. 
+
+
+\input{src/1_LSS/figures/tbl_tzs}
+\input{src/1_LSS/figures/tbl_ablate}
+
+
+\subsection{Ablations}
+\label{subsec:ablations}
+We next study the contribution of each component within our approach. All ablative experiments follow the same SSL phase on the Kinetics-400 train set (as described in \cref{sec:experiments}) followed by zero-shot analysis on validation sets of HMDB-51 and UCF-101. In the case of linear probing results, training is conducted following same settings (see \cref{sec:experiments}) on the train set of HMDB-51 followed by evaluation on its validation set. 
+
+\textbf{SSL Objectives:}
+First we ablate each proposed component in \cref{eq:overall} and report results in \cref{lss_tbl:ablate_ssl}. In addition to a direct CLIP \cite{radford2021clip} baseline, we construct two additional baselines building off CLIP \cite{radford2021clip} and SVT \cite{Ran2021SVT} for better comparison. CLIP$^\dagger$ baseline applies our backbone modifications (for temporal modeling) with no training, which is identical to averaging per-frame visual encoder features. SVT$^\mathsection$ baseline performs SVT \cite{Ran2021SVT} training with CLIP visual encoder initialization (note that language alignment breaks and zero-shot operation is not possible for this baseline). In comparison to the CLIP baselines, each proposed component, concept distillation in category and description concept spaces as well as concept alignment, leads to improvements. The comparison against SVT$^\mathsection$ highlights how our SSL approach better preserves language aligned information (contained in CLIP) that is useful even in linear probing. In contrast, the lower performance of SVT$^\mathsection$ compared to CLIP baselines indicates that generic SSL techniques may be losing useful information contained in CLIP. 
+
+\textbf{Concept Spaces:}
+Our next focus is on construction of concept spaces. We explore how separately augmenting each concept space affects downstream task performance measured with zero-shot transfer. These results are reported in \cref{lss_tbl:ablate_cs}. First, focused on the category concept space, we construct additional category labels using 1000 most common nouns and verbs each (total of 2000) from the WordNet dataset \cite{miller1995wordnet,fellbaum2005wordnet}. Next, we augment the description concept space using 10,000 sentences. We select these from example sentences provided for action verbs in the WordNet dataset \cite{miller1995wordnet,fellbaum2005wordnet}. In these experiments, only the concept distillation objective is applied on these augmented spaces and concept alignment operates only on the base category set. This is because independently augmenting one of the action spaces eliminates their shared and aligned dimensionality.
+Results for these two settings are reported in row 2 \& 3 respectively in \cref{lss_tbl:ablate_cs}. 
+
+\input{src/1_LSS/figures/tbl_more_ablate}
+
+
+\textbf{Uniform Distribution Prior:}
+We ablate on proposed uniform distribution prior (UDP) which acts as a regularization to prevent collapse (\cref{subsec:udp}). Our results in \cref{lss_tbl:ablate_more} (left) indicate clear necessity of such regularization to prevent collapse during SSL training. 
+
+\textbf{Significance Weight in Concept Distillation:}
+In \cref{eq:loss_cd}, we utilize a significance weight term, $w_s$, which represents the confidence of the target concept space projection for a given sample. We note how each sample during training is a clip sampled from a video (which covers a temporal crop of video). Our intuition for this weight is to act as a way of prioritizing more important clips over the less important ones. Our ablations in \cref{lss_tbl:ablate_more} (right) indicate usefulness of this weight term. 

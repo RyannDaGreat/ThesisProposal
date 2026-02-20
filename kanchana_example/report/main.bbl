@@ -1,0 +1,2310 @@
+\begin{thebibliography}{336}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdin et~al.(2024)]{Abdin2024Phi3TR}
+M.~Abdin et~al.
+\newblock Phi-3 technical report: A highly capable language model locally on
+  your phone.
+\newblock \emph{ArXiv}, abs/2404.14219, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:269293048}.
+
+\bibitem[Aggarwal and Ryoo(2011)]{Aggarwal2011HumanAA}
+J.~K. Aggarwal and M.~S. Ryoo.
+\newblock Human activity analysis.
+\newblock \emph{ACM Computing Surveys (CSUR)}, 43:\penalty0 1 -- 43, 2011.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:5388357}.
+
+\bibitem[Agrawal et~al.(2015)Agrawal, Carreira, and Malik]{Agrawal_2015_ICCV}
+P.~Agrawal, J.~Carreira, and J.~Malik.
+\newblock Learning to see by moving.
+\newblock In \emph{ICCV}, 2015.
+
+\bibitem[Akbari et~al.(2021)Akbari, Yuan, Qian, Chuang, Chang, Cui, and
+  Gong]{Akbari2021VATTTF}
+H.~Akbari, L.~Yuan, R.~Qian, W.-H. Chuang, S.-F. Chang, Y.~Cui, and B.~Gong.
+\newblock Vatt: Transformers for multimodal self-supervised learning from raw
+  video, audio and text.
+\newblock \emph{ArXiv}, abs/2104.11178, 2021.
+
+\bibitem[Alayrac et~al.(2022)Alayrac, Donahue, Luc, Miech, Barr, Hasson, Lenc,
+  Mensch, Millican, Reynolds, et~al.]{alayrac2022flamingo}
+J.-B. Alayrac, J.~Donahue, P.~Luc, A.~Miech, I.~Barr, Y.~Hasson, K.~Lenc,
+  A.~Mensch, K.~Millican, M.~Reynolds, et~al.
+\newblock {Flamingo: a Visual Language Model for Few-Shot Learning}.
+\newblock \emph{NeurIPS}, 2022.
+
+\bibitem[AlKhamissi et~al.(2024)AlKhamissi, ElNokrashy, AlKhamissi, and
+  Diab]{alkhamissi2024investigating}
+B.~AlKhamissi, M.~ElNokrashy, M.~AlKhamissi, and M.~Diab.
+\newblock Investigating cultural alignment of large language models, 2024.
+
+\bibitem[Argus et~al.(2020)Argus, Hermann, Long, and
+  Brox]{Argus2020FlowControlOF}
+M.~Argus, L.~Hermann, J.~Long, and T.~Brox.
+\newblock Flowcontrol: Optical flow based visual servoing.
+\newblock \emph{2020 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)}, pages 7534--7541, 2020.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:220280145}.
+
+\bibitem[Arnold(1974)]{Arnold1974RHEOTROPISMIF}
+G.~Arnold.
+\newblock Rheotropism in fishes.
+\newblock \emph{Biological Reviews}, 49, 1974.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:30755969}.
+
+\bibitem[Awadalla et~al.(2023)Awadalla, Gao, Gardner, Hessel, Hanafy, Zhu,
+  Marathe, Bitton, Gadre, Jitsev, Kornblith, Koh, Ilharco, Wortsman, and
+  Schmidt]{anas_awadalla_2023_7733589}
+A.~Awadalla, I.~Gao, J.~Gardner, J.~Hessel, Y.~Hanafy, W.~Zhu, K.~Marathe,
+  Y.~Bitton, S.~Gadre, J.~Jitsev, S.~Kornblith, P.~W. Koh, G.~Ilharco,
+  M.~Wortsman, and L.~Schmidt.
+\newblock Openflamingo, Mar. 2023.
+\newblock URL \url{https://doi.org/10.5281/zenodo.7733589}.
+
+\bibitem[Bahl et~al.(2022)Bahl, Gupta, and Pathak]{bahl2022human}
+S.~Bahl, A.~Gupta, and D.~Pathak.
+\newblock Human-to-robot imitation in the wild.
+\newblock In \emph{Robotics: Science and Systems}, 2022.
+
+\bibitem[Bain et~al.(2022)Bain, Nagrani, Varol, and
+  Zisserman]{bain2022cliphitchhiker}
+M.~Bain, A.~Nagrani, G.~Varol, and A.~Zisserman.
+\newblock {A CLIP-Hitchhiker's Guide to Long Video Retrieval}.
+\newblock \emph{arXiv preprint arXiv:2205.08508}, 2022.
+
+\bibitem[Baird et~al.(2021)Baird, Boeddeker, and Srinivasan]{Baird2021TheEO}
+E.~Baird, N.~Boeddeker, and M.~V. Srinivasan.
+\newblock The effect of optic flow cues on honeybee flight control in wind.
+\newblock \emph{Proceedings of the Royal Society B}, 288, 2021.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:231643236}.
+
+\bibitem[Balavzevi'c et~al.(2024)Balavzevi'c, Shi, Papalampidi, Chaabouni,
+  Koppula, and H'enaff]{Balavzevic2024MemoryCE}
+I.~Balavzevi'c, Y.~Shi, P.~Papalampidi, R.~Chaabouni, S.~Koppula, and O.~J.
+  H'enaff.
+\newblock Memory consolidation enables long-context video understanding.
+\newblock \emph{ArXiv}, abs/2402.05861, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:267547785}.
+
+\bibitem[Balestriero et~al.(2023)Balestriero, Ibrahim, Sobal, Morcos, Shekhar,
+  Goldstein, Bordes, Bardes, Mialon, Tian, Schwarzschild, Wilson, Geiping,
+  Garrido, Fernandez, Bar, Pirsiavash, LeCun, and Goldblum]{Balestriero2023ACO}
+R.~Balestriero, M.~Ibrahim, V.~Sobal, A.~S. Morcos, S.~Shekhar, T.~Goldstein,
+  F.~Bordes, A.~Bardes, G.~Mialon, Y.~Tian, A.~Schwarzschild, A.~G. Wilson,
+  J.~Geiping, Q.~Garrido, P.~Fernandez, A.~Bar, H.~Pirsiavash, Y.~LeCun, and
+  M.~Goldblum.
+\newblock A cookbook of self-supervised learning.
+\newblock \emph{ArXiv}, abs/2304.12210, 2023.
+
+\bibitem[Banerjee et~al.(2021)]{Banerjee2021WeaklySR}
+P.~Banerjee et~al.
+\newblock Weakly supervised relative spatial reasoning for visual question
+  answering.
+\newblock \emph{ICCV}, 2021.
+
+\bibitem[Bardes et~al.(2021)Bardes, Ponce, and LeCun]{Bardes2021VICRegVR}
+A.~Bardes, J.~Ponce, and Y.~LeCun.
+\newblock Vicreg: Variance-invariance-covariance regularization for
+  self-supervised learning.
+\newblock \emph{ArXiv}, abs/2105.04906, 2021.
+
+\bibitem[Behrmann et~al.(2021)Behrmann, Fayyaz, Gall, and
+  Noroozi]{Behrmann2021LongSV}
+N.~Behrmann, M.~Fayyaz, J.~Gall, and M.~Noroozi.
+\newblock Long short view feature decomposition via contrastive video
+  representation learning.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Belkhale et~al.(2024)Belkhale, Ding, Xiao, Sermanet, Vuong, Tompson,
+  Chebotar, Dwibedi, and Sadigh]{Belkhale2024RTHAH}
+S.~Belkhale, T.~Ding, T.~Xiao, P.~Sermanet, Q.~Vuong, J.~Tompson, Y.~Chebotar,
+  D.~Dwibedi, and D.~Sadigh.
+\newblock Rt-h: Action hierarchies using language.
+\newblock \emph{ArXiv}, abs/2403.01823, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:268249108}.
+
+\bibitem[Bertasius et~al.(2021)Bertasius, Wang, and
+  Torresani]{bertasius2021timesformer}
+G.~Bertasius, H.~Wang, and L.~Torresani.
+\newblock {Is Space-Time Attention All You Need for Video Understanding?}
+\newblock In \emph{ICML}, page~4, 2021.
+
+\bibitem[Berthelot et~al.(2020)Berthelot, Carlini, Cubuk, Kurakin, Sohn, Zhang,
+  and Raffel]{remixmatch}
+D.~Berthelot, N.~Carlini, E.~D. Cubuk, A.~Kurakin, K.~Sohn, H.~Zhang, and
+  C.~Raffel.
+\newblock Remixmatch: Semi-supervised learning with distribution alignment and
+  augmentation anchoring.
+\newblock In \emph{{ICLR}}, 2020.
+
+\bibitem[Bilen et~al.(2016)Bilen, Fernando, Gavves, Vedaldi, and
+  Gould]{bilen2016dynamic}
+H.~Bilen, B.~Fernando, E.~Gavves, A.~Vedaldi, and S.~Gould.
+\newblock Dynamic image networks for action recognition.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 3034--3042, 2016.
+
+\bibitem[Bishop(2006)]{Bishop2006PatternRA}
+C.~M. Bishop.
+\newblock Pattern recognition and machine learning (information science and
+  statistics), 2006.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:268095720}.
+
+\bibitem[Black et~al.(2023)Black, Nakamoto, Atreya, Walke, Finn, Kumar, and
+  Levine]{Black2023ZeroShotRM}
+K.~Black, M.~Nakamoto, P.~Atreya, H.~R. Walke, C.~Finn, A.~Kumar, and
+  S.~Levine.
+\newblock Zero-shot robotic manipulation with pretrained image-editing
+  diffusion models.
+\newblock \emph{ArXiv}, abs/2310.10639, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:264172455}.
+
+\bibitem[Black et~al.(2024)Black, Brown, Driess, Esmail, Equi, Finn, Fusai,
+  Groom, Hausman, Ichter, Jakubczak, Jones, Ke, Levine, Li-Bell, Mothukuri,
+  Nair, Pertsch, Shi, Tanner, Vuong, Walling, Wang, and
+  Zhilinsky]{Black20240AV}
+K.~Black, N.~Brown, D.~Driess, A.~Esmail, M.~Equi, C.~Finn, N.~Fusai, L.~Groom,
+  K.~Hausman, B.~Ichter, S.~Jakubczak, T.~Jones, L.~Ke, S.~Levine, A.~Li-Bell,
+  M.~Mothukuri, S.~Nair, K.~Pertsch, L.~X. Shi, J.~Tanner, Q.~Vuong,
+  A.~Walling, H.~Wang, and U.~Zhilinsky.
+\newblock $\pi$0: A vision-language-action flow model for general robot
+  control.
+\newblock \emph{ArXiv}, abs/2410.24164, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:273811174}.
+
+\bibitem[Brattoli et~al.(2020{\natexlab{a}})Brattoli, Tighe, Zhdanov, Perona,
+  and Chalupka]{brattoli2020e2e}
+B.~Brattoli, J.~Tighe, F.~Zhdanov, P.~Perona, and K.~Chalupka.
+\newblock {Rethinking Zero-shot Video Classification: End-to-end Training for
+  Realistic Applications}.
+\newblock In \emph{CVPR}, pages 4613--4623, 2020{\natexlab{a}}.
+
+\bibitem[Brattoli et~al.(2020{\natexlab{b}})Brattoli, Tighe, Zhdanov, Perona,
+  and Chalupka]{brattoli2020rethinking}
+B.~Brattoli, J.~Tighe, F.~Zhdanov, P.~Perona, and K.~Chalupka.
+\newblock Rethinking zero-shot video classification: End-to-end training for
+  realistic applications.
+\newblock In \emph{CVPR}, 2020{\natexlab{b}}.
+
+\bibitem[Brohan et~al.(2023{\natexlab{a}})Brohan, Brown, Carbajal, Chebotar,
+  Chen, Choromanski, Ding, Driess, Dubey, Finn, et~al.]{rt2}
+A.~Brohan, N.~Brown, J.~Carbajal, Y.~Chebotar, X.~Chen, K.~Choromanski,
+  T.~Ding, D.~Driess, A.~Dubey, C.~Finn, et~al.
+\newblock Rt-2: Vision-language-action models transfer web knowledge to robotic
+  control.
+\newblock \emph{arXiv preprint arXiv:2307.15818}, 2023{\natexlab{a}}.
+
+\bibitem[Brohan et~al.(2023{\natexlab{b}})Brohan, Brown, Carbajal, Chebotar,
+  Dabis, Finn, Gopalakrishnan, Hausman, Herzog, Hsu, Ibarz, Ichter, Irpan,
+  Jackson, Jesmonth, Joshi, Julian, Kalashnikov, Kuang, Leal, Lee, Levine, Lu,
+  Malla, Manjunath, Mordatch, Nachum, Parada, Peralta, Perez, Pertsch,
+  Quiambao, Rao, Ryoo, Salazar, Sanketi, Sayed, Singh, Sontakke, Stone, Tan,
+  Tran, Vanhoucke, Vega, Vuong, Xia, Xiao, Xu, Xu, Yu, and Zitkovich]{rt1}
+A.~Brohan, N.~Brown, J.~Carbajal, Y.~Chebotar, J.~Dabis, C.~Finn,
+  K.~Gopalakrishnan, K.~Hausman, A.~Herzog, J.~Hsu, J.~Ibarz, B.~Ichter,
+  A.~Irpan, T.~Jackson, S.~Jesmonth, N.~J. Joshi, R.~Julian, D.~Kalashnikov,
+  Y.~Kuang, I.~Leal, K.-H. Lee, S.~Levine, Y.~Lu, U.~Malla, D.~Manjunath,
+  I.~Mordatch, O.~Nachum, C.~Parada, J.~Peralta, E.~Perez, K.~Pertsch,
+  J.~Quiambao, K.~Rao, M.~S. Ryoo, G.~Salazar, P.~Sanketi, K.~Sayed, J.~Singh,
+  S.~Sontakke, A.~Stone, C.~Tan, H.~Tran, V.~Vanhoucke, S.~Vega, Q.~Vuong,
+  F.~Xia, T.~Xiao, P.~Xu, S.~Xu, T.~Yu, and B.~Zitkovich.
+\newblock Rt-1: Robotics transformer for real-world control at scale.
+\newblock \emph{Robotics science and systems (RSS)}, 2023{\natexlab{b}}.
+
+\bibitem[Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
+  Neelakantan, Shyam, Sastry, Askell, Agarwal, Herbert-Voss, Krueger, Henighan,
+  Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess,
+  Clark, Berner, McCandlish, Radford, Sutskever, and Amodei]{brown2020language}
+T.~B. Brown, B.~Mann, N.~Ryder, M.~Subbiah, J.~Kaplan, P.~Dhariwal,
+  A.~Neelakantan, P.~Shyam, G.~Sastry, A.~Askell, S.~Agarwal, A.~Herbert-Voss,
+  G.~Krueger, T.~Henighan, R.~Child, A.~Ramesh, D.~M. Ziegler, J.~Wu,
+  C.~Winter, C.~Hesse, M.~Chen, E.~Sigler, M.~Litwin, S.~Gray, B.~Chess,
+  J.~Clark, C.~Berner, S.~McCandlish, A.~Radford, I.~Sutskever, and D.~Amodei.
+\newblock Language models are few-shot learners, 2020.
+
+\bibitem[Buch et~al.(2022)Buch, Eyzaguirre, Gaidon, Wu, Fei-Fei, and
+  Niebles]{Buch2022RevisitingT}
+S.~Buch, C.~Eyzaguirre, A.~Gaidon, J.~Wu, L.~Fei-Fei, and J.~C. Niebles.
+\newblock Revisiting the “video” in video-language understanding.
+\newblock \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 2907--2917, 2022.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:249375461}.
+
+\bibitem[Carion et~al.(2020)Carion, Massa, Synnaeve, Usunier, Kirillov, and
+  Zagoruyko]{carion2020detr}
+N.~Carion, F.~Massa, G.~Synnaeve, N.~Usunier, A.~Kirillov, and S.~Zagoruyko.
+\newblock End-to-end object detection with transformers.
+\newblock In \emph{Computer Vision--ECCV 2020: 16th European Conference,
+  Glasgow, UK, August 23--28, 2020, Proceedings, Part I 16}, pages 213--229.
+  Springer, 2020.
+
+\bibitem[Caron et~al.(2021)Caron, Touvron, Misra, J\'egou, Mairal, Bojanowski,
+  and Joulin]{caron2021emerging}
+M.~Caron, H.~Touvron, I.~Misra, H.~J\'egou, J.~Mairal, P.~Bojanowski, and
+  A.~Joulin.
+\newblock Emerging properties in self-supervised vision transformers.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Carreira and Zisserman(2017)]{kinetics400}
+J.~Carreira and A.~Zisserman.
+\newblock Quo vadis, action recognition? {A} new model and the {Kinetics}
+  dataset.
+\newblock In \emph{CVPR}, 2017.
+
+\bibitem[Cer et~al.(2018)Cer, Yang, yi~Kong, Hua, Limtiaco, John, Constant,
+  Guajardo-Cespedes, Yuan, Tar, Sung, Strope, and Kurzweil]{Cer2018UniversalSE}
+D.~M. Cer, Y.~Yang, S.~yi~Kong, N.~Hua, N.~Limtiaco, R.~S. John, N.~Constant,
+  M.~Guajardo-Cespedes, S.~Yuan, C.~Tar, Y.-H. Sung, B.~Strope, and
+  R.~Kurzweil.
+\newblock Universal sentence encoder.
+\newblock \emph{ArXiv}, 2018.
+
+\bibitem[Changpinyo et~al.(2021)Changpinyo, Sharma, Ding, and
+  Soricut]{Changpinyo2021Conceptual1P}
+S.~Changpinyo, P.~K. Sharma, N.~Ding, and R.~Soricut.
+\newblock Conceptual 12m: Pushing web-scale image-text pre-training to
+  recognize long-tail visual concepts.
+\newblock \emph{2021 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 3557--3567, 2021.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:231951742}.
+
+\bibitem[Chen et~al.(2021{\natexlab{a}})Chen, Nair, and Finn]{chen2021learning}
+A.~S. Chen, S.~Nair, and C.~Finn.
+\newblock {Learning Generalizable Robotic Reward Functions from "In-The-Wild"
+  Human Videos}.
+\newblock In \emph{Robotics: Science and Systems}, 2021{\natexlab{a}}.
+
+\bibitem[Chen et~al.(2023{\natexlab{a}})Chen, Zhang, Zeng, Zhang, Zhu, and
+  Zhao]{chen2023shikra}
+K.~Chen, Z.~Zhang, W.~Zeng, R.~Zhang, F.~Zhu, and R.~Zhao.
+\newblock Shikra: Unleashing multimodal llm's referential dialogue magic.
+\newblock \emph{arXiv preprint arXiv:2306.15195}, 2023{\natexlab{a}}.
+
+\bibitem[Chen et~al.(2021{\natexlab{b}})Chen, Huang, He, Long, Zeng, Wen, Tan,
+  and Gan]{chen2021rspnet}
+P.~Chen, D.~Huang, D.~He, X.~Long, R.~Zeng, S.~Wen, M.~Tan, and C.~Gan.
+\newblock Rspnet: Relative speed perception for unsupervised video
+  representation learning.
+\newblock In \emph{AAAI}, volume~1, 2021{\natexlab{b}}.
+
+\bibitem[Chen and Huang(2021)]{chen2021erzsar}
+S.~Chen and D.~Huang.
+\newblock {Elaborative Rehearsal for Zero-shot Action Recognition}.
+\newblock In \emph{ICCV}, pages 13638--13647, 2021.
+
+\bibitem[Chen et~al.(2022)Chen, Sun, Song, and Luo]{chen2022diffusiondet}
+S.~Chen, P.~Sun, Y.~Song, and P.~Luo.
+\newblock Diffusiondet: Diffusion model for object detection.
+\newblock \emph{arXiv preprint arXiv:2211.09788}, 2022.
+
+\bibitem[Chen et~al.(2021{\natexlab{c}})Chen, Saxena, Li, Fleet, and
+  Hinton]{chen2021pix2seq}
+T.~Chen, S.~Saxena, L.~Li, D.~J. Fleet, and G.~Hinton.
+\newblock Pix2seq: A language modeling framework for object detection.
+\newblock \emph{arXiv preprint arXiv:2109.10852}, 2021{\natexlab{c}}.
+
+\bibitem[Chen et~al.(2023{\natexlab{b}})Chen, Li, Li, Wang, Wang, and
+  Qian]{chen2023moddm}
+X.~Chen, Y.~Li, Z.~Li, Z.~Wang, L.~Wang, and C.~Qian.
+\newblock Moddm: Text-to-motion synthesis using discrete diffusion model.
+\newblock \emph{arXiv preprint arXiv:2308.06240}, 2023{\natexlab{b}}.
+
+\bibitem[Cheng et~al.(2022)Cheng, Wang, Lei, Crandall, Bansal, and
+  Bertasius]{cheng2022vindlu}
+F.~Cheng, X.~Wang, J.~Lei, D.~Crandall, M.~Bansal, and G.~Bertasius.
+\newblock {VindLU: A Recipe for Effective Video-and-Language Pretraining}.
+\newblock \emph{arXiv preprint arXiv:2212.05051}, 2022.
+
+\bibitem[Chi et~al.(2023)Chi, Feng, Du, Xu, Cousineau, Burchfiel, and
+  Song]{Chi2023DiffusionPV}
+C.~Chi, S.~Feng, Y.~Du, Z.~Xu, E.~Cousineau, B.~Burchfiel, and S.~Song.
+\newblock Diffusion policy: Visuomotor policy learning via action diffusion.
+\newblock \emph{ArXiv}, abs/2303.04137, 2023.
+
+\bibitem[Chiang et~al.(2023)Chiang, Li, Lin, Sheng, Wu, Zhang, Zheng, Zhuang,
+  Zhuang, Gonzalez, Stoica, and Xing]{vicuna2023}
+W.-L. Chiang, Z.~Li, Z.~Lin, Y.~Sheng, Z.~Wu, H.~Zhang, L.~Zheng, S.~Zhuang,
+  Y.~Zhuang, J.~E. Gonzalez, I.~Stoica, and E.~P. Xing.
+\newblock Vicuna: An open-source chatbot impressing gpt-4 with 90\%* chatgpt
+  quality, March 2023.
+\newblock URL \url{https://lmsys.org/blog/2023-03-30-vicuna/}.
+
+\bibitem[Cho et~al.(2023)]{Cho2022DALLEVALPT}
+J.~Cho et~al.
+\newblock Dall-eval: Probing the reasoning skills and social biases of
+  text-to-image generation models.
+\newblock \emph{ICCV}, 2023.
+
+\bibitem[Chowdhery et~al.(2022)Chowdhery, Narang, Devlin, Bosma, Mishra,
+  Roberts, Barham, Chung, Sutton, Gehrmann, et~al.]{chowdhery2022palm}
+A.~Chowdhery, S.~Narang, J.~Devlin, M.~Bosma, G.~Mishra, A.~Roberts, P.~Barham,
+  H.~W. Chung, C.~Sutton, S.~Gehrmann, et~al.
+\newblock Palm: Scaling language modeling with pathways.
+\newblock \emph{arXiv preprint arXiv:2204.02311}, 2022.
+
+\bibitem[Creswell and Shanahan(2022)]{Creswell2022FaithfulRU}
+A.~Creswell and M.~Shanahan.
+\newblock Faithful reasoning using large language models.
+\newblock \emph{ArXiv}, abs/2208.14271, 2022.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:251929296}.
+
+\bibitem[Cui et~al.(2022)Cui, Zhao, Liang, Li, and Shao]{cui2022democratizing}
+Y.~Cui, L.~Zhao, F.~Liang, Y.~Li, and J.~Shao.
+\newblock Democratizing contrastive language-image pre-training: A clip
+  benchmark of data, model, and supervision.
+\newblock \emph{arXiv preprint arXiv:2203.05796}, 2022.
+
+\bibitem[Dai et~al.(2023)Dai, Li, Li, Tiong, Zhao, Wang, Li, Fung, and
+  Hoi]{dai2023instructblip}
+W.~Dai, J.~Li, D.~Li, A.~M.~H. Tiong, J.~Zhao, W.~Wang, B.~Li, P.~Fung, and
+  S.~Hoi.
+\newblock Instructblip: Towards general-purpose vision-language models with
+  instruction tuning.
+\newblock \emph{arXiv preprint arXiv:2305.06500}, 2023.
+
+\bibitem[Dave et~al.(2021)Dave, Gupta, Rizve, and Shah]{Dave2021TCLRTC}
+I.~R. Dave, R.~Gupta, M.~N. Rizve, and M.~Shah.
+\newblock {TCLR}: Temporal contrastive learning for video representation.
+\newblock \emph{Arxiv}, 2021.
+
+\bibitem[Davis and Bobick(1997)]{davis1997mei}
+J.~Davis and A.~Bobick.
+\newblock The representation and recognition of action using temporal
+  templates.
+\newblock In \emph{Proceedings of the IEEE International Conference on Computer
+  Vision}, pages 2736--2744, 1997.
+
+\bibitem[de~Croon et~al.(2021)de~Croon, de~Wagter, and
+  Seidl]{Croon2021EnhancingOC}
+G.~C. de~Croon, C.~de~Wagter, and T.~Seidl.
+\newblock Enhancing optical-flow-based control by learning visual appearance
+  cues for flying robots.
+\newblock \emph{Nature Machine Intelligence}, 3:\penalty0 33 -- 41, 2021.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:231655448}.
+
+\bibitem[Devlin et~al.(2018)Devlin, Chang, Lee, and Toutanova]{devlin2018bert}
+J.~Devlin, M.-W. Chang, K.~Lee, and K.~Toutanova.
+\newblock Bert: Pre-training of deep bidirectional transformers for language
+  understanding.
+\newblock \emph{Arxiv}, 2018.
+
+\bibitem[Devon et~al.(2020)]{hjelm2020representation}
+R.~Devon et~al.
+\newblock Representation learning with video deep infomax.
+\newblock \emph{Arxiv}, 2020.
+
+\bibitem[Dhariwal and Nichol(2021)]{dhariwal2021diffusion}
+P.~Dhariwal and A.~Nichol.
+\newblock {Diffusion Models Beat GANs on Image Synthesis}.
+\newblock In \emph{Neural Information Processing Systems}, 2021.
+
+\bibitem[Diba et~al.(2021)Diba, Sharma, Safdari, Lotfi, Sarfraz, Stiefelhagen,
+  and Van~Gool]{Diba_2021_ICCV}
+A.~Diba, V.~Sharma, R.~Safdari, D.~Lotfi, S.~Sarfraz, R.~Stiefelhagen, and
+  L.~Van~Gool.
+\newblock Vi2clr: Video and image for visual contrastive learning of
+  representation.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Ding et~al.(2021)Ding, Xue, Xia, and Dai]{Ding2021DecouplingZS}
+J.~Ding, N.~Xue, G.~Xia, and D.~Dai.
+\newblock Decoupling zero-shot semantic segmentation.
+\newblock \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 11573--11582, 2021.
+
+\bibitem[Dosovitskiy et~al.(2021)Dosovitskiy, Beyer, Kolesnikov, Weissenborn,
+  Zhai, Unterthiner, Dehghani, Minderer, Heigold, Gelly,
+  et~al.]{dosovitskiy2020image}
+A.~Dosovitskiy, L.~Beyer, A.~Kolesnikov, D.~Weissenborn, X.~Zhai,
+  T.~Unterthiner, M.~Dehghani, M.~Minderer, G.~Heigold, S.~Gelly, et~al.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale.
+\newblock \emph{ICLR}, 2021.
+
+\bibitem[Dou et~al.(2022)Dou, Kamath, Gan, Zhang, Wang, Li, Liu, Liu, LeCun,
+  Peng, Gao, and Wang]{Dou2022CoarsetoFineVP}
+Z.-Y. Dou, A.~Kamath, Z.~Gan, P.~Zhang, J.~Wang, L.~Li, Z.~Liu, C.~Liu,
+  Y.~LeCun, N.~Peng, J.~Gao, and L.~Wang.
+\newblock Coarse-to-fine vision-language pre-training with fusion in the
+  backbone.
+\newblock \emph{ArXiv}, abs/2206.07643, 2022.
+
+\bibitem[Driess et~al.(2023)Driess, Xia, Sajjadi, Lynch, Chowdhery, Ichter,
+  Wahid, Tompson, Vuong, Yu, et~al.]{driess2023palm}
+D.~Driess, F.~Xia, M.~S. Sajjadi, C.~Lynch, A.~Chowdhery, B.~Ichter, A.~Wahid,
+  J.~Tompson, Q.~Vuong, T.~Yu, et~al.
+\newblock {PaLM-E}: An embodied multimodal language model.
+\newblock \emph{arXiv preprint arXiv:2303.03378}, 2023.
+
+\bibitem[Du et~al.(2023{\natexlab{a}})Du, Durkan, Strudel, Tenenbaum, Dieleman,
+  Fergus, Sohl-Dickstein, Doucet, and Grathwohl]{du2023reduce}
+Y.~Du, C.~Durkan, R.~Strudel, J.~B. Tenenbaum, S.~Dieleman, R.~Fergus,
+  J.~Sohl-Dickstein, A.~Doucet, and W.~Grathwohl.
+\newblock {Reduce, Reuse, Recycle: Compositional Generation with Energy-Based
+  Diffusion Models and MCMC}.
+\newblock In \emph{International Conference on Machine Learning},
+  2023{\natexlab{a}}.
+
+\bibitem[Du et~al.(2023{\natexlab{b}})Du, Yang, Dai, Dai, Nachum, Tenenbaum,
+  Schuurmans, and Abbeel]{du2023learning}
+Y.~Du, M.~Yang, B.~Dai, H.~Dai, O.~Nachum, J.~B. Tenenbaum, D.~Schuurmans, and
+  P.~Abbeel.
+\newblock {Learning Universal Policies via Text-Guided Video Generation}.
+\newblock \emph{arXiv:2302.00111}, 2023{\natexlab{b}}.
+
+\bibitem[Feichtenhofer et~al.(2021)Feichtenhofer, Fan, Xiong, Girshick, and
+  He]{Feichtenhofer_large}
+C.~Feichtenhofer, H.~Fan, B.~Xiong, R.~Girshick, and K.~He.
+\newblock A large-scale study on unsupervised spatiotemporal representation
+  learning.
+\newblock \emph{Arxiv}, 2021.
+
+\bibitem[Fellbaum(2005)]{fellbaum2005wordnet}
+C.~Fellbaum.
+\newblock Wordnet and wordnets.
+\newblock In K.~Brown et~al., editors, \emph{Encyclopedia of Language \&
+  Linguistics}, pages 665--670. Elsevier, 2nd edition, 2005.
+
+\bibitem[Finn and Levine(2017)]{finn2017deep}
+C.~Finn and S.~Levine.
+\newblock {Deep Visual Foresight for Planning Robot Motion}.
+\newblock In \emph{IEEE International Conference on Robotics and Automation},
+  2017.
+
+\bibitem[Fu et~al.(2022)Fu, Li, Gan, Lin, Wang, Wang, and Liu]{violet}
+T.-J. Fu, L.~Li, Z.~Gan, K.~Lin, W.~Y. Wang, L.~Wang, and Z.~Liu.
+\newblock An empirical study of end-to-end video-language transformers with
+  masked visual modeling.
+\newblock \emph{arXiv preprint arXiv:2209.01540}, 2022.
+
+\bibitem[Gao et~al.(2019{\natexlab{a}})Gao, Zhang, and Xu]{gao2019know}
+J.~Gao, T.~Zhang, and C.~Xu.
+\newblock I know the relationships: Zero-shot action recognition via two-stream
+  graph convolutional networks and knowledge graphs.
+\newblock In \emph{AAAI}, 2019{\natexlab{a}}.
+
+\bibitem[Gao et~al.(2019{\natexlab{b}})Gao, Zhang, and Xu]{gao2019tsgcn}
+J.~Gao, T.~Zhang, and C.~Xu.
+\newblock {I Know the Relationships: Zero-Shot Action Recognition via
+  Two-Stream Graph Convolutional Networks and Knowledge Graphs}.
+\newblock In \emph{AAAI}, pages 8303--8311, 2019{\natexlab{b}}.
+
+\bibitem[Gao et~al.(2020)Gao, Zhang, and Xu]{gao2020learning}
+J.~Gao, T.~Zhang, and C.~Xu.
+\newblock Learning to model relationships for zero-shot video classification.
+\newblock \emph{TPAMI}, 2020.
+
+\bibitem[Ge et~al.(2022)Ge, Hayes, Yang, Yin, Pang, Jacobs, Huang, and
+  Parikh]{ge2022long}
+S.~Ge, T.~Hayes, H.~Yang, X.~Yin, G.~Pang, D.~Jacobs, J.-B. Huang, and
+  D.~Parikh.
+\newblock Long video generation with time-agnostic vqgan and time-sensitive
+  transformer, 2022.
+
+\bibitem[Ghiasi et~al.(2022)Ghiasi, Gu, Cui, and Lin]{ghiasi2022open}
+G.~Ghiasi, X.~Gu, Y.~Cui, and T.-Y. Lin.
+\newblock Open-vocabulary image segmentation.
+\newblock In \emph{ECCV}, 2022.
+
+\bibitem[Girshick(2015)]{girshick2015fastrcnn}
+R.~Girshick.
+\newblock Fast r-cnn.
+\newblock In \emph{Proceedings of the IEEE international conference on computer
+  vision}, pages 1440--1448, 2015.
+
+\bibitem[Gokhale et~al.(2022)]{Gokhale2022BenchmarkingSR}
+Gokhale et~al.
+\newblock Benchmarking spatial relationships in text-to-image generation, 2022.
+
+\bibitem[Goroshin et~al.(2015)Goroshin, Bruna, Tompson, Eigen, and
+  LeCun]{Goroshin_2015_ICCV}
+R.~Goroshin, J.~Bruna, J.~Tompson, D.~Eigen, and Y.~LeCun.
+\newblock Unsupervised learning of spatiotemporally coherent metrics.
+\newblock In \emph{ICCV}, 2015.
+
+\bibitem[G{\"o}tz(1968)]{Gtz1968FlightCI}
+K.~G. G{\"o}tz.
+\newblock Flight control in drosophila by visual perception of motion.
+\newblock \emph{Kybernetik}, 4:\penalty0 199--208, 1968.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:24070951}.
+
+\bibitem[Goyal et~al.(2017)Goyal, Kahou, Michalski, Materzynska, Westphal, Kim,
+  Haenel, Fr{\"u}nd, Yianilos, Mueller-Freitag, Hoppe, Thurau, Bax, and
+  Memisevic]{Goyal2017TheS}
+R.~Goyal, S.~E. Kahou, V.~Michalski, J.~Materzynska, S.~Westphal, H.~Kim,
+  V.~Haenel, I.~Fr{\"u}nd, P.~N. Yianilos, M.~Mueller-Freitag, F.~Hoppe,
+  C.~Thurau, I.~Bax, and R.~Memisevic.
+\newblock The “something something” video database for learning and
+  evaluating visual common sense.
+\newblock \emph{2017 IEEE International Conference on Computer Vision (ICCV)},
+  pages 5843--5851, 2017.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:834612}.
+
+\bibitem[Grill et~al.(2020)Grill, Strub, Altch{\'e}, Tallec, Richemond,
+  Buchatskaya, Doersch, Pires, Guo, Azar, et~al.]{grill2020bootstrap}
+J.-B. Grill, F.~Strub, F.~Altch{\'e}, C.~Tallec, P.~H. Richemond,
+  E.~Buchatskaya, C.~Doersch, B.~A. Pires, Z.~D. Guo, M.~G. Azar, et~al.
+\newblock Bootstrap your own latent: A new approach to self-supervised
+  learning.
+\newblock In \emph{NeurIPS}, 2020.
+
+\bibitem[Gu et~al.(2021)Gu, Lin, Kuo, and Cui]{gu2021vild}
+X.~Gu, T.-Y. Lin, W.~Kuo, and Y.~Cui.
+\newblock {Open-vocabulary Object Detection via Vision and Language Knowledge
+  Distillation}.
+\newblock \emph{ICLR}, 2021.
+
+\bibitem[Gu et~al.(2023)Gu, Wen, Song, and Gao]{Gu2023SeerLI}
+X.~Gu, C.~Wen, J.~Song, and Y.~Gao.
+\newblock Seer: Language instructed video prediction with latent diffusion
+  models.
+\newblock \emph{ArXiv}, abs/2303.14897, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:257766959}.
+
+\bibitem[Gupta and Kembhavi(2022)]{Gupta2022VisualPC}
+T.~Gupta and A.~Kembhavi.
+\newblock Visual programming: Compositional visual reasoning without training.
+\newblock \emph{2023 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 14953--14962, 2022.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:253734854}.
+
+\bibitem[Han et~al.(2019)Han, Xie, and Zisserman]{han2019video}
+T.~Han, W.~Xie, and A.~Zisserman.
+\newblock Video representation learning by dense predictive coding.
+\newblock In \emph{ICCV}, 2019.
+
+\bibitem[Han et~al.(2020{\natexlab{a}})Han, Xie, and
+  Zisserman]{Han2020SelfsupervisedCF}
+T.~Han, W.~Xie, and A.~Zisserman.
+\newblock Self-supervised co-training for video representation learning.
+\newblock \emph{ArXiv}, abs/2010.09709, 2020{\natexlab{a}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:224703413}.
+
+\bibitem[Han et~al.(2020{\natexlab{b}})Han, Xie, and Zisserman]{han2020self}
+T.~Han, W.~Xie, and A.~Zisserman.
+\newblock {Self-supervised Co-training for Video Representation Learning}.
+\newblock \emph{NeurIPS}, 33:\penalty0 5679--5690, 2020{\natexlab{b}}.
+
+\bibitem[Hanu et~al.(2022)Hanu, Thewlis, Asano, and Rupprecht]{Hanu2022VTCIV}
+L.~Hanu, J.~Thewlis, Y.~M. Asano, and C.~Rupprecht.
+\newblock Vtc: Improving video-text retrieval with user comments.
+\newblock \emph{ArXiv}, 2022.
+
+\bibitem[Hanu et~al.(2023)Hanu, Vero, and Thewlis]{Hanu2023LanguageAT}
+L.~Hanu, A.~L. Vero, and J.~Thewlis.
+\newblock Language as the medium: Multimodal video classification through text
+  only.
+\newblock \emph{ArXiv}, abs/2309.10783, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:262054213}.
+
+\bibitem[Heilbron et~al.(2015)Heilbron, Escorcia, Ghanem, and
+  Niebles]{Heilbron2015ActivityNetAL}
+F.~C. Heilbron, V.~Escorcia, B.~Ghanem, and J.~C. Niebles.
+\newblock Activitynet: A large-scale video benchmark for human activity
+  understanding.
+\newblock \emph{2015 IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, pages 961--970, 2015.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:1710722}.
+
+\bibitem[Ho et~al.(2020)Ho, Jain, and Abbeel]{ho2020denoising}
+J.~Ho, A.~Jain, and P.~Abbeel.
+\newblock Denoising diffusion probabilistic models.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  33:\penalty0 6840--6851, 2020.
+
+\bibitem[Ho et~al.(2022)Ho, Salimans, Gritsenko, Chan, Norouzi, and
+  Fleet]{ho2022video}
+J.~Ho, T.~Salimans, A.~Gritsenko, W.~Chan, M.~Norouzi, and D.~J. Fleet.
+\newblock {Video Diffusion Models}.
+\newblock In \emph{Neural Information Processing Systems}, 2022.
+
+\bibitem[Hosseini et~al.(2022)Hosseini, Broniatowski, and
+  Diab]{lmappce1_hosseini-etal-2022-knowledge}
+P.~Hosseini, D.~A. Broniatowski, and M.~Diab.
+\newblock Knowledge-augmented language models for cause-effect relation
+  classification.
+\newblock In \emph{Proceedings of the First Workshop on Commonsense
+  Representation and Reasoning (CSRR 2022)}, pages 43--48, Dublin, Ireland, May
+  2022. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2022.csrr-1.6}.
+\newblock URL \url{https://aclanthology.org/2022.csrr-1.6}.
+
+\bibitem[Hsu et~al.(2023)]{Hsu2023WhatsLC}
+J.~Hsu et~al.
+\newblock What's left? concept grounding with logic-enhanced foundation models.
+\newblock \emph{NeurIPS}, 2023.
+
+\bibitem[Hu et~al.(2021)Hu, Shao, Liu, Raj, Savvides, and Shen]{Hu_2021_ICCV}
+K.~Hu, J.~Shao, Y.~Liu, B.~Raj, M.~Savvides, and Z.~Shen.
+\newblock Contrast and order representations for video self-supervised
+  learning.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Hu et~al.(2024{\natexlab{a}})Hu, Guo, Wang, Chen, Wang, Zhang,
+  Sreenath, Lu, and Chen]{Hu2024VideoPP}
+Y.~Hu, Y.~Guo, P.~Wang, X.~Chen, Y.-J. Wang, J.~Zhang, K.~Sreenath, C.~Lu, and
+  J.~Chen.
+\newblock Video prediction policy: A generalist robot policy with predictive
+  visual representations.
+\newblock \emph{ArXiv}, abs/2412.14803, 2024{\natexlab{a}}.
+
+\bibitem[Hu et~al.(2024{\natexlab{b}})Hu, Zhang, Song, Deng, Yu, Zhang, Lin,
+  Zou, and Yu]{Hu2024SeeingTP}
+Y.~Hu, Y.~Zhang, Y.~Song, Y.~Deng, F.~Yu, L.~Zhang, W.~Lin, D.~Zou, and W.~Yu.
+\newblock Seeing through pixel motion: Learning obstacle avoidance from optical
+  flow with one camera.
+\newblock \emph{ArXiv}, abs/2411.04413, 2024{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:273877940}.
+
+\bibitem[Huang et~al.(2021)Huang, Wu, Hu, Liu, He, Wu, Wu, Tan, and
+  Ding]{Huang_2021_ICCV}
+D.~Huang, W.~Wu, W.~Hu, X.~Liu, D.~He, Z.~Wu, X.~Wu, M.~Tan, and E.~Ding.
+\newblock Ascnet: Self-supervised video representation learning with
+  appearance-speed consistency.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Huang et~al.(2024)Huang, Wang, Li, Zhang, and Li]{Huang2024ReKepSR}
+W.~Huang, C.~Wang, Y.~Li, R.~Zhang, and F.-F. Li.
+\newblock Rekep: Spatio-temporal reasoning of relational keypoint constraints
+  for robotic manipulation.
+\newblock \emph{ArXiv}, 2024.
+
+\bibitem[Hudson and Manning(2019)]{Hudson2019GQAAN}
+D.~A. Hudson and C.~D. Manning.
+\newblock Gqa: A new dataset for real-world visual reasoning and compositional
+  question answering.
+\newblock \emph{2019 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 6693--6702, 2019.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:152282269}.
+
+\bibitem[Intelligence et~al.(2025)Intelligence, Black, Brown, Darpinian,
+  Dhabalia, Driess, Esmail, Equi, Finn, Fusai, Galliker, Ghosh, Groom, Hausman,
+  Ichter, Jakubczak, Jones, Ke, LeBlanc, Levine, Li-Bell, Mothukuri, Nair,
+  Pertsch, Ren, Shi, Smith, Springenberg, Stachowicz, Tanner, Vuong, Walke,
+  Walling, Wang, Yu, and Zhilinsky]{Intelligence2025pi05}
+P.~Intelligence, K.~Black, N.~Brown, J.~Darpinian, K.~Dhabalia, D.~Driess,
+  A.~Esmail, M.~Equi, C.~Finn, N.~Fusai, M.~Y. Galliker, D.~Ghosh, L.~Groom,
+  K.~Hausman, B.~Ichter, S.~Jakubczak, T.~Jones, L.~Ke, D.~LeBlanc, S.~Levine,
+  A.~Li-Bell, M.~Mothukuri, S.~Nair, K.~Pertsch, A.~Z. Ren, L.~X. Shi,
+  L.~Smith, J.~T. Springenberg, K.~Stachowicz, J.~Tanner, Q.~Vuong, H.~R.
+  Walke, A.~Walling, H.~Wang, L.~Yu, and U.~Zhilinsky.
+\newblock $\pi$0.5: a vision-language-action model with open-world
+  generalization, 2025.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:277993634}.
+
+\bibitem[Isola et~al.(2016)Isola, Zoran, Krishnan, and
+  Adelson]{DBLP:journals/corr/IsolaZKA15}
+P.~Isola, D.~Zoran, D.~Krishnan, and E.~H. Adelson.
+\newblock Learning visual groups from co-occurrences in space and time.
+\newblock In \emph{ICLR}, 2016.
+
+\bibitem[Jain et~al.(2015)Jain, Van~Gemert, Mensink, and
+  Snoek]{jain2015objects2action}
+M.~Jain, J.~C. Van~Gemert, T.~Mensink, and C.~G. Snoek.
+\newblock Objects2action: Classifying and localizing actions without any video
+  example.
+\newblock In \emph{ICCV}, 2015.
+
+\bibitem[Janner et~al.(2022)Janner, Du, Tenenbaum, and
+  Levine]{janner2022diffuser}
+M.~Janner, Y.~Du, J.~B. Tenenbaum, and S.~Levine.
+\newblock {Planning with Diffusion for Flexible Behavior Synthesis}.
+\newblock In \emph{International Conference on Machine Learning}, 2022.
+
+\bibitem[Jeong et~al.(2025)Jeong, Chun, Cha, and Kim]{Jeong2025ObjectCentricWM}
+Y.~Jeong, J.~Chun, S.~Cha, and T.~Kim.
+\newblock Object-centric world model for language-guided manipulation.
+\newblock \emph{ArXiv}, abs/2503.06170, 2025.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:276903201}.
+
+\bibitem[Jia et~al.(2021{\natexlab{a}})Jia, Yang, Xia, Chen, Parekh, Pham, Le,
+  Sung, Li, and Duerig]{jia2021align}
+C.~Jia, Y.~Yang, Y.~Xia, Y.-T. Chen, Z.~Parekh, H.~Pham, Q.~Le, Y.-H. Sung,
+  Z.~Li, and T.~Duerig.
+\newblock {Scaling Up Visual and Vision-Language Representation Learning With
+  Noisy Text Supervision}.
+\newblock In \emph{ICML}, pages 4904--4916. PMLR, 2021{\natexlab{a}}.
+
+\bibitem[Jia et~al.(2021{\natexlab{b}})Jia, Yang, Xia, Chen, Parekh, Pham, Le,
+  Sung, Li, and Duerig]{Jia2021ScalingUV}
+C.~Jia, Y.~Yang, Y.~Xia, Y.-T. Chen, Z.~Parekh, H.~Pham, Q.~V. Le, Y.-H. Sung,
+  Z.~Li, and T.~Duerig.
+\newblock Scaling up visual and vision-language representation learning with
+  noisy text supervision.
+\newblock In \emph{International Conference on Machine Learning},
+  2021{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:231879586}.
+
+\bibitem[Jiang et~al.(2023)Jiang, Sablayrolles, Mensch, Bamford, Chaplot,
+  de~Las~Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock,
+  Scao, Lavril, Wang, Lacroix, and Sayed]{Jiang2023Mistral7}
+A.~Q. Jiang, A.~Sablayrolles, A.~Mensch, C.~Bamford, D.~S. Chaplot,
+  D.~de~Las~Casas, F.~Bressand, G.~Lengyel, G.~Lample, L.~Saulnier, L.~R.
+  Lavaud, M.-A. Lachaux, P.~Stock, T.~L. Scao, T.~Lavril, T.~Wang, T.~Lacroix,
+  and W.~E. Sayed.
+\newblock Mistral 7b.
+\newblock \emph{ArXiv}, abs/2310.06825, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:263830494}.
+
+\bibitem[Ju et~al.(2022)Ju, Han, Zheng, Zhang, and Xie]{ju2022prompting}
+C.~Ju, T.~Han, K.~Zheng, Y.~Zhang, and W.~Xie.
+\newblock {Prompting Visual-Language Models for Efficient Video Understanding}.
+\newblock In \emph{ECCV}, pages 105--124. Springer, 2022.
+
+\bibitem[Kahana et~al.(2022)Kahana, Cohen, and Hoshen]{Kahana2022ImprovingZM}
+J.~Kahana, N.~Cohen, and Y.~Hoshen.
+\newblock Improving zero-shot models with label distribution priors.
+\newblock \emph{ArXiv}, abs/2212.00784, 2022.
+
+\bibitem[Kahatapitiya et~al.(2023)Kahatapitiya, Arnab, Nagrani, and
+  Ryoo]{Kahatapitiya2023VicTRVT}
+K.~Kahatapitiya, A.~Arnab, A.~Nagrani, and M.~S. Ryoo.
+\newblock Victr: Video-conditioned text representations for activity
+  recognition.
+\newblock \emph{ArXiv}, abs/2304.02560, 2023.
+
+\bibitem[Kahatapitiya et~al.(2024)Kahatapitiya, Ranasinghe, Park, and
+  Ryoo]{Kahatapitiya2024}
+K.~Kahatapitiya, K.~Ranasinghe, J.~Park, and M.~S. Ryoo.
+\newblock Language repository for long video understanding.
+\newblock \emph{ArXiv}, 2024.
+
+\bibitem[Kahneman(2011)]{Kahneman2011ThinkingFA}
+D.~Kahneman.
+\newblock Thinking, fast and slow, 2011.
+
+\bibitem[Kamath et~al.(2021)Kamath, Singh, LeCun, Synnaeve, Misra, and
+  Carion]{kamath2021mdetr}
+A.~Kamath, M.~Singh, Y.~LeCun, G.~Synnaeve, I.~Misra, and N.~Carion.
+\newblock Mdetr-modulated detection for end-to-end multi-modal understanding.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 1780--1790, 2021.
+
+\bibitem[Kamath et~al.(2023)]{Kamath2023WhatsW}
+A.~Kamath et~al.
+\newblock What's "up" with vision-language models? investigating their struggle
+  with spatial reasoning.
+\newblock \emph{EMNLP}, 2023.
+
+\bibitem[Kazemzadeh et~al.(2014)Kazemzadeh, Ordonez, Matten, and
+  Berg]{kazemzadeh2014referitgame}
+S.~Kazemzadeh, V.~Ordonez, M.~Matten, and T.~Berg.
+\newblock Referitgame: Referring to objects in photographs of natural scenes.
+\newblock In \emph{Proceedings of the 2014 conference on empirical methods in
+  natural language processing (EMNLP)}, pages 787--798, 2014.
+
+\bibitem[Kim et~al.(2024)Kim, Pertsch, Karamcheti, Xiao, Balakrishna, Nair,
+  Rafailov, Foster, Lam, Sanketi, et~al.]{kim2024openvla}
+M.~J. Kim, K.~Pertsch, S.~Karamcheti, T.~Xiao, A.~Balakrishna, S.~Nair,
+  R.~Rafailov, E.~Foster, G.~Lam, P.~Sanketi, et~al.
+\newblock Openvla: An open-source vision-language-action model.
+\newblock \emph{arXiv preprint arXiv:2406.09246}, 2024.
+
+\bibitem[Kim et~al.(2023)Kim, Kim, Lee, and Seo]{kim2023sevit}
+S.~Kim, J.-H. Kim, J.~Lee, and M.~Seo.
+\newblock Semi-parametric video-grounded text generation.
+\newblock \emph{arXiv preprint arXiv:2301.11507}, 2023.
+
+\bibitem[Kingma and Ba(2015)]{kingma15adam}
+D.~P. Kingma and J.~Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock In \emph{ICLR}, 2015.
+
+\bibitem[Ko et~al.(2023{\natexlab{a}})Ko, Lee, Kang, Roh, and
+  Kim]{ko2023llama-vqa}
+D.~Ko, J.~S. Lee, W.~Kang, B.~Roh, and H.~J. Kim.
+\newblock Large language models are temporal and causal reasoners for video
+  question answering.
+\newblock \emph{arXiv preprint arXiv:2310.15747}, 2023{\natexlab{a}}.
+
+\bibitem[Ko et~al.(2023{\natexlab{b}})Ko, Mao, Du, Sun, and
+  Tenenbaum]{Ko2023LearningTA}
+P.-C. Ko, J.~Mao, Y.~Du, S.-H. Sun, and J.~Tenenbaum.
+\newblock Learning to act from actionless videos through dense correspondences.
+\newblock \emph{ArXiv}, abs/2310.08576, 2023{\natexlab{b}}.
+
+\bibitem[Koroglu et~al.(2024)Koroglu, Caselles-Dupr'e, Sanmiguel, and
+  Cord]{Koroglu2024OnlyFlowOF}
+M.~Koroglu, H.~Caselles-Dupr'e, G.~J. Sanmiguel, and M.~Cord.
+\newblock Onlyflow: Optical flow based motion conditioning for video diffusion
+  models, 2024.
+
+\bibitem[Kuehne et~al.(2011)Kuehne, Jhuang, Garrote, Poggio, and
+  Serre]{kuehne2011hmdb}
+H.~Kuehne, H.~Jhuang, E.~Garrote, T.~Poggio, and T.~Serre.
+\newblock {HMDB: A large video database for human motion recognition}.
+\newblock In \emph{ICCV}, pages 2556--2563. IEEE, 2011.
+
+\bibitem[Kumari et~al.(2023)Kumari, Zhang, Zhang, Shechtman, and
+  Zhu]{kumari2023multiconcept}
+N.~Kumari, B.~Zhang, R.~Zhang, E.~Shechtman, and J.-Y. Zhu.
+\newblock Multi-concept customization of text-to-image diffusion, 2023.
+
+\bibitem[Kurutach et~al.(2018)Kurutach, Tamar, Yang, Russell, and
+  Abbeel]{kurutach2018learning}
+T.~Kurutach, A.~Tamar, G.~Yang, S.~J. Russell, and P.~Abbeel.
+\newblock {Learning Plannable Representations with Causal InfoGAN}.
+\newblock In \emph{Neural Information Processing Systems}, 2018.
+
+\bibitem[Kıcıman et~al.(2023)Kıcıman, Ness, Sharma, and
+  Tan]{Kcman2023CausalRA}
+E.~Kıcıman, R.~O. Ness, A.~Sharma, and C.~Tan.
+\newblock Causal reasoning and large language models: Opening a new frontier
+  for causality.
+\newblock \emph{ArXiv}, abs/2305.00050, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:258426662}.
+
+\bibitem[Lai et~al.(2023)Lai, Tian, Chen, Li, Yuan, Liu, and Jia]{lai2023lisa}
+X.~Lai, Z.~Tian, Y.~Chen, Y.~Li, Y.~Yuan, S.~Liu, and J.~Jia.
+\newblock Lisa: Reasoning segmentation via large language model.
+\newblock \emph{arXiv preprint arXiv:2308.00692}, 2023.
+
+\bibitem[Lee and Ryoo(2017)]{lee2017learning}
+J.~Lee and M.~S. Ryoo.
+\newblock {Learning Robot Activities from First-Person Human Videos Using
+  Convolutional Future Regression}.
+\newblock In \emph{CVPRW}, 2017.
+
+\bibitem[Lee et~al.(2020)Lee, Gibson, and Theodorou]{Lee2020AggressivePN}
+K.~Lee, J.~Gibson, and E.~A. Theodorou.
+\newblock Aggressive perception-aware navigation using deep optical flow
+  dynamics and pixelmpc.
+\newblock \emph{IEEE Robotics and Automation Letters}, 5:\penalty0 1207--1214,
+  2020.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:210064565}.
+
+\bibitem[Lei et~al.(2018)Lei, Yu, Bansal, and Berg]{dataset_lei2018tvqa}
+J.~Lei, L.~Yu, M.~Bansal, and T.~Berg.
+\newblock {TVQA}: Localized, compositional video question answering.
+\newblock In \emph{Proceedings of the 2018 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, 2018.
+
+\bibitem[Lei et~al.(2020)Lei, Yu, Berg, and Bansal]{lei-etal-2020-tvqaplus}
+J.~Lei, L.~Yu, T.~Berg, and M.~Bansal.
+\newblock {TVQA}+: Spatio-temporal grounding for video question answering.
+\newblock In \emph{Proceedings of the 58th Annual Meeting of the Association
+  for Computational Linguistics}, pages 8211--8225, Online, July 2020.
+  Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2020.acl-main.730}.
+\newblock URL \url{https://aclanthology.org/2020.acl-main.730}.
+
+\bibitem[Li et~al.(2022{\natexlab{a}})Li, Weinberger, Belongie, Koltun, and
+  Ranftl]{li2022language}
+B.~Li, K.~Q. Weinberger, S.~Belongie, V.~Koltun, and R.~Ranftl.
+\newblock Language-driven semantic segmentation.
+\newblock \emph{ICLR}, 2022{\natexlab{a}}.
+
+\bibitem[Li et~al.(2022{\natexlab{b}})Li, Savarese, and Hoi]{Li2022MaskedUS}
+J.~Li, S.~Savarese, and S.~C.~H. Hoi.
+\newblock Masked unsupervised self-training for zero-shot image classification.
+\newblock \emph{ArXiv}, abs/2206.02967, 2022{\natexlab{b}}.
+
+\bibitem[Li et~al.(2022{\natexlab{c}})Li, Shakhnarovich, and
+  Yeh]{Li2022AdaptingCF}
+J.~Li, G.~Shakhnarovich, and R.~A. Yeh.
+\newblock Adapting clip for phrase localization without further training.
+\newblock \emph{ArXiv}, abs/2204.03647, 2022{\natexlab{c}}.
+
+\bibitem[Li et~al.(2023{\natexlab{a}})Li, Li, Savarese, and Hoi]{li2023blip}
+J.~Li, D.~Li, S.~Savarese, and S.~Hoi.
+\newblock Blip-2: Bootstrapping language-image pre-training with frozen image
+  encoders and large language models.
+\newblock \emph{arXiv preprint arXiv:2301.12597}, 2023{\natexlab{a}}.
+
+\bibitem[Li et~al.(2023{\natexlab{b}})Li, Li, Savarese, and Hoi]{li2023blip2}
+J.~Li, D.~Li, S.~Savarese, and S.~Hoi.
+\newblock Blip-2: Bootstrapping language-image pre-training with frozen image
+  encoders and large language models.
+\newblock \emph{arXiv preprint arXiv:2301.12597}, 2023{\natexlab{b}}.
+
+\bibitem[Li et~al.(2023{\natexlab{c}})Li, He, Wang, Li, Wang, Luo, Wang, Wang,
+  and Qiao]{2023videochat}
+K.~Li, Y.~He, Y.~Wang, Y.~Li, W.~Wang, P.~Luo, Y.~Wang, L.~Wang, and Y.~Qiao.
+\newblock Videochat: Chat-centric video understanding.
+\newblock \emph{arXiv preprint arXiv:2305.06355}, 2023{\natexlab{c}}.
+
+\bibitem[Li et~al.(2023{\natexlab{d}})Li, Wang, He, Li, Wang, Liu, Wang, Xu,
+  Chen, Luo, Wang, and Qiao]{Li2023MVBenchAC}
+K.~Li, Y.~Wang, Y.~He, Y.~Li, Y.~Wang, Y.~Liu, Z.~Wang, J.~Xu, G.~Chen, P.~Luo,
+  L.~Wang, and Y.~Qiao.
+\newblock Mvbench: A comprehensive multi-modal video understanding benchmark.
+\newblock \emph{2024 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 22195--22206, 2023{\natexlab{d}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:265466214}.
+
+\bibitem[Li et~al.(2023{\natexlab{e}})Li, Xu, Dong, Zheng, Liu, Kong, and
+  Sun]{li2023language}
+L.~Li, J.~Xu, Q.~Dong, C.~Zheng, Q.~Liu, L.~Kong, and X.~Sun.
+\newblock Can language models understand physical concepts?,
+  2023{\natexlab{e}}.
+
+\bibitem[Li et~al.(2021)Li, Zhang, Zhang, Yang, Li, Zhong, Wang, Yuan, Zhang,
+  Hwang, Chang, and Gao]{Li2021GroundedLP}
+L.~H. Li, P.~Zhang, H.~Zhang, J.~Yang, C.~Li, Y.~Zhong, L.~Wang, L.~Yuan,
+  L.~Zhang, J.-N. Hwang, K.-W. Chang, and J.~Gao.
+\newblock Grounded language-image pre-training.
+\newblock \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 10955--10965, 2021.
+
+\bibitem[Li et~al.(2024{\natexlab{a}})Li, Mata, Park, Kahatapitiya, Jang,
+  Shang, Ranasinghe, Burgert, Cai, Lee, and Ryoo]{li2024llara}
+X.~Li, C.~Mata, J.~Park, K.~Kahatapitiya, Y.~S. Jang, J.~Shang, K.~Ranasinghe,
+  R.~Burgert, M.~Cai, Y.~J. Lee, and M.~S. Ryoo.
+\newblock Llara: Supercharging robot learning data for vision-language policy.
+\newblock \emph{arXiv preprint arXiv:2406.20095}, 2024{\natexlab{a}}.
+
+\bibitem[Li et~al.(2024{\natexlab{b}})Li, Mata, Park, Kahatapitiya, Jang,
+  Shang, Ranasinghe, Burgert, Cai, Lee, and Ryoo]{Li2024LLaRASR}
+X.~Li, C.~Mata, J.~S. Park, K.~Kahatapitiya, Y.~S. Jang, J.~Shang,
+  K.~Ranasinghe, R.~Burgert, M.~Cai, Y.~J. Lee, and M.~S. Ryoo.
+\newblock Llara: Supercharging robot learning data for vision-language policy.
+\newblock \emph{ArXiv}, abs/2406.20095, 2024{\natexlab{b}}.
+
+\bibitem[Li et~al.(2023{\natexlab{f}})Li, Du, Zhou, Wang, Zhao, and
+  Wen]{li2023evaluating}
+Y.~Li, Y.~Du, K.~Zhou, J.~Wang, W.~X. Zhao, and J.-R. Wen.
+\newblock Evaluating object hallucination in large vision-language models.
+\newblock \emph{arXiv preprint arXiv:2305.10355}, 2023{\natexlab{f}}.
+
+\bibitem[Li et~al.(2023{\natexlab{g}})Li, Wang, and Jia]{Li2023LLaMAVIDAI}
+Y.~Li, C.~Wang, and J.~Jia.
+\newblock Llama-vid: An image is worth 2 tokens in large language models.
+\newblock \emph{ArXiv}, abs/2311.17043, 2023{\natexlab{g}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:265466723}.
+
+\bibitem[Liang et~al.(2024)Liang, Fan, Zhang, Timofte, van Gool, and
+  Ranjan]{Liang2024MoVideoMV}
+J.~Liang, Y.~Fan, K.~Zhang, R.~Timofte, L.~van Gool, and R.~Ranjan.
+\newblock Movideo: Motion-aware video generation with diffusion model.
+\newblock In \emph{European Conference on Computer Vision}, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:273232410}.
+
+\bibitem[Liao et~al.(2024)Liao, Erler, Wang, Zhai, Zhang, Ma, and
+  Tresp]{Liao2024VideoINSTAZL}
+R.~Liao, M.~Erler, H.~Wang, G.~Zhai, G.~Zhang, Y.~Ma, and V.~Tresp.
+\newblock Videoinsta: Zero-shot long video understanding via informative
+  spatial-temporal reasoning with llms, 2024.
+
+\bibitem[Lin et~al.(2023{\natexlab{a}})Lin, Zhu, Ye, Ning, Jin, and
+  Yuan]{Lin2023VideoLLaVALU}
+B.~Lin, B.~Zhu, Y.~Ye, M.~Ning, P.~Jin, and L.~Yuan.
+\newblock Video-llava: Learning united visual representation by alignment
+  before projection.
+\newblock \emph{ArXiv}, abs/2311.10122, 2023{\natexlab{a}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:265281544}.
+
+\bibitem[Lin et~al.(2014)Lin, Maire, Belongie, Hays, Perona, Ramanan,
+  Doll{\'a}r, and Zitnick]{lin2014microsoft}
+T.-Y. Lin, M.~Maire, S.~Belongie, J.~Hays, P.~Perona, D.~Ramanan,
+  P.~Doll{\'a}r, and C.~L. Zitnick.
+\newblock Microsoft coco: Common objects in context.
+\newblock In \emph{Computer Vision--ECCV 2014: 13th European Conference,
+  Zurich, Switzerland, September 6-12, 2014, Proceedings, Part V 13}, pages
+  740--755. Springer, 2014.
+
+\bibitem[Lin et~al.(2023{\natexlab{b}})Lin, Karlinsky, Shvetsova, Possegger,
+  Kozinski, Panda, Feris, Kuehne, and Bischof]{lin2023match}
+W.~Lin, L.~Karlinsky, N.~Shvetsova, H.~Possegger, M.~Kozinski, R.~Panda,
+  R.~Feris, H.~Kuehne, and H.~Bischof.
+\newblock Match, expand and improve: Unsupervised finetuning for zero-shot
+  action recognition with language knowledge, 2023{\natexlab{b}}.
+
+\bibitem[Lin et~al.(2023{\natexlab{c}})Lin, Karlinsky, Shvetsova, Possegger,
+  Koziński, Panda, Feris, Kuehne, and Bischof]{Lin2023MAtchEA}
+W.~Lin, L.~Karlinsky, N.~Shvetsova, H.~Possegger, M.~Koziński, R.~Panda, R.~S.
+  Feris, H.~Kuehne, and H.~Bischof.
+\newblock Match, expand and improve: Unsupervised finetuning for zero-shot
+  action recognition with language knowledge.
+\newblock \emph{ArXiv}, abs/2303.08914, 2023{\natexlab{c}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:257557275}.
+
+\bibitem[Lin et~al.(2021)Lin, Guo, and Lu]{Lin_2021_ICCV}
+Y.~Lin, X.~Guo, and Y.~Lu.
+\newblock Self-supervised video representation learning with meta-contrastive
+  network.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Lin et~al.(2022)Lin, Geng, Zhang, Gao, de~Melo, Wang, Dai, Qiao, and
+  Li]{lin2022evl}
+Z.~Lin, S.~Geng, R.~Zhang, P.~Gao, G.~de~Melo, X.~Wang, J.~Dai, Y.~Qiao, and
+  H.~Li.
+\newblock {Frozen CLIP Models are Efficient Video Learners}.
+\newblock \emph{arXiv preprint arXiv:2208.03550}, 2022.
+
+\bibitem[Liu et~al.(2023{\natexlab{a}})Liu, Li, Wu, and Lee]{liu2023llava}
+H.~Liu, C.~Li, Q.~Wu, and Y.~J. Lee.
+\newblock Visual instruction tuning, 2023{\natexlab{a}}.
+
+\bibitem[Liu et~al.(2023{\natexlab{b}})Liu, Li, Wu, and Lee]{liu2023visual}
+H.~Liu, C.~Li, Q.~Wu, and Y.~J. Lee.
+\newblock Visual instruction tuning.
+\newblock \emph{arXiv preprint arXiv:2304.08485}, 2023{\natexlab{b}}.
+
+\bibitem[Liu et~al.(2011)Liu, Kuipers, and Savarese]{liu2011recognizing}
+J.~Liu, B.~Kuipers, and S.~Savarese.
+\newblock Recognizing human actions by attributes.
+\newblock In \emph{CVPR}, 2011.
+
+\bibitem[Liu et~al.(2019)Liu, Lyu, King, and Xu]{liu2019self}
+P.~Liu, M.~Lyu, I.~King, and J.~Xu.
+\newblock Selflow: Self-supervised learning of optical flow.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 4571--4580, 2019.
+
+\bibitem[Liu et~al.(2023{\natexlab{c}})Liu, Du, Hermans, Chernova, and
+  Paxton]{liu2022structdiffusion}
+W.~Liu, Y.~Du, T.~Hermans, S.~Chernova, and C.~Paxton.
+\newblock {StructDiffusion: Language-Guided Creation of Physically-Valid
+  Structures using Unseen Objects}.
+\newblock In \emph{Robotics: Science and Systems}, 2023{\natexlab{c}}.
+
+\bibitem[Liu et~al.(2023{\natexlab{d}})Liu, Yin, Zhang, Feng, and
+  Zhao]{Liu2023TheMO}
+X.~Liu, D.~Yin, C.~Zhang, Y.~Feng, and D.~Zhao.
+\newblock The magic of if: Investigating causal reasoning abilities in large
+  language models of code.
+\newblock In \emph{Annual Meeting of the Association for Computational
+  Linguistics}, 2023{\natexlab{d}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:258968140}.
+
+\bibitem[Loshchilov and Hutter(2019)]{loshchilov2017adamw}
+I.~Loshchilov and F.~Hutter.
+\newblock {Decoupled Weight Decay Regularization}.
+\newblock \emph{ICLR}, 2019.
+
+\bibitem[Luo et~al.(2024)Luo, Li, Yang, Liu, Fan, and
+  Liu]{Luo2024FlowDiffuserAO}
+A.~Luo, X.~Li, F.~Yang, J.~Liu, H.~Fan, and S.~Liu.
+\newblock Flowdiffuser: Advancing optical flow estimation with diffusion
+  models.
+\newblock \emph{2024 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 19167--19176, 2024.
+
+\bibitem[Luo et~al.(2022{\natexlab{a}})Luo, Bao, Wu, He, and
+  Li]{Luo2022SegCLIPPA}
+H.~Luo, J.~Bao, Y.~Wu, X.~He, and T.~Li.
+\newblock Segclip: Patch aggregation with learnable centers for open-vocabulary
+  semantic segmentation.
+\newblock \emph{ArXiv}, abs/2211.14813, 2022{\natexlab{a}}.
+
+\bibitem[Luo et~al.(2022{\natexlab{b}})Luo, Ji, Zhong, Chen, Lei, Duan, and
+  Li]{luo2022clip4clip}
+H.~Luo, L.~Ji, M.~Zhong, Y.~Chen, W.~Lei, N.~Duan, and T.~Li.
+\newblock {CLIP4Clip: An Empirical Study of CLIP for End to End Video Clip
+  Retrieval}.
+\newblock \emph{Neurocomputing}, 508:\penalty0 293--304, 2022{\natexlab{b}}.
+
+\bibitem[Ma et~al.(2023)Ma, Jin, Wang, Xian, Feng, and
+  Yang]{Ma2023VistaLLaMARV}
+F.~Ma, X.~Jin, H.~Wang, Y.~Xian, J.~Feng, and Y.~Yang.
+\newblock Vista-llama: Reliable video narrator via equal distance to visual
+  tokens.
+\newblock \emph{ArXiv}, abs/2312.08870, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:266209773}.
+
+\bibitem[Maaz et~al.(2023)Maaz, Rasheed, Khan, and
+  Khan]{Maaz2023VideoChatGPTTD}
+M.~Maaz, H.~A. Rasheed, S.~H. Khan, and F.~S. Khan.
+\newblock Video-chatgpt: Towards detailed video understanding via large vision
+  and language models.
+\newblock In \emph{Annual Meeting of the Association for Computational
+  Linguistics}, 2023.
+
+\bibitem[Malik(2001)]{malik2001visual}
+J.~Malik.
+\newblock Visual grouping and object recognition.
+\newblock In \emph{Proceedings 11th International Conference on Image Analysis
+  and Processing}, pages 612--621. IEEE, 2001.
+
+\bibitem[Mangalam et~al.(2023)Mangalam, Akshulakov, and
+  Malik]{Mangalam2023EgoSchemaAD}
+K.~Mangalam, R.~Akshulakov, and J.~Malik.
+\newblock Egoschema: A diagnostic benchmark for very long-form video language
+  understanding.
+\newblock \emph{ArXiv}, abs/2308.09126, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:261031047}.
+
+\bibitem[Marr(1982)]{marr1982vision}
+D.~Marr.
+\newblock \emph{Vision: A computational investigation into the human
+  representation and processing of visual information}.
+\newblock MIT press, 1982.
+
+\bibitem[Mathieu et~al.(2016)Mathieu, Couprie, and LeCun]{mathieu2015deep}
+M.~Mathieu, C.~Couprie, and Y.~LeCun.
+\newblock Deep multi-scale video prediction beyond mean square error.
+\newblock In \emph{ICLR}, 2016.
+
+\bibitem[Menon and Vondrick(2022)]{menon2022visual}
+S.~Menon and C.~Vondrick.
+\newblock {Visual Classification via Description from Large Language Models}.
+\newblock \emph{arXiv preprint arXiv:2210.07183}, 2022.
+
+\bibitem[Miller(1995)]{miller1995wordnet}
+G.~A. Miller.
+\newblock Wordnet: a lexical database for english.
+\newblock In \emph{Communications of the ACM}, pages 39--41. ACM, 1995.
+
+\bibitem[Min et~al.(2024)Min, Buch, Nagrani, Cho, and Schmid]{min2024morevqa}
+J.~Min, S.~Buch, A.~Nagrani, M.~Cho, and C.~Schmid.
+\newblock Morevqa: Exploring modular reasoning models for video question
+  answering.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 13235--13245, 2024.
+
+\bibitem[Minderer et~al.(2022)Minderer, Gritsenko, Stone, Neumann, Weissenborn,
+  Dosovitskiy, Mahendran, Arnab, Dehghani, Shen, Wang, Zhai, Kipf, and
+  Houlsby]{Minderer2022SimpleOO}
+M.~Minderer, A.~A. Gritsenko, A.~Stone, M.~Neumann, D.~Weissenborn,
+  A.~Dosovitskiy, A.~Mahendran, A.~Arnab, M.~Dehghani, Z.~Shen, X.~Wang,
+  X.~Zhai, T.~Kipf, and N.~Houlsby.
+\newblock Simple open-vocabulary object detection with vision transformers.
+\newblock \emph{ArXiv}, abs/2205.06230, 2022.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:248721818}.
+
+\bibitem[Misra et~al.(2016)Misra, Zitnick, and Hebert]{Misra-2016-5596}
+I.~Misra, C.~L. Zitnick, and M.~Hebert.
+\newblock Shuffle and learn: Unsupervised learning using temporal order
+  verification.
+\newblock In \emph{ECCV}, 2016.
+
+\bibitem[Momeni et~al.(2023)Momeni, Caron, Nagrani, Zisserman, and
+  Schmid]{momeni2023vfc}
+L.~Momeni, M.~Caron, A.~Nagrani, A.~Zisserman, and C.~Schmid.
+\newblock Verbs in action: Improving verb understanding in video-language
+  models.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 15579--15591, 2023.
+
+\bibitem[Muhammad~Maaz and Khan(2023)]{Maaz2023VideoChatGPT}
+S.~K. Muhammad~Maaz, Hanoona~Rasheed and F.~Khan.
+\newblock Video-chatgpt: Towards detailed video understanding via large vision
+  and language models.
+\newblock \emph{ArXiv 2306.05424}, 2023.
+
+\bibitem[Mukhoti et~al.(2023)Mukhoti, Lin, Poursaeed, Wang, Shah, Torr, and
+  Lim]{Mukhoti2022OpenVS}
+J.~Mukhoti, T.-Y. Lin, O.~Poursaeed, R.~Wang, A.~Shah, P.~H.~S. Torr, and S.~N.
+  Lim.
+\newblock Open vocabulary semantic segmentation with patch aligned contrastive
+  learning.
+\newblock \emph{CVPR}, abs/2212.04994, 2023.
+
+\bibitem[Nair et~al.(2022)Nair, Rajeswaran, Kumar, Finn, and
+  Gupta]{nair2022r3m}
+S.~Nair, A.~Rajeswaran, V.~Kumar, C.~Finn, and A.~Gupta.
+\newblock {R3M: A Universal Visual Representation for Robot Manipulation}.
+\newblock In \emph{Conference on Robot Learning}, 2022.
+
+\bibitem[Naveed et~al.(2023)Naveed, Khan, Qiu, Saqib, Anwar, Usman, Barnes, and
+  Mian]{Naveed2023ACO}
+H.~Naveed, A.~U. Khan, S.~Qiu, M.~Saqib, S.~Anwar, M.~Usman, N.~Barnes, and
+  A.~S. Mian.
+\newblock A comprehensive overview of large language models.
+\newblock \emph{ArXiv}, abs/2307.06435, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:259847443}.
+
+\bibitem[Ni et~al.(2022)Ni, Peng, Chen, Zhang, Meng, Fu, Xiang, and
+  Ling]{ma2022xclip}
+B.~Ni, H.~Peng, M.~Chen, S.~Zhang, G.~Meng, J.~Fu, S.~Xiang, and H.~Ling.
+\newblock Expanding language-image pretrained models for general video
+  recognition.
+\newblock In \emph{European Conference on Computer Vision}, 2022.
+
+\bibitem[Niu et~al.(2024)Niu, Sharma, Biamby, Quenum, Bai, Shi, Darrell, and
+  Herzig]{niu2024llarva}
+D.~Niu, Y.~Sharma, G.~Biamby, J.~Quenum, Y.~Bai, B.~Shi, T.~Darrell, and
+  R.~Herzig.
+\newblock Llarva: Vision-action instruction tuning enhances robot learning.
+\newblock \emph{arXiv preprint arXiv:2406.11815}, 2024.
+
+\bibitem[Nvidia et~al.(2025)Nvidia, Bjorck, et~al.]{Nvidia2025GR00TNA}
+Nvidia, J.~Bjorck, et~al.
+\newblock Gr00t n1: An open foundation model for generalist humanoid robots.
+\newblock \emph{ArXiv}, abs/2503.14734, 2025.
+
+\bibitem[{Octo Model Team} et~al.(2024){Octo Model Team}, Ghosh, Walke,
+  Pertsch, Black, Mees, Dasari, Hejna, Xu, Luo, Kreiman, Tan, Chen, Sanketi,
+  Vuong, Xiao, Sadigh, Finn, and Levine]{octo_2023}
+{Octo Model Team}, D.~Ghosh, H.~Walke, K.~Pertsch, K.~Black, O.~Mees,
+  S.~Dasari, J.~Hejna, C.~Xu, J.~Luo, T.~Kreiman, Y.~Tan, L.~Y. Chen,
+  P.~Sanketi, Q.~Vuong, T.~Xiao, D.~Sadigh, C.~Finn, and S.~Levine.
+\newblock Octo: An open-source generalist robot policy.
+\newblock In \emph{Robotics science and systems (RSS)}, Delft, Netherlands,
+  2024.
+
+\bibitem[Open-X-Embodiment-Collaboration
+  et~al.(2023)Open-X-Embodiment-Collaboration, Padalkar, Pooley, Jain, Bewley,
+  Herzog, Irpan, Khazatsky, Rai, Singh, Brohan, Raffin, Wahid,
+  Burgess-Limerick, et~al.]{open_x_embodiment_rt_x_2023}
+Open-X-Embodiment-Collaboration, A.~Padalkar, A.~Pooley, A.~Jain, A.~Bewley,
+  A.~Herzog, A.~Irpan, A.~Khazatsky, A.~Rai, A.~Singh, A.~Brohan, A.~Raffin,
+  A.~Wahid, B.~Burgess-Limerick, et~al.
+\newblock Open {X-E}mbodiment: Robotic learning datasets and {RT-X} models.
+\newblock \url{https://arxiv.org/abs/2310.08864}, 2023.
+
+\bibitem[OpenAI(2023{\natexlab{a}})]{Achiam2023GPT4TR}
+OpenAI.
+\newblock Gpt-4 technical report, 2023{\natexlab{a}}.
+
+\bibitem[OpenAI(2023{\natexlab{b}})]{gpt4}
+OpenAI.
+\newblock {GPT}-4 technical report.
+\newblock \url{https://arxiv.org/abs/2303.08774}, 2023{\natexlab{b}}.
+
+\bibitem[Padalkar et~al.(2023)Padalkar, Pooley, Jain, Bewley, Herzog, Irpan,
+  Khazatsky, Rai, Singh, Brohan, et~al.]{padalkar2023open}
+A.~Padalkar, A.~Pooley, A.~Jain, A.~Bewley, A.~Herzog, A.~Irpan, A.~Khazatsky,
+  A.~Rai, A.~Singh, A.~Brohan, et~al.
+\newblock Open x-embodiment: Robotic learning datasets and rt-x models.
+\newblock \emph{arXiv preprint arXiv:2310.08864}, 2023.
+
+\bibitem[Pan et~al.(2021)Pan, Song, Yang, Jiang, and Liu]{pan2021videomoco}
+T.~Pan, Y.~Song, T.~Yang, W.~Jiang, and W.~Liu.
+\newblock Videomoco: Contrastive video representation learning with temporally
+  adversarial examples.
+\newblock In \emph{CVPR}, 2021.
+
+\bibitem[Papalampidi et~al.(2023)Papalampidi, Koppula, Pathak, Chiu, Heyward,
+  Patraucean, Shen, Miech, Zisserman, and Nematzdeh]{papalampidi2023simple}
+P.~Papalampidi, S.~Koppula, S.~Pathak, J.~Chiu, J.~Heyward, V.~Patraucean,
+  J.~Shen, A.~Miech, A.~Zisserman, and A.~Nematzdeh.
+\newblock A simple recipe for contrastively pre-training video-first encoders
+  beyond 16 frames.
+\newblock \emph{arXiv preprint arXiv:2312.07395}, 2023.
+
+\bibitem[Pari et~al.(2021)Pari, Shafiullah, Arunachalam, and
+  Pinto]{pari2021surprising}
+J.~Pari, N.~M. Shafiullah, S.~P. Arunachalam, and L.~Pinto.
+\newblock The surprising effectiveness of representation learning for visual
+  imitation, 2021.
+
+\bibitem[Park et~al.(2024)Park, Ranasinghe, Kahatapitiya, Ryoo, Kim, and
+  Ryoo]{Park2024TooMF}
+J.~S. Park, K.~Ranasinghe, K.~Kahatapitiya, W.~Ryoo, D.~Kim, and M.~S. Ryoo.
+\newblock Too many frames, not all useful: Efficient strategies for long-form
+  video qa.
+\newblock \emph{ArXiv}, abs/2406.09396, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:270440923}.
+
+\bibitem[P{\u a}tr{\u a}ucean et~al.(2016)P{\u a}tr{\u a}ucean, Handa, and
+  Cipolla]{PatrauceanHC16}
+V.~P{\u a}tr{\u a}ucean, A.~Handa, and R.~Cipolla.
+\newblock Spatio-temporal video autoencoder with differentiable memory.
+\newblock In \emph{ICLR (Workshop)}, 2016.
+
+\bibitem[Peng et~al.(2023)Peng, Wang, Dong, Hao, Huang, Ma, and
+  Wei]{peng2023kosmos}
+Z.~Peng, W.~Wang, L.~Dong, Y.~Hao, S.~Huang, S.~Ma, and F.~Wei.
+\newblock Kosmos-2: Grounding multimodal large language models to the world.
+\newblock \emph{arXiv preprint arXiv:2306.14824}, 2023.
+
+\bibitem[Piergiovanni et~al.(2020)Piergiovanni, Angelova, and
+  Ryoo]{piergiovanni2020evolving}
+A.~Piergiovanni, A.~Angelova, and M.~S. Ryoo.
+\newblock Evolving losses for unsupervised video representation learning.
+\newblock In \emph{CVPR}, 2020.
+
+\bibitem[Qian et~al.(2021{\natexlab{a}})Qian, Meng, Gong, Yang, Wang, Belongie,
+  and Cui]{qian2020spatiotemporal}
+R.~Qian, T.~Meng, B.~Gong, M.-H. Yang, H.~Wang, S.~Belongie, and Y.~Cui.
+\newblock Spatiotemporal contrastive video representation learning.
+\newblock \emph{CVPR}, 2021{\natexlab{a}}.
+
+\bibitem[Qian et~al.(2021{\natexlab{b}})Qian, Meng, Gong, Yang, Wang, Belongie,
+  and Cui]{qian2021spatiotemporal}
+R.~Qian, T.~Meng, B.~Gong, M.-H. Yang, H.~Wang, S.~Belongie, and Y.~Cui.
+\newblock {Spatiotemporal Contrastive Video Representation Learning}.
+\newblock In \emph{CVPR}, pages 6964--6974, 2021{\natexlab{b}}.
+
+\bibitem[Qian et~al.(2022)Qian, Li, Xu, Yang, Belongie, and
+  Cui]{qian2022multimodal}
+R.~Qian, Y.~Li, Z.~Xu, M.-H. Yang, S.~Belongie, and Y.~Cui.
+\newblock {Multimodal Open-Vocabulary Video Classification via Pre-Trained
+  Vision and Language Models}.
+\newblock \emph{arXiv preprint arXiv:2207.07646}, 2022.
+
+\bibitem[Qin et~al.(2017)Qin, Liu, Shao, Shen, Ni, Chen, and
+  Wang]{qin2017zsecoc}
+J.~Qin, L.~Liu, L.~Shao, F.~Shen, B.~Ni, J.~Chen, and Y.~Wang.
+\newblock {Zero-Shot Action Recognition with Error-Correcting Output Codes}.
+\newblock In \emph{CVPR}, pages 2833--2842, 2017.
+
+\bibitem[Radford and Narasimhan(2018)]{Radford2018ImprovingLU}
+A.~Radford and K.~Narasimhan.
+\newblock Improving language understanding by generative pre-training, 2018.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:49313245}.
+
+\bibitem[Radford et~al.(2019)Radford, Wu, Child, Luan, Amodei, and
+  Sutskever]{Radford2019LanguageMA}
+A.~Radford, J.~Wu, R.~Child, D.~Luan, D.~Amodei, and I.~Sutskever.
+\newblock Language models are unsupervised multitask learners, 2019.
+
+\bibitem[Radford et~al.(2021{\natexlab{a}})Radford, Kim, Hallacy, Ramesh, Goh,
+  Agarwal, Sastry, Askell, Mishkin, Clark, et~al.]{radford2021clip}
+A.~Radford, J.~W. Kim, C.~Hallacy, A.~Ramesh, G.~Goh, S.~Agarwal, G.~Sastry,
+  A.~Askell, P.~Mishkin, J.~Clark, et~al.
+\newblock {Learning Transferable Visual Models From Natural Language
+  Supervision}.
+\newblock In \emph{ICML}, pages 8748--8763. PMLR, 2021{\natexlab{a}}.
+
+\bibitem[Radford et~al.(2021{\natexlab{b}})Radford, Kim, Hallacy, Ramesh, Goh,
+  Agarwal, Sastry, Askell, Mishkin, Clark, et~al.]{radford2021learning}
+A.~Radford, J.~W. Kim, C.~Hallacy, A.~Ramesh, G.~Goh, S.~Agarwal, G.~Sastry,
+  A.~Askell, P.~Mishkin, J.~Clark, et~al.
+\newblock Learning transferable visual models from natural language
+  supervision.
+\newblock In \emph{International conference on machine learning}, pages
+  8748--8763. PMLR, 2021{\natexlab{b}}.
+
+\bibitem[Ramasinghe et~al.(2018)Ramasinghe, Rajasegaran, Jayasundara,
+  Ranasinghe, Rodrigo, and Pasqual]{Ramasinghe2018CombinedSA}
+S.~Ramasinghe, J.~Rajasegaran, V.~Jayasundara, K.~Ranasinghe, R.~Rodrigo, and
+  A.~A. Pasqual.
+\newblock Combined static and motion features for deep-networks-based activity
+  recognition in videos.
+\newblock \emph{IEEE Transactions on Circuits and Systems for Video
+  Technology}, 29:\penalty0 2693--2707, 2018.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:53116615}.
+
+\bibitem[Ramesh et~al.(2022)Ramesh, Dhariwal, Nichol, Chu, and
+  Chen]{ramesh2022hierarchical}
+A.~Ramesh, P.~Dhariwal, A.~Nichol, C.~Chu, and M.~Chen.
+\newblock Hierarchical text-conditional image generation with clip latents.
+\newblock \emph{preprint}, 2022.
+\newblock [arxiv:2204.06125].
+
+\bibitem[Ranasinghe and Ryoo(2023)]{Ranasinghe2023LanguagebasedAC}
+K.~Ranasinghe and M.~S. Ryoo.
+\newblock Language-based action concept spaces improve video self-supervised
+  learning.
+\newblock In \emph{NeurIPS}, 2023.
+
+\bibitem[Ranasinghe et~al.(2021{\natexlab{a}})Ranasinghe, Naseer, Khan, Khan,
+  and Ryoo]{Ran2021SVT}
+K.~Ranasinghe, M.~Naseer, S.~H. Khan, F.~S. Khan, and M.~S. Ryoo.
+\newblock Self-supervised video transformer.
+\newblock \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 2864--2874, 2021{\natexlab{a}}.
+
+\bibitem[Ranasinghe et~al.(2021{\natexlab{b}})Ranasinghe, Naseer, Khan, Khan,
+  and Ryoo]{Ranasinghe2021SelfsupervisedVT}
+K.~Ranasinghe, M.~Naseer, S.~H. Khan, F.~S. Khan, and M.~S. Ryoo.
+\newblock Self-supervised video transformer.
+\newblock \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 2864--2874, 2021{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:244800737}.
+
+\bibitem[Ranasinghe et~al.(2023{\natexlab{a}})Ranasinghe, McKinzie, Ravi, Yang,
+  Toshev, and Shlens]{Ranasinghe2022PerceptualGI}
+K.~Ranasinghe, B.~McKinzie, S.~Ravi, Y.~Yang, A.~Toshev, and J.~Shlens.
+\newblock Perceptual grouping in contrastive vision-language models.
+\newblock In \emph{ICCV}, 2023{\natexlab{a}}.
+
+\bibitem[Ranasinghe et~al.(2023{\natexlab{b}})Ranasinghe, McKinzie, Ravi, Yang,
+  Toshev, and Shlens]{ranasinghe2022perceptual}
+K.~Ranasinghe, B.~McKinzie, S.~Ravi, Y.~Yang, A.~Toshev, and J.~Shlens.
+\newblock Perceptual grouping in contrastive vision-language models.
+\newblock \emph{ICCV}, 2023{\natexlab{b}}.
+
+\bibitem[Ranasinghe et~al.(2024{\natexlab{a}})Ranasinghe, Li, Kahatapitiya, and
+  Ryoo]{ranasinghe2024understanding}
+K.~Ranasinghe, X.~Li, K.~Kahatapitiya, and M.~S. Ryoo.
+\newblock Understanding long videos in one multimodal language model pass,
+  2024{\natexlab{a}}.
+
+\bibitem[Ranasinghe et~al.(2024{\natexlab{b}})Ranasinghe, Shukla, Poursaeed,
+  Ryoo, and Lin]{RanLearningtoLoc23}
+K.~Ranasinghe, S.~N. Shukla, O.~Poursaeed, M.~S. Ryoo, and T.-Y. Lin.
+\newblock Learning to localize objects improves spatial reasoning in
+  visual-llms.
+\newblock In \emph{CVPR}, 2024{\natexlab{b}}.
+
+\bibitem[Ranasinghe et~al.(2025{\natexlab{a}})Ranasinghe, Li, Kahatapitiya, and
+  Ryoo]{Ranasinghe2024UnderstandingLV}
+K.~Ranasinghe, X.~Li, K.~Kahatapitiya, and M.~S. Ryoo.
+\newblock Understanding long videos with multimodal language models,
+  2025{\natexlab{a}}.
+
+\bibitem[Ranasinghe et~al.(2025{\natexlab{b}})Ranasinghe, Li, Mata, Park, and
+  Ryoo]{Ranasinghe2025PixelMA}
+K.~Ranasinghe, X.~Li, C.~Mata, J.~S. Park, and M.~S. Ryoo.
+\newblock Pixel motion as universal representation for robot control,
+  2025{\natexlab{b}}.
+
+\bibitem[Rasheed et~al.(2022{\natexlab{a}})Rasheed, Khattak, Maaz, Khan, and
+  Khan]{Rasheed2022FinetunedCM}
+H.~Rasheed, M.~U. Khattak, M.~Maaz, S.~Khan, and F.~S. Khan.
+\newblock Fine-tuned clip models are efficient video learners.
+\newblock \emph{2023 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 6545--6554, 2022{\natexlab{a}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:254366626}.
+
+\bibitem[Rasheed et~al.(2022{\natexlab{b}})Rasheed, Khattak, Maaz, Khan, and
+  Khan]{rasheed2022fine}
+H.~Rasheed, M.~U. Khattak, M.~Maaz, S.~Khan, and F.~S. Khan.
+\newblock {Fine-tuned CLIP Models are Efficient Video Learners}.
+\newblock \emph{arXiv preprint arXiv:2212.03640}, 2022{\natexlab{b}}.
+
+\bibitem[Recasens et~al.(2021{\natexlab{a}})Recasens, Luc, Alayrac, Wang,
+  Strub, Tallec, Malinowski, P{\u{a}}tr{\u{a}}ucean, Altch{\'e}, Valko,
+  et~al.]{recasens2021brave}
+A.~Recasens, P.~Luc, J.-B. Alayrac, L.~Wang, F.~Strub, C.~Tallec,
+  M.~Malinowski, V.~P{\u{a}}tr{\u{a}}ucean, F.~Altch{\'e}, M.~Valko, et~al.
+\newblock {Broaden Your Views for Self-Supervised Video Learning}.
+\newblock In \emph{ICCV}, pages 1255--1265, 2021{\natexlab{a}}.
+
+\bibitem[Recasens et~al.(2021{\natexlab{b}})Recasens, Luc, Alayrac, Wang,
+  Strub, Tallec, Malinowski, Patraucean, Altch{\'e}, Valko,
+  et~al.]{recasens2021broaden}
+A.~Recasens, P.~Luc, J.-B. Alayrac, L.~Wang, F.~Strub, C.~Tallec,
+  M.~Malinowski, V.~Patraucean, F.~Altch{\'e}, M.~Valko, et~al.
+\newblock Broaden your views for self-supervised video learning.
+\newblock \emph{ICCV}, 2021{\natexlab{b}}.
+
+\bibitem[Redmon et~al.(2016)Redmon, Divvala, Girshick, and
+  Farhadi]{redmon2016yolo}
+J.~Redmon, S.~Divvala, R.~Girshick, and A.~Farhadi.
+\newblock You only look once: Unified, real-time object detection.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 779--788, 2016.
+
+\bibitem[Reed et~al.(2022)Reed, Zolna, Parisotto, Colmenarejo, Novikov,
+  Barth-Maron, Gimenez, Sulsky, Kay, Springenberg, Eccles, Bruce, Razavi,
+  Edwards, Heess, Chen, Hadsell, Vinyals, Bordbar, and de~Nando]{reed2022gato}
+S.~Reed, K.~Zolna, E.~Parisotto, S.~G. Colmenarejo, A.~Novikov, G.~Barth-Maron,
+  M.~Gimenez, Y.~Sulsky, J.~Kay, J.~T. Springenberg, T.~Eccles, J.~Bruce,
+  A.~Razavi, A.~Edwards, N.~Heess, Y.~Chen, R.~Hadsell, O.~Vinyals, M.~Bordbar,
+  and F.~de~Nando.
+\newblock A generalist agent.
+\newblock In \emph{Trans. on Machine Learning Research}, 2022.
+
+\bibitem[Ren et~al.(2025)Ren, Sundaresan, Sadigh, Choudhury, and
+  Bohg]{Ren2025MotionTA}
+J.~Ren, P.~Sundaresan, D.~Sadigh, S.~Choudhury, and J.~Bohg.
+\newblock Motion tracks: A unified representation for human-robot transfer in
+  few-shot imitation learning.
+\newblock \emph{ArXiv}, abs/2501.06994, 2025.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:275471722}.
+
+\bibitem[Ren et~al.(2022)Ren, Pan, Zhou, and Kang]{ren2022diffusion}
+Z.~Ren, Z.~Pan, X.~Zhou, and L.~Kang.
+\newblock Diffusion motion: Generate text-guided 3d human motion by diffusion
+  model.
+\newblock \emph{arXiv preprint arXiv:2210.12315}, 2022.
+
+\bibitem[Robinson et~al.(2023)Robinson, Rytting, and
+  Wingate]{Robinson2022LeveragingLL}
+J.~Robinson, C.~Rytting, and D.~Wingate.
+\newblock Leveraging large language models for multiple choice question
+  answering.
+\newblock \emph{ICLR}, 2023.
+
+\bibitem[Ronneberger et~al.(2015)Ronneberger, Fischer, and
+  Brox]{Ronneberger2015UNetCN}
+O.~Ronneberger, P.~Fischer, and T.~Brox.
+\newblock U-net: Convolutional networks for biomedical image segmentation,
+  2015.
+
+\bibitem[Ros and Biewener(2016)]{Ros2016OpticFS}
+I.~G. Ros and A.~A. Biewener.
+\newblock Optic flow stabilizes flight in ruby-throated hummingbirds.
+\newblock \emph{Journal of Experimental Biology}, 219:\penalty0 2443 -- 2448,
+  2016.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:11106817}.
+
+\bibitem[Ryoo and Aggarwal(2006)]{Ryoo2006RecognitionOC}
+M.~S. Ryoo and J.~K. Aggarwal.
+\newblock Recognition of composite human activities through context-free
+  grammar based representation.
+\newblock \emph{2006 IEEE Computer Society Conference on Computer Vision and
+  Pattern Recognition (CVPR'06)}, 2:\penalty0 1709--1718, 2006.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:14039104}.
+
+\bibitem[Safaei and Foroosh(2019)]{8658386}
+M.~Safaei and H.~Foroosh.
+\newblock Still image action recognition by predicting spatial-temporal pixel
+  evolution.
+\newblock In \emph{2019 IEEE Winter Conference on Applications of Computer
+  Vision (WACV)}, 2019.
+
+\bibitem[Saxena et~al.(2023)Saxena, Herrmann, Hur, Kar, Norouzi, Sun, and
+  Fleet]{Saxena2023TheSE}
+S.~Saxena, C.~Herrmann, J.~Hur, A.~Kar, M.~Norouzi, D.~Sun, and D.~J. Fleet.
+\newblock The surprising effectiveness of diffusion models for optical flow and
+  monocular depth estimation.
+\newblock \emph{ArXiv}, abs/2306.01923, 2023.
+
+\bibitem[Scao et~al.(2022)Scao, Fan, Akiki, Pavlick, Ili{\'c}, Hesslow,
+  Castagn{\'e}, Luccioni, Yvon, Gall{\'e}, et~al.]{scao2022bloom}
+T.~L. Scao, A.~Fan, C.~Akiki, E.~Pavlick, S.~Ili{\'c}, D.~Hesslow,
+  R.~Castagn{\'e}, A.~S. Luccioni, F.~Yvon, M.~Gall{\'e}, et~al.
+\newblock Bloom: A 176b-parameter open-access multilingual language model.
+\newblock \emph{arXiv preprint arXiv:2211.05100}, 2022.
+
+\bibitem[Schiappa et~al.(2022)Schiappa, Rawat, and Shah]{Chantry_SSLV}
+M.~C. Schiappa, Y.~S. Rawat, and M.~Shah.
+\newblock Self-supervised learning for videos: A survey.
+\newblock \emph{ACM Computing Surveys}, 2022.
+
+\bibitem[Sennrich et~al.(2015)Sennrich, Haddow, and
+  Birch]{Sennrich2015NeuralMT}
+R.~Sennrich, B.~Haddow, and A.~Birch.
+\newblock Neural machine translation of rare words with subword units.
+\newblock \emph{ArXiv}, abs/1508.07909, 2015.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:1114678}.
+
+\bibitem[Shao et~al.(2021)Shao, Migimatsu, Zhang, Yang, and
+  Bohg]{shao2021concept2robot}
+L.~Shao, T.~Migimatsu, Q.~Zhang, K.~Yang, and J.~Bohg.
+\newblock {Concept2Robot: Learning Manipulation Concepts from Instructions and
+  Human Demonstrations}.
+\newblock \emph{IJRR}, 2021.
+
+\bibitem[Sharma et~al.(2019)Sharma, Pathak, and Gupta]{sharma2019third}
+P.~Sharma, D.~Pathak, and A.~Gupta.
+\newblock Third-person visual imitation learning via decoupled hierarchical
+  controller.
+\newblock In \emph{Neural Information Processing Systems}, 2019.
+
+\bibitem[Sharma et~al.(2022)Sharma, Zhu, Russell, and
+  Brox]{Sharma2022PixellevelCF}
+Y.~Sharma, Y.~Zhu, C.~Russell, and T.~Brox.
+\newblock Pixel-level correspondence for self-supervised learning from video.
+\newblock \emph{ArXiv}, abs/2207.03866, 2022.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:250407930}.
+
+\bibitem[Shi et~al.(2025{\natexlab{a}})Shi, Zhao, Wang, Pedroza, Luo, Wang, Ma,
+  and Jayaraman]{Shi2025ZeroMimicDR}
+J.~Shi, Z.~Zhao, T.~Wang, I.~Pedroza, A.~Luo, J.~Wang, J.~Ma, and D.~Jayaraman.
+\newblock Zeromimic: Distilling robotic manipulation skills from web videos,
+  2025{\natexlab{a}}.
+
+\bibitem[Shi et~al.(2025{\natexlab{b}})Shi, Ichter, Equi, Ke, Pertsch, Vuong,
+  Tanner, Walling, Wang, Fusai, Li-Bell, Driess, Groom, Levine, and
+  Finn]{Shi2025HiRO}
+L.~X. Shi, B.~Ichter, M.~Equi, L.~Ke, K.~Pertsch, Q.~Vuong, J.~Tanner,
+  A.~Walling, H.~Wang, N.~Fusai, A.~Li-Bell, D.~Driess, L.~Groom, S.~Levine,
+  and C.~Finn.
+\newblock Hi robot: Open-ended instruction following with hierarchical
+  vision-language-action models.
+\newblock \emph{ArXiv}, abs/2502.19417, 2025{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:276618098}.
+
+\bibitem[Shridhar et~al.(2024)Shridhar, Lo, and
+  James]{Shridhar2024GenerativeIA}
+M.~Shridhar, Y.~L. Lo, and S.~James.
+\newblock Generative image as action models.
+\newblock \emph{ArXiv}, abs/2407.07875, 2024.
+
+\bibitem[Singer et~al.(2022)Singer, Polyak, Hayes, Yin, An, Zhang, Hu, Yang,
+  Ashual, Gafni, Parikh, Gupta, and Taigman]{singer2022makeavideo}
+U.~Singer, A.~Polyak, T.~Hayes, X.~Yin, J.~An, S.~Zhang, Q.~Hu, H.~Yang,
+  O.~Ashual, O.~Gafni, D.~Parikh, S.~Gupta, and Y.~Taigman.
+\newblock Make-a-video: Text-to-video generation without text-video data, 2022.
+
+\bibitem[Sivakumar et~al.(2022)Sivakumar, Shaw, and
+  Pathak]{sivakumar2022robotic}
+A.~Sivakumar, K.~Shaw, and D.~Pathak.
+\newblock {Robotic Telekinesis: Learning a Robotic Hand Imitator by Watching
+  Humans on Youtube}.
+\newblock In \emph{Robotics: Science and Systems}, 2022.
+
+\bibitem[Sohn et~al.(2020)Sohn, Berthelot, Li, Zhang, Carlini, Cubuk, Kurakin,
+  Zhang, and Raffel]{fixmatch}
+K.~Sohn, D.~Berthelot, C.-L. Li, Z.~Zhang, N.~Carlini, E.~D. Cubuk, A.~Kurakin,
+  H.~Zhang, and C.~Raffel.
+\newblock Fixmatch: Simplifying semi-supervised learning with consistency and
+  confidence.
+\newblock In \emph{NeurIPS}, 2020.
+
+\bibitem[Song et~al.(2024)Song, Blukis, Tremblay, Tyree, Su, and
+  Birchfield]{Song2024RoboSpatialTS}
+C.~H. Song, V.~Blukis, J.~Tremblay, S.~Tyree, Y.~Su, and S.~T. Birchfield.
+\newblock Robospatial: Teaching spatial understanding to 2d and 3d
+  vision-language models for robotics, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:274233932}.
+
+\bibitem[Song et~al.(2025)Song, Chen, Simchowitz, Du, Tedrake, and
+  Sitzmann]{Song2025HistoryGuidedVD}
+K.~Song, B.~Chen, M.~Simchowitz, Y.~Du, R.~Tedrake, and V.~Sitzmann.
+\newblock History-guided video diffusion, 2025.
+
+\bibitem[Soomro et~al.(2012{\natexlab{a}})Soomro, Zamir, and
+  Shah]{soomro2012ucf}
+K.~Soomro, A.~R. Zamir, and M.~Shah.
+\newblock {UCF101}: {A} dataset of 101 human actions classes from videos in the
+  wild.
+\newblock \emph{Arxiv}, 2012{\natexlab{a}}.
+
+\bibitem[Soomro et~al.(2012{\natexlab{b}})Soomro, Zamir, and
+  Shah]{soomro2012ucf101}
+K.~Soomro, A.~R. Zamir, and M.~Shah.
+\newblock {UCF101: A Dataset of 101 Human Actions Classes From Videos in The
+  Wild}.
+\newblock \emph{arXiv preprint arXiv:1212.0402}, 2012{\natexlab{b}}.
+
+\bibitem[Srivastava et~al.(2015)Srivastava, Mansimov, and
+  Salakhudinov]{pmlr-v37-srivastava15}
+N.~Srivastava, E.~Mansimov, and R.~Salakhudinov.
+\newblock Unsupervised learning of video representations using lstms.
+\newblock In \emph{ICML}, 2015.
+
+\bibitem[Su et~al.(2023)Su, Niu, Lin, Hsu, and Chang]{Su2023LanguageMA}
+H.-T. Su, Y.~Niu, X.~Lin, W.~H. Hsu, and S.-F. Chang.
+\newblock Language models are causal knowledge extractors for zero-shot video
+  question answering.
+\newblock \emph{2023 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition Workshops (CVPRW)}, pages 4951--4960, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:258041332}.
+
+\bibitem[Sudhakar et~al.(2024)Sudhakar, Liu, Hoorick, Vondrick, and
+  Zemel]{Sudhakar2024ControllingTW}
+S.~Sudhakar, R.~Liu, B.~V. Hoorick, C.~Vondrick, and R.~Zemel.
+\newblock Controlling the world by sleight of hand.
+\newblock \emph{ArXiv}, abs/2408.07147, 2024.
+
+\bibitem[Sun et~al.(2018)Sun, Noh, Somasundaram, and Lim]{sun2018neural}
+S.-H. Sun, H.~Noh, S.~Somasundaram, and J.~Lim.
+\newblock Neural program synthesis from diverse demonstration videos.
+\newblock In \emph{International Conference on Machine Learning}, 2018.
+
+\bibitem[Sur'is et~al.(2023)Sur'is, Menon, and Vondrick]{Suris2023ViperGPTVI}
+D.~Sur'is, S.~Menon, and C.~Vondrick.
+\newblock Vipergpt: Visual inference via python execution for reasoning.
+\newblock \emph{ArXiv}, abs/2303.08128, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:257505358}.
+
+\bibitem[Sur{\'\i}s et~al.(2023)Sur{\'\i}s, Menon, and
+  Vondrick]{suris2023vipergpt}
+D.~Sur{\'\i}s, S.~Menon, and C.~Vondrick.
+\newblock Vipergpt: Visual inference via python execution for reasoning.
+\newblock \emph{arXiv preprint arXiv:2303.08128}, 2023.
+
+\bibitem[Tarvainen and Valpola(2017)]{mean_teacher}
+A.~Tarvainen and H.~Valpola.
+\newblock Mean teachers are better role models: Weight-averaged consistency
+  targets improve semi-supervised deep learning results.
+\newblock In \emph{{NIPS}}, pages 1195--1204, 2017.
+
+\bibitem[Team et~al.(2023)Team, Anil, Borgeaud, Wu, Alayrac, Yu, Soricut,
+  Schalkwyk, Dai, Hauth, et~al.]{Anil2023GeminiAF}
+G.~Team, R.~Anil, S.~Borgeaud, Y.~Wu, J.-B. Alayrac, J.~Yu, R.~Soricut,
+  J.~Schalkwyk, A.~M. Dai, A.~Hauth, et~al.
+\newblock Gemini: a family of highly capable multimodal models.
+\newblock \emph{arXiv preprint arXiv:2312.11805}, 2023.
+
+\bibitem[Teed and Deng(2020)]{teed2020raft}
+Z.~Teed and J.~Deng.
+\newblock Raft: Recurrent all-pairs field transforms for optical flow.
+\newblock In \emph{European Conference on Computer Vision}, pages 402--419.
+  Springer, 2020.
+
+\bibitem[Tian et~al.(2024)Tian, Yang, Zeng, Wang, Lin, Dong, and
+  Pang]{Tian2024PredictiveID}
+Y.~Tian, S.~Yang, J.~Zeng, P.~Wang, D.~Lin, H.~Dong, and J.~Pang.
+\newblock Predictive inverse dynamics models are scalable learners for robotic
+  manipulation.
+\newblock \emph{ArXiv}, abs/2412.15109, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:274859727}.
+
+\bibitem[Tian et~al.(2019)Tian, Shen, Chen, and He]{tian2019fcos}
+Z.~Tian, C.~Shen, H.~Chen, and T.~He.
+\newblock Fcos: Fully convolutional one-stage object detection.
+\newblock In \emph{Proceedings of the IEEE/CVF international conference on
+  computer vision}, pages 9627--9636, 2019.
+
+\bibitem[Tong et~al.(2022)Tong, Song, Wang, and Wang]{Tong2022VidMAE}
+Z.~Tong, Y.~Song, J.~Wang, and L.~Wang.
+\newblock Videomae: Masked autoencoders are data-efficient learners for
+  self-supervised video pre-training.
+\newblock \emph{ArXiv}, abs/2203.12602, 2022.
+
+\bibitem[Touvron et~al.(2023{\natexlab{a}})Touvron, Lavril, Izacard, Martinet,
+  Lachaux, Lacroix, Rozi{\`e}re, Goyal, Hambro, Azhar,
+  et~al.]{touvron2023llama}
+H.~Touvron, T.~Lavril, G.~Izacard, X.~Martinet, M.-A. Lachaux, T.~Lacroix,
+  B.~Rozi{\`e}re, N.~Goyal, E.~Hambro, F.~Azhar, et~al.
+\newblock Llama: Open and efficient foundation language models.
+\newblock \emph{arXiv preprint arXiv:2302.13971}, 2023{\natexlab{a}}.
+
+\bibitem[Touvron et~al.(2023{\natexlab{b}})Touvron, Martin, Stone, Albert,
+  Almahairi, Babaei, Bashlykov, Batra, Bhargava, Bhosale,
+  et~al.]{touvron2023llama2}
+H.~Touvron, L.~Martin, K.~Stone, P.~Albert, A.~Almahairi, Y.~Babaei,
+  N.~Bashlykov, S.~Batra, P.~Bhargava, S.~Bhosale, et~al.
+\newblock Llama 2: Open foundation and fine-tuned chat models.
+\newblock \emph{arXiv preprint arXiv:2307.09288}, 2023{\natexlab{b}}.
+
+\bibitem[Uijlings et~al.(2013)Uijlings, Van De~Sande, Gevers, and
+  Smeulders]{uijlings2013selective}
+J.~R. Uijlings, K.~E. Van De~Sande, T.~Gevers, and A.~W. Smeulders.
+\newblock Selective search for object recognition.
+\newblock \emph{IJCV}, 104\penalty0 (2):\penalty0 154--171, 2013.
+
+\bibitem[Villegas et~al.(2022)Villegas, Babaeizadeh, Kindermans, Moraldo,
+  Zhang, Saffar, Castro, Kunze, and Erhan]{villegas2022phenaki}
+R.~Villegas, M.~Babaeizadeh, P.-J. Kindermans, H.~Moraldo, H.~Zhang, M.~T.
+  Saffar, S.~Castro, J.~Kunze, and D.~Erhan.
+\newblock Phenaki: Variable length video generation from open domain textual
+  description, 2022.
+
+\bibitem[Vondrick et~al.(2016)Vondrick, Pirsiavash, and Torralba]{Vondrick16a}
+C.~Vondrick, H.~Pirsiavash, and A.~Torralba.
+\newblock Generating videos with scene dynamics.
+\newblock In \emph{NeurIPS}, 2016.
+
+\bibitem[Vondrick et~al.(2018)Vondrick, Shrivastava, Fathi, Guadarrama, and
+  Murphy]{vondrick2018tracking}
+C.~Vondrick, A.~Shrivastava, A.~Fathi, S.~Guadarrama, and K.~Murphy.
+\newblock Tracking emerges by colorizing videos.
+\newblock In \emph{ECCV}, 2018.
+
+\bibitem[Walker et~al.(2016)Walker, Doersch, Gupta, and
+  Hebert]{walker2016uncertain}
+J.~Walker, C.~Doersch, A.~Gupta, and M.~Hebert.
+\newblock An uncertain future: Forecasting from static images using variational
+  autoencoders.
+\newblock In \emph{ECCV}, 2016.
+
+\bibitem[Wang et~al.(2023{\natexlab{a}})Wang, Chen, and Sun]{wang2023diffusion}
+H.-C. Wang, S.-F. Chen, and S.-H. Sun.
+\newblock {Diffusion Model-Augmented Behavioral Cloning}.
+\newblock \emph{arXiv:2302.13335}, 2023{\natexlab{a}}.
+
+\bibitem[Wang et~al.(2024{\natexlab{a}})Wang, Yuan, Zhang, and
+  Sun]{wang2024tarsier}
+J.~Wang, L.~Yuan, Y.~Zhang, and H.~Sun.
+\newblock Tarsier: Recipes for training and evaluating large video description
+  models.
+\newblock \emph{arXiv preprint arXiv:2407.00634}, 2024{\natexlab{a}}.
+
+\bibitem[Wang et~al.(2021)Wang, Xing, and Liu]{wang2021actionclip}
+M.~Wang, J.~Xing, and Y.~Liu.
+\newblock {ActionCLIP: A New Paradigm for Video Action Recognition}.
+\newblock \emph{arXiv preprint arXiv:2109.08472}, 2021.
+
+\bibitem[Wang and Chen(2017{\natexlab{a}})]{Wang2017AlternativeSR}
+Q.~Wang and K.~Chen.
+\newblock Alternative semantic representations for zero-shot human action
+  recognition.
+\newblock In \emph{ECML/PKDD}, 2017{\natexlab{a}}.
+
+\bibitem[Wang and Chen(2017{\natexlab{b}})]{wang2017asr}
+Q.~Wang and K.~Chen.
+\newblock {Alternative Semantic Representations for Zero-Shot Human Action
+  Recognition}.
+\newblock In \emph{ECML-PKDD}, pages 87--102. Springer, 2017{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2018)Wang, Zhang, Bertinetto, Hu, and
+  Torr]{Wang2018FastOO}
+Q.~Wang, L.~Zhang, L.~Bertinetto, W.~Hu, and P.~H.~S. Torr.
+\newblock Fast online object tracking and segmentation: A unifying approach.
+\newblock \emph{2019 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 1328--1338, 2018.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:54475412}.
+
+\bibitem[Wang et~al.(2023{\natexlab{b}})Wang, Zhao, Do, Agarwal, Lee, and
+  Sun]{wang2023vamos}
+S.~Wang, Q.~Zhao, M.~Q. Do, N.~Agarwal, K.~Lee, and C.~Sun.
+\newblock Vamos: Versatile action models for video understanding.
+\newblock \emph{arXiv preprint arXiv:2311.13627}, 2023{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2023{\natexlab{c}})Wang, Chen, Chen, Wu, Zhu, Zeng, Luo,
+  Lu, Zhou, Qiao, et~al.]{wang2023visionllm}
+W.~Wang, Z.~Chen, X.~Chen, J.~Wu, X.~Zhu, G.~Zeng, P.~Luo, T.~Lu, J.~Zhou,
+  Y.~Qiao, et~al.
+\newblock Visionllm: Large language model is also an open-ended decoder for
+  vision-centric tasks.
+\newblock \emph{arXiv preprint arXiv:2305.11175}, 2023{\natexlab{c}}.
+
+\bibitem[Wang and Gupta(2015)]{7410677}
+X.~Wang and A.~Gupta.
+\newblock Unsupervised learning of visual representations using videos.
+\newblock In \emph{ICCV}, 2015.
+
+\bibitem[Wang et~al.(2025)Wang, Zhang, Zohar, and
+  Yeung-Levy]{wang2025videoagent}
+X.~Wang, Y.~Zhang, O.~Zohar, and S.~Yeung-Levy.
+\newblock Videoagent: Long-form video understanding with large language model
+  as agent.
+\newblock In \emph{European Conference on Computer Vision}, pages 58--76.
+  Springer, 2025.
+
+\bibitem[Wang and Zhao(2023)]{Wang2023GeminiIR}
+Y.~Wang and Y.~Zhao.
+\newblock Gemini in reasoning: Unveiling commonsense in multimodal large
+  language models.
+\newblock \emph{ArXiv}, abs/2312.17661, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:266690844}.
+
+\bibitem[Wang et~al.(2022)Wang, Li, Li, He, Huang, Zhao, Zhang, Xu, Liu, Wang,
+  et~al.]{wang2022internvideo}
+Y.~Wang, K.~Li, Y.~Li, Y.~He, B.~Huang, Z.~Zhao, H.~Zhang, J.~Xu, Y.~Liu,
+  Z.~Wang, et~al.
+\newblock Internvideo: General video foundation models via generative and
+  discriminative learning.
+\newblock \emph{arXiv preprint arXiv:2212.03191}, 2022.
+
+\bibitem[Wang et~al.(2023{\natexlab{d}})Wang, Yang, and
+  Ren]{Wang2023LifelongMemoryLL}
+Y.~Wang, Y.~Yang, and M.~Ren.
+\newblock Lifelongmemory: Leveraging llms for answering queries in long-form
+  egocentric videos.
+\newblock In \emph{arxiv}, 2023{\natexlab{d}}.
+
+\bibitem[Wang et~al.(2024{\natexlab{b}})Wang, Li, Li, Yu, He, Chen, Pei, Zheng,
+  Xu, Wang, et~al.]{wang2024internvideo2}
+Y.~Wang, K.~Li, X.~Li, J.~Yu, Y.~He, G.~Chen, B.~Pei, R.~Zheng, J.~Xu, Z.~Wang,
+  et~al.
+\newblock Internvideo2: Scaling video foundation models for multimodal video
+  understanding.
+\newblock \emph{arXiv e-prints}, pages arXiv--2403, 2024{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2024{\natexlab{c}})Wang, Yu, Stengel-Eskin, Yoon, Cheng,
+  Bertasius, and Bansal]{wang2024videotree}
+Z.~Wang, S.~Yu, E.~Stengel-Eskin, J.~Yoon, F.~Cheng, G.~Bertasius, and
+  M.~Bansal.
+\newblock Videotree: Adaptive tree-based video representation for llm reasoning
+  on long videos.
+\newblock \emph{arXiv preprint arXiv:2405.19209}, 2024{\natexlab{c}}.
+
+\bibitem[Wei et~al.(2021)Wei, Bosma, Zhao, Guu, Yu, Lester, Du, Dai, and
+  Le]{Wei2021FinetunedLM}
+J.~Wei, M.~Bosma, V.~Zhao, K.~Guu, A.~W. Yu, B.~Lester, N.~Du, A.~M. Dai, and
+  Q.~V. Le.
+\newblock Finetuned language models are zero-shot learners.
+\newblock \emph{ArXiv}, abs/2109.01652, 2021.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:237416585}.
+
+\bibitem[Weston and Sukhbaatar(2023)]{Weston2023System2A}
+J.~Weston and S.~Sukhbaatar.
+\newblock System 2 attention (is something you might need too).
+\newblock \emph{ArXiv}, abs/2311.11829, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:265295357}.
+
+\bibitem[Wu et~al.(2023{\natexlab{a}})Wu, Jing, Cheang, Chen, Xu, Li, Liu, Li,
+  and Kong]{wu2023unleashing}
+H.~Wu, Y.~Jing, C.~Cheang, G.~Chen, J.~Xu, X.~Li, M.~Liu, H.~Li, and T.~Kong.
+\newblock Unleashing large-scale video generative pre-training for visual robot
+  manipulation.
+\newblock \emph{arXiv preprint arXiv:2312.13139}, 2023{\natexlab{a}}.
+
+\bibitem[Wu et~al.(2024{\natexlab{a}})Wu, Li, Chen, and
+  Li]{wu2024longvideobench}
+H.~Wu, D.~Li, B.~Chen, and J.~Li.
+\newblock Longvideobench: A benchmark for long-context interleaved
+  video-language understanding, 2024{\natexlab{a}}.
+\newblock URL \url{https://arxiv.org/abs/2407.15754}.
+
+\bibitem[Wu et~al.(2024{\natexlab{b}})Wu, Cai, Ji, Li, Huang, Luo, Fei, Sun,
+  and Ji]{Wu2024ControlMLLMTV}
+M.-K. Wu, X.~Cai, J.~Ji, J.~Li, O.~Huang, G.~Luo, H.~Fei, X.~Sun, and R.~Ji.
+\newblock Controlmllm: Training-free visual prompt learning for multimodal
+  large language models, 2024{\natexlab{b}}.
+
+\bibitem[Wu et~al.(2023{\natexlab{b}})Wu, Sun, and Ouyang]{wu2022text4vis}
+W.~Wu, Z.~Sun, and W.~Ouyang.
+\newblock {Revisiting Classifier: Transferring Vision-Language Models for Video
+  Recognition}.
+\newblock \emph{AAAI}, 2023{\natexlab{b}}.
+
+\bibitem[Xiao et~al.(2021{\natexlab{a}})Xiao, Tighe, and
+  Modolo]{xiao2021modist}
+F.~Xiao, J.~Tighe, and D.~Modolo.
+\newblock Modist: Motion distillation for self-supervised video representation
+  learning.
+\newblock \emph{Arxiv}, 2021{\natexlab{a}}.
+
+\bibitem[Xiao et~al.(2021{\natexlab{b}})Xiao, Shang, Yao, and
+  Chua]{dataset_xiao2021nextqa}
+J.~Xiao, X.~Shang, A.~Yao, and T.-S. Chua.
+\newblock {NExT-QA}: Next phase of question-answering to explaining temporal
+  actions.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2021{\natexlab{b}}.
+
+\bibitem[Xiao et~al.(2022{\natexlab{a}})Xiao, Yao, Liu, Li, Ji, and
+  Chua]{model_xiao2021hgqa}
+J.~Xiao, A.~Yao, Z.~Liu, Y.~Li, W.~Ji, and T.-S. Chua.
+\newblock Video as conditional graph hierarchy for multi-granular question
+  answering.
+\newblock In \emph{Proceedings of the 36th AAAI Conference on Artificial
+  Intelligence (AAAI)}, pages 2804--2812, 2022{\natexlab{a}}.
+
+\bibitem[Xiao et~al.(2022{\natexlab{b}})Xiao, Zhou, Chua, and
+  Yan]{model_xiao2022vgt}
+J.~Xiao, P.~Zhou, T.-S. Chua, and S.~Yan.
+\newblock Video graph transformer for video question answering.
+\newblock In \emph{European Conference on Computer Vision}, pages 39--58.
+  Springer, 2022{\natexlab{b}}.
+
+\bibitem[Xiao et~al.(2023)Xiao, Zhou, Yao, Li, Hong, Yan, and
+  Chua]{xiao2023covgt}
+J.~Xiao, P.~Zhou, A.~Yao, Y.~Li, R.~Hong, S.~Yan, and T.-S. Chua.
+\newblock Contrastive video question answering via video graph transformer.
+\newblock \emph{arXiv preprint arXiv:2302.13668}, 2023.
+
+\bibitem[Xiao et~al.(2024)Xiao, Yao, Li, and Chua]{Xiao2023CanIT}
+J.~Xiao, A.~Yao, Y.~Li, and T.-S. Chua.
+\newblock Can i trust your answer? visually grounded video question answering.
+\newblock \emph{CVPR}, 2024.
+
+\bibitem[Xu et~al.(2017{\natexlab{a}})Xu, Zhao, Xiao, Wu, Zhang, He, and
+  Zhuang]{xu2017msvdqavideo}
+D.~Xu, Z.~Zhao, J.~Xiao, F.~Wu, H.~Zhang, X.~He, and Y.~Zhuang.
+\newblock Video question answering via gradually refined attention over
+  appearance and motion.
+\newblock In \emph{ACM Multimedia}, 2017{\natexlab{a}}.
+
+\bibitem[Xu et~al.(2022{\natexlab{a}})Xu, Zhang, Cai, Rezatofighi, and
+  Tao]{xu2022gmflow}
+H.~Xu, J.~Zhang, J.~Cai, H.~Rezatofighi, and D.~Tao.
+\newblock {GMFlow: Learning Optical Flow via Global Matching}.
+\newblock In \emph{IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition}, 2022{\natexlab{a}}.
+
+\bibitem[Xu et~al.(2024)Xu, Han, Yang, Li, and Srivastava]{xu2024penetrative}
+H.~Xu, L.~Han, Q.~Yang, M.~Li, and M.~Srivastava.
+\newblock Penetrative ai: Making llms comprehend the physical world, 2024.
+
+\bibitem[Xu et~al.(2022{\natexlab{b}})Xu, De~Mello, Liu, Byeon, Breuel, Kautz,
+  and Wang]{xu2022groupvit}
+J.~Xu, S.~De~Mello, S.~Liu, W.~Byeon, T.~Breuel, J.~Kautz, and X.~Wang.
+\newblock {GroupViT: Semantic Segmentation Emerges from Text Supervision}.
+\newblock In \emph{CVPR}, pages 18134--18144, 2022{\natexlab{b}}.
+
+\bibitem[Xu et~al.(2023)Xu, Hou, Zhang, Feng, Wang, Qiao, and
+  Xie]{Xu2023LearningOS}
+J.~Xu, J.~Hou, Y.~Zhang, R.~Feng, Y.~Wang, Y.~Qiao, and W.~Xie.
+\newblock Learning open-vocabulary semantic segmentation models from natural
+  language supervision.
+\newblock \emph{ArXiv}, 2023.
+
+\bibitem[Xu et~al.(2016)Xu, Hospedales, and Gong]{xu2016mte}
+X.~Xu, T.~M. Hospedales, and S.~Gong.
+\newblock {Multi-Task Zero-Shot Action Recognition with Prioritised Data
+  Augmentation }.
+\newblock In \emph{ECCV}, pages 343--359. Springer, 2016.
+
+\bibitem[Xu et~al.(2017{\natexlab{b}})Xu, Hospedales, and
+  Gong]{xu2017transductive}
+X.~Xu, T.~Hospedales, and S.~Gong.
+\newblock Transductive zero-shot action recognition by word-vector embedding.
+\newblock \emph{IJCV}, 2017{\natexlab{b}}.
+
+\bibitem[Xue et~al.(2022)Xue, Sun, Liu, Fu, Song, Li, and Luo]{xue2022clipvip}
+H.~Xue, Y.~Sun, B.~Liu, J.~Fu, R.~Song, H.~Li, and J.~Luo.
+\newblock {CLIP-ViP: Adapting Pre-trained Image-Text Model to Video-Language
+  Representation Alignment}.
+\newblock \emph{arXiv preprint arXiv:2209.06430}, 2022.
+
+\bibitem[Yan et~al.(2022{\natexlab{a}})Yan, Zhu, Wang, Cao, Zhang, Ghosh, Wu,
+  and Yu]{Yan2022VideoCoCaVM}
+S.~Yan, T.~Zhu, Z.~Wang, Y.~Cao, M.~Zhang, S.~Ghosh, Y.~Wu, and J.~Yu.
+\newblock Videococa: Video-text modeling with zero-shot transfer from
+  contrastive captioners.
+\newblock \emph{arXiv}, 2022{\natexlab{a}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:254535696}.
+
+\bibitem[Yan et~al.(2022{\natexlab{b}})Yan, Zhu, Wang, Cao, Zhang, Ghosh, Wu,
+  and Yu]{yan2022videococa}
+S.~Yan, T.~Zhu, Z.~Wang, Y.~Cao, M.~Zhang, S.~Ghosh, Y.~Wu, and J.~Yu.
+\newblock {Video-Text Modeling with Zero-Shot Transfer from Contrastive
+  Captioners}.
+\newblock \emph{arXiv preprint arXiv:2212.04979}, 2022{\natexlab{b}}.
+
+\bibitem[Yang et~al.(2021)Yang, Miech, Sivic, Laptev, and
+  Schmid]{yang2021justask}
+A.~Yang, A.~Miech, J.~Sivic, I.~Laptev, and C.~Schmid.
+\newblock Just ask: Learning to answer questions from millions of narrated
+  videos.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 1686--1697, 2021.
+
+\bibitem[Yang et~al.(2022{\natexlab{a}})Yang, Miech, Sivic, Laptev, and
+  Schmid]{yang2022frozenblim}
+A.~Yang, A.~Miech, J.~Sivic, I.~Laptev, and C.~Schmid.
+\newblock Zero-shot video question answering via frozen bidirectional language
+  models.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  35:\penalty0 124--141, 2022{\natexlab{a}}.
+
+\bibitem[Yang et~al.(2022{\natexlab{b}})Yang, Miech, Sivic, Laptev, and
+  Schmid]{yang2022zero}
+A.~Yang, A.~Miech, J.~Sivic, I.~Laptev, and C.~Schmid.
+\newblock Zero-shot video question answering via frozen bidirectional language
+  models.
+\newblock \emph{arXiv preprint arXiv:2206.08155}, 2022{\natexlab{b}}.
+
+\bibitem[Yao et~al.(2022)Yao, Huang, Hou, Lu, Niu, Xu, Liang, Li, Jiang, and
+  Xu]{yao2022filip}
+L.~Yao, R.~Huang, L.~Hou, G.~Lu, M.~Niu, H.~Xu, X.~Liang, Z.~Li, X.~Jiang, and
+  C.~Xu.
+\newblock {FILIP}: Fine-grained interactive language-image pre-training.
+\newblock In \emph{ICLR}, 2022.
+
+\bibitem[Ye et~al.(2023{\natexlab{a}})Ye, Xu, Yan, Xu, Qian, Zhang, and
+  Huang]{ye2023hitea}
+Q.~Ye, G.~Xu, M.~Yan, H.~Xu, Q.~Qian, J.~Zhang, and F.~Huang.
+\newblock Hitea: Hierarchical temporal-aware video-language pre-training.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 15405--15416, 2023{\natexlab{a}}.
+
+\bibitem[Ye et~al.(2023{\natexlab{b}})Ye, Xu, Xu, Ye, Yan, Zhou, Wang, Hu, Shi,
+  Shi, et~al.]{ye2023mplug}
+Q.~Ye, H.~Xu, G.~Xu, J.~Ye, M.~Yan, Y.~Zhou, J.~Wang, A.~Hu, P.~Shi, Y.~Shi,
+  et~al.
+\newblock mplug-owl: Modularization empowers large language models with
+  multimodality.
+\newblock \emph{arXiv preprint arXiv:2304.14178}, 2023{\natexlab{b}}.
+
+\bibitem[You et~al.(2023)You, Zhang, Gan, Du, Zhang, Wang, Cao, Chang, and
+  Yang]{You2023FerretRA}
+H.~You, H.~Zhang, Z.~Gan, X.~Du, B.~Zhang, Z.~Wang, L.~Cao, S.-F. Chang, and
+  Y.~Yang.
+\newblock Ferret: Refer and ground anything anywhere at any granularity.
+\newblock \emph{ArXiv}, abs/2310.07704, 2023.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:263834718}.
+
+\bibitem[Yu et~al.(2023{\natexlab{a}})Yu, Wang, Tu, Cao, Zhang-Li, Lv, Peng,
+  Yao, Zhang, Li, Li, Zhang, Bai, Liu, Xin, Lin, Yun, Gong, Chen, Wu, Qi, Li,
+  Guan, Zeng, Qi, Jin, Liu, Gu, Yao, Ding, Hou, Liu, Xu, Tang, and
+  Li]{yu2023kola}
+J.~Yu, X.~Wang, S.~Tu, S.~Cao, D.~Zhang-Li, X.~Lv, H.~Peng, Z.~Yao, X.~Zhang,
+  H.~Li, C.~Li, Z.~Zhang, Y.~Bai, Y.~Liu, A.~Xin, N.~Lin, K.~Yun, L.~Gong,
+  J.~Chen, Z.~Wu, Y.~Qi, W.~Li, Y.~Guan, K.~Zeng, J.~Qi, H.~Jin, J.~Liu, Y.~Gu,
+  Y.~Yao, N.~Ding, L.~Hou, Z.~Liu, B.~Xu, J.~Tang, and J.~Li.
+\newblock Kola: Carefully benchmarking world knowledge of large language
+  models, 2023{\natexlab{a}}.
+
+\bibitem[Yu et~al.(2016)Yu, Tan, Bansal, and Berg]{Yu2016AJS}
+L.~Yu, H.~Tan, M.~Bansal, and T.~L. Berg.
+\newblock A joint speaker-listener-reinforcer model for referring expressions.
+\newblock \emph{2017 IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, pages 3521--3529, 2016.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:10132533}.
+
+\bibitem[Yu et~al.(2023{\natexlab{b}})Yu, Cho, Yadav, and
+  Bansal]{Yu2023SelfChainedIM}
+S.~Yu, J.~Cho, P.~Yadav, and M.~Bansal.
+\newblock Self-chained image-language model for video localization and question
+  answering.
+\newblock \emph{ArXiv}, abs/2305.06988, 2023{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:258615748}.
+
+\bibitem[Yu et~al.(2024)Yu, Cho, Yadav, and Bansal]{yu2024sevila}
+S.~Yu, J.~Cho, P.~Yadav, and M.~Bansal.
+\newblock Self-chained image-language model for video localization and question
+  answering.
+\newblock \emph{Advances in Neural Information Processing Systems}, 36, 2024.
+
+\bibitem[Yu et~al.(2019{\natexlab{a}})Yu, Quillen, He, Julian, Hausman, Finn,
+  and Levine]{yu2019meta}
+T.~Yu, D.~Quillen, Z.~He, R.~Julian, K.~Hausman, C.~Finn, and S.~Levine.
+\newblock {Meta-World: A Benchmark and Evaluation for Multi-Task and Meta
+  Reinforcement Learning}.
+\newblock In \emph{Conference on Robot Learning}, 2019{\natexlab{a}}.
+
+\bibitem[Yu et~al.(2019{\natexlab{b}})Yu, Xu, Yu, Yu, Zhao, Zhuang, and
+  Tao]{Yu2019ActivityNetQAAD}
+Z.~Yu, D.~Xu, J.~Yu, T.~Yu, Z.~Zhao, Y.~Zhuang, and D.~Tao.
+\newblock Activitynet-qa: A dataset for understanding complex web videos via
+  question answering.
+\newblock \emph{ArXiv}, abs/1906.02467, 2019{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:69645185}.
+
+\bibitem[Yuan et~al.(2024)Yuan, Duan, Blukis, Pumacay, Krishna, Murali,
+  Mousavian, and Fox]{yuan2024robopoint}
+W.~Yuan, J.~Duan, V.~Blukis, W.~Pumacay, R.~Krishna, A.~Murali, A.~Mousavian,
+  and D.~Fox.
+\newblock Robopoint: A vision-language model for spatial affordance prediction
+  for robotics.
+\newblock \emph{arXiv preprint arXiv:2406.10721}, 2024.
+
+\bibitem[Yun et~al.(2022)Yun, Kim, Han, Song, Ha, and Shin]{pmlr-v162-yun22a}
+S.~Yun, J.~Kim, D.~Han, H.~Song, J.-W. Ha, and J.~Shin.
+\newblock Time is {M}att{E}r: Temporal self-supervision for video transformers.
+\newblock In \emph{Proceedings of the 39th International Conference on Machine
+  Learning}, pages 25804--25816, 2022.
+
+\bibitem[Zang et~al.(2023)Zang, Li, Han, Zhou, and Loy]{zang2023contextual}
+Y.~Zang, W.~Li, J.~Han, K.~Zhou, and C.~C. Loy.
+\newblock Contextual object detection with multimodal large language models.
+\newblock \emph{arXiv preprint arXiv:2305.18279}, 2023.
+
+\bibitem[Zawalski et~al.(2024)Zawalski, Chen, Pertsch, Mees, Finn, and
+  Levine]{Zawalski2024RoboticCV}
+M.~Zawalski, W.~Chen, K.~Pertsch, O.~Mees, C.~Finn, and S.~Levine.
+\newblock Robotic control via embodied chain-of-thought reasoning.
+\newblock In \emph{Conference on Robot Learning}, 2024.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:271097636}.
+
+\bibitem[Zellers and Choi(2017)]{zellers2017zero}
+R.~Zellers and Y.~Choi.
+\newblock Zero-shot activity recognition with verb attribute induction.
+\newblock \emph{arXiv preprint arXiv:1707.09468}, 2017.
+
+\bibitem[Zellers et~al.(2021)Zellers, Lu, Hessel, Yu, Park, Cao, Farhadi, and
+  Choi]{Zellers2021MERLOTMN}
+R.~Zellers, X.~Lu, J.~Hessel, Y.~Yu, J.~S. Park, J.~Cao, A.~Farhadi, and
+  Y.~Choi.
+\newblock Merlot: Multimodal neural script knowledge models.
+\newblock \emph{ArXiv}, abs/2106.02636, 2021.
+
+\bibitem[Zeng et~al.(2022{\natexlab{a}})Zeng, Wong, Welker, Choromanski,
+  Tombari, Purohit, Ryoo, Sindhwani, Lee, Vanhoucke, et~al.]{zeng2022socratic}
+A.~Zeng, A.~Wong, S.~Welker, K.~Choromanski, F.~Tombari, A.~Purohit, M.~Ryoo,
+  V.~Sindhwani, J.~Lee, V.~Vanhoucke, et~al.
+\newblock {Socratic Models: Composing Zero-Shot Multimodal Reasoning with
+  Language}.
+\newblock \emph{arXiv preprint arXiv:2204.00598}, 2022{\natexlab{a}}.
+
+\bibitem[Zeng et~al.(2017)Zeng, Chen, Chuang, Liao, Niebles, and
+  Sun]{videoqaaaai2017}
+K.-H. Zeng, T.-H. Chen, C.-Y. Chuang, Y.-H. Liao, J.~C. Niebles, and M.~Sun.
+\newblock Leveraging video descriptions to learn video question answering.
+\newblock \emph{Proceedings of the AAAI Conference on Artificial Intelligence},
+  31\penalty0 (1), Feb. 2017.
+\newblock \doi{10.1609/aaai.v31i1.11238}.
+\newblock URL \url{https://ojs.aaai.org/index.php/AAAI/article/view/11238}.
+
+\bibitem[Zeng et~al.(2021)Zeng, Zhang, and Li]{Zeng2021MultiGrainedVL}
+Y.~Zeng, X.~Zhang, and H.~Li.
+\newblock Multi-grained vision language pre-training: Aligning texts with
+  visual concepts.
+\newblock \emph{ArXiv}, abs/2111.08276, 2021.
+
+\bibitem[Zeng et~al.(2022{\natexlab{b}})Zeng, Ge, Liu, Chen, Luo, Xia, and
+  Ge]{Zeng2022LearningTS}
+Z.~Zeng, Y.~Ge, X.~Liu, B.~Chen, P.~Luo, S.~Xia, and Y.~Ge.
+\newblock Learning transferable spatiotemporal representations from natural
+  script knowledge.
+\newblock \emph{ArXiv}, abs/2209.15280, 2022{\natexlab{b}}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{a}})Zhang, Lu, Islam, Wang, Yu, Bansal,
+  and Bertasius]{zhang2023llovi}
+C.~Zhang, T.~Lu, M.~M. Islam, Z.~Wang, S.~Yu, M.~Bansal, and G.~Bertasius.
+\newblock A simple llm framework for long-range video question-answering.
+\newblock \emph{arXiv preprint arXiv:2312.17235}, 2023{\natexlab{a}}.
+
+\bibitem[Zhang et~al.(2022{\natexlab{a}})Zhang, Zhang, Hu, Chen, Li, Dai, Wang,
+  Yuan, Hwang, and Gao]{Zhang2022GLIPv2UL}
+H.~Zhang, P.~Zhang, X.~Hu, Y.-C. Chen, L.~H. Li, X.~Dai, L.~Wang, L.~Yuan,
+  J.-N. Hwang, and J.~Gao.
+\newblock Glipv2: Unifying localization and vision-language understanding.
+\newblock \emph{ArXiv}, abs/2206.05836, 2022{\natexlab{a}}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{b}})Zhang, Li, and
+  Bing]{Zhang2023VideoLLaMAAI}
+H.~Zhang, X.~Li, and L.~Bing.
+\newblock Video-llama: An instruction-tuned audio-visual language model for
+  video understanding.
+\newblock \emph{ArXiv}, abs/2306.02858, 2023{\natexlab{b}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:259075356}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{c}})Zhang, Rao, and
+  Agrawala]{zhang2023adding}
+L.~Zhang, A.~Rao, and M.~Agrawala.
+\newblock Adding conditional control to text-to-image diffusion models,
+  2023{\natexlab{c}}.
+
+\bibitem[Zhang et~al.(2022{\natexlab{b}})Zhang, Cai, Pan, Hong, Guo, Yang, and
+  Liu]{zhang2022motiondiffuse}
+M.~Zhang, Z.~Cai, L.~Pan, F.~Hong, X.~Guo, L.~Yang, and Z.~Liu.
+\newblock Motiondiffuse: Text-driven human motion generation with diffusion
+  model.
+\newblock \emph{arXiv preprint arXiv:2208.15001}, 2022{\natexlab{b}}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{d}})Zhang, Han, Zhou, Hu, Yan, Lu, Li,
+  Gao, and Qiao]{Zhang2023LLaMAAdapterEF}
+R.~Zhang, J.~Han, A.~Zhou, X.~Hu, S.~Yan, P.~Lu, H.~Li, P.~Gao, and Y.~J. Qiao.
+\newblock Llama-adapter: Efficient fine-tuning of language models with
+  zero-init attention.
+\newblock \emph{ArXiv}, abs/2303.16199, 2023{\natexlab{d}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:257771811}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{e}})Zhang, Sun, Chen, Xiao, Shao, Zhang,
+  Chen, and Luo]{zhang2023gpt4roi}
+S.~Zhang, P.~Sun, S.~Chen, M.~Xiao, W.~Shao, W.~Zhang, K.~Chen, and P.~Luo.
+\newblock Gpt4roi: Instruction tuning large language model on
+  region-of-interest.
+\newblock \emph{arXiv preprint arXiv:2307.03601}, 2023{\natexlab{e}}.
+
+\bibitem[Zhang et~al.(2023{\natexlab{f}})Zhang, Wang, Liew, Huang, Zhu, Feng,
+  and Zuo]{Zhang2023AssociatingSG}
+Y.~Zhang, Z.~Wang, J.~H. Liew, J.~Huang, M.~Zhu, J.~Feng, and W.~Zuo.
+\newblock Associating spatially-consistent grouping with text-supervised
+  semantic segmentation.
+\newblock \emph{ArXiv}, abs/2304.01114, 2023{\natexlab{f}}.
+
+\bibitem[Zhao et~al.(2023{\natexlab{a}})Zhao, Zhou, Li, Tang, Wang, Hou, Min,
+  Zhang, Zhang, Dong, Du, Yang, Chen, Chen, Jiang, Ren, Li, Tang, Liu, Liu,
+  Nie, and rong Wen]{Zhao2023ASO}
+W.~X. Zhao, K.~Zhou, J.~Li, T.~Tang, X.~Wang, Y.~Hou, Y.~Min, B.~Zhang,
+  J.~Zhang, Z.~Dong, Y.~Du, C.~Yang, Y.~Chen, Z.~Chen, J.~Jiang, R.~Ren, Y.~Li,
+  X.~Tang, Z.~Liu, P.~Liu, J.~Nie, and J.~rong Wen.
+\newblock A survey of large language models.
+\newblock \emph{ArXiv}, abs/2303.18223, 2023{\natexlab{a}}.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:257900969}.
+
+\bibitem[Zhao et~al.(2022)Zhao, Misra, Krahenbuhl, and
+  Girdhar]{Zhao2022LearningVR}
+Y.~Zhao, I.~Misra, P.~Krahenbuhl, and R.~Girdhar.
+\newblock Learning video representations from large language models.
+\newblock \emph{ArXiv}, abs/2212.04501, 2022.
+
+\bibitem[Zhao et~al.(2023{\natexlab{b}})Zhao, Lin, Zhou, Huang, Feng, and
+  Kang]{zhao2023bubogpt}
+Y.~Zhao, Z.~Lin, D.~Zhou, Z.~Huang, J.~Feng, and B.~Kang.
+\newblock Bubogpt: Enabling visual grounding in multi-modal llms.
+\newblock \emph{arXiv preprint arXiv:2307.08581}, 2023{\natexlab{b}}.
+
+\bibitem[Zhao et~al.(2017)Zhao, Ma, and You]{Zhao_2017_ICCV}
+Z.~Zhao, H.~Ma, and S.~You.
+\newblock Single image action recognition using semantic body part actions.
+\newblock In \emph{The IEEE International Conference on Computer Vision
+  (ICCV)}, Oct 2017.
+
+\bibitem[Zhao et~al.(2023{\natexlab{c}})Zhao, Lee, and Hsu]{zhao2023large}
+Z.~Zhao, W.~S. Lee, and D.~Hsu.
+\newblock Large language models as commonsense knowledge for large-scale task
+  planning, 2023{\natexlab{c}}.
+
+\bibitem[Zheng et~al.(2025)Zheng, Li, Liu, Zheng, Wang, Ou, Liu, Liu, Zhang,
+  and Zhan]{Zheng2025UniversalAF}
+J.~Zheng, J.~Li, D.~Liu, Y.~Zheng, Z.~Wang, Z.~Ou, Y.~Liu, J.~Liu, Y.-Q. Zhang,
+  and X.~Zhan.
+\newblock Universal actions for enhanced embodied foundation models.
+\newblock \emph{ArXiv}, abs/2501.10105, 2025.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:275606605}.
+
+\bibitem[Zheng et~al.(2024)Zheng, Liang, Huang, Gao, Daum{\'e}~III, Kolobov,
+  Huang, and Yang]{zheng2024tracevla}
+R.~Zheng, Y.~Liang, S.~Huang, J.~Gao, H.~Daum{\'e}~III, A.~Kolobov, F.~Huang,
+  and J.~Yang.
+\newblock Tracevla: Visual trace prompting enhances spatial-temporal awareness
+  for generalist robotic policies.
+\newblock \emph{arXiv preprint arXiv:2412.10345}, 2024.
+
+\bibitem[Zhou et~al.(2021)Zhou, Loy, and Dai]{Zhou2021ExtractFD}
+C.~Zhou, C.~C. Loy, and B.~Dai.
+\newblock Extract free dense labels from clip.
+\newblock In \emph{European Conference on Computer Vision}, 2021.
+
+\bibitem[Zhu et~al.(2018)Zhu, Long, Guan, Newsam, and Shao]{zhu2018ur}
+Y.~Zhu, Y.~Long, Y.~Guan, S.~Newsam, and L.~Shao.
+\newblock {Towards Universal Representation for Unseen Action Recognition}.
+\newblock In \emph{CVPR}, pages 9436--9445, 2018.
+
+\bibitem[Zou et~al.(2023)Zou, Yang, Zhang, Li, Li, Gao, and
+  Lee]{Zou2023SegmentEE}
+X.~Zou, J.~Yang, H.~Zhang, F.~Li, L.~Li, J.~Gao, and Y.~J. Lee.
+\newblock Segment everything everywhere all at once.
+\newblock In \emph{NeurIPS}, 2023.
+
+\end{thebibliography}

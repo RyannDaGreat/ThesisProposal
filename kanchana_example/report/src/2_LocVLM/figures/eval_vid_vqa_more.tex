@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.9em}  % width
+\begin{tabular}{l|c|c|c}
+\toprule
+Method           & VLT  & Frames & Acc (\%) \\ \midrule
+LLaVa (v1) \cite{liu2023visual}       & \xmark & 1   & 28.7 \\
+LLaVa (v1.5) \cite{liu2023visual}     & \xmark & 1   & 31.5 \\ \rowcolor{Gray}
+LocVLM-B     & \xmark & 1   & 29.2 \\ \rowcolor{Gray}
+LocVLM-L     & \xmark & 1   & \textbf{32.1} \\ \midrule
+Video-ChatGPT \cite{Maaz2023VideoChatGPT}   & \cmark & 100 & 35.2 \\ \rowcolor{Gray}
+LocVLM-Vid-B & \cmark & 100 & 37.4 \\ \rowcolor{Gray}
+LocVLM-Vid-B+& \cmark & 8   & \textbf{38.2} \\ \bottomrule
+\end{tabular}
+\caption[More Video VQA Results]{\textbf{Video VQA}: We report more results (Top-1 Accuracy) for ActivityNet-QA dataset including multiple baseline and LocVLM variants. Our proposed models exhibit top performance. VLT denotes video level training. More details in \cref{locvlm_supp:video}.}
+\label{locvlm_tbl:vid_more}
+\end{table}

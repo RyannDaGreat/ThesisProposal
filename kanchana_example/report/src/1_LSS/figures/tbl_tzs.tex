@@ -1,0 +1,28 @@
+\begin{table}[t!]
+    \centering
+    \small
+    \caption[Transductive Zero-shot Transfer on HMDB-51 and UCF-101]{\small
+    \textbf{Transductive Zero-shot Transfer on HMDB-51 \cite{kuehne2011hmdb}, UCF-101 \cite{soomro2012ucf101}, and Kinetics-400 \cite{kinetics400}:} We report top-1 accuracy (\%) following the evaluation procedure in \cite{Kahatapitiya2023VicTRVT}. Similar to prior work, we perform dataset specific unsupervised fine-tuning (using our self-supervised objective) on the train-splits of each downstream dataset (no labels used). `ITP' refers to image-text pretaining, and `Video Labels' refers to video level supervised training. Note that CLIP \cite{radford2021clip} is not transductive and is included only for comparison purposes. 
+    }
+    \label{lss_tbl:transductive}
+    \def\arraystretch{1.2}  % height
+    \setlength\tabcolsep{0.6em}  % width
+    \scalebox{0.85}{
+    \begin{tabular}{l|c|c|c|c|c|c|c}
+        \toprule
+        Method                                     & Backbone & ITP & Video Labels & Frames & HMDB & UCF & K400 \\
+        \midrule
+        UR \cite{zhu2018ur}\venue{(CVPR `18)}		  & CNN   & \xmark & \xmark & 1  & 28.9 & 20.1 & - \\
+        TS-GCN \cite{gao2019tsgcn}\venue{(AAAI `19)}  & GCN   & \xmark & \cmark & 16 & 23.2 & 34.2 & - \\
+        CLIP \cite{radford2021clip}\venue{(ICML `21)} & ViT-B & \cmark & \xmark & 8  & 47.2 & 70.3 & 49.7 \\
+        MUST \cite{Li2022MaskedUS}\venue{(ICLR `23)}  & ViT-B & \cmark & \xmark & 1  & 48.9 & \textbf{81.1} & 51.2\\
+        \rowcolor{Gray}
+        LSS (ours)	 	 						  & ViT-B & \cmark & \xmark & 8  & \textbf{55.0} & 75.6 & \textbf{54.3}\\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+%			\multicolumn{4}{l}{\textit{Methods w/ image-text pretraining (ViT-L/14)}} \\
+%Text4Vis \cite{wu2022text4vis} & 16 & 58.1$\pm$5.7 & 85.8$\pm$3.3 \\
+%VideoCoCa \cite{yan2022videococa} & 8 & 58.7 & 86.6 \\
+%MOV$^*$ \cite{qian2022multimodal} & 16 & 64.7$\pm$3.2 & 87.1$\pm$3.2\\

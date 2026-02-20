@@ -1,0 +1,119 @@
+\babel@toc {english}{}
+\vspace *{-20pt}
+\contentsline {chapter}{List of Figures}{vi}{chapter*.2}%
+\contentsline {chapter}{List of Tables}{vii}{chapter*.3}%
+\contentsline {chapter}{Publications}{ix}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Overview}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Organization}{3}{section.1.2}%
+\contentsline {paragraph}{Chapter 2: Related Work.}{3}{section*.5}%
+\contentsline {paragraph}{Chapter 3: Language-Guided Self-Supervised Learning (LSS).}{4}{section*.6}%
+\contentsline {paragraph}{Chapter 4: Enhancing Spatial Reasoning (LocVLM).}{4}{section*.7}%
+\contentsline {paragraph}{Chapter 5: Motion for Long Video Understanding (MVU).}{4}{section*.8}%
+\contentsline {paragraph}{Chapter 6: Structured Motion Representations (LangToMo).}{4}{section*.9}%
+\contentsline {paragraph}{Chapter 7: Conclusion and Future Work.}{4}{section*.10}%
+\contentsline {chapter}{\numberline {2}Literature Review}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Language Based Video Self-Supervised Learning}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Spatial Reasoning in Visual-LLMs}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Multimodal Language Models for Long Videos}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Learning Motion Representations from Videos}{10}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Language Based Video Self-Supervised Learning}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Language-based Self-Supervision (LSS)}{14}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Backbone Architecture}{15}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Action Concept Spaces}{16}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Concept Distillation}{17}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Uniform Distribution Prior}{19}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Concept Alignment}{19}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Concept Space Variants}{20}{subsection.3.2.6}%
+\contentsline {section}{\numberline {3.3}Experiments}{21}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Linear-Probing Analysis}{23}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Zero-Shot Analysis}{24}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Ablations}{25}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Conclusion}{27}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Additional Details}{27}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Prompting details}{27}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Additional Experiments}{28}{subsection.3.5.2}%
+\contentsline {chapter}{\numberline {4}Learning to Localize Objects Improves Spatial Reasoning in Visual-LLMs}{30}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{30}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Method}{32}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Architecture and Training}{33}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Coordinate Processing and Generation}{34}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Instruction Fine-Tuning Objectives}{35}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Pseudo-Data Generation}{37}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Video Domain Operation}{37}{subsection.4.2.5}%
+\contentsline {section}{\numberline {4.3}Experiments}{38}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Experimental Setup}{38}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Spatial Reasoning: A Toy Experiment}{39}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Image VQA}{40}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Video VQA}{40}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Object Hallucination}{42}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Region Description}{43}{subsection.4.3.6}%
+\contentsline {subsection}{\numberline {4.3.7}Ablations}{44}{subsection.4.3.7}%
+\contentsline {section}{\numberline {4.4}Conclusion}{45}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Additional Details}{45}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Coordinate Representation Details}{45}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Training Prompt Details}{47}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Dataset Details}{48}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Video Architecture \& Training}{49}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Spatial Reasoning Toy Experiment}{50}{subsection.4.5.5}%
+\contentsline {subsection}{\numberline {4.5.6}LLaVA Dataset Analysis}{51}{subsection.4.5.6}%
+\contentsline {subsection}{\numberline {4.5.7}Limitations \& Broader Impact}{52}{subsection.4.5.7}%
+\contentsline {subsection}{\numberline {4.5.8}Qualitative Evaluation}{52}{subsection.4.5.8}%
+\contentsline {chapter}{\numberline {5}Understanding Long Videos with Multimodal Language Models}{56}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{56}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Naive Baselines \& Likelihood Selection}{58}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Problem Formulation}{58}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Likelihood Selection}{59}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Modality Constrained Variants}{60}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Multimodal Video Understanding Framework}{61}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Vision Tools for Video Analysis}{62}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Object-Centric Information Modalities}{63}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Language based Fusion}{64}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Experiments}{65}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Long Video Question Answering}{65}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Robotics Domain Action Recognition}{66}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Ablations}{67}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}Conclusion}{67}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Additional Details}{68}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Prompting and Template Operations}{68}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Details on Pretrained Models and Datasets}{69}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Details on Baselines}{70}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}Robotics Domain Dataset Details}{70}{subsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.6.5}Discussion on Modality Constrained Evaluation}{71}{subsection.5.6.5}%
+\contentsline {subsection}{\numberline {5.6.6}Likelihood Selection}{72}{subsection.5.6.6}%
+\contentsline {subsection}{\numberline {5.6.7}Implementation Details}{72}{subsection.5.6.7}%
+\contentsline {subsection}{\numberline {5.6.8}Distinction from Exact Match}{74}{subsection.5.6.8}%
+\contentsline {subsection}{\numberline {5.6.9}Detailed Prompting Example}{74}{subsection.5.6.9}%
+\contentsline {subsection}{\numberline {5.6.10}Open-Ended Video Question Answering}{75}{subsection.5.6.10}%
+\contentsline {subsection}{\numberline {5.6.11}Longer Video Question Answering}{75}{subsection.5.6.11}%
+\contentsline {subsection}{\numberline {5.6.12}Additional Ablations}{76}{subsection.5.6.12}%
+\contentsline {subsection}{\numberline {5.6.13}Tokenization in LLMs}{76}{subsection.5.6.13}%
+\contentsline {subsection}{\numberline {5.6.14}LLM Context Length}{77}{subsection.5.6.14}%
+\contentsline {subsection}{\numberline {5.6.15}Additional Baselines}{77}{subsection.5.6.15}%
+\contentsline {chapter}{\numberline {6}Pixel Motion as Universal Representation for Robot Control}{87}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introduction}{87}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Methodology}{89}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}System 2: Pixel Motion Forecast}{90}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Diffusion based Motion Representation Learning}{90}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}System 1: Pixel Motion to Action Mapping}{93}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}Experimental Results}{94}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}MetaWorld Simulated Environment}{94}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Real-World Environment}{95}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Ablation Studies}{97}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Conclusion}{98}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Additional Details}{99}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Additional Experimental Results}{99}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Relative Pixel Motion}{100}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Language Embedding Model}{101}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Diffusion Model Details}{101}{subsection.6.5.4}%
+\contentsline {subsection}{\numberline {6.5.5}Hand-Crafted Mapping Functions}{102}{subsection.6.5.5}%
+\contentsline {subsection}{\numberline {6.5.6}Real World Experiments}{102}{subsection.6.5.6}%
+\contentsline {subsection}{\numberline {6.5.7}Baseline Details}{102}{subsection.6.5.7}%
+\contentsline {subsection}{\numberline {6.5.8}Detailed Ablations}{103}{subsection.6.5.8}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{104}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Contemporary Work and Impact}{105}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Future Work}{106}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}3D Aware Motion Modeling}{106}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Compatibility with Ego Motion in Videos}{107}{subsection.7.2.2}%
+\contentsline {chapter}{Bibliography}{141}{chapter*.70}%

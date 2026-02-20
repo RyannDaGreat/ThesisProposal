@@ -1,0 +1,131 @@
+\section{Language-based Self-Supervision (LSS)}
+\label{lss_sec:method}
+In this section, we present our proposal, Language-based Self-Supervision (LSS). The generality and robustness of shared image-language representation spaces such as that of CLIP \cite{radford2021clip} allow interesting manipulations of visual representations using language. We explore such manipulations under the setting of visual self-supervised learning focusing on video understanding. Self-supervised objectives can operate within a latent space constructed with language, retaining language alignment of learned visual representations. This allows better interpretability of representations as well as zero-shot inference. 
+We discuss the four key components of our approach: backbone architecture, concept distillation objective, modifications to avoid collapse, and concept alignment objective.
+
+\input{src/1_LSS/figures/arch.tex}
+
+\subsection{Backbone Architecture}
+\label{lss_subsec:arch}
+Our approach introduces a \textit{text classifier} to self-distillation based SSL works \cite{caron2021emerging, Ran2021SVT}, in place of the projector network.
+% Our approach builds over self-distillation based SSL works \cite{caron2021emerging, Ran2021SVT} introducing a \textit{text classifier} in place of the projector network. 
+Given a data sample $x$, let $x_1, x_2 \in \mathbb{R}^{(C,T,H,W)}$ be two augmented views generated using video specific transformations following \cite{Ran2021SVT}, where $C=3, T=8, H=W=224$ are channel, time, and spatial dimensions respectively. 
+
+\textbf{Visual Encoder:}
+A visual encoder, $\theta_v$, processes $x_i$ to produce feature $f_i \in \mathbb{R}^{768}$. We utilize the pre-trained image encoder of CLIP \cite{radford2021clip} expanded for temporal modelling using factorized space-time attention. The vision transformer variant of CLIP is selected to allow our factorized space-time attention. In particular, we use ViT-B/16 architecture for the the image encoder, in which for a given augmented view with $H=W=224$ and $T=8$, each transformer block processes 8 temporal and 196 spatial tokens separately in sequential order, and the embedding dimension of each token is $\mathbb{R}^{768}$. 
+In addition to the input tokens from the data sample, one classification token \cite{devlin2018bert, dosovitskiy2020image} serves as the final feature vector output by the network, namely $f_i$, which is common to the CLIP image encoder. This classification token is inflated and processed suitably following \cite{bertasius2021timesformer} to accommodate our modifications for factorized space-time attention.  We follow \cite{bertasius2021timesformer} to zero-initialize additional time-attention parameters, achieving outputs identical to the pre-trained CLIP image encoder at start of training. 
+
+\textbf{Text Classifier:}
+Inspired by \cite{wu2022text4vis}, a set of $n$ language embeddings extracted from the CLIP text encoder, $\theta_t$, are used to construct the weight parameter of a linear layer (with no bias term), which we call our text classifier, $\theta_c$. The role of this text classifier is to project visual features $f_i$ to a vector space defined by those $n$ embeddings, producing $\tilde{f}_i \in \mathbb{R}^n$. Next we discuss these vector spaces (referred to as action concept spaces) and the text classifier module in detail.
+
+\input{src/1_LSS/figures/concept_space}
+
+\subsection{Action Concept Spaces}
+\label{subsec:concept_space}
+Self-supervised learning approaches following exponential moving average (EMA) based self-distillation \cite{grill2020bootstrap,caron2021emerging,Ran2021SVT} utilize a projector network (MLP) to operate in a higher dimensional feature space. This is expected to minimize train-test domain gaps, handle noisy positive sample pairs, and better discriminate nuanced feature differences \cite{Balestriero2023ACO}. Focused on these notions, we propose an alternate \textit{concept space} composed of a set of basis vectors defined by language-based action concepts. Our language-based self-supervision objectives operate within such concept spaces.
+
+\textbf{Concept Spaces:}
+Building off the assumption that text encoder features capture subtle differences between distinct actions categories, we hypothesize that necessary nuanced distinctions between these actions will be better captured in our proposed concept spaces. The defining parameters of concept spaces are their basis vectors, $b_i$. Normalized embeddings (extracted from text encoder, $\theta_t$) of various natural language captions ($c_i$) relevant to action categories are used as these basic vectors. 
+%
+\begin{align}
+    b_i &= {\theta_t(c_i)} \left. \right/ {||\theta_t(c_i)||^2_2} \\
+    \mathbf{b} &= [b_1, b_2, ... \ b_n]^T \text{ ; } \mathbf{b} \in \mathbb{R}^{(n, d)} 
+\end{align}
+%
+Note that these basis vectors are not necessarily orthogonal. As illustrated in \cref{lss_fig:cs}, a single set of basis vectors, $\mathbf{b}$, defines one action concept space.
+We define two sets of basic vectors: action category vectors and action description vectors. Action category vectors relate to a single action label which is converted to a caption using textual prompting following \cite{radford2021clip}. Action description vectors are averaged embeddings of multiple descriptions and visual characteristics relevant to individual action categories. These two distinct sets of basic vectors lead to two distinct concept spaces which we name \textit{category concept space} and \textit{description concept space} respectively.  
+
+\textbf{Category Concept Space:}
+We explore 3 different strategies to construct the category concept space. The base setup uses action labels from Kinetics-400 \cite{kinetics400}, UCF-101 \cite{soomro2012ucf}, and HMDB-51 \cite{kuehne2011hmdb} datasets, leading to a set of 530 (400 + 101 + 51, ignoring overlaps) basis vectors. Our next goal of connecting LLMs and their action awareness occurs in the second two strategies. We utilize LLMs \cite{brown2020language} and visual-LLMs \cite{liu2023llava} to extract large sets of action category labels. While we explore this idea of expanding the basis vector set with LMM based additional action labels in \cref{sec:experiments}, the base setup containing a modest 530 categories was sufficient to improve downstream task performance.
+
+\textbf{Description Concept Space:}
+This space is constructed conditioned on the previous category concept space. For each action label used in the latter, we extract 4 distinct descriptions and a set of visual characteristics relevant to that action label using a large language model (LLM). The role of the LLM is to inject its world knowledge (i.e. awareness on videos, actions, and their attributes) into our learned representations during self-supervised learning. 
+In detail, we prompt GPT-3 \cite{brown2020language} to generate such descriptions and characteristics using procedure outlined in \cref{app:gpt_prompting}. We highlight that GPT-3 is used here as an intelligent LLM containing world knowledge on videos and actions, in order to create natural language descriptions for given action category labels. 
+The textual outputs generated for each action label are processed by our text encoder to produce multiple embeddings for a single action label. These embeddings are averaged to produce the corresponding basis vector for the description concept space. Note how this leads to a common dimensionality between the two concept spaces as well as one to one correspondences between the basic vectors of the spaces, which we leverage in our self-supervision objectives. 
+
+
+\subsection{Concept Distillation}
+\label{subsec:cd}
+We now describe our primary self-supervised learning objective, concept distillation. Standard multi-view based self-supervision enforces a network to encode the common information between two augmented (distorted) views of a data sample \cite{Balestriero2023ACO}. This common information can be considered as the augmentation invariant signal present in the original data sample \cite{Balestriero2023ACO,Bardes2021VICRegVR}. In the case of self-distillation based approaches \cite{caron2021emerging,Ran2021SVT}, a higher dimensional feature space is utilized to enforce the self-supervision objectives. Instead, we propose to use action concept spaces as an alternative.
+% , focusing on the case of video based self-supervision. 
+
+Proposed concept distillation depends on an action concept space and visual video features aligned to the basis vectors of that space. Given our visual features $f_i \in \mathbb{R}^d$, we obtain projected $\tilde{f}_i \in \mathbb{R}^n$ as,  
+%
+\begin{align}
+    % \mathbf{b} &= [b_1, b_2, ... \ b_n]^T \text{ ; } \mathbf{b} \in \mathbb{R}^{(n, d)} \notag \\
+    \tilde{f}_i &= \mathbf{b} \ (\left. f_i \right/ ||f_i||^2_2) 
+    = [b_1 \cdot f_i', b_2 \cdot f_i', ... \ b_n \cdot f_i']^T 
+\end{align}
+\textbf{Similarity Calculation: }
+Projecting normalized visual video features to a concept space corresponds to calculating the dot-product similarity with each basic vector of the concept space. The projected vector $\tilde{f}_i$ can be viewed as a similarity \textit{score distribution} across all basis vectors of the concept space. Inspired by \cite{wu2022text4vis}, we implement this similarity calculation as a linear layer with weight matrix $\mathbf{b}$ and bias terms zero. We refer to this layer as the \textit{text classifier}. Similar to \cite{wu2022text4vis}, our text classifier remains frozen (no parameter updates), but in our case, this is to retain the original language distribution. 
+
+\textbf{Concept Distillation Objective:}
+Viewing projected features for two augmented views of a single video as score distributions, we argue that the underlying signal of the original video would relate to a unique score distribution to which score distributions of each view should be similar. Therein, following our EMA teacher based self-distillation setup (see \cref{lss_subsec:arch} for details), we enforce the score distribution to be consistent across views. 
+Given two views $x_1, x_2$ of a single video, our teacher and student visual encoders process them respectively to produce $f_1, f_2$. The text classifier projects these to concept space, producing score distributions $\tilde{f}_1, \tilde{f}_2$. We obtain our objective, $\mathcal{L}_{\text{CD}}$ as:  
+ %
+ \begin{align}
+    \label{eq:softmax}
+    \hat{f}_i[k] &= \frac{\operatorname{exp}(\tilde{f}_i[k] / \lambda_i)}
+                      {\sum_{j=1}^{n} \operatorname{exp}(\tilde{f}_i[j]/ \lambda_i) } \\
+    \label{eq:weight}
+    w_s &=  \operatorname{max}(\hat{f}_1) \\
+    \label{eq:loss_cd}
+    \mathcal{L}_{\text{CD}}(\tilde{f}_1, \tilde{f}_2) &= - w_s \cdot \sum_{j=1}^{n} \hat{f}_1[j] \operatorname{log} \hat{f}_2[j] 
+ \end{align}
+ %
+The teacher and student score distributions, $\tilde{f}_1, \tilde{f}_2$, are softmax normalized in \cref{eq:softmax}, with temperature terms $\lambda_1=0.1, \lambda_2=1$ for sharpening only the teacher score distribution. A significance score $w_s$ is calculated for each sample in \cref{eq:weight}. In the softmax normalized teacher score distribution ($\hat{f}_1$), the maximum value is high when peaked at a single action concept and low when peaked at multiple action concepts. Considering the noisy nature of multi-peak teacher score distributions, we utilize $w_s$ to minimize their overall effect during training. Our overall $\mathcal{L}_{\text{CD}}$ is thus implemented as in \cref{eq:loss_cd}.   
+
+\textbf{Distinct Concept Spaces:} Given the two distinct action concept spaces defined in \cref{subsec:concept_space}, we utilize two parallel text classifiers to implement each, and obtain two score distributions, one for each concept space. Defining score distributions $\tilde{f}_i^C, \tilde{f}_i^D$ for category and description concept spaces respectively, we apply our $\mathcal{L}_{\text{CD}}$ on each pair separately to obtain two losses $\mathcal{L}_{\text{CD}}^{\text{X}}$ for 
+{\small X$\in$\{C,D\}} as:
+%
+\begin{align}
+    \mathcal{L}_{\text{CD}}^{\text{X}} = \mathcal{L}_{\text{CD}}(\tilde{f}_1^{\text{X}}, \tilde{f}_2^{\text{X}})
+\end{align}
+%
+We highlight how our concept spaces implemented as text classifiers are maintained intact by freezing the text classifier during training. This allows our approach to perform direct zero-shot inference, making concept distillation additionally advantageous over standard video SSL techniques. 
+
+
+\subsection{Uniform Distribution Prior}
+\label{subsec:udp}
+Avoiding collapse is a key concern in SSL methods \cite{caron2021emerging,Ran2021SVT,Balestriero2023ACO} and recent self-distillation based approaches utilize feature sharpening and centering operations to avoid collapse \cite{caron2021emerging,Ran2021SVT}. While we similarly perform sharpening operations on the teacher outputs, given the nature of our action concept space, performing a learned vector mean subtraction based centering operations can break the meaningful structure of score distributions. Instead, we enforce a uniform distribution prior on the expected score distribution over the entire training dataset. The centering operation proposed in \cite{caron2021emerging} acts similarly pushing representations towards a uniform distribution while the sharpening operation counters its effect. We approximate expectation over the dataset as a moving average of mean score distributions at each train iteration and the uniform prior is enforced as: 
+%
+\begin{align}
+    \hat{f}_{\text{MA}}^{\text{X}} &= \tau \cdot \hat{f}_2^{\text{X}} + (1 - \tau) \cdot \hat{f}_{\text{MA}}^{\text{X}} \\
+    \label{eq:up}
+    \mathcal{L}_{\text{UP}}^{\text{X}} &= - \frac{1}{n} \sum_j \operatorname{log} \hat{f}_{\text{MA}}^{\text{X}}[j]
+\end{align}
+%
+where the hyper-parameter $\tau=0.5$ is fixed during training. We highlight that $\mathcal{L}_{\text{UP}}$ is necessary for convergence with concept distillation and is added to the concept distillation objective, $\mathcal{L}_{\text{CD}}^{\text{X}}$. 
+
+%\begin{alignat}{2}
+%	x + y &= 5  &\quad&\text{first equation} \\
+%	2x - y &= 1  &&\text{second equation}
+%\end{alignat}
+
+
+\subsection{Concept Alignment}
+Aligning action category labels and their descriptions or attributes within some embedding space has been explored in video SSL under multiple settings \cite{chen2021erzsar,zhu2018ur}. Motivated by these promising results, we explore how such alignment can be integrated to improve our framework with \emph{concept spaces}. In \cref{subsec:concept_space}, we define two distinct action concept spaces constructed from category labels and detailed category descriptions respectively. We hypothesize that explicit alignment of video features between these two spaces based on their one to one relationship can learn additional information. Therein, we introduce our concept alignment objective, $\mathcal{L}_{\text{CA}}$, as follows:
+%
+\begin{align}
+    \mathcal{L}_{\text{CA}} = \mathcal{L}_{\text{CD}}(\tilde{f}_1^{\text{C}}, \tilde{f}_2^{\text{D}}) + \mathcal{L}_{\text{CD}}(\tilde{f}_1^{\text{D}}, \tilde{f}_2^{\text{C}})
+\end{align}
+%
+\textbf{Overall SSL Objective:}
+Reusing $\mathcal{L}_{\text{CD}}$ from \cref{eq:loss_cd}, we match score distributions across our two concept spaces instead of within a single concept space. $\mathcal{L}_{\text{CD}}(\tilde{f}_1^{\text{C}}, \tilde{f}_2^{\text{D}})$ aligns student description score distribution $\tilde{f}_2^{\text{D}}$ to teacher category score distribution $\tilde{f}_1^{\text{C}}$ while $\mathcal{L}_{\text{CD}}(\tilde{f}_1^{\text{C}}, \tilde{f}_2^{\text{D}})$ aligns student category score distribution $\tilde{f}_2^{\text{C}}$ to teacher description score distribution $\tilde{f}_1^{\text{D}}$. Combining all terms, we obtain:
+% This leads to our overall self-supervised training objective:
+%
+\begin{align}
+\label{eq:overall}
+\mathcal{L} = (\mathcal{L}_{\text{CD}}^\text{C} + \mathcal{L}_{\text{UP}}^\text{C}) + (\mathcal{L}_{\text{CD}}^\text{D} + \mathcal{L}_{\text{UP}}^\text{D}) + \mathcal{L}_{\text{CA}}
+\end{align}
+
+
+\subsection{Concept Space Variants}
+Our baseline concept space (described in \cref{subsec:concept_space}) utilizes labels from three standard video datasets (Kinetics-400, UCF-101, HMDB-51). However, we want to ensure scalability with more data and no label leakage to downstream evaluation tasks. With this goal, we propose 2 additional variants of action concept spaces tagged LSS-B and LSS-C. These variants do not use any form of ground truth textual labels from datasets. Moreover, they leverage the world awareness (i.e. knowledge on videos and actions) of LLMs to generate extensive action categories. Our baseline setup is hereafter referred as LSS-A.  
+
+For LSS-B, we use GPT-3 \cite{brown2020language} to generate a large set of action labels. We first prompt GPT to categorize all common human actions / activities into 20 groups. For each group, we again ask GPT to generate at least 100 visually diverse action categories. These are all collected to create a set of 2000 action labels. We then use projections of these labels in CLIP text-encoder representation space to eliminate labels of high semantic similarity (spectral clustering in feature space from \cite{ranasinghe2022perceptual} to identify similar features), achieving 1000 diverse action categories. So our 1000 action categories for LSS-B are generic, not tied to any of our training datasets, and scalable with more data.
+
+For LSS-C, we generate a label set using only videos from the training dataset. We use PCA based clustering to identify 2000 representative videos from a randomly sampled subset (50,000) of our training dataset and then use image-captioning models (LLaVa \cite{liu2023llava}) on video center frames to generate a diverse set of 2000 action labels. This is further reduced to 500 eliminating labels that are similar in feature space of the CLIP text encoder. In this case, our generated labels are tied to the training dataset, but uses no textually annotated category labels. We use only the videos (and an image-to-text captioning model) to generate our label set, still resulting in a scalable framework.
+
+Note that each of these alternate strategies relates to construction of our category concept space. Given the selected set of textual category labels of this space, the description concept space is constructed in the same common way (as described in \cref{subsec:concept_space}).  We also reiterate that LSS-B and LSS-C variants use no category information from train / test datasets. 
+

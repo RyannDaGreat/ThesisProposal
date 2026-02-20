@@ -1,0 +1,489 @@
+\section{Additional Details}
+
+\subsection{Prompting and Template Operations}
+\label{mvu_app:template}
+In \Cref{mvu_subsec:obj_modal} and \Cref{mvu_subsec:oc-modalities}, we utilize 3 distinct prompts and fusion templates for generating joint textual inputs to be processed by the LLM. The 3 distinct prompt categories correspond to our Global Object Information~($x_{\mathrm{GOI}}$), Object Spatial Location~($x_{\mathrm{OSL}}$), and Object Motion Trajectory~($x_{\mathrm{OMT}}$) modalities. We first describe our exact templates as Python pseudo-code in \Cref{mvu_tab:modal_template}.
+
+\begin{table}[ht]
+\centering
+\small
+    \centering
+    \begin{tcolorbox} 
+        \centering
+        % \small
+        \hspace{-6mm}
+        \begin{tabular}{p{0.99\columnwidth}}
+        \textbf{Global Object Information~($x_{\mathrm{GOI}}$)} \\
+        \texttt{\magenta{"Consider following objects in video to answer the question:"} + $\backslash$ }\\
+        \texttt{\magenta{", "}.join(\blue{GOI\_data}) + \magenta{". "} + \blue{\texttt{task\_question}}}\\
+        \rule[0.25\baselineskip]{\textwidth}{1pt}
+        \textbf{Object Spatial Location~($x_{\mathrm{OSL}}$)} \\
+        \texttt{\magenta{"Consider following objects with spatial location as }}\\
+        \texttt{\magenta{(x, y, area) coordinates in video to answer the question:"} + $\backslash$ }\\ 
+        \texttt{\magenta{", "}.join(\blue{OSL\_data}) + \magenta{". "} + \blue{\texttt{task\_question}}} \\
+        \rule[0.25\baselineskip]{\textwidth}{1pt}
+        \textbf{Object Motion Trajectory~($x_{\mathrm{OMT}}$)} \\
+        \texttt{\magenta{"Consider following objects moving along (x, y, area) trajectories}}\\
+        \texttt{\magenta{in video to answer the question:"} + $\backslash$ }\\
+        \texttt{\magenta{", "}.join(\blue{\texttt{OMT\_data}}) + \magenta{". "} + \blue{\texttt{task\_question}}} \\
+        \end{tabular}
+    \end{tcolorbox}
+    \vspace{-2mm}
+    \caption[Prompt Templates for MVU]{\textbf{Prompt templates for three textual modalities.}}
+    \label{mvu_tab:modal_template}
+\end{table}
+
+The above templates depend on each of the modalities represented in textual form (i.e. \blue{\texttt{GOI\_data}}, \blue{\texttt{OSL\_data}}, \blue{\texttt{OMT\_data}}). We describe their exact textual forms next using examples in \Cref{mvu_tab:modal_example}.
+
+\begin{table}[ht]
+\centering
+    \centering
+    \small
+    \begin{tcolorbox} 
+        \centering
+        % \small
+        \hspace{-6mm}
+        \begin{tabular}{p{0.99\columnwidth}}
+        \texttt{\blue{GOI\_data} = [\magenta{"person"}, \magenta{"oven"}, \magenta{"dishwasher"}, \magenta{"sink"}, \magenta{"countertop"}, 
+            \magenta{"dish"}, \magenta{"box"}, \magenta{"scissors"}, \magenta{"drain"}, \magenta{"hand"}, \magenta{"stove"}]}\\
+        \rule[0.25\baselineskip]{\textwidth}{1pt}
+        \texttt{\blue{OSL\_data} = [\magenta{"stove located at (0.52, 0.64, 0.595)"},} \\ 
+\texttt{\qquad\qquad\qquad \magenta{"sink located at (0.56, 0.64, 0.211)"},}\\ 
+\texttt{\qquad\qquad\qquad    \magenta{"countertop located at (0.63, 0.79, 0.308)"},}\\
+\texttt{\qquad\qquad\qquad    \magenta{"box located at (0.46, 0.65, 0.142)"},}\\ 
+\texttt{\qquad\qquad\qquad    \magenta{"dishwasher located at (0.5, 0.5, 0.991)"},}\\ 
+\texttt{\qquad\qquad\qquad    \magenta{"dish located at (0.41, 0.75, 0.077)"},}\\ 
+\texttt{\qquad\qquad\qquad    \magenta{"person located at (0.47, 0.76, 0.282)"} ]}\\
+        \rule[0.25\baselineskip]{\textwidth}{1pt}
+        \texttt{\blue{OMT\_data} = [\magenta{"stove trajectory: (0.5,0.5,0.991)->(0.51,0.69,0.397)}}  \\
+        \texttt{\magenta{\qquad\qquad\qquad ->(0.54,0.73,0.396)"}, }  \\
+        \texttt{\magenta{\qquad\qquad\qquad dish trajectory: (0.55,0.62,0.096)->(0.11,0.65,0.079)"}, }\\
+\texttt{\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad .}\\
+\texttt{\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad .}\\
+\texttt{\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad .}\\
+        \texttt{\magenta{\qquad\qquad\qquad"dish trajectory: (0.41, 0.75, 0.077)"},}\\
+        \texttt{\magenta{\qquad\qquad\qquad"person trajectory: (0.54,0.81,0.34)->(0.49,0.72,0.339)}}\\
+\texttt{\qquad\qquad\qquad\magenta{           ->(0.54,0.84,0.157)->(0.23,0.71,0.176)}}\\
+\texttt{\qquad\qquad\qquad\magenta{           ->(0.51,0.79,0.232)->(0.52,0.78,0.266)}}\\
+\texttt{\qquad\qquad\qquad\magenta{          ->(0.39,0.64,0.558)->(0.54,0.82,0.184)"}]}\\
+        \end{tabular}
+    \end{tcolorbox}
+    \vspace{-2mm}
+    \caption[Prompt Examples for MVU]{\textbf{Prompt examples for three textual modalities.}}
+    \label{mvu_tab:modal_example}
+\end{table}
+
+In this example (for a single video), the \texttt{GOI\_data} list contains 11 distinct object categories discovered across all 8 selected frames for this video. In \texttt{OSL\_data}, this category list is grounded to each frame using our object detector. We apply this on 16 uniformly sampled frames as opposed to only 8 used with the captioner. While this stage removes some categories (which we assume could be object hallucinations \citep{RanLearningtoLoc23}), it also identifies categories at the instance level. We draw attention to the two different instances of a dish in our \blue{\texttt{OSL\_data}} for this example. Also, note that the single spatial coordinate reflects the average location of that object across all 16 (or the number of frames it is detected in) following the setup in \cite{RanLearningtoLoc23}. Our object tracks calculated across frames are utilized for this averaging (i.e. distinguish the two dishes).  
+For our \blue{\texttt{OMT\_data}}, we again leverage our tracks where each object instance is matched across frames and construct explicit sequences of object locations across frames. While ignoring the actual frame indexes, we only consider the object trajectory using frames where they are detected. Note that an object trajectory could be limited to a single location or a variable number of multiple locations. Also, for these trajectories, we introduce an additional scale factor for each object location. This scale factor is the ratio of the object bounding box area to image area, i.e. $(\texttt{obj\_width} * \texttt{obj\_height}) \div \texttt{im\_size}$. This is introduced with an aim of possibly providing some level of depth information. In terms of generating object tracks, we utilize intermediate features from our object detector and perform feature matching based tracking.   
+
+\subsection{Details on Pretrained Models and Datasets}
+\label{mvu_app:models_data}
+We describe in detail the pretrained models used to construct our framework as well as the multiple datasets used in evaluating our framework. 
+
+\noindent \textbf{Models:}
+Our framework utilizes three distinct off-the-shelf models for its various operations, namely \textit{a}) an LLM / VLM for likelihood selection, \textit{b}) a generative VLM for extracting object list from a frame, and \textit{c}) an open-vocabulary detector for object localization. We use \texttt{LLaVA-v1.5-13B} \citep{liu2023llava} for likelihood selection and frame object list generation. For object localization, we use \texttt{OWL-ViT-B/32} \citep{Minderer2022SimpleOO}. Unless explicitly specified, we use the above setup in all our experiments. 
+Variants of our framework uses LLMs \texttt{Llama-2-7b-Chat}, \texttt{Gemma-7b-IT}, and \texttt{Mistral-7B-Instruct} (default) for likelihood selection. 
+Apart from these off-the-shelf models, our framework involves zero additional training. We also reiterate that no components of our framework undergo any form of video-level training.
+
+\vspace{0.5em}
+\noindent \textbf{Datasets:}
+We use multiple video datasets for evaluation under question-answering or n-way classification settings.
+For video question answering, we select two datasets focused on long-form videos: EgoSchema \citep{Mangalam2023EgoSchemaAD}, NExT-QA \citep{dataset_xiao2021nextqa}. EgoSchema is a long-form ego-centric video question-answering benchmark, consisting of a 500-video public subset (EgoSchema-S) and a full 5000+ video evaluation set (EgoSchema-F) accessed only through evaluation servers. This dataset spans over 250 hours and is specially constructed to ensure that \textit{questions require awareness of a longer temporal window for correctly answering} \citep{Mangalam2023EgoSchemaAD}. Example images of EgoSchema are shown in \Cref{mvu_fig:dt_example}.
+NExT-QA similarly contains long-form videos with a focus on requiring causal \& temporal action reasoning as well as common scene comprehension for correctly answering. It contains a validation set (NExT-QA-V) of 4996 video-questions pairs and a test set (NExT-QA-T) of 8564 video-question pairs.
+We also use a series of robotics datasets from the Open X-Embodiment robotics dataset \citep{open_x_embodiment_rt_x_2023} for video question answering in a different domain (more detail in \Cref{mvu_subsec:robotics}). 
+In only one of our ablations aimed at analyzing the motion understanding aspect of our framework, we utilize a fine-grained action recognition dataset, Something-Something-v2 \citep{Goyal2017TheS}, that contains 174 action categories focusing on object motions by replacing object category nouns with `\textit{something}' in textual descriptions of each action category.
+
+
+\subsection{Details on Baselines}
+\label{mvu_app:baselines}
+In \Cref{mvu_subsec:eval_longvid}, we evaluate performance on long-video understanding tasks using work in \cite{zhang2023llovi} and \cite{wang2023vamos} as two baselines for comparison. However, both these methods utilize closed-source, proprietary LLMs (i.e. GPT-4) with parameter counts on the order of trillions (over 100X our model size) deeming their direct comparisons unfair. In the case of \cite{zhang2023llovi}, we replicate their method (using their open-source repository and pre-trained models following \cite{Kahatapitiya2024}) utilizing an open-source LLM of comparable parameter count as our framework. For \cite{wang2023vamos}, the authors directly report results for a variant with a similar parameter count as ours. We utilize these evaluations as our point of comparison. 
+
+We also replicate prior work, LVNet \citep{Park2024TooMF}, that exhibits state-of-the-art results. For this, we use their official code (\url{https://github.com/jongwoopark7978/LVNet}) and integrate our MVU framework over this baseline.
+
+We highlight that re-implementations of these baselines utilize common LLMs / VLMs as our MVU framework followed by identical evaluation protocols to ensure fair comparison. 
+
+\subsection{Robotics Domain Dataset Details}
+\label{mvu_app:openx}
+The Open X-Embodiment dataset is an extensive collection of visuomotor robotics datasets, encompassing a wide range of tasks and environments. 
+It is designed to facilitate research in visuomotor control, providing rich sensory inputs and motor outputs for training and testing robotic systems. 
+However, the videos are usually taken in a controlled environment and they do not always contain meaningful objects, which makes the samples in the dataset usually out of general video distribution (See~\Cref{mvu_fig:dt_example}).
+
+For our analysis, we specifically select datasets within this collection that contain expert episodes accompanied by corresponding language instructions and adapt them into video classification datasets. 
+We treat each trajectory within the dataset as a video clip, with its associated language instruction serving as the video caption (classification label). 
+For each episode, the model is tasked with identifying the correct language instruction from a set of five options, considering a video clip uniformly downsampled to 8 frames. 
+The incorrect options are randomly chosen from the dataset to ensure a diverse and challenging selection.
+In instances where the datasets have multiple cameras for each episode, we treat the videos captured by each camera as distinct datasets.
+
+
+\subsection{Discussion on Modality Constrained Evaluation}
+\label{mvu_app:modality}
+
+We evaluate the two modality-constrained variants of our approach, \llmbaseline and \vlmbaseline (details in \Cref{mvu_subsec:modal_intro}) and summarize these findings in \Cref{mvu_tbl:baseline}. We uncover surprisingly strong performance of both variants on two long-video understanding benchmarks. Note how these approaches use no video-specific information to generate predictions. 
+
+We highlight how our best \llmbaseline variant achieves performance significantly higher than random selection (+25.8\% on EgoSchema-S / +20.1\% on NextQA-T) using zero visual information. This indicates the large portion of questions in existing video-QnA benchmarks that can be answered correctly purely using world knowledge. 
+We also highlight our single frame variant performing on par with some existing state-of-the-art (gray). In particular, for EgoSchema-S we outperform \cite{zhang2023llovi} which uses information extracted from 180 frames per video incurring an inference cost over 100 times higher than ours. In light of these findings, we argue that long video understanding approaches in particular must focus on learning information beyond what a single frame baseline can achieve. 
+
+We also evaluate these same modality-constrained variants on robotics domains tasks and report these results in \Cref{mvu_tbl:app_robotics}. In contrast to the results on standard long-video QnA benchmarks, the robotics domains results are more aligned with intuition: the no-visual input \llmbaseline performs on par with random and the \vlmbaseline marginally outperforms random selection. 
+
+We attribute this difference in performance to the nature of robotics domain tasks. They tend to involve controlled environments with often naive, meaningless tasks purely for robot testing purposes. These may not necessarily align with human commonsense or other constraints dependent on knowledge of our world. Therein, the clear ability of LLMs to solve general everyday video tasks (e.g. EgoSchema, NextQA performance in \Cref{mvu_tbl:baseline}) using its world knowledge may not be applicable to robotics domain tasks. 
+Utilizing different domain benchmarks, in particular robotics tasks, provides a much more representative evaluation of LLM based video QnA approaches.   
+
+
+\begin{table}[t]
+\centering
+\small
+\begin{minipage}{0.48\textwidth}
+\vspace{0.5em}
+\caption[Modality Constrained Variants on Robotics Domain]{\textbf{Modality Constrained Variants on Robotics Domain:} 
+We evaluate our modality constrained baselines on the robotics domain tasks and report accuracy (\%). Note that a weighted sum over multiple tasks is reported here (similar to \Cref{mvu_tbl:robotics}). Note the minimal increase over random for the variants in contrast to generic video benchmarks.
+}
+\label{mvu_tbl:app_robotics}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.48\textwidth}
+\vspace{-0.5em}
+\def\arraystretch{1.2}  % height
+\setlength\tabcolsep{0.9em}  % width
+\scalebox{0.95}{
+\begin{tabular}{lccc}
+\toprule
+Method        & Visual & Frames & Accuracy \\ \midrule
+Random        & -      & -      &  22.1  \\
+\llmbaseline  & \xmark & -      &  21.9  \\
+SF-VLM        & \cmark & 1      &  23.5  \\
+MVU           & \cmark & 16     &  30.4  \\ \bottomrule
+\end{tabular}
+}
+\end{minipage}
+\vspace{1.0em}
+\end{table}
+
+
+\subsection{Likelihood Selection}
+\label{mvu_app:ls}
+In this section, we present the prompts and templates used to adapt likelihood selection inference \citep{Robinson2022LeveragingLL} to our video QnA tasks. Our experimentation shows significantly higher sensitivity (to prompt style) of LLM performance on QnA tasks when using like likelihood selection in comparison to sequential text generation (consistent with findings in \cite{Robinson2022LeveragingLL}). We evaluate a series of different prompt templates on the EgoSchema and Next-QA dataset to discover optimal combinations. The best prompt templates used in our final framework are presented in \Cref{mvu_app:ls_prompts} as Python pseudo-code. For Next-QA in particular, the average zero-shot accuracy could vary from 35\% to 55\% with slight variations of the prompt templates. 
+
+Our optimal prompt templates for the standard video QnA tasks also generalized to our robotics domain QnA tasks. Nevertheless, we highlight the possibility of needing some prompt template tuning when applying our framework to different domains. We also note that while our prompt selection process was guided by heuristics and experimentation, there may be other similar prompts performing equally well or surpassing our optimal selection. 
+
+
+\subsection{Implementation Details}
+We revisit the generation process of autoregressive LLMs and their visual extensions (VLMs). 
+They commonly use iterative prediction of next tokens conditioned on prior outputs to generate complete natural language outputs. Such a generation process is usually modeled as sampling from a conditional likelihood shown as \Cref{mvu_eq:ntp}, where $\hat{y}^j$ stands for the $j^{\mathrm{th}}$ token in a textual sequence $\hat{y}$ autoregressively generated by the model.
+\begin{align}
+    \label{mvu_eq:ntp}
+    P(\hat{y}|x_t) &= \prod_j P(\hat{y}^j|\hat{y}^{1, ..., j - 1}, x_t)
+\end{align}
+The dependency on prior output $\hat{y}^{1, ..., j - 1}$ makes this process both computationally costly and redundant in the case of choice-based answer selection tasks. Alternately, given the closed set of $Y$ in choice-based selections tasks, we formulate $P(y_i|x_t)$ for any $y_i \in Y$ with no dependency on any model generated output ($\hat{y}$) as, % prior model outputs ($\hat{y}$) as, 
+\begin{align}
+    \label{mvu_eq:cl}
+    P(y_i|x_t) &= \prod_j P(y^j_i|y^{1, ..., j - 1}_i, x_t)
+\end{align}
+Assume a perfect LLM, intuitively when $y_i$ is a proper answer to the question $x_t$ (say $y_i=y_g$), the conditional likelihood $P(y_i|x_t)$ should be larger than any other $P(y_w|x_t)$ where $y_w$ is a wrong answer to question $x_t$.
+In fact, modern LLMs are trained with a similar objective \citep{Radford2018ImprovingLU}.
+Motivated by this standard LLM training objective, we estimate the relative numerical scales of conditional likelihood on different answers $P(y_i|x_t)$ using a cross-entropy error $e_i$, given their equivalence (negative log-likelihood and multiclass cross-entropy, see Section 4.3.4 in \cite{Bishop2006PatternRA}).
+We calculate $e_i$ with a single forward pass of LLM without detokenization and the selection can be made by simply picking up the answer with the lowest error, equivalent to the highest conditional likelihood among all the answers. 
+
+\begin{table}[t]
+\centering
+    \centering
+    \begin{tcolorbox} 
+        \centering
+        % \small
+        % \hspace{}
+        \begin{tabular}{p{0.99\textwidth}}
+        \\
+        \texttt{\blue{prompt\_list = $\backslash$}} \\
+        \texttt{\blue{\qquad[f"Response \{idx\}:\{val\}" for idx, val in enumerate(prompt\_list)]}} \\
+        \\
+        \texttt{\blue{system\_prompt = $\backslash$}} \\
+        \texttt{\blue{\qquad "Considering given frames of a long video, select the most}} \\
+        \texttt{\blue{\qquad \ suitable response to the following question from the five}} \\
+        \texttt{\blue{\qquad \ options provided."}} \\
+        \\
+        \texttt{\blue{response\_template = $\backslash$}} \\
+        \texttt{\blue{\qquad "The correct response best answering the question about the given}} \\
+        \texttt{\blue{\qquad \  video is "}} \\
+        \\
+        \texttt{\blue{task\_prompt = "Question: \{qs\}" + ''.join(prompt\_list)}} \\
+        \\
+        \texttt{\blue{qs = system\_prompt + task\_prompt + response\_template}} \\
+        \end{tabular}
+    \end{tcolorbox}
+    \caption[Sample Prompt Templates for Likelihood Selection]{
+    \textbf{Likelihood Selection Sample Prompt Templates.}
+    Variables \textit{qs} and \textit{prompt\_list} refer to per sample question and choice list respectively. 
+    }
+    \label{mvu_app:ls_prompts}
+\end{table}
+
+
+This sets the ground for \textit{Likelihood Selection}, also referred to as Cloze Promting in \cite{Robinson2022LeveragingLL}, first illustrated with a toy example in \Cref{mvu_fig:selection}, where the task is vanilla question-answering with only textual context and the model takes one question $x_t$ as well as $M=5$ candidate answers $y_{1, ..., 5}$. To find the best answer, we simply concatenate the question with each candidate independently ($s_i = \mathrm{concat}\left(x_t, y_i\right)$ ) and pad them into a batch $\{s_{1, ..., 5} \}$. 
+Then the LLM takes the batch of five samples with causal attention masks and performs one inference forward pass, resulting in five shifted logits $\{p_{1, ..., 5} \}$. 
+Next, we shift the input sequence $s_i$ to align the logits $p_i$ and calculate the average cross-entropy error only on tokens of $y_i$ Finally, the answer with the smallest $e_i$ will be picked up as the best answer.
+% 
+The method can be formulated as in \Cref{mvu_eq:ls} using equivalence of negative log-likelihood to cross-entropy in \Cref{mvu_eq:nll}. Here $n_i$ stands for the token sequence length of $y_i$ and $p_i^j$ stands for logits of the $j^{\mathrm{th}}$ token in $p_i = V(\mathrm{concat}\left(x_t, y_i\right))$ with logits limited to only those of $y_i$. 
+\begin{align}
+% \text{log } P(y_i|x_t) &= \sum_j P(y^j_i|y^{1, ..., j - 1}_i, x_t) \\
+% e_i(y_i) &= \mathrm{CrossEntropy}(p_i, y_i) = \frac{1}{n_i} \sum_{j}^{n_i} \left(\mathrm{CrossEntropy}(p_i^j, y_i^j) \right) \\
+\label{mvu_eq:nll}
+e_i(y_i) = \mathrm{CE}(p_i, y_i) &= \frac{1}{n_i} \sum_{j}^{n_i} \left(\mathrm{CE}(p_i^j, y_i^j) \right) 
+\approx \sum_{j}^{n_i} - \mathrm{log} \: P(y_i|x_t) \\
+\label{mvu_eq:ls}
+\mathcal{F}_{\text{LS}}(Y, x_t) &= \argmax_{y_i \in Y} P(y_i|x_t) = \argmin_{y_i \in Y} e_i(y_i)
+\end{align}
+ % \xl{please revise, I can not come up with any better words at this time!!!}
+In summary, Likelihood Selection performs one single forward pass to extract the network logit outputs, calculates error ($e_i$) on each choice,
+% to a training step but without calculating gradients, back-propagation, or changing any parameters,
+and selects the choice with the lowest error. Note that our method does not utilize any iterative autoregressive generation using the LLM. 
+This results in considerable speed-ups for inference time. 
+We also obtain the additional advantages of avoiding LLM hallucinations and deviations from expected output formats over iterative generation strategies applied to similar visual tasks \citep{Hanu2023LanguageAT} leading to better accuracy (see Tab. 6.).
+In \Cref{mvu_subsec:modal_intro}, we demonstrate both our speed gains and performance improvements. 
+
+Furthermore, Likelihood Selection is a generic method that can be easily extended to autoregressive VLMs, and in principle, there is no reason it could not also be used with extra modalities besides language. We validate this across all our experiments using the multimodal MVU framework. 
+
+\subsection{Distinction from Exact Match}
+
+As described in the previous section, likelihood selection uses a likelihood measure which is the likelihood (probability) of the model generating the given sentence (as opposed to being an exact match). 
+% 
+This likelihood measure is also used as the training loss when training LLMs. Given how LLMs trained with this loss (i.e. all decoder based LLMs such as LLaMA, Gemini, GPT) are highly effective at handling semantic meaning, it follows that this loss can capture semantic meaning.
+% 
+This likelihood measure is calculated within the LLM latent space. This is equivalent to the probability (or likelihood) of that answer being generated by the LLM conditioned on the input question. We derive this in detail in Appendix F. Relating to the same example, this means that likelihood is an estimate of how likely the model would predict ‘C is washing plates’ as opposed to making that exact match. This means predictions closer to the target such as ‘C is cleaning dishes’ would also gain high likelihood values.
+
+In fact, we validate this second point through a toy example. We provide an LLM with the question "X is cleaning dishes in the kitchen. What is X doing? a) washing plates, b) cleaning laundry, c) painting dishes. The correct choice is:" and calculate the likelihood for each of the 3 responses. The calculated likelihoods are 0.996, 0.006, 0.007 for a, b, c respectively (highest is selected), despite response (a) having no common words with the original statement unlike (b) and (c). This illustrates the ability of likelihood selection to capture semantic meanings.
+
+
+\subsection{Detailed Prompting Example}
+
+We also note that while different choices are repeated along the batch, our likelihood implementation actually follows prior approaches where all answer candidates are fed together to the language model in addition to organizing the Q-A pairs in a batch dimension. Taking one simplified toy example, given a question “Where is the dog?” and answers “mat, table, bench”, we use three queries along batch dimension as:
+% 
+\begin{itemize}
+    \item \texttt{Where is the dog? Select the correct response from: a) mat, b) table, c) bench. The correct response is a) mat.}
+    \item \texttt{Where is the dog? Select the correct response from: a) mat, b) table, c) bench. The correct response is b) table.}
+    \item \texttt{Where is the dog? Select the correct response from: a) mat, b) table, c) bench. The correct response is c) bench.}
+\end{itemize}
+% 
+In fact, applying likelihood selection without such prompting leads to significantly low performance for some datasets. We show this in \Cref{mvu_ablate:ls} which we repeat here as \Cref{mvu_app:repeat_tbl_6}.
+
+
+\begin{table}[t]
+\centering
+\small
+\caption[Answer Candidates in Prompt]{
+\textbf{Ablating Answer Candidates in Prompt:}
+We illustrate the importance of appropriate prompting when combining with likelihood selection, specifically for long video QnA tasks. Top-1 accuracy (\%) is reported on EgoSchema subset (ES-S) and NextQA test set (NQA-T).
+}
+\label{mvu_app:repeat_tbl_6}
+\begin{tabular}{l|c|c}
+\toprule
+Dataset                          & ES-S & NQA-T \\ \midrule
+No answer candidates in prompt   & 58.2 & 35.8  \\
+With answer candidates in prompt & 60.3 & 55.4  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[t]
+\centering
+\small
+\caption[Open-Ended Video QnA Evaluation]{\textbf{Open-Ended Video QnA Evaluation}: 
+We present results on the ActivityNet dataset \citep{Yu2019ActivityNetQAAD} that demonstrate strong performance of our proposed MVU framework. Accuracy (\%) is reported. VT stands for video level training. We highlight how our MVU framework utilizes no video level training for any of its components and surpassed multiple approaches that rely on video-language training. 
+} 
+\label{mvu_tbl:act_res}
+\vspace{-0.5em}
+\def\arraystretch{1.1}  % height
+\setlength\tabcolsep{1.3em}  % width
+\scalebox{0.90}{
+\begin{tabular}{lccc}
+\toprule
+Method          & Zero-Shot & VT & ActivityNet-QA  \\ \midrule
+JustAsk \citep{yang2021justask}               & \xmark & \cmark & 38.9 \\
+FrozenBiLM \citep{yang2022frozenblim}         & \xmark & \cmark & 43.2 \\
+VideoCoCa \citep{Yan2022VideoCoCaVM}          & \xmark & \cmark & 56.1 \\ \midrule
+FrozenBiLM \citep{yang2022frozenblim}         & \cmark & \cmark & 24.7 \\
+Video Chat \citep{2023videochat}              & \cmark & \cmark & 26.5 \\
+LLaMA Adapter \citep{Zhang2023LLaMAAdapterEF} & \cmark & \cmark & 34.2 \\
+Video LLaMA \citep{Zhang2023VideoLLaMAAI}     & \cmark & \cmark & 12.4 \\
+Video-ChatGPT \citep{Maaz2023VideoChatGPTTD}  & \cmark & \cmark & 35.2 \\ 
+LocVLM \citep{RanLearningtoLoc23}             & \cmark & \cmark & 37.4 \\ 
+Video-LLaVA \citep{Lin2023VideoLLaVALU}       & \cmark & \cmark & 37.4 \\ 
+VISTA-LLaMA \citep{Ma2023VistaLLaMARV}        & \cmark & \cmark & 37.4 \\ 
+VideoChat-2 \citep{Li2023MVBenchAC}           & \cmark & \cmark & 37.4 \\ 
+LLaMa-VID \citep{Li2023LLaMAVIDAI}            & \cmark & \cmark & 37.4 \\ 
+LLoVi \citep{zhang2023llovi}                  & \cmark & \xmark & 41.8 \\  \rowcolor{Gray}
+MVU (ours)                             & \cmark & \xmark & \textbf{42.2}    \\ \bottomrule
+\end{tabular}
+}
+% \vspace{-0.8em}
+% \vspace{-1em}
+\end{table}
+
+
+\subsection{Open-Ended Video Question Answering}
+\label{mvu_app:open_qa}
+
+In this section, we explore the ability of our proposed MVU framework to operate on open-ended video question answering (QnA) tasks. For this purpose, we evaluate on the Activity-Net dataset \citep{Yu2019ActivityNetQAAD} reporting the accuracy metric. We follow evaluation settings identical to \cite{Maaz2023VideoChatGPTTD} for these evaluations. 
+
+Given the nature of open-ended QnA tasks (i.e. no answer choices, generate free form answers), we use standard generation instead of likelihood selection. We match the generated answers against ground-truth following \citep{Maaz2023VideoChatGPTTD}. We present these results in \Cref{mvu_tbl:act_res} where our MVU achieves strong results and clear improvements over the similar LLM based approach from \cite{zhang2023llovi}. We compare against multiple recent approaches that use similar capacity LLMs \ VLMs for open-ended video QnA. 
+We take these results as another indication to the generality of our MVU framework on video QnA tasks beyond MCQ style. 
+
+\subsection{Longer Video Question Answering}
+\label{mvu_app:longvideobench}
+
+While established long video benchmarks used as the key evaluations in numerous prior work \citep{wang2025videoagent,wang2024videotree,min2024morevqa,Park2024TooMF,zhang2023llovi,Kahatapitiya2024,Wang2023LifelongMemoryLL} limit to roughly 1-3 minute long videos, some newer datasets include even longer videos \citep{wu2024longvideobench}. We explore such even longer videos by evaluating our method on the LongVideoBench dataset \citep{wu2024longvideobench}. 
+
+We select Phi-3-Vision-Instruct \citep{Abdin2024Phi3TR} as our baseline since it is the best performing model we can replicate within our compute budget. We note that larger sized models using significantly larger context lengths are difficult to replicate within academic compute restraints. Results using this baseline from \cite{Abdin2024Phi3TR} and our MVU framework integrated over it are presented in \Cref{mvu_app:tbl_lvb}. MVU gains clear performance gains in this longer video dataset.
+
+\begin{table}[t]
+\small
+\centering
+\begin{minipage}{0.40\textwidth}
+\caption[LongVideoBench Evaluation]{
+\textbf{LongVideoBench Evaluation:}
+We integrate MVU with the baseline from \cite{Abdin2024Phi3TR} and highlight the additional performance improvements achieved by our MVU framework.
+}
+\label{mvu_app:tbl_lvb}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.56\textwidth}
+\centering
+\begin{tabular}{l|c}
+\toprule
+Method                      & Acc (\%) \\ \midrule
+Phi-3-Vision-Instruct \citep{Abdin2024Phi3TR}      & 49.7     \\
+Phi-3-Vision-Instruct + MVU & 50.4     \\ \bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\caption[Object Motion Trajectory (OMT) Ablation]{\textbf{Ablation on Object Motion Trajectory (OMT) modality:} 
+We perform this ablation on a different dataset given the motion focused aspect we explore. Accuracy (\%) reported on the motion-based SSv2 dataset clearly indicate the usefulness of the OMT modality in our MVU framework.}
+\label{mvu_ablate:motion}
+% \vspace{-1.0em}
+\def\arraystretch{1.2}  % height
+\setlength\tabcolsep{1.1em}  % width
+\scalebox{0.90}{
+\begin{tabular}{lccc}
+\toprule
+Method                          & OMT    & Accuracy  \\ \midrule
+Random                          &    -   & 0.6 \\ 
+CLIP \citep{radford2021clip}     &    -   & 4.0 \\ 
+MAXI \citep{lin2023match}        &    -   & 6.4 \\ \midrule
+MVU (ours)               & \xmark & 3.6 \\ \rowcolor{Gray}
+MVU (ours)               & \cmark & \textbf{7.2} \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\subsection{Additional Ablations}
+\label{mvu_app:ablate_more}
+
+In this section, we repeat part of our ablation from \Cref{mvu_ablate:modal} focused on the object motion trajectory modality inputs. We note that common video QnA benchmarks require minimal understanding of object motion to answer most questions. Our goal is to explore the value of motion information in a more relevant tasks.
+
+Therein we investigate a new motion focused dataset, Something-Something-v2 \citep{Goyal2017TheS} (SSv2), only for this single ablation. The SSv2 dataset focuses on motion-based category discrimination, providing an ideal evaluation to measure the usefulness of our object motion trajectory modality. We benchmark on a subset of this dataset following \citep{lin2023match} and report these results in \Cref{mvu_ablate:motion}. Our results while exceeding their performance also indicate the clear performance gains obtained when injecting the object motion trajectory modality into our MVU framework. 
+
+
+We also provide an ablation on frames used with our MVU framework in \Cref{mvu_app:tbl_frames}. Increasing the number of frames leads to improved performance in contrast to some prior works \citep{Mangalam2023EgoSchemaAD} highlighting how our information fusion pipeline allows better utilization of the LLM context length. Additionally, the lightweight object detector and tracker used in MVU allows scaling the number of frames with a lesser increase in inference time. 
+
+
+\begin{table}[t]
+\centering
+\small
+\caption[Frame Count Ablation]{
+\textbf{Frame Count Ablation:}
+We illustrate the importance of appropriate prompting when combining with likelihood selection, specifically for long video QnA tasks. Top-1 accuracy (\%) is reported on EgoSchema subset (ES-S) and NextQA test set (NQA-T).
+}
+\label{mvu_app:tbl_frames}
+\begin{tabular}{l|c|c|c}
+\toprule
+Method & Frames & EgoSchema-S & Time (s) \\ \midrule
+MVU    & 16     & 60.3        & 2.42     \\
+MVU    & 32     & 60.4        & 2.48     \\
+MVU    & 64     & 60.4        & 2.60     \\ \rowcolor{Gray}
+MVU    & 128    & 61.2        & 2.81     \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Tokenization in LLMs}
+\label{mvu_app:tokenization}
+Most modern LLMs utilize Byte-Pair Encoding (BPE) tokenization \citep{Sennrich2015NeuralMT} to convert natural language into discrete tokens that are mapped to vocabulary embeddings. This process is learned from language itself and the resulting tokenization may sometimes break complete words into pieces (e.g. \texttt{example $\rightarrow$ ex-am-ple}). Given our utilization of logits extracted from an LLM forward pass, we note that each logit corresponds to a single token, which may at times be the embedding of some meaningless word piece. However, our calculation of a joint likelihood across a sequence of tokens ensures a meaningful process, which is validated by our strong results. 
+
+
+\subsection{LLM Context Length}
+\label{mvu_app:llm_context}
+
+Using LLMs for long video understanding has proven successful \citep{zhang2023llovi,wang2024videotree} but handling long context lengths remains a key issue \citep{Mangalam2023EgoSchemaAD,Park2024TooMF}, often leading to lower performance when additional frame information is provided to the LLM. This draws importance to frame selection, but we argue that alternate forms of information bottlenecks can also provide improvements, often complementary to frame selection.  
+
+In MVU, instead of naively collecting all information within a frame, we only collect object centric spatial and motion information, allowing to process more frames at a fixed context length. In other words, MVU information extraction from multiple frames can be viewed as an alternative to frame selection. This is because our object information extraction indirectly acts as an information bottleneck similar to frame selection. For frames without objects of interest, no information is extracted. For multiple frames containing the same object (identified by our object tracker), the repetitive information is removed. This resembles the idea of selecting useful information from multiple frames. 
+
+In fact, when comparing the average token length for a similarly performing baseline (implemented under identical settings using a common LLM), we use less tokens (context length) to achieve similar results. We show these results in \Cref{mvu_app:tbl_context_length}.
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{minipage}{0.48\textwidth}
+\caption[Context Length Comparison]{
+\textbf{Context Length Comparison:}
+We compare the context length used (i.e. number of tokens) to achieve similar results with LLoVi \citep{zhang2023llovi} as opposed to our MVU. We achieve better performance utilizing less tokens.
+}
+\label{mvu_app:tbl_context_length}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tabular}{l|c|c}
+\toprule
+Method & Average Tokens & ES-F (\%) \\ \midrule
+LLoVI  & 1940           & 33.5     \\
+MVU    & 1124           & 37.6     \\ \bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+\subsection{Additional Baselines}
+
+We implement a multi-frame baseline directly using LLaVA-1.5 \citep{liu2023llava} with no video level training. These results are reported in \Cref{mvu_app:tbl_multi_llava}. Results indicate that directly adding multiple frames to a VLM with no video level training does not lead to improved performance.
+Similar trends are observed in prior work \citep{Kahatapitiya2024}.
+These findings highlight the importance of careful per-frame information extraction and cross frame information fusion proposed in our MVU. 
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{minipage}{0.48\textwidth}
+\caption[Multi-Frame LLaVA Baseline]{
+\textbf{Multi-Frame LLaVA Baseline:}
+We implemented multi-frame variants of LLAVA \citep{liu2023llava} with no video level training. Results indicate that without any video level training such naive extension does not lead to results improvements. 
+}
+\label{mvu_app:tbl_multi_llava}
+\end{minipage}
+% 
+\hspace{0.01\textwidth}
+% 
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tabular}{l|c|c}
+\toprule
+Method & Frames & ES-S \\ \midrule
+LLaVA  & 1      & 55.8 \\
+LLaVA  & 8      & 53.4 \\
+LLaVA  & 16     & 46.2 \\
+LLaVA  & 32     & 40.2 \\ \bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}

@@ -1,0 +1,34 @@
+\section{Introduction}
+\label{sec:intro}
+
+
+Actions in videos are defined by individual objects, their relationships, and interaction \cite{Ryoo2006RecognitionOC,Aggarwal2011HumanAA}. Video self-supervised learning focuses on discovering representations aware of such action attributes directly from video content with no human supervision \cite{Chantry_SSLV}. Particularly in the case of videos, where manual human annotation can be both expensive and noisy, such self-supervised approaches are invaluable.
+% and highly scalable with data.
+
+A recent variant of self-supervision explores learning with loosely paired image-caption pairs, leading to highly transferable and robust representations such as CLIP \cite{radford2021clip}. These approaches obtain zero-shot performance often comparable to fully-supervised methods. However, their counterparts in the video domain \cite{xue2022clipvip, yan2022videococa, qian2022multimodal, ju2022prompting, rasheed2022fine, cheng2022vindlu,wang2021actionclip} do not exhibit the same generality. In fact, some approaches training CLIP on videos \cite{wang2021actionclip,ma2022xclip} perform subpar to image-CLIP under zero-shot settings (see \cref{lss_tbl:zeroshot}). 
+% often lack such generality (e.g. \cref{lss_tbl:zeroshot})
+Such behaviour can be attributed to lesser availability and more noisy nature of labelled (or paired caption) video datasets \cite{Chantry_SSLV}. This motivates exploration into self-supervised learning (SSL) techniques
+that can learn from videos under less supervision while utilizing existing image CLIP \cite{radford2021clip} like representations. 
+% be modified to while utilizing the existing strong image level representations from approaches like CLIP \cite{radford2021clip}. 
+Existing state-of-the-art video SSL approaches \cite{Ran2021SVT,Tong2022VidMAE} learn highly transferable representations from videos, but combining these with image CLIP representations is not straightforward. In fact,  despite methods like SVT \cite{Ran2021SVT} being able to utilize image SSL representations \cite{caron2021emerging} for weight initialization to achieve better performance, using image CLIP representations instead for weight initialization leads to performance subpar to image CLIP (see \cref{lss_tbl:ablate_ssl}). 
+This raises necessity for alternate video SSL approaches compatible with CLIP like image representations and is our key motivation.     
+
+In this work, we explore self-supervised learning techniques that adapt image CLIP models \cite{radford2021clip} to video domain under entirely self-supervised settings, dependent on no form of video level labels or captions. Under this setting, natural language can still provide strong cues regarding attributes that compose an action category \cite{brattoli2020rethinking,xu2017transductive}. We leverage this idea to propose a novel \textit{language-based} self-supervised learning objective. Following a standard self-distillation and multi-view based SSL formulation \cite{caron2021emerging,Ran2021SVT}, we introduce language aligned feature spaces, \textit{action concept spaces}, where our SSL objectives operate. Large-language models (LLMs) \cite{brown2020language}, given their extensive world knowledge \cite{Zhao2023ASO,Naveed2023ACO}, serve as an ideal tool to generate necessary textual concepts for these spaces.   
+We also introduce regularization suitable for our language aligned SSL objective to prevent collapse during training. Our resulting framework is termed \textit{Language-based Self-Supervision}, or LSS. 
+% In this work, we explore self-supervised learning techniques that can adapt the representations of image CLIP models \cite{radford2021clip} to the video domain under entirely self-supervised settings, dependent on no form of video level labels or captions. Under this setting, natural language can still provide strong cues regarding attributes that compose an action category. Motivated by prior zero-shot action recognition work \cite{brattoli2020rethinking,xu2017transductive}, we leverage this idea to propose novel language-based self-supervised learning objectives, \textit{concept distillation} and \textit{concept alignment}. Large-language models (LLMs) \cite{brown2020language}, given their extensive world knowledge \cite{Zhao2023ASO,Naveed2023ACO}, serve as an ideal tool for generating necessary sets of language concepts related to actions.   
+% Following a standard self-distillation and multi-view based SSL formulation \cite{caron2021emerging,Ran2021SVT}, we introduce language aligned feature spaces, \textit{action concept spaces}, where our SSL objectives operate. 
+% We also introduce regularization suitable for our language aligned SSL objective to prevent collapse during training. Our resulting framework is termed \textit{Language-based Self-Supervision}, or \ours. 
+
+In contrast to existing video self-supervised learning approaches \cite{Ran2021SVT,Tong2022VidMAE}, our proposed LSS retains and improves transferability of image CLIP representations much better (see \cref{lss_tbl:linear,lss_tbl:ablate_ssl}). Additionally, our language aligned learning framework allows direct zero-shot operation on downstream tasks. 
+Moreover, unlike video CLIP methods with similar zero-shot capabilities \cite{xue2022clipvip, yan2022videococa, qian2022multimodal, ju2022prompting, rasheed2022fine, cheng2022vindlu,wang2021actionclip} that utilize per-video labels / captions for learning, our proposed LSS requires only videos for training. 
+
+We summarize our key contributions as follows:
+\begin{itemize}[leftmargin=2em,noitemsep,topsep=1.0ex,itemsep=-0.5ex,partopsep=0ex,parsep=1ex]
+    \item Self-supervised learning paradigm capable of retaining and improving strengths of CLIP like image representations for video domain operation
+    \item Video specific self-supervised learning objectives, namely \textit{concept distillation} and \textit{concept alignment}, that enforce relations between action categories and their visual attributes 
+    \item Novel language-based video self-supervised learning framework operating zero-shot on downstream action classification tasks without requiring per-video labels / captions for training
+    
+\end{itemize}
+
+Experiments on action recognition datasets showcase state-of-the-art performance for our learned representations under linear-probing, standard zero-shot, and transductive zero-shot settings. 
+% HMDB-51 \cite{kuehne2011hmdb}, UCF-101 \cite{soomro2012ucf}, and Kinetics-400 \cite{kinetics400}

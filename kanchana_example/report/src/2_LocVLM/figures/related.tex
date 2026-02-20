@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.0}  % height
+\setlength\tabcolsep{0.5em}  % width
+\scalebox{0.95}{
+\begin{tabular}{l|c|c|c|c}
+\toprule
+Method          & Kosmos \cite{peng2023kosmos} & Ferret \cite{You2023FerretRA} & Shikra \cite{chen2023shikra} & Proposed \\ \midrule
+Unified Arch.   & \xmark & \xmark & \cmark & \cmark  \\ 
+Purely Textual  & \xmark & \xmark & \cmark & \cmark  \\ 
+Pseudo Data     & \xmark & \xmark & \xmark & \cmark  \\ 
+Video Domain    & \xmark & \xmark & \xmark & \cmark  \\ \bottomrule
+\end{tabular}
+}
+\vspace{-0.5em}
+\caption{Related Work Comparison: 
+% We highlight key distinctions of our proposed method against three most similar related works. 
+A unified architecture, purely textual inputs, pseudo data for scalable learning, and video domain operation distinguishes our proposed work from these prior methods.}
+\label{tbl:related}
+\end{table}
