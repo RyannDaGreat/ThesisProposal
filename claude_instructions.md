@@ -235,6 +235,7 @@ Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2
 - All other directories are read-only references
 - Intro (Ch1), Abstract, Literature Review (Ch2), and Conclusion/Future Work (Ch8) need actual writing — PLACEHOLDER for now
 - The mechanical part is: extract sources, apply recipe, create skeleton
+- **Always recompile after any LaTeX changes** — run `source/build.sh`. Verify 0 errors before considering a change done.
 
 ## Lessons Learned
 

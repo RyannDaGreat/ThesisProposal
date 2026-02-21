@@ -48,10 +48,10 @@
 	\end{minipage}
 }
 	
-	\caption{\textbf{ \modelname Samples}:
+	\caption[Peekaboo Referring Segmentation Samples]{\textbf{ \modelname Samples}:
 	(left) we apply referring segmentation for each object in an example image from RefCOCO using custom text prompts listed below the image. (right) We illustrate 6 more examples from RefCOCO using their existing captions, listed left to right for top and bottom respectively: "baby", "brown cow", "elephant on right", "guy in red", "red jacket", "the front horse".}
 	\label{peekaboo_fig:vis}
-	
+
 \end{figure}
 
 % Progress in semantic segmentation utilizing various segmentation-specific deep neural architectures \cite{chen2017deeplab,chen2018searching,Yu2015EfficientVS,Shelhamer2015FullyCN,Zheng2015ConditionalRF} reliant on expensive manual annotations \cite{coco,zhou2018ade,Cordts2016TheCD} for supervision has recently been superseded by learning under weak supervision \cite{pinheiro2015image,Ghiasi2021OpenVocabularyIS,li2022language}, particularly leveraging contrastive image language pre-training models \cite{clip,jia2021scaling}. In referring segmentation, the natural language component has driven even early work to utilize language-specific architectural components \cite{hu2016segmentation}, with recent work \cite{Wang2022CRISCR} similarly building off \cite{clip}. 
@@ -106,7 +106,7 @@ RefCOCO \cite{Kazemzadeh2014ReferItGameRT}
 \includegraphics[width=.5\linewidth]{src/1_Peekaboo/figures/intro2.png}\\
 \texttt{bald man wearing glasses with white shirt and black pants}
 
-\caption{\textbf{Zero-Shot Segmentation with phrases}:  We highlight the ability of \modelname to ground complex language prompts onto an image with no segmentation specific training. An off-the-shelf diffusion model is used with only an inference time optimization technique to generate these segmentations. If you look closely, you'll notice the bald man's arms are segmented - but are not visible in the photo! Peekaboo has fairly strong shape priors.}
+\caption[Zero-Shot Segmentation with Phrases]{\textbf{Zero-Shot Segmentation with phrases}:  We highlight the ability of \modelname to ground complex language prompts onto an image with no segmentation specific training. An off-the-shelf diffusion model is used with only an inference time optimization technique to generate these segmentations. If you look closely, you'll notice the bald man's arms are segmented - but are not visible in the photo! Peekaboo has fairly strong shape priors.}
 \label{peekaboo_fig:intro}
 \end{figure}
 \begin{figure}[t]
@@ -133,10 +133,10 @@ RefCOCO \cite{Kazemzadeh2014ReferItGameRT}
 	\end{minipage}
 }
 	
-	\caption{\textbf{ \modelname Samples}:
+	\caption[Peekaboo RefCOCO Segmentation Samples]{\textbf{ \modelname Samples}:
 	(left) we apply referring segmentation for each object in an example image from RefCOCO using custom text prompts listed below the image. (right) We illustrate 6 more examples from RefCOCO using their existing captions, listed left to right for top and bottom respectively: "baby", "brown cow", "elephant on right", "guy in red", "red jacket", "the front horse".}
 	\label{peekaboo_fig:vis}
-	
+
 \end{figure}
 
 \begin{figure}[t]
@@ -144,7 +144,7 @@ RefCOCO \cite{Kazemzadeh2014ReferItGameRT}
 
 \includegraphics[width=0.90\textwidth]{src/1_Peekaboo/figures/Newdia.pdf}
 
-\caption{\textbf{Overview of \modelname Architecture}: 
+\caption[Peekaboo Architecture Overview]{\textbf{Overview of \modelname Architecture}:
 We illustrate how an input image and random background are alpha blended to generate a composite image. This image and its relevant text prompt are processed by our diffusion model based inference-time objective. Iterative gradient based optimization of the randomly initialized alpha mask converges to a segmentation optimal for the conditioning text prompt. Note that our diagram shows the alpha mask at an intermediate iteration: at the initial iteration it is entirely random Gaussian noise.   
 % The image to be segmented is subject to alpha compositing with a learnable mask represented as an implicit neural image. The composite image and text prompt relating to the image region to be segmented are used to calculate our proposed peekaboo loss (\cref{peekaboo_subsec:main_loss}), which is optimized iteratively. At the end of optimization, the implicit neural image converges to the optimal segmentation mask. We highlight that our dream loss is used only for learning a mask and not for any re-training of the diffusion model.
 }
@@ -157,7 +157,7 @@ We illustrate how an input image and random background are alpha blended to gene
 	\begin{minipage}{\linewidth}
 		\includegraphics[width=0.96\linewidth]{src/1_Peekaboo/figures/iterdiagram.pdf}
 	\end{minipage}
-	\caption{\textbf{Inference Process}:
+	\caption[Inference Process Timelapse]{\textbf{Inference Process}:
 	Above we show a timelapse of the inference-time alpha mask optimization process
 	}
 	\label{peekaboo_fig:vis_more}
@@ -342,7 +342,7 @@ In this section, we present results, both quantitative and qualitative for our d
 \begin{figure}[t]
 \centering
 	\includegraphics[width=0.85\linewidth]{src/1_Peekaboo/figures/VisualVariations.pdf}
-	\caption{\textbf{Visual Variant Comparison}:
+	\caption[Visual Variant Comparison]{\textbf{Visual Variant Comparison}:
 	This figure gives qualitative comparisons between Peekaboo variants on a single image from VOC-C with the prompt ``car''.
 	}
 	\label{peekaboo_fig:visualvariations}
@@ -466,7 +466,7 @@ While Peekaboo doesn't outperform Clippy, GroupViT or LSeg, it has fairly compet
     \includegraphics[width=0.23125\linewidth]{src/1_Peekaboo/figures/vis_appendix/ducks.png}
 \end{minipage}
 
-\caption{\textbf{Varying granularity (left)}:
+\caption[Varying Granularity and Real-World Applications]{\textbf{Varying granularity (left)}:
 Another feature of \modelname is its ability to segment at differing granularity. While the model performance in such situations is quite sensitive to the caption, we highlight how subtle variations to the caption allows us to localize relevant regions of image accordingly. \textbf{Real-world applications (right)}:
     \modelname can localize real-world objects from arbitrary captions. We highlight how each localization successfully captures the relevant region with a clear overlap over each object centroid. This is particularly useful in applications such as robotics where interaction with arbitrary objects defined by natural language can be valuable.}
 \label{peekaboo_fig:vis_ewQ}
@@ -493,7 +493,7 @@ Another feature of \modelname is its ability to segment at differing granularity
 	\includegraphics[width=0.195\linewidth]{src/1_Peekaboo/figures/vis_appendix/008.png}
 	\includegraphics[width=0.195\linewidth]{src/1_Peekaboo/figures/vis_appendix/009.png}
 \end{minipage}
-\caption{\textbf{\modelname is truly open vocabulary}:
+\caption[Open Vocabulary Segmentation Examples]{\textbf{\modelname is truly open vocabulary}:
 We illustrate examples where \modelname is able to localize various regions of interest defined by references from popular culture. All of these are examples where the model has been able to correctly localize (identified region centroid or high IoU with correct region). The caption below each image is used to generate the same color mask. 
 An interesting behavior of our model is its localization to the region most defined by the accompanying text caption. For example, in the case of Emma Watson in the top row second figure, it is visible how \modelname localizes on her face and body instead of her frock (see \cref{peekaboo_fig:vis_ewQ} for more on this).
 }
@@ -595,7 +595,7 @@ Despite the absence of such models, we can generate RGBA images by iteratively o
 \begin{figure}[h]
 \centering
 	\includegraphics[width=0.99\linewidth]{src/1_Peekaboo/figures/PeekabooGenerativeTimeline.png}
-	\caption{\textbf{Image Generation Timelapse}:
+	\caption[RGBA Image Generation Timelapse]{\textbf{Image Generation Timelapse}:
 	Above we show a timelapse of the RGBA image generation process. The prompts from top to bottom are ``avocado armchair'', ``globe'', ``pikachu'', ``cat in a box''.  More examples are in the appendix. The images are on  checkerboards to illustrate transparency. %The initial noisy images are on the left, and the far right is
 	}
 	\label{peekaboo_fig:rgbatimelapse}
@@ -605,7 +605,7 @@ Despite the absence of such models, we can generate RGBA images by iteratively o
 \begin{figure}[h]
 \centering
 	\includegraphics[width=0.8\linewidth]{src/1_Peekaboo/figures/MoreRGBAExamples.pdf}
-	\caption{\textbf{Image Generation Examples}:
+	\caption[RGBA Image Generation Examples]{\textbf{Image Generation Examples}:
 	Above we show five more examples of RGBA images generated with this method, placed on different backgrounds. Note how Peekaboo successfully separates high-frequency details, for example, between rib bones and the background. %The initial noisy images are on the left, and the far right is
 	}
 	\label{peekaboo_fig:rgbaexamples}
