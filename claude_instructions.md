@@ -198,6 +198,37 @@ For each paper → thesis chapter, apply these mechanical transformations:
 ### Chapter Ordering for Related Works
 Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2V (may be removed)
 
+## Ryan's Voice Notes — Abstract & Intro Direction (2026-02-21)
+
+**NON-NEGOTIABLE REQUIREMENTS:**
+- Be deeply familiar with ALL 5 papers, Kanchana's formatting/structure/tone, and Ryan's writing voice
+- Use Ryan's vocabulary and writing style (direct, technical, not overly formal)
+- SHORT text preferred — adding is easier than removing. Never pad with garbage.
+- Will never be yelled at for being under-length, WILL be yelled at for adding filler
+
+**Core Narrative: "Controlling Diffusion Models"**
+- The difference between AI slop and useful AI output is the ratio of input to output dimensionality
+- When artists can't control what they generate, they make slop
+- Text-to-image is like tofu — needs flavoring, not good on its own
+- Each paper = a new form of control over diffusion models, making them useful to artists
+
+**Paper-by-Paper Narrative (Ryan's words, paraphrased):**
+
+1. **Peekaboo** — "Where I learned to harness diffusion models." Used score distillation loss (Ryan calls it "dream loss") to do segmentation, which is actually a form of generation — generating the alpha mask. Cool because it made diffusion models generate alpha even though they were only ever trained on RGB. Controls foreground/background separation. The alpha rasterization trick actually connects to MAGICK later.
+
+2. **Diffusion Illusions** — Controls not just the picture but the ANGLE at which you view it and what you see from that angle. Can turn a dog into a skull depending on viewing angle. Multiple types of illusions. Very similar background to Peekaboo (score distillation) but very different application. **HUGE IMPACT** — YouTube coverage, millions of views, tons of GitHub stars. MUST research and report impact.
+
+3. **MAGICK** — Made with Adobe. "Bootstrapping a diffusion model to do something new." Lavishly simple trick: ask the model to generate a dog on a green screen, and "somehow that fucking works." Created alpha-controlled dataset — could give it an alpha mask and it generates RGB. New modality that couldn't have existed without tens/hundreds of thousands of samples. Largest matting dataset to date — the appendix had more pictures than the second-largest matting dataset before it. "That's a big deal."
+
+4. **Go-with-the-Flow** — Controls MOTION in diffusion models. How we want things to move, not just how they look. Uses warped noise algorithm. Also has a motion illusion application: things visible only when they move (like a Rick Roll that disappears when paused). **BIG IMPACT** — 1000+ GitHub stars, tons of Twitter attention, CVPR Oral (less than 1% get that). MUST research and report impact.
+
+5. **MotionV2V** — "Most recent work" / ongoing work. Not only controls motion but TRANSFERS content from one video to another. Editing is harder than generation because you must adhere to the original video's content. This is the proposed/future work direction.
+
+**Structure Requirements:**
+- Impact discussion at end of intro (or dedicated section)
+- Check if Kanchana has an "ongoing work" section — MotionV2V would go there
+- The intro should flow: motivation (control) → each paper as a step in the progression → impact → ongoing work
+
 ## Critical Constraints
 
 - `source/` is the ONLY writable directory for thesis content
@@ -273,3 +304,25 @@ Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2
 - Kanchana total: 2,177 words
 - Zero citations verified in synthesis paragraphs
 - Compilation: 228 pages, 0 LaTeX errors
+
+### Abstract & Introduction Session (2026-02-21)
+
+**Modified:**
+- `source/src/0b_abstract.tex` — Replaced placeholder with abstract (281 words, Kanchana's: 372). Covers: control problem motivation, per-paper summary (1 paragraph each), no citations.
+- `source/src/1_introduction.tex` — Replaced placeholder with full introduction (1,031 words, Kanchana's: 1,109). Structure: `\section{Overview}` (motivation + 5 `\textbf{}` contribution descriptions + impact paragraph) + `\section{Organization}` (7 `\paragraph{}` chapter descriptions).
+
+**Impact data verified via online research:**
+- Peekaboo: 41 Semantic Scholar citations, 106 HN points
+- Diffusion Illusions: 21 citations, 251 GH stars, CVPR 2023 Best Demo, YouTube coverage (Steve Mould, Stand Up Maths, JacksFilms)
+- MAGICK: 14 citations, 3,342 HF downloads/month, Adobe Research collab
+- GWTF: 62 citations, 1,100 GH stars, CVPR 2025 Oral (95/13,008 = top 0.73%)
+- MotionV2V: 54 GH stars in 3 months, Google collab
+
+**Word count comparison:**
+| Section | Ours | Kanchana's |
+|---------|------|-----------|
+| Abstract | 281 | 372 |
+| Introduction | 1,031 | 1,109 |
+
+- Intentionally shorter per Ryan's instruction ("adding is easier than removing")
+- Compilation: 231 pages, 0 LaTeX errors

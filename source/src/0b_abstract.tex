@@ -3,4 +3,24 @@
 \vspace{0.8em}
 \end{center}
 
-\textcolor{red}{[PLACEHOLDER: Abstract to be written.]}
+Text-to-image diffusion models can generate photorealistic images from short text descriptions, but text alone provides limited control over the structure, transparency, motion, and semantics of the output. Without finer-grained control mechanisms, these models produce results that reflect the model's prior more than the artist's intent. This thesis develops a series of methods that extend diffusion models with new forms of control, enabling applications that text-to-image generation alone cannot address.
+
+\vspace{0.5em}
+
+We first show that frozen text-to-image diffusion models encode pixel-level semantic structure that can be extracted without any retraining. In Peekaboo, we optimize an alpha mask via score distillation loss to perform zero-shot referring segmentation, demonstrating that generation models can be repurposed for discriminative tasks through inference-time optimization alone.
+
+\vspace{0.5em}
+
+Building on score distillation, Diffusion Illusions composes multiple views of a shared image under geometric transformations---rotations, flips, overlays, and animations---to generate optical illusions automatically. This framework produces physically fabricable illusions spanning multiple classical illusion families.
+
+\vspace{0.5em}
+
+To enable generation with accurate transparency boundaries, MAGICK constructs a large-scale dataset of 150,000 RGBA images by generating objects on colored backgrounds and extracting them via automated chroma keying. This dataset, the largest of its kind, enables training alpha-conditioned generation models for the first time.
+
+\vspace{0.5em}
+
+Extending control to the temporal domain, Go-with-the-Flow introduces warped noise sampling to inject motion structure directly into the diffusion sampling process. This provides plug-and-play motion control for any video diffusion model without architectural modifications, and received an Oral presentation at CVPR 2025.
+
+\vspace{0.5em}
+
+Finally, MotionV2V addresses the harder problem of editing motion in existing videos while preserving their visual content. By training on synthetic motion counterfactual pairs, our method enables true video-to-video motion transfer---modifying object and camera trajectories without regenerating the scene from scratch.

@@ -99,10 +99,16 @@
 - Full compile cycle: 228 pages, 0 LaTeX errors
 - All per-paper sections use `\textbf{}` headers (matching Kanchana's format)
 
+## 2026-02-21: Abstract and Introduction written
+
+- Abstract: 281 words (Kanchana: 372). Intentionally shorter — Ryan said adding is easier than removing.
+- Introduction: 1,031 words (Kanchana: 1,109). Structure matches Kanchana's: Overview section with motivation + per-paper contributions + impact paragraph, then Organization section with per-chapter paragraph descriptions.
+- Impact data verified via 4 parallel research agents with online searches + impact.md
+- Key verified numbers: Peekaboo 41 citations, DiffIllusions 21 citations + CVPR 2023 Demo Award + YouTube coverage, MAGICK 14 citations + 3,342 HF downloads/month, GWTF 62 citations + 1,100 GH stars + CVPR 2025 Oral (top 0.73%), MotionV2V 54 GH stars in 3 months
+- Compilation: 231 pages, 0 LaTeX errors
+
 ## Remaining work (requires actual writing, not mechanical)
 
-- Abstract
-- Introduction chapter
 - Future work / conclusion
 - Reorder chapters in main.tex to match chronological order
 - Committee form

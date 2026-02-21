@@ -1,8 +1,47 @@
 \chapter{Introduction}
 \label{chapter:introduction}
 
-\textcolor{red}{[PLACEHOLDER: Introduction to be written. Should provide a unifying narrative connecting Peekaboo, Diffusion Illusions, MAGICK, Go-with-the-Flow, and MotionV2V under the theme of creative applications of diffusion models.]}
+\section{Overview}
+
+Diffusion models have transformed image and video generation, enabling anyone to produce photorealistic content from a short text description. But text-to-image generation on its own is limited: the user provides a low-dimensional input (a sentence) and the model fills in everything else---composition, lighting, pose, transparency, motion---from its learned prior. The result often looks impressive in isolation, but it reflects what the model wants to generate, not what the artist intended. For creative and professional applications, this gap between intent and output is the central obstacle. A graphic designer inserting an object into a composite needs accurate alpha boundaries, not a binary cutout. A visual effects artist editing a video needs to change how a character moves without regenerating the entire scene. A researcher studying visual perception needs to construct precise optical illusions, not approximate ones. None of these tasks can be addressed by text-to-image generation alone---they each require a different form of control over the generation process.
+
+This thesis develops five methods that extend diffusion model control along different axes: spatial semantics, multi-view geometry, transparency, temporal motion, and video editing. Each method reuses frozen or minimally fine-tuned diffusion models and introduces control through inference-time optimization, dataset construction, noise-space manipulation, or targeted training. Together, they demonstrate that diffusion models contain far more structure than text-to-image generation exploits, and that this structure can be harnessed for creative applications that were previously impossible or impractical.
+
+Our work proceeds through five contributions:
+
+\textbf{Peekaboo: Zero-shot segmentation via score distillation.}
+We show that frozen text-to-image diffusion models encode pixel-level semantic information that can be extracted through inference-time optimization alone. By optimizing an alpha mask using score distillation loss---compositing a foreground described by a text prompt over a randomized background and asking the diffusion model to score the result---we perform zero-shot referring segmentation without any segmentation-specific training. This was the first demonstration that text-to-image diffusion models can be repurposed for discriminative vision tasks, and established score distillation as a general-purpose tool for extracting structure from frozen generative models.
+
+\textbf{Diffusion Illusions: Controlling multi-view image structure.}
+Building on the same score distillation framework, we extend control from single-image semantics to multi-view geometric structure. Diffusion Illusions optimizes a shared image representation so that different geometric transformations---rotations, flips, overlays, perspective warps, and animations---each produce a different coherent image when scored by a frozen diffusion model. This yields a general framework for automatically generating optical illusions spanning multiple classical families, including hybrid images, ambigrams, and hidden overlays. Several of these illusions have been physically fabricated and exhibited.
+
+\textbf{MAGICK: Bootstrapping alpha matte datasets from diffusion models.}
+While Peekaboo showed that diffusion models can segment objects, the resulting alpha masks lack fine detail. Training models that generate or condition on accurate transparency requires large-scale ground-truth alpha data, which has historically been extremely difficult to collect---the largest existing matting dataset before our work contained only 726 objects. MAGICK addresses this by using diffusion models to generate objects on solid colored backgrounds and extracting them via automated chroma keying, producing 150,000 captioned RGBA images at 1024$\times$1024 resolution. This dataset enables, for the first time, training models that generate RGB images conditioned on an input alpha matte.
+
+\textbf{Go-with-the-Flow: Motion control through warped noise.}
+Moving from spatial to temporal control, Go-with-the-Flow introduces a method for controlling motion in video diffusion models by manipulating the noise fed into the sampling process. We warp the initial noise tensor along optical flow fields, injecting temporal correlations that guide the model to produce specific motion patterns. This approach is plug-and-play---it works with any video diffusion model as a black box, requires no architectural modifications, and operates solely during noise sampling. The same warped noise technique also enables a form of temporal illusion: content that is visible only during motion and vanishes when the video is paused.
+
+\textbf{MotionV2V: Video-to-video motion editing.}
+Finally, we address the harder problem of editing motion in existing videos. While Go-with-the-Flow controls motion during generation from scratch, MotionV2V modifies object and camera trajectories in a given video while preserving its visual content. This is fundamentally more difficult than generation because the structural correspondence between input and output frames is broken when motion changes. We solve this by training on synthetic motion counterfactual pairs---videos paired with versions where the motion has been programmatically altered---enabling true video-to-video motion transfer without regenerating the scene.
+
+\vspace{0.5em}
+
+These five contributions have had broad impact both within the research community and beyond. Peekaboo established zero-shot diffusion segmentation as a research direction, with over 40 follow-on papers at venues including CVPR, ICCV, ECCV, and NeurIPS. Diffusion Illusions received the CVPR 2023 Best Demo Award and was featured by YouTube creators including Steve Mould and Stand Up Maths, reaching millions of viewers. MAGICK, produced in collaboration with Adobe Research, is downloaded over 3,000 times per month on Hugging Face and has been adopted as a benchmark component for transparent image evaluation. Go-with-the-Flow received an Oral presentation at CVPR 2025---one of only 95 orals from over 13,000 submissions---and has accumulated over 1,100 GitHub stars and 62 citations in its first year. MotionV2V, conducted in collaboration with Google, has gathered 54 GitHub stars within three months of release.
 
 \section{Organization}
 
-\textcolor{red}{[PLACEHOLDER: Describe chapter organization.]}
+The remainder of this thesis proposal is organized as follows.
+
+\paragraph{Chapter 2: Literature Review.} We survey the landscape of diffusion model control, covering related work in zero-shot segmentation, illusion generation, alpha matting, video generation, and motion editing. Each contribution's specific related work is presented in a dedicated section.
+
+\paragraph{Chapter 3: Peekaboo.} We present our method for zero-shot referring segmentation using score distillation loss applied to alpha masks composited over random backgrounds, demonstrating that frozen text-to-image diffusion models encode pixel-level localization information.
+
+\paragraph{Chapter 4: Diffusion Illusions.} We describe a general framework for generating optical illusions by composing score distillation estimates across geometric transformations of a shared image parameterization, producing illusions spanning multiple classical families.
+
+\paragraph{Chapter 5: MAGICK.} We detail our pipeline for constructing a large-scale RGBA dataset through diffusion-based generation on colored backgrounds followed by automated chroma keying, and demonstrate its utility for training alpha-conditioned generation models.
+
+\paragraph{Chapter 6: Go-with-the-Flow.} We introduce warped noise sampling for motion-controllable video generation, showing that injecting temporal structure into the noise process provides plug-and-play motion control for arbitrary video diffusion models.
+
+\paragraph{Chapter 7: MotionV2V.} We present our method for editing motion in existing videos by training on synthetic motion counterfactual pairs, enabling modification of object and camera trajectories while preserving the original video's visual content.
+
+\paragraph{Chapter 8: Future Work.} We discuss open problems and future directions for diffusion model control, including extensions to 3D generation, interactive editing, and unified spatial-temporal control frameworks.
