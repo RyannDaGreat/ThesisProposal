@@ -220,3 +220,31 @@ Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2
 - MAGICK bib had unescaped `&` in publisher/booktitle fields — fixed to `\&`.
 - MAGICK uses `\promptExampleSize` and `\promptstyle` macros — defined at top of `3_method_thesis.tex` rather than in thesis preamble (chapter-local).
 - bibtex "Too many commas" warning for `zhou2017scene` is a malformed author field in the bib — cosmetic, doesn't break compilation.
+- `\modelname` in Peekaboo's `related_work_thesis.tex` was undefined when loaded from lit review chapter (outside the chapter that defines it) — replaced with literal "Peekaboo".
+
+## File Change Log (append-only)
+
+### Literature Review Session (2026-02-20)
+
+**Created:**
+- `source/src/2_DiffIllusions/history_thesis.tex` — Full "History of Illusions" section (classical, computational, diffusion-based illusions + figure) extracted from the original related_work and placed in the DiffIllusions chapter body.
+- `.frenzy/litreview/agent{1-5}.tex` — 5 competing lit review drafts from Opus frenzy (kept for reference).
+
+**Modified:**
+- `source/src/2_literature.tex` — Replaced placeholder with 3-paragraph synthesis + 5 per-paper `\input{}` lines.
+- `source/src/2_DiffIllusions/related_work_thesis.tex` — Condensed from 749 words (with figure + subsubsections) to 240 words (flat `\textbf{}` sections, no figure). Full history content moved to `history_thesis.tex`.
+- `source/src/2_DiffIllusions/main_thesis.tex` — Changed `\input{related_work_thesis}` → `\input{history_thesis}` so the chapter body includes the full history section.
+- `source/src/1_Peekaboo/related_work_thesis.tex` — Replaced `\modelname` → `Peekaboo` (4 occurrences).
+- `source/src/3_MAGICK/sec/2_relatedwork_thesis.tex` — Trimmed from 558 to 268 words, flattened `\paragraph{}` → `\textbf{}` to match Kanchana's style.
+- `source/src/4_GWTF/sec/2_related_work_thesis.tex` — Trimmed from 536 to 187 words, flattened `\subsection{}` → `\textbf{}` to match Kanchana's style.
+- `source/src/5_MotionV2V/sec/relatedworks_thesis.tex` — Trimmed from 374 to 208 words, flattened `\subsection{}` → `\textbf{}` to match Kanchana's style.
+
+**Split:**
+- `related_work_thesis.tex` (DiffIllusions) was split into:
+  - `history_thesis.tex` — Full history content (figure + subsections), included in chapter body
+  - `related_work_thesis.tex` — Condensed related work for lit review chapter
+
+**Word count comparison (lit review chapter total):**
+- Kanchana: 2,177 words (synthesis + 4 per-paper sections)
+- Ours: 1,640 words (synthesis + 5 per-paper sections)
+- Compilation: 225 pages, 0 LaTeX errors

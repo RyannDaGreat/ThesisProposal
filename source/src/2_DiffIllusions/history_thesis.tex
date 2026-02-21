@@ -1,0 +1,30 @@
+% history_thesis.tex — History of Illusions section for Diffusion Illusions chapter
+
+\section{History of Illusions}
+\label{diffill_sec:history}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/relatedwork.v3.pdf}
+\caption[History of Illusions]{A brief history of illusions. \textbf{Classical illusions}: (A) ``Fruit Basket'' (1500s) by Giuseppe Arcimboldo provides a very early example, depicting a face when viewed in one orientation and a fruit basket when viewed in the other. (B) When viewed directly, ``Kaninchen und Ente'' (1892) is ambiguous; $45^\circ$ rotations make it appear as a rabbit or a duck \cite{jastrow1899mind, wittgenstein_philosophical_1953}. (C) ``My Wife and My Mother-in-Law'' (1915) by William Ely Hill may be interpreted as showing either a young or an old woman depending on how it is grouped \cite{boring_new_1930, nicholls_perception_2018}. \textbf{Computationally-generated illusions}: (D) a hybrid image which appears to be a leopard when viewed close-up and an elephant when viewed from a distance \cite{oliva2006hybrid}. (E) a wire sculpture which depicts three different 2010s American politicians when viewed from different angles \cite{hsiao_multi-view_2018}. \textbf{Diffusion-based illusions}: (F) an image depicting a duck when viewed upright and a rabbit when rotated $90^\circ$ ccw \cite{tancik_illusiondiffusion_2023}. (G) a set of computationally-generated ambigrams reading `Ohio', `cloud', `yeah', and `python' \cite{samsudin_ambigrams_2023}. (H) an image depicting a giraffe when viewed upright and a penguin when viewed upside-down \cite{geng2023visualanagrams}.}
+\label{diffill_fig:history}
+\end{figure}
+
+\subsection{Classical Illusions}
+Images whose interpretation depends on viewing angle or category bias, sometimes known as ambiguous images, have been designed for centuries. Such images have drawn the scholarly interest of psychologists \cite{jastrow1899mind, boring_new_1930} and philosophers \cite{wittgenstein_philosophical_1953} since the 1800s. Ambiguous images have been used experimentally to understand how category bias during perception varies as people age \cite{nicholls_perception_2018}, and families of ambiguous images, such as ambigrams \cite{hofstadter1985meta}, are often constructed as a way of better understanding the domains they belong to. We present some relevant examples of classical illusions in \Cref{diffill_fig:history}.
+
+\subsection{Computationally-Generated Illusions}
+A growing stream of research has focused on computationally generating specific types of illusions. One early example is hybrid images \cite{oliva2006hybrid}. Hybrid images are created from two images by combining the low-frequency features of one with the high-frequency features of the other. Viewers see the object from the low-frequency image when viewing the hybrid image from a distance, and see the object from the high-frequency image when viewing up-close. While this process may be automated, the authors note that for best results, the overall shapes of the low-frequency and high-frequency images should be manually aligned.
+
+A number of researchers have created 3-dimensional objects that are interpreted as different objects when they are viewed from different angles. In multi-view wire art \cite{hsiao_multi-view_2018}, a single 3D wire may be viewed or lit from multiple angles to obtain different clean line drawings; and in view-dependent surfaces \cite{perroni-scharf_constructing_2023}, a colored 3D-printed height field may be viewed from different angles to obtain different colored images.
+
+An additional type of illusion is steganography, in which apparently normal objects may be viewed in a particular way to uncover a hidden meaning. In The Magic Lens \cite{papas_magic_2012}, seemingly meaningless dots are generated such that, when viewed through an intricate refractive lens, they will comprise a specified image.
+
+\subsection{Diffusion-Based Illusion Generation}
+Diffusion Probabilistic Models \cite{pmlr-v37-sohl-dickstein15} resulted in rapid advances for image generation tasks, including text-to-image generation \cite{Nichol2022GLIDETP,diffusionbeatsgans,dalle,dalle2,imagen,palette,parti,sr3}. Recent works \cite{Poole2022DreamFusionTU,Burgert2022PeekabooTT} sample pre-trained diffusion models without re-training to generate outputs in novel domains. Score Distillation introduced in DreamFusion \cite{Poole2022DreamFusionTU} is the underlying technique enabling optimization of samples in any arbitrary parameter space without backpropagation through the diffusion model.
+We utilize these techniques to construct a novel framework for illusion generation.
+These rapid advances have led to an exploration of suitable evaluation metrics, both quantitative and qualitative \cite{lee_holistic_2023,Benny2020EvaluationMF,Betzalel2022ASO,yeh2023navigating, friedman2022vendi}, which we use to evaluate our proposed framework.
+
+Following recent image generation developments, a small but growing body of non-scholarly or unpublished work has approached the problem of generating multi-view 2D images \cite{tancik_illusiondiffusion_2023} or ambigrams \cite{samsudin_ambigrams_2023}. While these approaches appear to yield appealing results, they are narrowly focused on specific illusions, may require substantial cherry-picking, and have not been formally presented or published.
+In contrast, we present a formalized, generic approach capable of generating variable types of illusions followed by extensive evaluation (both quantitative and qualitative) of our approach.
+Inspired by our Diffusion Illusions project, contemporary work in \cite{geng2023visualanagrams} presents a formal framework for efficient (fast inference) illusion generation, but operates on a subset of our illusions (namely, those with a single ``prime image'' in our terminology). Furthermore, \cite{geng2023visualanagrams} does not explore any illusions with overlay which is generally more challenging and the generality for real-world transfer (i.e. fabrication of illusions in the real world).
