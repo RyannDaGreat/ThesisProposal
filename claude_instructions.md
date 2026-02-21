@@ -164,6 +164,39 @@ For each paper → thesis chapter, apply these mechanical transformations:
 - Change "Ours" → "Proposed" in comparison tables where appropriate
 - Add figure placement specifiers `[t]` or `[h]` where missing
 
+## Literature Review Style Requirements (derived from analyzing Kanchana's thesis)
+
+### Structure
+- **Two-level**: A synthesizing main chapter (~3-4 paragraphs, ~400 words) followed by per-paper related work sections via `\input{}`
+- Main chapter establishes the unifying thread and positions the thesis, then `\input`s each paper's related work
+- Per-paper sections are retitled with descriptive names (not just "Related Work")
+- Per-paper sections use `\bhdr{}` or `\textbf{}` bold headers to chunk subtopics, with dense citation-laden paragraphs
+
+### Tone & Writing Style
+- Formal academic prose but NOT stiff — flows naturally with narrative progression
+- Historical/temporal framing: "Early methods... Recently... Building on this..."
+- Heavy use of contrastive positioning: "While X, our approach Y" / "In contrast, we..."
+- Citations woven inline into sentences, not dumped as lists
+- NO AI-sounding phrases: no "delve into", "it is worth noting", "in the realm of", "a testament to", "notably", "leveraging the power of"
+- Must pass AI writing detectors — use varied sentence structure, specific technical claims, natural hedging
+- Match Ryan's voice from the papers themselves (direct, technical, not overly formal)
+
+### Content Rules
+- Main chapter must have a BIRD'S EYE VIEW of all papers and how they connect to the "Controlling Diffusion Models" theme
+- Deduplication: diffusion model foundations (DDPM, score distillation, etc.) appear in Peekaboo + DiffIllusions — cover once in main chapter or first occurrence
+- GWTF + MotionV2V have strong topic overlap (video diffusion, motion control) but zero citation overlap — unify the narrative
+- MAGICK is the most isolated (alpha matting) — needs clear connection to the control theme
+- Each per-paper section should end with clear positioning of that paper's contribution vs. prior work
+- Self-citations across papers (Peekaboo cited in DiffIllusions, MAGICK, GWTF; GWTF cited in MotionV2V) should read naturally, not self-promotional
+
+### Length Target
+- Main chapter: ~400 words (3-4 paragraphs)
+- Per-paper sections: ~300-600 words each (matching Kanchana's)
+- Total literature review: ~2000-2500 words
+
+### Chapter Ordering for Related Works
+Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2V (may be removed)
+
 ## Critical Constraints
 
 - `source/` is the ONLY writable directory for thesis content

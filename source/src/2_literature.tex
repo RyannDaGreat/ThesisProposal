@@ -1,9 +1,18 @@
 \chapter{Literature Review}
 \label{chapter:literature}
 
-\textcolor{red}{[PLACEHOLDER: Unified literature review introduction to be written.]}
+Controlling diffusion models has emerged as a central challenge following rapid progress in generative image and video synthesis. Early diffusion probabilistic models~\cite{pmlr-v37-sohl-dickstein15} established the theoretical foundations of iterative denoising for generation, and subsequent work on denoising diffusion probabilistic models~\cite{ho2020denoising} and score-based generative modeling~\cite{song2021score} made these methods practical for high-fidelity image synthesis. The introduction of latent diffusion~\cite{rombach2022high} brought computational efficiency by operating in a compressed latent space, enabling large-scale text-to-image systems such as GLIDE~\cite{Nichol2022GLIDETP}, DALL-E~\cite{dalle,dalle2}, Imagen~\cite{imagen}, and SDXL~\cite{podell2023sdxl}. A parallel line of work explored steering these models beyond text prompts: DreamFusion~\cite{Poole2022DreamFusionTU} introduced score distillation sampling to optimize arbitrary parameter spaces against a frozen diffusion prior, while ControlNet~\cite{zhang2023adding} and SDEdit~\cite{meng2022sdedit} demonstrated that spatial conditioning signals could guide generation without full retraining. As image diffusion matured, attention shifted to the temporal domain, with video diffusion models such as AnimateDiff~\cite{guo2024animatediff}, Sora~\cite{brooks2024video}, and CogVideoX~\cite{yang2024cogvideox} extending these architectures to generate coherent motion---though controlling that motion remained an open problem.
 
-% Related work sections extracted from each paper will be included here
-% \input{src/1_Peekaboo/sections/related_work}  % once extracted
-% \input{src/4_GWTF/sec/2_related_work_thesis}  % once extracted
-% \input{src/5_MotionV2V/sec/relatedworks_thesis} % once extracted
+Building on this progression, a growing body of work has sought finer-grained control over what diffusion models produce and how they produce it. Training-free approaches showed that frozen diffusion models encode rich semantic structure that can be extracted or redirected through optimization alone, as in zero-shot segmentation via score distillation~\cite{burgert2023peekaboo} or multi-view illusion generation through composing score estimates across geometric transformations~\cite{burgert2023diffusion_illusions}. On the conditioning side, contrastive vision-language models such as CLIP~\cite{clip,radford2021learning} provided the language-vision alignment that underpins text-guided control, while adapter modules like ControlNet~\cite{zhang2023adding} introduced entirely new control modalities---depth, edges, alpha channels---into pretrained models. For video, noise-space manipulation via optical flow warping~\cite{chang2024warped,gowiththeflow2025} offered a way to inject motion trajectories directly into the sampling process without motion-specific architectural changes. Despite these advances, significant gaps remain: most control methods address either spatial or temporal domains but not both, training-free methods sacrifice reliability for flexibility, and fine-tuning approaches require paired data that is expensive or impossible to collect at scale.
+
+Motivated by these converging directions, this thesis investigates controlling diffusion models across a range of tasks and modalities. We develop methods that redirect frozen model knowledge for discriminative tasks (Peekaboo), compose score estimates to satisfy multiple visual constraints simultaneously (Diffusion Illusions), generate large-scale training data through controlled rendering pipelines (MAGICK), manipulate motion through noise-space warping (Go-with-the-Flow), and perform targeted video motion editing via counterfactual training (MotionV2V). Each section that follows presents the detailed related work specific to its contribution.
+
+\input{src/2_DiffIllusions/related_work_thesis}
+
+\input{src/1_Peekaboo/related_work_thesis}
+
+\input{src/3_MAGICK/sec/2_relatedwork_thesis}
+
+\input{src/4_GWTF/sec/2_related_work_thesis}
+
+\input{src/5_MotionV2V/sec/relatedworks_thesis}

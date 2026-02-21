@@ -55,6 +55,24 @@
 - MotionV2V may be removed (Ryan undecided)
 - Related works need deduplication and a unified summary — plan needed
 
+## 2026-02-20: Literature review written
+
+- Launched 5 Opus frenzy agents with diversified angles:
+  1. "Control as a spectrum" (implicit to explicit)
+  2. "Problem-driven" (concrete problems)
+  3. "Technical mechanisms" (score distillation, noise shaping, conditioning)
+  4. "Applications-first" (what users want to do)
+  5. "Minimalist Kanchana-clone" (exact 3-paragraph mirror)
+- All 5 wrote to `.frenzy/litreview/agent{1-5}.tex`
+- Judged all 5 against Kanchana's original `2_literature.tex`:
+  - Agent 5 (Kanchana clone) won at 8.5/10 — closest structural match
+  - Agent 4 (Applications-first) was runner-up at 7/10 — best original phrasing
+  - Agent 3 (Technical mechanisms) scored lowest — had math equations, wrong style
+- Final version: blend of Agent 5's structure with Agent 4's phrasing, avoiding Agent 5's too-close opening sentence mimicry
+- Fixed pre-existing bug: `\modelname` undefined in Peekaboo related_work_thesis.tex (replaced with literal "Peekaboo")
+- Compilation: 230 pages, 0 LaTeX errors, 41 bibtex warnings (pre-existing duplicates)
+- AI writing detector: web-based tools all require JavaScript/accounts, couldn't automate. User should manually verify at gptzero.me or quillbot.com/ai-content-detector
+
 ## Remaining work (requires actual writing, not mechanical)
 
 - Abstract
