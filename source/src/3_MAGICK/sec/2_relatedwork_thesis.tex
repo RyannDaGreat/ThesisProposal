@@ -1,0 +1,26 @@
+\section{Alpha Matting and Synthetic Dataset Generation}
+\label{magick_sec:relatedwork}
+
+\paragraph{Synthetic segmentation data generation:}
+Many methods have recently been proposed to synthetically generate segmentation data. Early methods utilize GANs for data synthesis.
+DatasetGAN~\cite{zhang2021datasetgan} proposes to decode GAN latent codes to generate segmentation data, primarily of specifc object parts or of limited scenes like bedrooms.
+BigDatasetGAN~\cite{zhang2022bigdatasetgan} produces masks for single primary objects by training a GAN on Imagenet~\cite{ILSVRC15}.
+
+Diffusion-based model typically take a text prompt as input, then simultaneously synthesize an image along with a mask. The mask may be of a single primary object~\cite{wu2023diffumask,li2023open} or a semantic segmentation within the domain of an existing hand-labeled dataset~\cite{wu2023datasetdm,nguyen2023dataset}. Variations of this theme include generating multiple images and object masks at once~\cite{xie2023mosaicfusion} or generating the masks first and then the image~\cite{ye2023seggen}. Peekaboo~\cite{burgert2023peekaboo} generates single objects, the most closely related method to our own, but the results lack details like hair and fur. While arguments can be made against training with generated data~\cite{alemohammad2023selfconsuming,shumailov2023curse}, these works show that training with synthetic data, either alone or in conjunction with real data, yields results that are on par with or surpass the state-of-the-art set by methods trained with real data.
+
+A drawback of these methods is they all focus on binary masks and lack transparencies and fine details such as hair or fur. Our method specifically targets generating images with alpha mattes that exhibit fine details.
+
+\paragraph{Alpha matting datasets:}
+While our method is the first to generate images with alpha masks, many alpha matting datasets already exist. Generating alpha mattes is a difficult task, requiring complicated image capture methods and/or excessive user interaction, resulting in the existing matting datasets being small in size. The early matting dataset from alphamatting.com~\cite{rhemann2009perceptually} was generated using triangulation matting, a tedious process of photographing the same object against multiple backgrounds, resulting in a dataset of 27 training images and 8 test images. This was extended to video to produce a small number of frames using stop-motion photography~\cite{erofeev2015perceptually}.
+
+Manual extraction of the alpha matte from photographs using existing matting methods has been used to create several datasets~\cite{xu2017deep,shen2016deep,wang2021crgnn,sun2021semantic}. However, this approach is very time consuming and prone to error, generally resulting in only a few hundred objects.
+
+Video matting datasets often use chroma keying~\cite{smith1996blue} to generate alpha data~\cite{zhang2021attention,lin2021real}. However, high quality chroma keying requires both careful setup of the green (blue) screen and lighting as well as manual post-processing to tweak parameters and manually correct or mask out mistakes.
+
+While these methods can produce high-quality alpha mattes, they are difficult and tedious to collect. This contrasts our approach that can produce large numbers of accurate alpha mattes with the corresponding images with minimal user interaction.
+
+\paragraph{Segmentation and Matting:}
+
+Arguably, an alternative method of producing a dataset like ours would be to simply extract objects from generated images with standard segmentation/matting methods without bothering to produce them on green screens. Such generated images would contain background details and potentially other foreground objects that would need to be separated from the object.
+
+While many segmentation datasets exist~\cite{lin2014microsoft,zhou2017scene,OpenImages,Cordts2016Cityscapes}, as do many methods for segmenting salient objects~\cite{li2014secrets,li2017instance,qin2022highly} or multiple objects~\cite{kirillov2019panoptic,he2018mask,Qi_2023_ICCV} from images, these methods would not yield the accurate alpha mattes that our method produces.  Matting methods~\cite{xu2017deep,soumyadip2020background,cai2019disentangled,lu2019indices,tang2019learning,dai2022boosting}, despite significant progress recently, are still imperfect and would include errors or artifacts in the alpha mattes. Indeed, we hope our dataset will be used to improve matting methods in future works.

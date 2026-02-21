@@ -4,15 +4,32 @@
 
 Write Ryan Burgert's PhD thesis proposal document. The `source/` directory is where we write new LaTeX content. Everything else in this repo is **read-only reference material**.
 
+## Thesis Theme
+
+**"Controlling Diffusion Models"** (working title — stored as a variable for easy changing later). The unifying narrative is: how to make diffusion models do what you want.
+
+## Chapter Ordering (chronological)
+
+1. Introduction (placeholder)
+2. Literature Review (unified, to be written)
+3. **Diffusion Illusions** (SIGGRAPH 2024, arXiv Dec 2023) — currently Ch4 in source, needs reordering
+4. **Peekaboo** (arXiv Nov 2022) — currently Ch3 in source, needs reordering
+5. **MAGICK** (CVPR 2024) — currently Ch5 in source
+6. **Go-with-the-Flow** (CVPR 2025 Oral, arXiv Jan 2025) — currently Ch6 in source
+7. **MotionV2V** (arXiv Nov 2025) — currently Ch7 in source. **May be removed — Ryan hasn't decided yet.**
+8. Future Work (placeholder)
+
+**NOTE**: The source files currently have the OLD ordering (Peekaboo=Ch3, DiffIllusions=Ch4). Reordering main.tex `\input` lines will renumber chapters automatically since we use `\chapter{}` not `\chapter[N]{}`.
+
 ## Core Papers (first-author only, chosen by Ryan)
 
-| Ch | Paper | Venue | arXiv ID | Source Tarball |
+| Ch (new) | Paper | Venue | arXiv ID | Source |
 |----|-------|-------|----------|----------------|
-| 3 | **Peekaboo** | arXiv 2022 | 2211.13224 | `Peekaboo_2211.13224_source.tar.gz` |
-| 4 | **Diffusion Illusions** | SIGGRAPH 2024 | 2312.03817 | `Diffusion_Illusions_2312.03817_source.tar.gz` |
-| 5 | **MAGICK** | CVPR 2024 | — | needs source from tarball |
+| 3 | **Diffusion Illusions** | SIGGRAPH 2024 | 2312.03817 | `Diffusion_Illusions_2312.03817_source.tar.gz` |
+| 4 | **Peekaboo** | arXiv 2022 | 2211.13224 | `Peekaboo_2211.13224_source.tar.gz` |
+| 5 | **MAGICK** | CVPR 2024 | — | Source from `/Users/ryan/CleanCode/Projects/Adobe2023/MAGICK_Paper` |
 | 6 | **Go-with-the-Flow** | CVPR 2025 Oral | 2501.08331 | `Go-with-the-Flow_2501.08331_source.tar.gz` |
-| 7 | **MotionV2V** | arXiv 2025 | 2511.20640 | `MotionV2V_2511.20640_source.tar.gz` |
+| 7 | **MotionV2V** | arXiv 2025 | 2511.20640 | `MotionV2V_2511.20640_source.tar.gz` (may be removed) |
 
 ## Actual source/ File Structure (as built)
 
@@ -51,7 +68,20 @@ source/
 │   │   ├── main.bib
 │   │   └── figs/                 # Figures + tex subfigures
 │   │
-│   ├── 5_magick.tex              # PLACEHOLDER (red text, user will add source)
+│   ├── 5_magick.tex              # Chapter stub → inputs from 3_MAGICK/sec/
+│   ├── 3_MAGICK/
+│   │   ├── sec/
+│   │   │   ├── 1_intro_thesis.tex
+│   │   │   ├── 2_relatedwork_thesis.tex   # "Alpha Matting and Synthetic Dataset Generation"
+│   │   │   ├── 3_method_thesis.tex
+│   │   │   ├── 4_results_thesis.tex
+│   │   │   ├── 5_conclusion_thesis.tex
+│   │   │   ├── 6_appendix_thesis.tex      # Demoted to subsections
+│   │   │   └── [originals for reference]
+│   │   ├── main.tex              # Original (reference only)
+│   │   ├── preamble.tex          # Original (reference only)
+│   │   ├── main.bib
+│   │   └── figs/                 # Figures
 │   │
 │   ├── 6_gwtf.tex                # Chapter stub → inputs from 4_GWTF/sec/
 │   ├── 4_GWTF/
@@ -87,7 +117,7 @@ source/
 │   └── 8_future_work.tex         # PLACEHOLDER (red text)
 ```
 
-**Compilation status**: 169 pages, 0 errors, compiles clean with pdflatex+bibtex.
+**Compilation status**: 211 pages, 0 errors, compiles clean with pdflatex+bibtex.
 
 ## Adaptation Recipe (derived from diffing Kanchana's originals vs thesis)
 
@@ -153,3 +183,7 @@ For each paper → thesis chapter, apply these mechanical transformations:
 - Label prefixing is the most tedious but most critical step — namespace collisions break the build.
 - Related work sections get extracted and retitled with more descriptive names for the unified lit review.
 - `\modelname` and similar macros are always expanded to literals in the thesis version.
+- MAGICK source was at an external path (`/Users/ryan/CleanCode/Projects/Adobe2023/MAGICK_Paper`), not in papers/ tarballs.
+- MAGICK bib had unescaped `&` in publisher/booktitle fields — fixed to `\&`.
+- MAGICK uses `\promptExampleSize` and `\promptstyle` macros — defined at top of `3_method_thesis.tex` rather than in thesis preamble (chapter-local).
+- bibtex "Too many commas" warning for `zhou2017scene` is a malformed author field in the bib — cosmetic, doesn't break compilation.

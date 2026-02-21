@@ -1,0 +1,330 @@
+
+\section{Additional Details}
+
+\subsection{User Interface}
+
+As a followup to \cref{magick_sub:image_selection_process}, we discuss a specialized user interface we have developed for the manual annotation of this dataset, dramatically reducing the effort, time and cost of doing so.
+
+Manual annotation, though less expensive than manual image matting (costing around \$30,000 and a few months), remains costly and time-consuming. To streamline this process, we've developed web-based program specifically for the task of selecting the best matte for subjects.
+
+Along with the dataset, this tool will also be released to the public domain - in order to help people view and interact with this dataset before downloading it, as well as allowing people to easily expand it later on.
+
+This tool simplifies the task by enabling annotators to quickly choose the best image from a set by simply clicking on it \cref{magick_fig:ui}. Because it is web-based, it allows easy distribution of the annotation task: instead of having workers download the images to their local machines, terabytes of data can be streamed as they need it. Some key UI features include easy background color switching, alpha mask viewing with a single key-press, and workload distribution among multiple workers for parallel processing.
+
+Annotators are required to work with a dataset comprising RGBA images, which poses a challenge since there are no RGBA monitors --- all physical pixels on a screen possess only RGB values. To circumvent this, we enable users to quickly view the alpha channel for samples and alternate the background color. This approach provides a clearer understanding of how the alpha mask influences the images.
+
+This UI also includes search functionality as well, letting users search for images based on their captions. In \cref{magick_fig:ui}, you can see that in the caption ``A crystal clear icicle hanging from a frozen branch'', the word ``icicle'' is bold and glowing - indicating the search term that matches that caption. There, the search term was ``icicle''. And in \cref{magick_fig:tagging}, the search term ``letter'' was used.
+
+Users can also tag images with tags such as ``\#nsfw,'' ``bad,'' and several other optional custom tags. Tags have many use cases, including:
+\begin{enumerate}
+    \item It allows for the explicit annotation of poorly generated samples that lack good matting. Although this is a rare case, it still needs to be addressed.
+    \item It enables the categorization of samples. For instance, the ``\#nsfw'' tag, represented as a button below the image samples, when activated for a given sample, marks that sample as not safe for work.
+    \item It permits marking samples as ``\#idk'', which indicates that the sample requires review by another annotator. Since tags are searchable, if the user searches ``\#idk'', all samples marked as such will appear and can be reviewed.
+\end{enumerate}
+
+
+A live server for our dataset, along with the code and a user manual will be released for free to the public along with this paper. We hope by doing so we can encourage others to help grow the manually annotated portion of this dataset further.
+
+
+\subsection{Additional Dataset Statistics}
+Our data-set contains both safe-for-work and NSFW content, which is labeled as such. Approximately $.15\%$ of the samples in our dataset are flagged NSFW, as determined by a combination of the human annotators and a check for over 3000 blacklisted keywords present in the subjects.
+
+Additionally, the dataset contains a mix of shadows and non-shadows - as some samples will include soft shadows in their alpha-matte.
+
+The whole dataset generation process was accomplished on 32 A100 GPUs over the span of three weeks, plus an additional two months of human annotation with a budget of \$30000 USD.
+
+As mentioned in \cref{magick_sub:least_common_hue},
+green and blue are the most common hues in our dataset. The exact distribution is shown in \cref{magick_fig:leastCommonHueDistribution}.
+\begin{figure}
+    %FOR BRIAN: This graph was generated with python code. To generate your own variant use the following link:
+    %SOURCE: https://gist.github.com/SqrtRyan/bfb40468a3b52d0ca5ac5c20105f3ea2
+    \centering
+    % \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/LeastCommonHueDistribution.png} %A taller version of the graph
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/ShorterLeastCommonHueDistribution.png}
+    \caption[Least common hue distribution in the MAGICK dataset]{Green backgrounds and blue backgrounds are by far the most common backgrounds used in our dataset, followed by magenta and rarely yellow or red. Green and blue are generally great colors for chroma keying, especially against human subjects.}
+    \label{magick_fig:leastCommonHueDistribution}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\textwidth]{src/3_MAGICK/figs/ui3.png}
+    \caption[MAGICK annotation user interface]{A web-based annotation program designed specifically for the task of creating this dataset. Combinations of the alpha and foreground colors from three primary matting methods are shown in the columns. For each image, the user clicks the best one. In this example, the background color is set to red.}
+    \label{magick_fig:ui}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\linewidth]{src/3_MAGICK/figs/ui4.png}
+    \caption[Tagging interface for annotation]{An example of tagging the results. Here, we marked all images of the letter P as `review' - which lets us filter them out later.}
+    \label{magick_fig:tagging}
+\end{figure}
+
+
+\subsection{User Study Details}
+As mentioned in \cref{magick_sec:application_alpha_to_rgb}, we provide all images used in our user study in this supplementary material, in \cref{magick_fig:userstudy_full} - a continuation of \cref{magick_fig:user_results}.
+
+
+\subsection{Selecting Prompts (Continued)}
+In \cref{magick_sub:selecting_prompts} we listed three methods of generating prompts:
+\begin{enumerate}
+    \item LLM-Generated Prompts
+    \item Procedurally Generated Prompts
+    \item Image Captions
+\end{enumerate}
+
+
+In this section we will give examples for each category.
+
+
+\subsubsection{LLM-Generated Prompts}
+
+What we send to GPT4:
+
+\begin{lstlisting}
+We are generating a large synthetic dataset of images with complex alpha mattes.
+Please generate a list of image prompts with the following themes:
+[water, fire, feathers, hair, glass, humans, animals] + any other themes with complex alpha mattes
+DO NOT describe entire scenes, and DO NOT specify backgrounds - declare ONLY a single well-described isolated foreground subject.
+The output format should be a code block with at least 500 line-separated prompts.
+\end{lstlisting}
+
+An example output from GPT4:
+\begin{enumerate}[noitemsep]
+    %Shuffled Short Prompts:
+    {\promptExampleSize \item \texttt{A lock of wavy, sunlit blonde hair.}}
+    {\promptExampleSize \item \texttt{A frosted glass sculpture of a swan.}}
+    {\promptExampleSize \item \texttt{A detailed macro shot of a butterfly wing.}}
+    {\promptExampleSize \item \texttt{A swirling vortex of crystal-clear water.}}
+    {\promptExampleSize \item \texttt{A swirling tornado of fire and ash.}}
+    {\promptExampleSize \item \texttt{A soap bubble just before it bursts.}}
+    {\promptExampleSize \item \texttt{A detailed close-up of a human iris.}}
+    {\promptExampleSize \item \texttt{A single water droplet on a lotus leaf.}}
+    {\promptExampleSize \item \texttt{A piece of amber glass reflecting sunlight.}}
+    {\promptExampleSize \item \texttt{A single strand of barbed wire with dew drops.}}
+    {\promptExampleSize \item \texttt{A bonfire with intense, twisting flames.}}
+    {\promptExampleSize \item \texttt{A close-up of intricate lacework.}}
+    {\promptExampleSize \item \texttt{A glowing ember in a dying fire.}}
+    {\promptExampleSize \item \texttt{A close-up of a dragonfly's wing.}}
+    {\promptExampleSize \item \texttt{A close-up of frost patterns on a window.}}
+    {\promptExampleSize \item \texttt{A bubble reflecting a rainbow of colors.}}
+    {\promptExampleSize \item \texttt{A eagle's feather with detailed texture.}}
+
+\end{enumerate}
+
+
+\subsubsection{Procedurally Generated Prompts}
+\begin{enumerate}[noitemsep]
+    {\promptExampleSize \item \texttt{anxious man big ears}}
+    {\promptExampleSize \item \texttt{black escape artist man}}
+    {\promptExampleSize \item \texttt{bored physician girl}}
+    {\promptExampleSize \item \texttt{elderly personal care aide boy}}
+    {\promptExampleSize \item \texttt{excited old psychic person}}
+    {\promptExampleSize \item \texttt{firefighter woman closed eyes}}
+    {\promptExampleSize \item \texttt{gay stablehand woman}}
+    {\promptExampleSize \item \texttt{hispanic barista man with black flowing hair}}
+    {\promptExampleSize \item \texttt{lawyer woman diamond earrings}}
+    {\promptExampleSize \item \texttt{man wearing purple skirt}}
+    {\promptExampleSize \item \texttt{necromancer man brown eyes}}
+    {\promptExampleSize \item \texttt{nurse person green eyes}}
+    {\promptExampleSize \item \texttt{person wearing gown}}
+    {\promptExampleSize \item \texttt{sad fairy girl hazel eyes}}
+    {\promptExampleSize \item \texttt{seamstress girl standing}}
+    {\promptExampleSize \item \texttt{software engineer boy big ears}}
+    {\promptExampleSize \item \texttt{teenage gay nurse man}}
+    {\promptExampleSize \item \texttt{waiter man beard waving}}
+    {\promptExampleSize \item \texttt{white boy with curly hair}}
+    {\promptExampleSize \item \texttt{woman with red spiky hair}}
+\end{enumerate}
+
+\subsubsection{Image Captions}
+\begin{enumerate}[noitemsep]
+    {\promptExampleSize \item \texttt{Close-up of a new basketball ball}}
+    {\promptExampleSize \item \texttt{Dairy products on a wooden table}}
+    {\promptExampleSize \item \texttt{Deliciously refined tangerines}}
+    {\promptExampleSize \item \texttt{Dog in a hat laborer looking at the camera}}
+    {\promptExampleSize \item \texttt{Dried betel nuts or areca nuts}}
+    {\promptExampleSize \item \texttt{Flying bird from black smooth lines}}
+    {\promptExampleSize \item \texttt{Fresh artichokes close-up on dark background}}
+    {\promptExampleSize \item \texttt{Fresh lemon with lemon essential oil}}
+    {\promptExampleSize \item \texttt{Glasses of tasty Negroni cocktail}}
+    {\promptExampleSize \item \texttt{Green bush or wall of shrubs}}
+    {\promptExampleSize \item \texttt{Heart sticker with the flag of Tajikistan}}
+    {\promptExampleSize \item \texttt{Intertwined white textile fibers}}
+    {\promptExampleSize \item \texttt{Number 14 made of wooden blocks}}
+    {\promptExampleSize \item \texttt{Piggy bank with a vernier caliper}}
+    {\promptExampleSize \item \texttt{Shiba Inu dog in a birthday cap}}
+    {\promptExampleSize \item \texttt{Skyscraper building in 3D render}}
+    {\promptExampleSize \item \texttt{Varnished beige elegant shoes}}
+    {\promptExampleSize \item \texttt{White and brown chicken wings}}
+    {\promptExampleSize \item \texttt{White bread toast with honey}}
+    {\promptExampleSize \item \texttt{Young smiling woman posing in a studio}}
+\end{enumerate}
+
+
+\subsection{Matting Experiments}
+ We trained a matting model from Dai et al, CVPR 2023 [7] under default settings on various training sets - comprised of images from both the MAGICK dataset and the Deep Image Matting (DIM) dataset. The ratio of datasets used varied; for example, a 1/3 ratio means 1/3 of the training images were from MAGICK, and 2/3 from DIM. Our results are in \cref{magick_fig:matting}.
+
+We evaluated the models on the DIM test set using the standard metrics. Our findings showed that a combined dataset approach yielded better results than using either the MAGICK or DIM datasets alone. The optimal performance was achieved with a mixture where 1/5 of the data was from MAGICK and 4/5 from DIM.
+
+We conclude that the MAGICK dataset is indeed useful for image matting, even though it was primarily designed for image generation - resulting in a considerable domain difference between the two datasets.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{src/3_MAGICK/figs/Graph.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.65\linewidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Ratio & \textbf{MSE} & \textbf{SAD} & \textbf{Conn} & \textbf{Grad} \\ \hline
+            \textbf{0}   & .0277 & 65.49 & 78.03 & 44.54 \\
+            \textbf{1/3} & .0146 & 37.59 & 38.76 & 24.49 \\
+            \textbf{1/2} & .0162 & 39.38 & 34.54 & 24.95 \\
+            \textbf{2/3} & .0107 & \textbf{33.03} & 32.78 & 19.27 \\
+            \textbf{4/5} & \textbf{.0104} & 33.51 & \textbf{32.26} & \textbf{18.62} \\
+            \textbf{1}   & .0113 & 36.27 & 36.00 & 24.39 \\ \hline
+        \end{tabular}
+
+        }
+    \end{minipage}
+    \caption[Matting results using MAGICK]{Matting results using MAGICK.}
+    \label{magick_fig:matting}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.6\linewidth]{src/3_MAGICK/figs/autoselex.jpg}
+    \caption[Automatic selection with similarity scores]{
+    \textbf{Automatic selection:} Randomly generated images with similarity scores increasing from left to right. The top 50\%, highlighted in green, are kept while the rest are discarded. Samples with high similarity almost always have accurate alpha mattes.
+    }
+    \label{magick_fig:auto_selection}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/BeforeAfterImg2Img-crop.pdf}
+    \caption[SDEdit effect examples]{
+    \textbf{SDEdit's Effect:} 6 more examples continuing \cref{magick_fig:beforeAfterImg2Img} in the main paper. Note the extra detail given by SDEdit.
+    }
+    \label{magick_fig:sdedit_effect}
+\end{figure}
+
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{src/3_MAGICK/figs/userstudy_full.jpg}
+  \caption[Full user study images]{Continuing from \cref{magick_fig:user_results}, here we present all of the images used in the user study. Our algorithm was compared against both baselines.}
+  \label{magick_fig:userstudy_full}
+\end{figure}
+
+
+\subsection{Qualitative Alpha-to-RGB Results}
+In this section, we showcase many examples of Alpha-to-RGB generation, as described in \cref{magick_sec:application_alpha_to_rgb}.
+
+There are many artistic applications our dataset here, such as applying styles to text.
+
+Here are the figures we've included in this section:
+\begin{enumerate}
+    \item Text Stylization, along with comparisons to baselines: See \cref{magick_fig:magick_styles}.
+    \item Optical Illusions: See \cref{magick_fig:illusions}.
+    \item More variants of the letter S, continuing \cref{magick_fig:S}: See \cref{magick_fig:S100}.
+    \item Other Results: See \cref{magick_fig:swirly_chess}.
+\end{enumerate}
+
+\subsection{Creation Effort}
+Our dataset is comprised of both automatically selected images and manually selected images.
+%
+The automated part, forming 110k out of MAGICK's 150k images, involves negligible human effort. This process, as described in the paper, uses 32 A100 GPUs for three weeks, incurring only computational costs.
+%
+For manual section, comprising 40,000 images, we hired 5 workers who each worked 112 hours at a rate of \$0.3 USD per sample. Four of these workers were annotators, and the fifth was in charge of quality control.
+%
+Human anotation requires  only one mouse click per sample.
+Future work could include training a classifier model to replace the annotators.
+
+\subsection{Limitations} MAGICK's main strength is its size - comprising of 150k images. However, its main limitation is that it is synthetic - inheriting both strengths and weaknesses from current diffusion models. For example, a sample with the caption ``stop sign'' will have a good alpha matte, but might spell ``stop'' incorrectly, as SDXL struggles with text.
+
+
+
+\subsection{Extended Dataset Preview}
+In addition to \cref{magick_fig:datasetExpose}, which showcased 100 samples, this section presents an additional 1300 randomly selected samples from our dataset in figures \cref{magick_fig:dataset1of4}, \cref{magick_fig:dataset2of4}, \cref{magick_fig:dataset3of4}, and \cref{magick_fig:dataset4of4}.
+
+The 1400 matted images exhibited in this document surpass the size of the previously largest general-purpose matting dataset \cite{sun2021semantic}, which contained 726 objects. Furthermore, the 1400 samples illustrated in this document represent less than 1\% of the entire MAGICK dataset, encompassing 150,000 samples, each at double the resolution of any figure depicted here.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/100_s.pdf}
+    \caption[100 text stylization variants of the letter S]{
+    \textbf{Text Stylization}: \textit{This image is very high resolution - please zoom in!} Continuing \cref{magick_fig:S}, we take the alpha mask of the letter S (inverted here for visibility), and apply our Alpha-to-RGB algorithm from \cref{magick_sec:application_alpha_to_rgb} to it using 100 different prompts.
+    }
+    \label{magick_fig:S100}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/NonCrashyIllusions.png}
+    \caption[Optical illusions generated with Alpha-to-RGB]{
+    \textbf{Optical Illusions}: Our Alpha-to-RGB algorithm from \cref{magick_sec:application_alpha_to_rgb} can be used to generate striking optical illusions. In each image, we use two prompts: one for each region of the alpha mask. On the top image, we fill in the classic goblet illusion: we use the prompts ``man and woman staring at each other'' along with ``a brass goblet''. On the bottom right image, we use the prompts ``a mountain range with snow-capped mountains'' and ``a mountain range with snow-capped mountains behind a dense green forest''. The log cabins and skiers were added after the fact for decoration. And on the left, a photograph of new york city was cut out, and the remaining mask was given the prompt ``a medieval castle'' and flipped upside-down and composited back onto the image of the city. Please view them upside-down!
+    }
+    \label{magick_fig:illusions}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/verymagick.pdf}
+    \caption[Text stylization comparisons with baselines]{
+    \textbf{Text Stylization:} \textit{This image is very high resolution - please zoom in!} We apply our Alpha-to-RGB algorithm from \cref{magick_sec:application_alpha_to_rgb} to the text ``Magick!'' in the font ``Warnock'', using many different styles. We compare it to two baselines: Adobe Text Effects and our Sketch Edges baseline from \cref{magick_sec:application_alpha_to_rgb}. Note how the results from Adobe Text Effects don't always conform to the text boundary properly, despite the settings given to it (also depicted in this figure - its boundary mode is set to ``tight''). We chose to include the Sketch Edges baseline instead of the Canny Edges baseline because in our user study \cref{magick_fig:user_results} it was the stronger-preferred of the two baselines.
+    }
+    \label{magick_fig:magick_styles}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\linewidth]{src/3_MAGICK/figs/chess_swirl.jpg}
+    \caption[Additional Alpha-to-RGB results]{Some more results of our Alpha-to-RGB algorithm \ref{magick_sec:application_alpha_to_rgb}. The alpha masks are inverted for visibility.}
+    \label{magick_fig:swirly_chess}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/ddpack0_q90.jpg}
+    \caption[Dataset samples part 1 of 4]{
+    \textbf{Dataset Samples Part 1/4}: \textit{This image is very high resolution - please zoom in!} This figure displays 325 random samples from our dataset, along with their alpha masks. Each sample also has a caption, not shown here.
+    }
+    \label{magick_fig:dataset1of4}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/ddpack1_q90.jpg}
+    \caption[Dataset samples part 2 of 4]{
+    \textbf{Dataset Samples Part 2/4}: \textit{This image is very high resolution - please zoom in!} This figure displays 325 random samples from our dataset, along with their alpha masks. Each sample also has a caption, not shown here.
+    }
+    \label{magick_fig:dataset2of4}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/ddpack2_q90.jpg}
+    \caption[Dataset samples part 3 of 4]{
+    \textbf{Dataset Samples Part 3/4}: \textit{This image is very high resolution - please zoom in!} This figure displays 325 random samples from our dataset, along with their alpha masks. Each sample also has a caption, not shown here.
+    }
+    \label{magick_fig:dataset3of4}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{src/3_MAGICK/figs/ddpack3_q90.jpg}
+    \caption[Dataset samples part 4 of 4]{
+    \textbf{Dataset Samples Part 4/4}: \textit{This image is very high resolution - please zoom in!} This figure displays 325 random samples from our dataset, along with their alpha masks. Each sample also has a caption, not shown here.
+    }
+    \label{magick_fig:dataset4of4}
+\end{figure}

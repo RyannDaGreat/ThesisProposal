@@ -38,11 +38,29 @@
 - Three pdflatex passes → all cross-references resolved
 - Final: 169 pages, 0 errors, compiles clean
 
+## 2026-02-20: MAGICK chapter adapted
+
+- Source found at `/Users/ryan/CleanCode/Projects/Adobe2023/MAGICK_Paper` (not in papers/ tarballs)
+- Created 6 thesis-adapted files: 1_intro, 2_relatedwork, 3_method, 4_results, 5_conclusion, 6_appendix
+- All labels prefixed `magick_`, all figure paths rebased to `src/3_MAGICK/`
+- Related work extracted: "Alpha Matting and Synthetic Dataset Generation"
+- Fixed 2 unescaped `&` in main.bib (Taylor & Francis, Asilomar conference)
+- Appendix demoted: sections → subsections, wrapped in "Additional Details"
+- Compilation: 211 pages, 0 errors
+
+## 2026-02-20: Thesis theme and ordering decided
+
+- Theme: "Controlling Diffusion Models" / "How to make diffusion models do what you want" (working title, variable)
+- Chronological chapter order: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2V
+- MotionV2V may be removed (Ryan undecided)
+- Related works need deduplication and a unified summary — plan needed
+
 ## Remaining work (requires actual writing, not mechanical)
 
 - Abstract
 - Introduction chapter
-- Unified literature review (section stubs exist with inputs ready)
+- Unified literature review (needs deduplication of per-paper related works + summary)
 - Future work / conclusion
-- MAGICK chapter (user will provide source)
+- Reorder chapters in main.tex to match chronological order
 - Committee form
+- Decide on MotionV2V inclusion

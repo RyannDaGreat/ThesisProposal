@@ -1,0 +1,37 @@
+\section{Introduction}
+\label{magick_sec:intro}
+
+Recent breakthroughs in diffusion models have led to an abundance of new research in text-to-image generation~\cite{ramesh2022hierarchical,rombach2022high,podell2023sdxl,saharia2022photorealistic}. Given a short text prompt, an entire image can quickly be generated. These images can contain complex foreground objects against complex backgrounds. However, they do not handle use cases in which a user may want an isolated object with an accurate alpha channel.
+
+For example, a user may want to guide the generation of an image with not only a text prompt but also with an accurate alpha mask. While segmentation maps have been used to guide diffusion models~\cite{zhang2023adding}, these maps are rough and do not contain precise details like human hair or transparencies like in a wine glass.
+% Our attempts to use alpha to constrain ControlNet v1.1
+Our attempts to use alpha to condition the off-the-shelf ControlNet v1.1
+yielded results that did not follow the alpha channel
+% (Fig.~\ref{magick_fig:priorwork} top).
+(Fig.~\ref{magick_fig:priorwork}).
+Other applications could include generating objects to insert into images and generating training data for matting datasets.
+
+The inability of current methods to address generation involving alpha may be due to the lack of training data. While many large-scale segmentation datasets exist~\cite{lin2014microsoft,zhou2017scene,OpenImages,Cordts2016Cityscapes,Qi_2023_ICCV}, they do not contain accurate soft boundaries, usually because they were segmented manually using boundary-tracing tools. Matting datasets contain high-quality alpha ground-truth but are too small for training generation methods due to the difficulty in obtaining ground-truth alpha. For example, the alphamatting.com dataset~\cite{rhemann2009perceptually} only contains 27 images, the Adobe Deep Image Matting (DIM) dataset~\cite{xu2017deep} contains 431 objects, and the Semantic Matting dataset~\cite{sun2021semantic} expands DIM to 726 objects. Without a suitable large-scale alpha dataset, training models with accurate boundaries will remain difficult.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\hsize]{src/3_MAGICK/figs/alpha2rgb.png}
+  \caption[Alpha-guided RGB generation comparison]{An alpha matte (inverted for visibility) is used to generate an rgb image using ControlNet trained by our dataset (center) verses the original (right). Note our version trained with our data closely follows the alpha matte.}
+  \label{magick_fig:priorwork}
+\end{figure}
+
+To address this lack of data, we proposed MAGICK, a large-scale dataset of generated objects with high-quality alpha mattes for use in training future generation models. MAGICK\ contains 150,000 generated objects across a wide range of object types and includes masks with significant soft edges or transparencies. To create this dataset,  we generate objects on green screen (or other solid colored) backgrounds and extract the objects using chroma keying. Several significant challenges complicate this approach: 1)  an appropriate background color must be selected (generating a green leaf on a green background will yield a poor result), 2) current diffusion-based methods are poor at generating objects on a green screen, producing images with little detail around the edges or producing background that are not constant colored (Fig.~\ref{magick_fig:greenscreenComparison}),  and 3) chroma keying is an underconstrained problem, often failing to produce high-quality alpha without manual post-processing.
+
+We overcome these challenges with the following approach.
+First, for a given prompt, we generate a sample object to determine its primary colors, then select the color least present in the object for the background color.
+We then use two generation models to produce a suitable image for chroma keying: the text-to-image generation method DeepFloyd~\cite{deepfloyd} which generates solid colored backgrounds but foregrounds with poor alpha detail, then the image-to-image generation method proposed in \cite{sdedit} with SDXL~\cite{podell2023sdxl} that can generate a good foreground with alpha detail given the output of DeepFloyd.
+Finally, we use a combination of chroma-based and deep-learning based keyers and segmenters to extract the object from the image accurately. This process is shown in Fig.~\ref{magick_fig:pipelineOverview}.
+
+Given this approach, we produced a dataset of 150,000 images (to be released upon publication), a sample of which is shown in Fig.~\ref{magick_fig:datasetExpose}.  To show the utility of MAGICK, we train a model on one of the many applicable tasks, alpha-to-image generation. We fine-tune ControlNet~\cite{zhang2023adding} with our dataset to generate RGB images given an input alpha and show improved performance over using the pretrained ControlNet (\cref{magick_fig:priorwork}), showing the utility of our dataset.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{src/3_MAGICK/full_512.jpg}
+    \caption[Sample images and alpha mattes from the MAGICK dataset]{100 image and alpha samples from our dataset. Please zoom in to see all the details. Please see the appendix for more examples.}
+    \label{magick_fig:datasetExpose}
+\end{figure}
