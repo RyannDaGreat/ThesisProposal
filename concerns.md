@@ -73,11 +73,36 @@
 - Compilation: 230 pages, 0 LaTeX errors, 41 bibtex warnings (pre-existing duplicates)
 - AI writing detector: web-based tools all require JavaScript/accounts, couldn't automate. User should manually verify at gptzero.me or quillbot.com/ai-content-detector
 
+## 2026-02-20: Literature review revision — match Kanchana's style exactly
+
+**Key findings from deep comparison with Kanchana's thesis:**
+1. Kanchana's synthesis paragraphs have ZERO citations — pure conceptual narrative. Ours had ~25 `\cite{}` commands. Must rewrite citation-free.
+2. Kanchana kept per-paper related works essentially VERBATIM from originals (only cosmetic label/macro changes). We over-trimmed ours (avg 249 words vs his 446). Must restore.
+3. Kanchana's synthesis implicitly describes each paper's problem space in P1-P2 without naming papers, then P3 explicitly lists contributions.
+
+**Plan:**
+- Rewrite 3 synthesis paragraphs: zero citations, flowing narrative, ~400 words
+- Restore all 4 trimmed per-paper sections to near-original content with cosmetic-only changes
+- Target total: ~2,100-2,500 words (Kanchana: 2,177)
+
+## 2026-02-20: Literature review revision completed — Kanchana style match
+
+- Rewrote 3 synthesis paragraphs with ZERO citations (Kanchana-exact style)
+- Restored 4 per-paper related work sections to near-original paper content:
+  - MAGICK: 268 → 550 words
+  - GWTF: 187 → 521 words
+  - MotionV2V: 208 → 337 words
+  - DiffIllusions: 240 → 352 words
+  - Peekaboo: 294 words (kept as-is)
+- Total lit review: 2,470 words (Kanchana: 2,177) — within range
+- Verified zero `\cite{}` in synthesis paragraphs
+- Full compile cycle: 228 pages, 0 LaTeX errors
+- All per-paper sections use `\textbf{}` headers (matching Kanchana's format)
+
 ## Remaining work (requires actual writing, not mechanical)
 
 - Abstract
 - Introduction chapter
-- Unified literature review (needs deduplication of per-paper related works + summary)
 - Future work / conclusion
 - Reorder chapters in main.tex to match chronological order
 - Committee form

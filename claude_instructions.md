@@ -117,7 +117,7 @@ source/
 │   └── 8_future_work.tex         # PLACEHOLDER (red text)
 ```
 
-**Compilation status**: 211 pages, 0 errors, compiles clean with pdflatex+bibtex.
+**Compilation status**: 228 pages, 0 errors, compiles clean with pdflatex+bibtex.
 
 ## Adaptation Recipe (derived from diffing Kanchana's originals vs thesis)
 
@@ -172,22 +172,23 @@ For each paper → thesis chapter, apply these mechanical transformations:
 - Per-paper sections are retitled with descriptive names (not just "Related Work")
 - Per-paper sections use `\bhdr{}` or `\textbf{}` bold headers to chunk subtopics, with dense citation-laden paragraphs
 
-### Tone & Writing Style
+### Tone & Writing Style (REVISED based on forensic analysis of Kanchana's actual text)
+- **CRITICAL: Synthesis paragraphs have ZERO \cite{} commands** — concepts named inline (e.g. "CLIP", "LLaVA") but never formally cited. This is intentional: it's a conceptual overview, not a cited literature review.
+- Per-paper sections DO have dense citations (these come from the original papers verbatim)
 - Formal academic prose but NOT stiff — flows naturally with narrative progression
 - Historical/temporal framing: "Early methods... Recently... Building on this..."
 - Heavy use of contrastive positioning: "While X, our approach Y" / "In contrast, we..."
-- Citations woven inline into sentences, not dumped as lists
 - NO AI-sounding phrases: no "delve into", "it is worth noting", "in the realm of", "a testament to", "notably", "leveraging the power of"
 - Must pass AI writing detectors — use varied sentence structure, specific technical claims, natural hedging
 - Match Ryan's voice from the papers themselves (direct, technical, not overly formal)
 
-### Content Rules
-- Main chapter must have a BIRD'S EYE VIEW of all papers and how they connect to the "Controlling Diffusion Models" theme
-- Deduplication: diffusion model foundations (DDPM, score distillation, etc.) appear in Peekaboo + DiffIllusions — cover once in main chapter or first occurrence
-- GWTF + MotionV2V have strong topic overlap (video diffusion, motion control) but zero citation overlap — unify the narrative
-- MAGICK is the most isolated (alpha matting) — needs clear connection to the control theme
+### Content Rules (REVISED)
+- Main chapter synthesis: BIRD'S EYE VIEW, zero citations, conceptual landscape only
+- Per-paper sections: keep NEAR-VERBATIM from original papers (Kanchana changed <2% of his)
+- Only cosmetic changes to per-paper sections: label prefixes, macro expansion, `\textbf{}` headers, path rebasing, `\vspace{0.5em}` spacing
+- NO aggressive trimming or deduplication (Kanchana did none)
 - Each per-paper section should end with clear positioning of that paper's contribution vs. prior work
-- Self-citations across papers (Peekaboo cited in DiffIllusions, MAGICK, GWTF; GWTF cited in MotionV2V) should read naturally, not self-promotional
+- Self-citations across papers should read naturally, not self-promotional
 
 ### Length Target
 - Main chapter: ~400 words (3-4 paragraphs)
@@ -248,3 +249,27 @@ Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2
 - Kanchana: 2,177 words (synthesis + 4 per-paper sections)
 - Ours: 1,640 words (synthesis + 5 per-paper sections)
 - Compilation: 225 pages, 0 LaTeX errors
+
+### Literature Review Revision — Kanchana Style Match (2026-02-20)
+
+**Modified:**
+- `source/src/2_literature.tex` — Rewrote 3 synthesis paragraphs with ZERO citations (matching Kanchana exactly). 416 words.
+- `source/src/3_MAGICK/sec/2_relatedwork_thesis.tex` — Restored to near-verbatim from original paper (268 → 550 words). Full Synthetic segmentation, Alpha matting datasets, and Segmentation and Matting sections.
+- `source/src/4_GWTF/sec/2_related_work_thesis.tex` — Restored to near-verbatim from original paper (187 → 521 words). Full Image/Video Diffusion Models and Motion Controllable Video Generation sections.
+- `source/src/5_MotionV2V/sec/relatedworks_thesis.tex` — Restored to near-verbatim from original paper (208 → 337 words). Full Conditional Video Generation and Motion-Guided Video Generation sections.
+- `source/src/2_DiffIllusions/related_work_thesis.tex` — Expanded with restored Diffusion-based Image Generation and Contemporary Work content (240 → 352 words).
+
+**Word counts after revision:**
+| Section | Words |
+|---------|-------|
+| Synthesis | 416 |
+| DiffIllusions | 352 |
+| Peekaboo | 294 |
+| MAGICK | 550 |
+| GWTF | 521 |
+| MotionV2V | 337 |
+| **Total** | **2,470** |
+
+- Kanchana total: 2,177 words
+- Zero citations verified in synthesis paragraphs
+- Compilation: 228 pages, 0 LaTeX errors
