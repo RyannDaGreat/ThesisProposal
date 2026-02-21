@@ -20,3 +20,22 @@
 .frenzy
 #<RP Default Gitignore End>
 
+# LaTeX generated files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.synctex
+*.synctex.gz
+*.dvi
+*.nav
+*.snm
+*.vrb
+source/main.pdf
