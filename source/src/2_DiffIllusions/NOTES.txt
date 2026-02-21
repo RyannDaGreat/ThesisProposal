@@ -1,0 +1,29 @@
+NOTES:
+
+Start with 
+
+Diffusion Models Developed Rapidly - but they can't do this! (Show example) What if I want a picture of a dog that when turned upside-down turns into a sloth? 
+
+
+*Breaking down barriers for artistic generation. Diffusion models broke it down for normal images, but this is much more difficult. Try finding someone that can draw an image like this!
+
+Artists have tried to make these things in the past and now we can do it automatically. Hell, we can even do things artists have never done before! (Overlay Illusions).
+
+In this paper, we introduce a class of constraint-based image generation algorithms that generate images through an 
+
+We can hide images in plain sight
+
+
+
+ABE ORDERING PROPOSAL:
+    1. Broad Introduction (Abe)
+    2. History of Illusions + Generating Illusions (Abe)
+    3. Contribution Statement (Abe)
+    4. Problem Statement (Abe)
+    5. Methods
+    6. Experiments
+    7. Discussion / Future Works
+        Future Work: 
+            Limitations: Multiplication is not a perfect simluation due to the way different inks filter light, and how empty a given toner cartridge is etc. It's not a perfect filter. We will implement printer-specific calibration during the illusoin generation process, or in post processing in a future work.
+    
+    

@@ -1,0 +1,103 @@
+% Method Section
+\section{Our Approach}
+% In this section we present our approach to develop a video-to-video motion editing tool composed of a mechanism to describe motion and a video diffusion model. This V2V motion editing tool allows users to change object movement while explicitly preserving static elements (e.g., moving a dog while keeping the background fixed); simultaneously manipulate object motion and camera perspective (e.g., panning the camera while an object moves); exercise temporal control (e.g., having the dog appear on second 5 instead of second 2); and apply these changes across any span of frames. We name these capabilities: object motion, camera control, time control of trajectories, and arbitrary frame specification.
+
+% We demonstrate that a system enabling users to define ``motion edits''—which explicitly describe the desired change in motion—can successfully support these four capabilities. In this section, we first describe these capabilities and then explain the innovations that allow us to accomplish them, such as our proposed motion counterfactual video generation method and our video-to-video motion architecture.
+
+In this section, we present a video-to-video motion editing framework that integrates a motion description mechanism with a video diffusion model. Our approach enables four core capabilities: object motion (altering movement while preserving static backgrounds, e.g., moving a dog but not the scene); camera control (simultaneously manipulating object and camera perspective, e.g., panning while an object moves); temporal control (adjusting trajectory timing, e.g., delaying an action to the 5th second); and arbitrary frame specification (applying edits across any frame span).
+
+We demonstrate that explicitly defining `motion edits', which explicitly describe the desired change in motion, enables our system to robustly support these tasks. We first outline these capabilities in detail, followed by our key technical contributions: the motion counterfactual video generation method and our specialized video-to-video architecture.
+
+\subsection{Editing Video through Motion Edits}
+
+\textbf{Moving Objects} By identifying an object's trajectory and editing it, we can change the motion of the object as the video progresses. As shown in Figure~\ref{fig:teaser} and ~\ref{fig:three_strips}, this can have high level effects such as changing the ultimate outcome of a scenario and is a flexible tool for many applications, such as re-timing subjects, improve video aesthetics by moving occluders, or recomposing a video and its parts in motion. 
+% While a subset of these capabilities have been tackled before, unlike prior methods, we present a general approach that works in the video-to-video scenario and on any object, including those that are not present in the first frame of the video.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=1\linewidth]{three_strips_v2.jpg}
+\caption{From left to right respectively, \textbf{Cat Fish.} In the edited video, the cat moves away from the bowl. \textbf{Camera control.} In the edited video, the first frame is zoomed out, middle frame is identical, the last frame is zoomed in. \textbf{Duck Zoom.} The edited video exhibits different content for a given frame (time) than the original, e.g. in the edited video, the duck is not visible in the first frame whereas it is visible in the original.}
+\vspace{-15pt}
+\label{fig:three_strips}
+\end{figure*}
+
+\noindent\textbf{Camera Control} With our motion editing scheme we can control camera pose and motion in the video relative to the scene. We estimate a dynamic pointmap~\cite{zhang2024monst3r}, reproject it into each frame using user-specified camera extrinsics and intrinsics, and then solve for deviations in the pointwise trajectories. This allows us to dynamically change the position and focal length of the camera in any frame while also preserving the video content. We show this in the Swan example in Figure~\ref{fig:teaser} where the Swan is swimming and the ripples in the water are preserved despite changes in the camera position and in~\ref{fig:three_strips} where each frame has a different zoom level with same scene content.
+
+\noindent\textbf{Time Control} Our method allows users to control trajectories of specific elements in a video independent of the global timeline. This enables delaying or accelerating an object's trajectory, such as making a subject appear on second 5 instead of second 2, while preserving the background's original motion. As shown in Figure~\ref{fig:three_strips}, we can delay the appearance of a duck until later frames, effectively decoupling the subject's timeline from that of the scene.
+
+\noindent\textbf{Arbitrary Frame Specification} Unlike image-to-video approaches that rely on the first frame for content generation~\cite{gowiththeflow2025, motionprompt2024, revideo2024}, our framework supports editing objects that appear at any point in the video. Relying on the initial frame severely restricts possible edits and fails to account for elements that emerge later. Additionally, the motion of the rest of the video is entirely hallucinated whereas ours can conserve it in part or entirely. By conditioning on the full video, we enable precise control over mid-stream objects, such as the stop sign in Figure~\ref{fig:anyframe}. 
+
+\begin{figure}[h]
+\centering
+\vspace{-4pt}
+\includegraphics[width=\linewidth]{aticomparisonmegaphoneversion4.jpg}
+\vspace{-20pt}
+\caption{\textbf{Controlling Content on Any Frame.} By conditioning on the full video, we can move and preserve content appearing on any frame. Methods like ATI rely on the first frame, failing to control objects, like the sign, that emerge mid-sequence.}
+\label{fig:anyframe}
+\vspace{-10pt}
+\end{figure}
+
+%\begin{figure}[h]
+%    \centering
+%    \includegraphics[width=\linewidth]{\figfolder/TestPrep}
+%    \caption{Video preparation process for training data generation. A dataset video is split to create input and target video pairs with shared tracking points.}
+%    \label{fig:video_prep}
+%\end{figure}
+%% \TODO{Change figure.}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{datagen.pdf}
+    \caption{\textbf{Counterfactual data generation process.} In order to generate a real / counterfactual video pair and its corresponding trajectories, we take a full real video, extract a video clip, then create a counterfactual video. The counterfactual has new motion from the video generator, as well as temporal and spatial augmentations. In order to ensure we have two corresponding set of tracks, we specifically use the first and last frames, which directly match the original video, to anchor the tracks for the counterfactual.}
+    \label{fig:video_prep}
+\end{figure}
+% \TODO{Change figure.}
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=1\linewidth]{architecturestacked.pdf}
+    \caption{\textbf{Our motion-conditioned video diffusion architecture.} We extend a T2V DiT model with a control branch that processes three additional video conditioning channels: the counterfactual video, counterfactual motion tracks, and target motion tracks. The control branch duplicates the first 18 transformer blocks and integrates with the main branch through zero-initialized MLPs, similar to ControlNet.}
+    \label{fig:architecture}
+\end{figure*}
+
+\subsection{Motion Counterfactual Video Generation}
+Our approach requires training data consisting of video pairs with identical visual content but different motion patterns. We generate these \textit{motion counterfactual videos} $\Vcf$ and corresponding \textit{target videos} $\Vtarget$ from raw videos using a systematic process that ensures trackable point correspondences between video pairs (Figure~\ref{fig:video_prep}).
+
+Given a source video $\Vfull$ of length $\Ffull$ frames, we generate video pairs as follows. First, we extract the target video $\Vtarget$ by selecting a contiguous frame chunk of length $\Fframes$ with random starting frame $\fstart \sim \text{Uniform}(0, \Ffull - \Fframes)$. We keep real video as targets to ensure the model trains toward realistic motion and appearance.
+
+For the counterfactual video $\Vcf$, we randomly select start and end frame indices $\fstartcf, \fendcf \sim \text{Uniform}(0, \Ffull-1)$ and choose one of two generation strategies:
+
+\noindent \textbf{Frame Interpolation:} We use a video diffusion model conditioned on frames $\fstartcf$ and $\fendcf$ to generate a $\Fframes$-frame video. This adds new content via LLM-generated prompts—e.g., instructing a walking person to ``twirl'' (Figure~\ref{fig:video_prep}). This provides more data than first-frame-only methods, allowing the model to use more of the input video.
+
+\noindent \textbf{Temporal Resampling:} We extract $\Fframes$ frames evenly spaced between $\fstartcf$ and $\fendcf$ from $\Vfull$. This creates natural speed variations, temporal shifts, and sometimes reversed motion when $\fstartcf > \fendcf$.
+
+Next, we establish point correspondences between the video pair. We initialize $\Nblobs \sim \text{Uniform}(1, 64)$ tracking points with coordinates $(t_i, x_i, y_i)$ where $x_i$ and $y_i$ sampled uniformly from frame dimensions $\Wrgb, \Hrgb$ respectively. For temporal coordinates $t_i$:
+\begin{itemize}
+    \item \textbf{Temporal resampling:} Frame indices are sampled from frames present in both $\Vtarget$ and $\Vcf$
+    \item \textbf{Frame interpolation:} Frame indices are restricted to $\{\fstartcf, \fendcf\}$ to ensure correspondence
+\end{itemize}
+
+We use TAPNext~\cite{tapnext}, a bidirectional point tracker, on $\Vfull$ with these initial points to obtain target tracks $\Ttarget$. For counterfactual tracks $\Tcf$: in temporal resampling cases, we use the same tracker output; for interpolation cases, we first replace the corresponding frames in $\Vfull$ with the interpolated $\Vcf$ frames before running TAPNext~\cite{tapnext}. 
+%\fcole{Do we check if the trajectory tracking worked for the generated counterfactuals, or filter for bad outputs? If so what is the success rate?}
+
+Finally, we apply geometric augmentations to the counterfactual videos including random sliding crops, rotations, and scale changes, with the same transformations applied to the corresponding tracking points to maintain correspondence. These artificial moving crops approximate multi-view videos and ensure perfect temporal synchronization—giving the model a bias toward synchronizing appearance when otherwise unspecified.
+\paragraph{Trajectory Representation}
+% \fcole{Trajectory representation seems important and maybe should be its own subsection}
+A key part of our method is our representation of motion throughout videos. Our model is conditioned on three videos: the counterfactual video $\Vcf$, the rendered counterfactual motion tracks $\Bcf$, and the rendered target motion tracks $\Btarget$, each of dimension $\mathbb{R}^{\Fframes \times 3 \times \Hrgb \times \Wrgb}$. Additionally, like our base model, text prompts provide semantic conditioning, which we will leave out of equations in this section for brevity.
+
+We rasterize the tracking information as colored Gaussian blobs on black backgrounds to create motion conditioning channels. For each training sample, we randomly select $\Nblobs$ distinct random colors. Each tracking point is rendered as a Gaussian blob with standard deviation of 10 pixels in its assigned color in both the counterfactual tracks video $\Bcf$ and target tracks video $\Btarget$, with blobs only drawn when the corresponding point is visible (not occluded) as reported by the point tracker. We also tried representations similar to \citep{das2025}, but found that both large number of points and the lack of distinct colors made it a weaker control signal.
+%\todo{Add interesting facts on other things we tried.}
+
+The tracks are subject to dropout during training, with target motion blobs $\Ttarget$ experiencing higher dropout rates than conditioning tracks $\Tcf$ to improve robustness and prevent overfitting to specific motion patterns. During inference, we limit the number of point correspondences to approximately 20, as the model fails to follow all correspondences when given too many points.
+
+\subsection{Model Architecture}
+We use a pre-trained T2V DiT as our base model~\cite{cogvideox2024}. In order to condition on motion and input videos we incorporate a control branch duplicating the first 18 transformer blocks of the DiT that feeds into the main branch using zero-initialized MLPs. Conceptually the control branch is similar to a ControlNet~\cite{controlnet2023} applied to a DiT architecture. We are inspired by the architecture proposed in DiffusionAsShader~\cite{das2025}, but our implementation has the key difference of allowing conditioning on three video tracks and using a control branch patchifier that handles $48 = 3 \times 16$ input channels for the three conditioning videos in latent space.
+
+The control branch tokens are fed through zero-init~\cite{controlnet2023}, channel-wise MLPs and then added to the main branch token values in their respective transformer blocks. The base model processes the noisy video being denoised along with text conditioning, while our control branch handles the three additional video conditioning channels $\Vcf, \Bcf, \Btarget$. All video inputs are encoded using a 3D Causal VAE~\cite{cogvideox2024}, which compresses RGB videos of shape $\Fframes \times 3 \times \Hrgb \times \Wrgb$ to latent representations of shape $\Flat \times \Clat \times \Hlat \times \Wlat$ where $\Clat = 16, \Flat=\left(\frac{\Fframes-1}{4}+1\right), \Wlat=\frac{\Wrgb}{8}, \Hlat=\frac{\Hrgb}{8}$. The main branch is frozen while the control branch is trained.
+
+During training, the model learns to generate target videos $\Vtarget$ that follow specified motion patterns and satisfy the given correspondences between counterfactual and target tracks. The training objective is conditioned on the counterfactual video $\Vcf$, its tracks $\Tcf$, the target tracks $\Ttarget$, and a text prompt describing the scene. This formulation successfully teaches the model to transfer motion patterns from the target tracks while maintaining the visual realism of target video content.
+
+The task we tackle is harder than a typical ControlNet task where the structure is usually given to the model. For example an edge-to-image ControlNet has a good idea of what the structure of the output should be with edges as input. Surprisingly, our adapter works despite the inputs (video + motion blobs) lacking spatiotemporal synchronization with the output. We hypothesize that transformer blocks do non-trivial work to achieve this capability. 
+
+%We tried different architectural solution such as finetuning the diffusion model with extra control channels but obtained underwhelming results. \fcole{last sentence is confusing: was this different architectural solution superseded by the current solution, or was it an attempt to improve the current approach further? Also not clear what exactly the extra control channels were. Maybe just delete this?}

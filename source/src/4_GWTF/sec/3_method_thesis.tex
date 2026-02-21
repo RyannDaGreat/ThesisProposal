@@ -1,0 +1,120 @@
+\section{Method}
+\label{gwtf_sec:method}
+
+Go-with-the-Flow is comprised of two separate parts: our noise warping algorithm and video diffusion fine-tuning. The noise warping algorithm operates independently from the diffusion model training process: we use the noise patterns it produces to train the diffusion model. Our motion control is based \textit{entirely} on noise initializations, introducing no extra parameters to the video diffusion model.
+
+Inspired by the existing noise warping algorithm HIWYN~\cite{chang2024warped}, which introduced noise warping for image diffusion models, we introduce a new use case for the warped noise: we use it as a form of \textit{motion conditioning} for video generation models. After fine-tuning a video diffusion model on a large corpus of videos paired with warped noise, we can control the motion of videos at inference time.
+
+\subsection{Go-with-the-Flow noise warping}
+
+% algorithm placeholder
+\begin{algorithm}[t]
+\caption{Go-with-the-Flow next-frame warping}
+\label{gwtf_alg:main}
+\begin{algorithmic}[1]
+\State \textbf{Input:} previous-frame noise $q \in \mathbb{R}^{D}$, previous-frame density $p \in \mathbb{R}^{D}$, forward flow $f: D \to \mathbb{N}^2$, backward flow $f': D \to \mathbb{N}^2$.
+\State Let $G = (V, V', E)$ be a bipartite graph with $V = D$, $V' = D$ and edge set $E = \{\}$ to be constructed.
+\For{$v$ in $V$} \Comment{Contraction}
+\State $E \gets E \cup (v, v+f(v))$ if $v+f(v')\in D$
+\EndFor
+\For{$v'$ in $V'$} \Comment{Expansion}
+\If{$\deg_G(v') = 0$} \Comment{$\deg_G(v)$ denote the degree of $v$ in $G$}
+\State $E \gets E \cup (v' + f'(v'), v')$ if $v' + f'(v')\in D$
+\EndIf
+\EndFor
+\For{$v$ in $V$} \Comment{Conditional white noise sampling}
+\State $d \gets \deg_G(v)$
+\State Sample $Z \sim \mathcal{N}(0, I_{d})$, and set $S \gets \sum_{i=1}^d Z_i$
+\State $X_i \gets \frac{q(v)}{d} + \frac{1}{\sqrt{d}}(Z_i - \frac{S}{d})$ for $i \in [d]$
+\State $R(v) \gets \{X_i\}_{i\in[d]}$
+\EndFor
+\For{$(v')$ in $V'$} \Comment{Compute next-frame noise and density}
+\State $q'(v') \gets 0$, $p'(v') \gets 0$, $s \gets 0$
+\For{{$v$ in $V$ such that $(v,v') \in E$}}
+\State $d \gets \deg_G(v)$, $\alpha \gets \frac{p(v)}{d}$
+\State $q'(v') \gets q'(v') + \alpha R(v)\text{.pop}()$
+\State $p'(v') \gets p'(v') + \alpha$
+\State $s \gets s + \alpha^2 \frac{1}{d}$
+\EndFor
+\If{$s = 0$}
+\State Sample $q'(v') \sim \mathcal{N}(0, 1)$
+\Else
+\State $q'(v') \gets \frac{q'(v')}{\sqrt{s}}$ \Comment{Renormalize to unit variance}
+\EndIf
+\EndFor
+\State \textbf{return} next-frame noise and density $q', p'$.
+\end{algorithmic}
+\label{gwtf_alg:algorithm}
+\end{algorithm}
+
+
+\subsubsection{Algorithm}
+
+
+To facilitate the large-scale noise warping required by this new use case, we introduce a fast noise warping algorithm (\cref{gwtf_alg:main}) that warps noise frame-by-frame, storing just the previous frame's noise (with dimensions $H \times W \times C$, where $H$ is height, $W$ is width, and $C$ is the number of channels) and a matrix of per-pixel flow density values (with dimensions $H \times W$). The density values indicate how much noise has been compressed into a given region. Unlike HIWYN~\cite{chang2024warped} which requires time-consuming polygon rasterization and upsampling of each pixel, our algorithm directly tracks the necessary \textit{expansion} and \textit{contraction} between frames according to the optical flow and uses only pixel-level operations that are easily parallelizable. We show that our algorithm retains the same Gaussianity guarantee as HIWYN~\cite{chang2024warped} (\cref{gwtf_prop:gaussianity}).
+
+\noindent \textbf{Next-frame noise warping}. Our noise warping algorithm calculates noise iteratively, where the noise for a given frame depends only on the state of the previous frame.
+
+Let $H\times W$ be the dimensions of each video frame. Let $D = [H]\times [W]$ denote a 2D matrix with height $H$ and width $W$, where we use the notation $[n]:= {1,\ldots, n}$. Given the previous frame's noise\footnote{Since different channels are treated independently, we will assume a single channel in images.} $q \in \mathbb{R}^D$ and the flow density $p \in \mathbb{R}^D$ together with forward and backward flows\footnote{We allow flows to go out of bounds, i.e., $f$ and $f'$ can land in $\mathbb{N}^2 \setminus D$.} $f,f':D\to \mathbb{N}^2$, our algorithm computes the next-frame noise and density $q',p' \in \mathbb{R}^D$ such that $q'$ (resp. $p'$) is temporally correlated with $q$ (resp. $p$) via the flows.
+
+At a high level, our algorithm (in~\cref{gwtf_alg:algorithm}) combines two types of dynamics: \textit{expansion} and \textit{contraction}. In the case of \textit{expansion}, such as when a region of the video zooms in or an object moves towards the camera, one noise pixel is mapped to one or more noise pixels in the next frame (hence it ``expands''). In the case of \textit{contraction}, we adopt the Lagrangian fluid dynamics viewpoint of treating noise pixels as particles moving along the forward flow $f$. This often leaves gaps that need to be filled. Hence, for regions not reached when flowing along $f$, we use the backward flow $f'$ to pull back a noise pixel. That gap is filled with noise calculated with the \textit{expansion} case.
+
+Additionally, to preserve the distribution correctly over long time periods, we use density values to keep track of how many noise pixels were aggregated into a given region, so that when mixed with other nearby particles in the \textit{contraction} case, these higher density particles have a larger weight. This is illustrated in \cref{gwtf_fig:algorithm_diagram}.
+
+We unify both \textit{expansion} and \textit{contraction} cases by building a bipartite graph $G$ where edges represent how noise and density should be transferred from the previous frame to the next. When aggregating the influence from graph edges to form the next-frame noise $q'$, we scale the noise in accordance with the flow density to ensure the preservation of the original frame's distribution, as detailed in ~\cref{gwtf_alg:algorithm}. The \textit{expansion} and \textit{contraction} cases are calculated in tandem to prevent any cross-correlation, guaranteeing the output will be perfectly Gaussian.
+
+
+\subsubsection{Theoretical analysis}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]
+    {src/4_GWTF/fig/algo_diagram_2_layers.png}
+    \caption[Noise Warping Algorithm Diagram]{Diagram of our noise warping algorithm. A case example of our algorithm illustrates both the \textit{expansion} and \textit{contraction} cases, along with example density values. Each node represents some noise pixel `q'. Noise values $q_{0..3}$ are transferred from frame 0 to frame 1 using forward optical flow, and the remaining pixels in frame 1 that did not receive any values obtain their values from frame 0 using reverse optical flow (the \textit{expansion} case). In the \textit{contraction} cases such as $q'_2$, their densities become the sum of their sources. And in the \textit{expansion} case, where one source pixel spreads out into multiple target pixels, such as $q_2$ spreading out into $q'_1$ and $q'_3$, its density is dispersed.}
+    \label{gwtf_fig:algorithm_diagram}
+\end{figure}
+
+\begin{proposition}[Preservation of Gaussian white noise]
+\label{gwtf_prop:gaussianity}
+If the pixels of the previous-frame noise $q$ in \cref{gwtf_alg:main} are i.i.d. standard Gaussians, then the output next-frame noise $q'$ also has i.i.d. standard Gaussian pixels. Please check the appendix for a formal mathematical proof.
+\end{proposition}
+
+\begin{proposition}[Time Complexity]
+\label{gwtf_prop:time_complexity}
+For a given frame, the time complexity of this algorithm is  $O(D)$, linear time with respect to the number of noise pixels processed. Proof: There are only two cases - \textit{contraction} and \textit{expansion}. Because each previous-frame pixel can only be contracted to one current-frame pixel, and during \textit{expansion} each current-frame pixel can only be mapped to one previous-frame pixel, the total number of edges $E$ will never exceed $2D$.
+\end{proposition}
+
+\subsection{Training-free image diffusion models with warped noise}
+
+As shown by \citet{chang2024warped} and \citet{deng2024infinite}, noise warping can be combined with image diffusion models to yield temporally consistent video edits without training. To do this, we first take an input video and calculate its optical flows using RAFT~\cite{teed2020raft}. Then, with~\cref{gwtf_alg:algorithm}, we use the flow fields to create sequences of Gaussian noise for each frame in the input video, ensuring that the noise moves along the flow fields. These noises are used during the per-frame diffusion processes in place of what would normally be temporally independently sampled Gaussian noise. This enables temporally consistent inference for video tasks, such as relighting~\cite{he2024diffrelight} and super-resolution~\cite{stabilityai2023deepfloyd}, using image-based diffusion models.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{src/4_GWTF/fig/degradation_comparison.png}
+    \caption[Effect of Noise Degradation Level]{Showcasing the effect of noise degradation level $\mathbf{\gamma}$ on generated videos. A few frames from the driving video are shown in the leftmost column. Our model outputs are in the next 3 columns. As degradation decreases ($\mathbf{\gamma}$ from 0.7 to 0.5), the video more strictly adheres to the input flow. This allows us to control video movement with a user-specified level of precision.}
+    \label{gwtf_fig:degredation_lions}
+\end{figure}
+
+\subsection{Fine-tuning video diffusion models with warped noise}
+
+We use warped noise to condition a video diffusion model on optical flow. In particular, we fine-tune two variants of a latent video diffusion model CogVideoX~\cite{yang2024cogvideox}, both the text-to-video (T2V) and image-to-video (I2V) variants. We regard CogVideoX as a black box without changing its architecture.
+
+We use the same training objective as in normal fine-tuning, i.e., the mean squared loss between denoised samples and samples with noise added. In fact, we use the exact same training pipeline as the original CogVideoX repository, with exactly one difference: during training, we use warped noise instead of regular Gaussian noise. For each training video, we calculate its optical flow for each frame, and create a warped noise tensor $\mathbf{Q} \in \mathbb{R}^{F \times C \times H \times W}$, where $F, C, H, W$ are the number of frames, the number of channels, the height and width of encoded video samples respectively by applying our algorithm iteratively.
+
+We also introduce the concept of noise degradation, which lets us control the strength of our motion conditioning at inference time. After calculating the clean warped noise, we then degrade it by a random degradation level $\mathbf{\gamma} \in [0,1]$, by first sampling uncorrelated gaussian noise $\zeta \sim \mathcal{N}(0, 1)$ and modifying the warped noise $\mathbf{Q} \gets \frac{(1 - \mathbf{\gamma}) \mathbf{Q} + \zeta \mathbf{\gamma}}{\sqrt{(1 - \mathbf{\gamma})^2 + \mathbf{\gamma}^2}}$. As degradation level $\mathbf{\gamma} \rightarrow 1$, $\mathbf{Q}$ approaches an uncorrelated Gaussian, and as $\mathbf{\gamma} \rightarrow 0$, $\mathbf{Q}$ approaches clean warped noise. At inference, the user can control how strictly the resulting video should adhere to the input flow. Please see \cref{gwtf_fig:degredation_lions} for a qualitative depiction of the effect of $\mathbf{\gamma}$.
+
+In practice, because the diffusion model works on latent embeddings, we calculate the optical flow and warped noise in image space and then downsample that noise into latent space, which in the case of CogVideoX means downscaling by a factor of $8\times8$ spatially and $4$ temporally. We use nearest-neighbor interpolation along the temporal axis and mean-pooling along the two spatial axes, which are then multiplied by $8$ to preserve unit variance.
+
+\subsection{Video diffusion inference with warped noise}
+
+At inference, we generate warped noise from an input video to guide the motion of the output video. Then, using a deterministic sampling process such as DDIM \cite{song2021denoising}, we use that warped noise to initialize the diffusion process of our fine-tuned video diffusion model. This method of control is much simpler than other motion control methods, as it does not require any changes to the diffusion pipeline or architecture - using exactly the same amount of memory and runtime as the base model.
+
+In the case of local object motion control, we allow the user to specify object movements through a simple user interface as shown in~\cref{gwtf_fig:comparisons_video_diffusion_object_motions}. It is used to generate synthetic optical flows, where multiple layers of polygons are overlaid on an image. Then, these polygons are translated, rotated and scaled with paths defined by the user. We warp the noise accordingly, and use that noise to initialize the diffusion process, along with a text prompt, and in the case of the image-to-video model, a given first frame image. By controlling the extent to which the output video follows these polygons, users can simulate camera movement by shifting the background, or even 3D motion effects by overlaying two polygons in parallax and moving them at different speeds. We find that this motion control representation is quite robust to user error, where even if the polygon only roughly matches the object or area of interest it will still produce high quality results. For synthetic object motion control, we typically use a degradation value $\mathbf{\gamma}$ between 0.5 and 0.7, depending on the level of motion precision the user desires, which is a higher level than we would normally use for motion transfer.
+
+The case of motion transfer and camera motion control are very similar -- the only difference is the source of the flows used to generate the warped noise. In the case of motion transfer, we calculate the optical flow of a driving video, get warped noises that match the motion. Like in local object motion control, we use that warped noise to initialize a diffusion process. In the case of motion transfer, we typically use a lower degradation value $\mathbf{\gamma}$ between 0.2 and 0.5, as we usually want the output video's motion to match the driving video's motion as closely as possible.
+
+\subsection{Implementation details}
+
+We fine-tune the recent state-of-the-art open-source video diffusion model, CogVideoX-5B~\cite{yang2024cogvideox}, on both its T2V and I2V variants. We use a large general-purpose video dataset composed of 4M videos with resolution $\geq$720$\times$480 ranging from approximately 10 to 120 seconds in length, with paired texts captioned by CogVLM2~\cite{wang2024cogvlmvisualexpertpretrained}. We used 8 NVIDIA A100 80GB GPUs over the course of 40 GPU days, for 30,000 iterations using a rank-2048 LoRA~\cite{hu2021loralowrankadaptationlarge} with a learning rate of $10^{-5}$ and a batch size of 8.
+
+Our method is data agnostic and model agnostic. It can be used to add motion control to arbitrary video diffusion models, while only processing the noise sampling during fine-tuning. For example, it also works with AnimateDiff \cite{guo2024animatediff} fine-tuned with the WebVid dataset~\cite{Bain21}, trained on 8$\times$40GB A100 GPUs over a period of 2 days with 12 frames and $256\times320$ resolution. See its qualitative results in \cref{gwtf_fig:supp_animatediff_grid} in the supplementary material.

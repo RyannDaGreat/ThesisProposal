@@ -1,0 +1,12 @@
+\begin{figure*}[t]
+\centering
+
+\includegraphics[width=0.90\textwidth]{figures__Newdia.pdf}
+\vspace{-0.5em}
+\caption{\textbf{Overview of \modelname Architecture}: 
+We illustrate how an input image and random background are alpha blended to generate a composite image. This image and its relevant text prompt are processed by our diffusion model based inference-time objective. Iterative gradient based optimization of the randomly initialized alpha mask converges to a segmentation optimal for the conditioning text prompt. Note that our diagram shows the alpha mask at an intermediate iteration: at the initial iteration it is entirely random Gaussian noise.   
+% The image to be segmented is subject to alpha compositing with a learnable mask represented as an implicit neural image. The composite image and text prompt relating to the image region to be segmented are used to calculate our proposed peekaboo loss (\cref{subsec:main_loss}), which is optimized iteratively. At the end of optimization, the implicit neural image converges to the optimal segmentation mask. We highlight that our dream loss is used only for learning a mask and not for any re-training of the diffusion model.
+}
+\label{fig:arch}
+\vspace{-1.0em}
+\end{figure*}

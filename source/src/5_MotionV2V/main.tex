@@ -1,0 +1,84 @@
+% !TEX root = main.tex
+% CVPR 2025 Paper Template; see https://github.com/cvpr-org/author-kit
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+% \usepackage{cvpr}              % To produce the CAMERA-READY version
+% \usepackage[review]{cvpr}      % To produce the REVIEW version
+\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Import additional packages in the preamble file, before hyperref
+\input{preamble}
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, 
+% e.g. with the file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete *.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you should be clear).
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\usepackage{comment}
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\paperID{13930} % *** Enter the Paper ID here
+\def\confName{CVPR}
+\def\confYear{2025}
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{MotionV2V: Editing Motion in a Video}
+
+%%%%%%%%% AUTHORS - PLEASE UPDATE
+\author{
+  Ryan Burgert$^{1,2}$ ~~~~~~~ Charles Herrmann$^{1}$ ~~~~~~~ Forrester Cole$^{1}$ ~~~~~~~ Michael S Ryoo$^{2}$ \\  Neal Wadhwa$^{1}$ ~~~~~~~ Andrey Voynov$^{1}$ ~~~~~~~ Nataniel Ruiz$^{1}$\\
+  \\
+  $^{1}$Google\;\;\;\;   $^{2}$Stony Brook University
+}
+
+\begin{document}
+\maketitle
+
+\ignore{
+\twocolumn[{
+\renewcommand\twocolumn[1][]{#1}
+\maketitle
+\begin{center}
+    \centering
+    \vspace*{-.6cm}
+    % \includegraphics[width=0.8\textwidth]{MainDemoFigure.pdf}
+    \vspace*{-.3cm}
+    \captionof{figure}{Our method can edit videos in a true sense, where content is preserved but motion is changed. Above we show some practical applications.}
+\label{fig:teaser}
+\end{center}
+}]
+
+\begin{figure}[!h]
+    \centering
+    % \includegraphics[width=1\linewidth]{MotionEditsMainIdea.pdf}
+    \caption{Conceptual overview of our motion editing approach. Users provide an input video along with source motion tracks (colored dots connected by lines, extracted from the input) and target motion tracks (user-specified desired motion). Lines indicate point trajectories while dot presence/absence indicates visibility. Our diffusion model generates an output video matching the target motion. The method supports iterative editing: outputs can become inputs for subsequent edits, enabling complex sequential motion changes.}
+    \label{fig:concept_overview}
+    \vspace{-10pt}
+\end{figure}
+}
+
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/relatedworks}
+\input{sec/notation}
+\input{sec/method}
+\input{sec/experiments}
+\input{sec/conclusion}
+
+\clearpage
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+% WARNING: do not forget to delete the supplementary pages from your submission
+\input{sec/X_suppl}
+
+\end{document}

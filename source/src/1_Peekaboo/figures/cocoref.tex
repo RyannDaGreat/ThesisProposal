@@ -1,0 +1,24 @@
+\begin{table}[t]
+	\centering
+	\begin{tabular}{c|c|c|c|c|c|c}
+		\toprule
+		\textbf{Type} & \textbf{Method} & \textbf{Prec@0.2} & \textbf{Prec@0.4} & \textbf{Prec@0.6} & \textbf{Prec@0.8} & \textbf{mIoU} \\ 
+  \midrule
+  		%All numbers should be in ".XXX" format. No leading 0, and 3 decimals of precision.
+  		%Baselines should always come first - and all methods should stay in the current order.
+  		%Only include precisions .2,.4,.6,.8 
+  		%Use common sense. The correct method names are in this code here. keep the citations.
+        \multirow{3}{*}{Baselines} 
+        & Random & .141 & .022 & .003 & .000 & .102 \\
+		& GroupVIT \cite{Xu2022GroupViTSS} & .212 & .075 & .020 & .002 & .112 \\
+		& LSeg \cite{li2022language} & .512 & .212 & .051 & .008 & .235 \\
+  \midrule
+        \multirow{2}{*}{\begin{tabular}{c}\textbf{Peekaboo}\\Variants (ours)\end{tabular}} 
+		& Depth Bilateral & .359 & .135 & .037 & .003 &  .204 \\
+		& \textbf{RGB Bilateral} & .318 & .099 & .018 & .002 & .163 \\
+        \bottomrule
+	\end{tabular}
+	\caption{\textbf{Referring Segmentation Evaluation.} We present results on the RefCOCO dataset. Numbers reported are precision and mIoU values for our method and baselines. Once more, unlike the others, \modelname is without any segmentation training.}
+	\label{tbl:refcoco}
+	\vspace{-0.5em}
+\end{table}

@@ -1,0 +1,53 @@
+%
+% --- Figure folder configuration (removed - all figures now in fig/ with explicit extensions)
+% \newcommand{\figfolder}{fig}
+% \newcommand{\figfolder}{fig_compressed}
+
+%
+% --- inline annotations
+%
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\todo}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% --- disable by uncommenting  
+% \renewcommand{\TODO}[1]{}
+% \renewcommand{\todo}[1]{#1}
+
+
+\newcommand{\cih}[1]{{\color{blue}#1}}
+\newcommand{\fcole}[1]{{\color{orange}#1}}
+\newcommand{\ignore}[1]{}
+
+
+\ifnum\pdfstrcmp{\jobname}{output}=0
+  % Commands or definitions specific to Overleaf
+\else
+  % Commands or definitions for local compilation
+  \usepackage[english]{babel}
+\fi
+
+% Required packages
+\usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{calc}
+\usepackage{adjustbox}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\pgfplotsset{compat=1.18}
+\usepackage{xfp}
+
+% TODO macro - creates red text with TODO prefix
+\newcommand{\figplaceholder}[1]{%
+    \begin{center}
+        \textcolor{blue}{\textbf{[FIGURE PLACEHOLDER: #1]}}
+    \end{center}
+}
+
+% FullComp figure cropping macros
+\input{fullcompfig.tex}
+
+% Must replace environment - shows text that must be rewritten by hand (often because it contains at least some AI-generated text) before publishing
+\newenvironment{mustreplace}
+    {\color{orange}\itshape}
+    {}

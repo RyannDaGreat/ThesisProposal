@@ -1,0 +1,9 @@
+\begin{figure*}
+\centering
+% \includegraphics[width=0.7\linewidth]{figs/architecture.v2.pdf}
+\includegraphics[width=0.7\linewidth]{figs/architecture.v3.drawio.pdf}
+\vspace{-1.0em}
+\caption{Architecture overview. Trainable components are shown in blue, intermediate variables are in red, non-trainable functions are in white, and inputs are in green. A diffusion network provides two different loss signals pulling the derived images towards the text prompts. Only a single loss signal, either Score Distillation Loss or Dream Target Loss, is computed at each training step. Gradients on the derived images are backpropagated through the arrangement operations and prime images to the parameters of the Fourier Feature Networks. No backpropagation occurs through the diffusion network.}
+\label{fig:overview}
+\vspace{-1em}
+\end{figure*}

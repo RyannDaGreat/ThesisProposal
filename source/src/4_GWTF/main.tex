@@ -1,0 +1,168 @@
+% CVPR 2025 Paper Template; see https://github.com/cvpr-org/author-kit
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+%\usepackage[review]{cvpr}      % To produce the REVIEW version
+%\usepackage{cvpr}              % To produce the CAMERA-READY version
+\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Import additional packages in the preamble file, before hyperref
+\input{preamble}
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, 
+% e.g. with the file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete *.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you should be clear).
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\usepackage{mathtools}
+\usepackage{color,colortbl}
+\usepackage{arydshln}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor} % For syntax highlighting colors
+% Define custom style for Python code
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\scriptsize, % Adjust font size here
+    keywordstyle=\bfseries\color[rgb]{0.1, 0.5, 0.1},
+    morekeywords=[2]{in, and},
+    keywordstyle=[2]\bfseries\color[rgb]{0.8, 0.2, 0.5},
+    morekeywords=[3]{warp_noise},
+    keywordstyle=[3]\color[rgb]{0.1, 0.1, 0.8},
+    commentstyle=\color[rgb]{0.2, 0.6, 0.2},
+    stringstyle=\color[rgb]{0.0, 0.4, 0.2},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    frame=tb,
+    framerule=0.5pt,
+    rulecolor=\color{black},
+    framesep=2mm,
+    xleftmargin=2mm,
+    xrightmargin=2mm,
+    breaklines=true,
+    captionpos=b,
+    showstringspaces=false
+}
+\lstset{style=pythonstyle}
+
+\makeatletter
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\paperID{17653} % *** Enter the Paper ID here
+\def\confName{CVPR}
+\def\confYear{2025}
+
+\newcommand{\ning}[1]{{\color{black}#1}}
+\newcommand{\NING}[1]{{\bf\color{red}[NING: #1]}}
+\newcommand{\PASCALTEXT}[1]{{\color{magenta}#1}}
+\newcommand{\PASCAL}[1]{{\bf\color{magenta}[PASCAL: #1]}}
+\newcommand{\OLIVERTEXT}[1]{{\color{blue}#1}}
+\newcommand{\OLIVER}[1]{{\bf\color{blue}[OLIVER: #1]}}
+\newcommand{\LINGXIAO}[1]{{\bf\color{pink}[LINGXIAO: #1]}}
+\newcommand{\WENDY}[1]{\textcolor{purple}{[wendy:#1]}}
+% \newcommand{\RYAN}[1]{\textcolor{orange}{[RYAN:#1]}}
+\newcommand{\RYAN}[1]{#1}
+\newcommand{\li}[1]{\textcolor{green}{[li:#1]}}
+
+\newcommand{\method}{Go-with-the-Flow\xspace}
+\newcommand{\cutndrag}{cut-and-drag}
+\newcommand{\Cutndrag}{Cut-and-drag}
+
+\newcommand{\deglevel}{\mathbf{\gamma}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\expansion}{\textit{expansion}}
+\newcommand{\contraction}{\textit{contraction}}
+
+\newcommand*{\affaddr}[1]{#1}
+\newcommand*{\affmark}[1][*]{\textsuperscript{#1}}
+\newcommand{\customfootnotetext}[2]{{% Group to localize change to footnote
+  \renewcommand{\thefootnote}{#1}% Update footnote counter representation
+  \footnotetext[0]{#2}}}% Print footnote text
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{\textbf{\method}:\\Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise}
+
+%%%%%%%%% AUTHORS - PLEASE UPDATE
+\author{Ryan Burgert\affmark[1,3]\hspace{0.5cm}
+Yuancheng Xu\affmark[1,4]\hspace{0.5cm}
+Wenqi Xian\affmark[1]\hspace{0.5cm}
+Oliver Pilarski\affmark[1]\hspace{0.5cm}
+Pascal Clausen\affmark[1]\\
+Mingming He\affmark[1]\hspace{0.5cm}
+Li Ma\affmark[1]\hspace{0.5cm}
+Yitong Deng\affmark[2,5]\hspace{0.5cm}
+Lingxiao Li\affmark[2]\hspace{0.5cm}
+Mohsen Mousavi\affmark[1]\hspace{0.5cm}
+Michael Ryoo\affmark[3]\\
+Paul Debevec\affmark[1]\hspace{0.5cm}
+Ning Yu\affmark[1]\textsuperscript{$\dagger$}\\
+\\
+\affaddr{\affmark[1]Netflix Eyeline Studios}\hspace{0.5cm}
+\affaddr{\affmark[2]Netflix}\hspace{0.5cm}
+\affaddr{\affmark[3]Stony Brook University}\\
+\affaddr{\affmark[4]University of Maryland}\hspace{0.5cm}
+\affaddr{\affmark[5]Stanford University}\\
+\tt\small \{ryan.burgert,yuancheng.xu,wenqi.xian,oliver.pilarski,pascal.clausen,\\
+\tt\small mingming.he,li.ma,mohsen.mousavi,debevec,ning.yu\}@scanlinevfx.com \\
+\tt\small lingxiaol@netflix.com\hspace{0.5cm}
+\tt\small \{rburgert,mryoo\}@cs.stonybrook.edu\\
+\tt\small ycxu@umd.edu\hspace{0.5cm}
+\tt\small yitongd@stanford.edu
+\\
+\href{https://eyeline-labs.github.io/Go-with-the-Flow/}{https://eyeline-labs.github.io/Go-with-the-Flow/}
+}
+
+
+\begin{document}
+
+\twocolumn[{%
+\renewcommand\twocolumn[1][]{#1}%
+\vspace{-40pt}
+\maketitle
+\vspace{-35pt}
+\begin{center}
+    \centering
+    \captionsetup{type=figure}
+    \includegraphics[width=\linewidth]{fig/Teaser.pdf}
+    \captionof{figure}{\method presents a simple, robust, and easy-to-implement method for motion-controllable video diffusion models based on optical flow and noise warping. It only requires fine-tuning video diffusion models as a black box using warped noise patterns. Leveraging our models, we can (1) control the motion of individual objects or parts of those objects, (2) direct the camera movement by providing global flow fields corresponding to the desired movements, and (3) transfer the motion from input videos to target contexts.}
+    \label{fig:teaser}
+\end{center}
+}]
+
+\customfootnotetext{$\dagger$}{Project lead}
+
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/2_related_work}
+\input{sec/3_method}
+\input{sec/4_experiments}
+\input{sec/5_conclusion}
+
+\clearpage
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+\newpage
+\input{sec/X_suppl}
+
+\end{document}

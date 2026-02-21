@@ -1,0 +1,280 @@
+\clearpage
+\setcounter{page}{1}
+
+
+\maketitlesupplementary
+
+\appendix
+
+
+% Please see our website for an \textit{interactive demonstration website} of our project! There, you can drag overlay images around, and see how they work for yourself. It has many more illusions than are shown in this paper! It also has real-life videos demonstrating their use.
+
+\begin{figure}
+    \centering
+    % \href{https://diffusionillusions.com}{\includegraphics[width=1\linewidth]{figs/website.jpeg}
+    \href{https://diffusionillusions.com}{\includegraphics[width=1\linewidth]{figs/website_figure_compressed.jpg}
+    }\href{https://diffusionillusions.com}{https://diffusionillusions.com} \caption{Please visit our project page --- it contains fully interactive simulations of all illusions in this paper, as well as many more!}
+    \label{fig:enter-label}
+\end{figure}
+
+
+
+\begin{comment}
+\section{More Examples}
+
+We demonstrate again how to use the Hidden Overlay Illusion in \cref{fig:hidden_overlay_animals_photo}.
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figs/overlaydiagram.jpg}
+    \caption{\textbf{Hidden Overlay Illusion:} Photographs of different prime images as we overlay them in real life.}
+    \label{fig:hidden_overlay_animals_photo}
+\end{figure}
+We kindly ask the reader to check our website at \projurl for more examples.
+\end{comment}
+\section{Implementation Details}
+% In this section, we outline our algorithm using python-style pseudo-code. 
+
+\subsection{Brightness Constant}
+In the actual implementation, you'll see we multiply our derived overlay images by a scalar ``brightness constant'' $k$, that is chosen based on the type of illusion. This constant is visible in the given pseudocode --- please see how it is used there. This is because in real life, when viewing the hidden overlay and rotating overlay illusions, the backlight can be arbitrarily bright. Without this term, the derived images obtained from overlaying other images would necessarily be darker than their prime images, because images have values between 0 and 1, and the product between any two numbers between 0 and 1 are guaranteed to be 1 or less. 
+
+Because the hidden character illusion deals with 4 overlays, it benefits from a higher brightness constant than the rotation overlay illusion ($k=3$ vs $k=2$). The brightness constant $k$ is not applicable for the flip illusion, as it does not deal with overlay transparencies.
+
+\subsection{Static Targets}
+When creating an illusion, usually text prompts are used for all values of $T$. However, it is possible to specify a fixed image target by setting $T$ as an image instead. This allows us to hide specific images such as QR codes, nyan cat, pentagrams, or even entire segments of text (see \cref{fig:galhid}). Instead of applying score distillation loss for example, we regress torwards that given image. Please see the below pseudocode for an exact implementation.
+
+
+
+\subsection{Libraries}
+We use SDXL as our latent diffusion model \cite{podell2023sdxl}. Our SDEdit implementation of SDXL comes from \cite{diffusers}, using PyTorch \cite{paszke2019pytorch}. Our implementation of fourier feature networks is directly adapted from the TRITON \cite{Burgert2022}, using the default parameters for their Neural Neural Textures. Our implementation of Score Distillation Loss comes from Peekaboo \cite{Burgert2022PeekabooTT}.
+
+
+
+\subsection{Pseudocode}
+\label{sec:pseudocode}
+In this subsection, we show a Python-like pseudocode that outlines the exact process of creating the algorithm. Refer to the next page.
+
+\include{figs/pseudocode}
+
+\section{Extended Quantitative Evaluation}
+\label{sec:more_eval}
+\subsection{Quantitative Evaluation Details}
+This section provides more details and additional experiments regarding benchmarking the derived images of Hidden Overlay Illusion and Rotation Overlay Illusion.
+
+\noindent\textbf{Textual Prompts} \quad The set of image styles $T^s$ is listed as follow where \texttt{<s>} stands for the \textit{subject} token:
+
+\begin{quote}
+Style 1: \textit{3d pixar style render animation of a \texttt{<s>}}
+
+Style 2: \textit{an award winning photograph of a \texttt{<s>}}
+
+Style 3: \textit{an award winning photograph of a \texttt{<s>} in the deep jungle}
+
+Style 4: \textit{an award winning photograph of a \texttt{<s>} in times square}
+\end{quote}
+
+The subject set $T^o$ contains subjects from PASCAL VOC dataset~\cite{everingham2010pascal}: \textit{aeroplane}, \textit{bicycle}, \textit{bird}, \textit{boat}, \textit{bottle}, \textit{bus}, \textit{car}, \textit{cat}, \textit{chair}, \textit{cow}, \textit{dining table}, \textit{dog}, \textit{horse}, \textit{motorbike}, \textit{potted plant}, \textit{sheep}, \textit{sofa}, \textit{train}, \textit{tv/monitor}.
+
+\noindent\textbf{Additional Evaluation Metrics} \quad We further extend the evaluation introduced in the main paper by including more metrics in each aspect:
+
+\begin{itemize}
+    \item \textit{Controllability} We take advantage of a vision language model (VLM) LLaVA-1.5~\cite{liu2023visual, liu2023improved} to measure the similarity between the image and the textual prompt. The instruction sent to the VLM is 
+    \begin{quote}
+    \textit{Give a single score from 0 to 10 regarding how well the image looks like a \texttt{<s>}. A higher score means the image generally looks similar to a \texttt{<s>}. Only return the score.}
+    \end{quote} 
+    where \texttt{<s>} stands for the \textit{subject} token and it will substituted by the actual subject for a specific image.
+    \item \textit{Diversity} Recent research~\cite{darcet2023vision} suggests that the feature from the original DINOv2 might suffer from abnormal patches corresponding to the plain areas of the image. Therefore, we report a new \textit{Vendi Score} using the feature from  DINOv2+reg~\cite{darcet2023vision}. 
+    \item \textit{Aesthetics} Similar to Controllability, we collect an aesthetics score from LLaVA-1.5 using the following instruction:
+    \begin{quote}
+    \textit{Give a single score from 0 to 10 regarding how well this image looks. A higher score means the image generally looks more natural and has fewer artifacts. Only return the score.}
+    \end{quote} 
+    % In addition, we collect a score from GPT-4 Turbo with vision~\cite{openai2023gpt4} using a predefined prompt to reflect the image quality (see Appendix).
+    % In addition, we collect a score from a vision language model LLaVA-1.5~\cite{liu2023visual, liu2023improved} using a predefined prompt to reflect the image quality (see Appendix).
+\end{itemize}
+
+In all metrics, the vision encoder of CLIP and the backbone of all DINO variants is a ViT-L/14~\cite{dosovitskiy2020image}. The version of LLaVA-1.5 we utilized is fine-tuned from Vicuna-13B.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{figs/demo_baseline.jpg}
+  % \includegraphics[width=1\linewidth]{figs/demo_baseline.png}
+  \caption{Examples of our method and the baseline, starting from the same target image. Note how in the baseline, you can see the sheep in the bus image and the bus in the sheep image - which is why its independence score is lower.}
+  \label{fig:baseline-demo}
+\end{figure}
+
+\subsection{Extended Results of Hidden Overlay Illusion}
+% \noindent\textbf{Hidden Overlay Illusion Results} \quad 
+\cref{fig:baseline-demo} presents comparative examples between the proposed method and the established baseline, starting from the same target image. The images from the baseline are heavily interfered with by others in the same group and the overlay image. 
+
+\cref{fig:big-baseline-fig-full}, \cref{fig:big-score-fig-full1}, \cref{fig:big-score-fig-full2} and \cref{fig:big-score-fig-full3} show full evaluation results of the derived images from baseline and four variants of our method. 
+The advantages of our method compared to the baseline are further supported by the new metrics introduced in this section, like better Controllability and Aesthetics Score from LLaVA (see \cref{fig:big-baseline-fig-full}). 
+Meanwhile, LLaVA has relatively less bias on art styles and different subjects (\cref{fig:big-score-fig-full1} and \cref{fig:big-score-fig-full3})
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{figs/fig-overall-baseline-full.pdf}
+  \caption{Full evaluation on Hidden Overlay Illusion, each row is a group of thematically-aligned figures.}
+  \label{fig:big-baseline-fig-full}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{figs/final-clip_score.png}
+  \includegraphics[width=0.49\textwidth]{figs/final-controlablility_llava.png}
+  \caption{Controllability score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{fig:big-score-fig-full1}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{figs/final-vendi_score_dino.png}
+  \includegraphics[width=0.49\textwidth]{figs/final-vendi_score_dino_reg.png}
+  \includegraphics[width=0.49\textwidth]{figs/final-vendi_score_clip.png}
+  \caption{Diversity score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{fig:big-score-fig-full2}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{figs/final-aesthetics_score.png}
+  \includegraphics[width=0.49\textwidth]{figs/final-aesthetics_llava.png}
+  \caption{Aesthetics score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{fig:big-score-fig-full3}
+\end{figure}
+
+% A detailed study over different subject is presented as \cref{fig:score-sub1}, \cref{fig:score-sub2}, \cref{fig:score-sub3}, and \cref{fig:score-sub4}
+
+\subsection{Results of Rotation Overlay Illusion}
+% \noindent\textbf{Rotation Overlay Illusion Results} \quad 
+We further benchmark the performance of Rotation Overlay Illusion. 
+The evaluation follows the same protocol as the Hidden Overlay Illusion except that each group of Rotation Overlay Illusion images only has $4$ derived images, which require $4$ textual prompts at a time and we focus on one style:
+\begin{quote}
+\textit{a beautiful award-winning royalty-free full-frame stock photo of an isolated \texttt{<s>}}.
+\end{quote}
+The result is presented in \cref{fig:big-baseline-fig-rot}. Our method is significantly better than the baseline in terms of controllability (CLIP cosine similarity) and Aesthetics Score. % from LLaVA and our Aesthetics Score (AVA) is comparable to the baseline.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth]{figs/fig-overall-baseline-rot.pdf}
+  \caption{Full evaluation on Rotation Overlay Illusion, each row is a group of thematically-aligned figures.}
+  \label{fig:big-baseline-fig-rot}
+\end{figure}
+
+\noindent\textbf{Ablation on the Number of Derived Images} \quad In this paper, by default we discuss a challenging rotation overlay illusion task where two prime images need to `encode' four derived images. In this section, we conduct an ablation on the number of derived images. We perform an ablation study on the number of derived images, specifically focusing on cases with 2 to 4 derived images. 
+Our hypothesis posits that reducing the number of derived images eases generation constraints, potentially enhancing image quality. 
+This is corroborated by \cref{fig:big-baseline-fig-rot-task}, which demonstrates improved image-text alignment and aesthetic scores in simpler tasks. 
+Conversely, we observe a divergent trend in diversity, suggesting the interference between multiple derived images.
+\cref{fig:demo-rot-task} presents a qualitative comparison between problem formulations.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth]{figs/fig-overall-baseline-rot-task.pdf}
+  \caption{Ablation on the number of the derived images in Rotation Overlay Illusion}
+  \label{fig:big-baseline-fig-rot-task}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth, trim={0, 0, 3cm, 0}, clip]{figs/rot-task-example.pdf}
+  \caption{Qualitative results of Rotation Overlay Illusions with different numbers of derived images}
+  \label{fig:demo-rot-task}
+\end{figure}
+
+\section{Fabrication Details}
+All of the illusions we present are realizable in the real world in physical form. To create a flip illusion in real life is quite easy - just print out one of the images onto a sheet of paper using a regular color laser printer. 
+
+The hidden overlay and rotation overlay can also be created with a basic color laser printer, and this is how we made all of the photographic examples in this paper. Searching ``transparency film'' online will yield many cheap transparent plastic films that are laser-printer compatible (a pack of 100 sheets sells for about \$20 USD). However, after printing onto these overlays, it is useful to laminate them, as the ink can be easily scratched off. We do this with a basic thermal lamination machine that can also be purchased cheaply online.
+
+After they have been printed, laminated, and cut appropriately - place the stacked transparencies over a source of light. We use a backlight extracted from an old LCD monitor for our photos in this paper. However, any backlight will do - holding them up to a bright window with outdoor sunlight works quite well too! 
+
+Since we model the light filtering process as multiplication, and multiplication is commutative, our modeling process assumes that the ordering of the layers doesn't matter. This is true in real life as well - with sufficient backlighting, you will get the same visual result whether transparency $p_1$ is on the top or on the bottom. However in practice, since some light reflects off the top transparency, it won't be perfectly identical.
+
+Additionally, we found that inserting a thin layer of water between the transparent overlay sheets further enhances the visual effect, and slightly reduces the need for as strong of a backlight. We suspect this is because it eliminates the air gap between the sheets, leading to a smaller difference in the index of refraction. This is not necessary, but can somewhat enhance the clarity of the illusion.
+
+We would like to point out, however: \textit{you do not strictly need to use transparencies} to create overlay illusions! Regular paper can also work, provided you use a strong enough backlight and use a sufficient amount of ink. We've included a comparison in figure \cref{fig:paperVsPlastic}.
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=0.35\linewidth]{figs/fig-sub-clip_score.pdf}
+  \includegraphics[width=0.35\linewidth]{figs/fig-sub-controlablility_llava.pdf}
+  \caption{Controllability of Hidden Overlay Illusion over different subjects.}
+  \label{fig:score-sub1}
+\end{figure*}
+
+% Hi xiang!!
+% Hi Ryan!!
+\begin{figure*}
+  \centering
+  \includegraphics[width=0.33\linewidth]{figs/fig-sub-vendi_score_dino.pdf}
+  \includegraphics[width=0.33\linewidth]{figs/fig-sub-vendi_score_dino_reg.pdf}
+  \includegraphics[width=0.33\linewidth]{figs/fig-sub-vendi_score_clip.pdf}
+  \caption{Diversity of Hidden Overlay Illusion over different subjects.}
+  \label{fig:score-sub2}
+\end{figure*}
+% \begin{figure*}
+%   \centering
+%   \includegraphics[width=0.35\linewidth]{figs/fig-sub-aesthetics_score.pdf}
+%   \includegraphics[width=0.35\linewidth]{figs/fig-sub-aesthetics_llava.pdf}
+%   \caption{Aesthetics of Hidden Overlay Illusion over different subjects.}
+%   \label{fig:score-sub3}
+% \end{figure*}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.7\linewidth]{figs/fig-sub-rm.pdf}
+%   \caption{Independence Score of Hidden Overlay Illusion over different subjects.}
+%   \label{fig:score-sub4}
+% \end{figure}
+
+\begin{figure*}
+\begin{minipage}{0.66\textwidth}
+      \centering
+      \includegraphics[width=0.49\linewidth]{figs/fig-sub-aesthetics_score.pdf}
+      \includegraphics[width=0.49\linewidth]{figs/fig-sub-aesthetics_llava.pdf}
+      \caption{Aesthetics of Hidden Overlay Illusion over different subjects.}
+      \label{fig:score-sub3}
+\end{minipage}
+\begin{minipage}{0.33\textwidth}
+      \centering
+      \includegraphics[width=0.96\linewidth]{figs/fig-sub-rm.pdf}
+      \caption{Independence Score of Hidden Overlay Illusion over different subjects.}
+      \label{fig:score-sub4}
+\end{minipage}
+\end{figure*}
+
+\begin{comment}
+\section{Limitation}
+As briefly discussed in the conclusion section of the main paper, the effectiveness of visual illusion in the real world may vary a lot due to the errors introduced in the printing process. \cref{fig:simreal2} and \cref{fig:simreal} present the effect of the color shifts when printing the images.
+\end{comment}
+
+
+
+
+\begin{figure*}[t]
+% \vspace{-50pt}
+    \centering
+    \includegraphics[width=.8\linewidth]{figs/HowToMake-compressed.pdf}
+    \caption{The overlay illusion fabrication process is depicted here. You can use paper instead of transparent films if you wish! But please note that if you do, you may need to use a stronger backlight. The accuracy of your printer can affect the quality of the illusions as well - if the illusion doesn't work, check your toner levels.}
+    \label{fig:paperVsPlastic}
+\end{figure*}
+
+\newpage
+% \pagestyle{empty}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=.88\linewidth]{figs/MakeYourOwnRotators.pdf}
+    % \caption{Enter Caption}
+    \label{fig:make-your-own-rotators}
+\end{figure*}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figs/MakeYourOwnHidden.pdf}
+    % \caption{Enter Caption}
+    \label{fig:make-your-own-hidden}
+\end{figure*}
+
+
+\label{supp:illusion_styles}
+

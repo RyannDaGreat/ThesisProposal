@@ -1,0 +1,244 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Unified preamble for thesis
+%%% Base: Kanchana's thesis preamble
+%%% Extended with packages from Ryan's papers:
+%%%   Peekaboo, DiffIllusions, GWTF, MotionV2V
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Core packages (from Kanchana)
+\usepackage{times}
+\usepackage{setspace}           % Spacing on the front page for crest and titles
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{nicefrac}           % compact symbols for 1/2, etc.
+\usepackage{microtype}          % microtypography
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabulary}
+\usepackage{overpic}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{epstopdf}
+\epstopdfsetup{update}          % only regenerate pdf files when eps file is newer
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{bm}
+\usepackage{t1enc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage{soul}
+\usepackage{tabu}
+\usepackage{epigraph}
+\usepackage{tcolorbox}
+\usepackage{anyfontsize}
+\usepackage{newfloat}
+\usepackage{listings}
+\usepackage{arydshln}
+\usepackage[accsupp]{axessibility}
+\usepackage{adjustbox}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{bbm}
+\usepackage{blkarray}
+\usepackage{caption}
+\usepackage{expl3}
+\usepackage{geometry}
+\usepackage{inputenc}
+\usepackage{lipsum}
+\usepackage{makecell}
+\usepackage{mathdots}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{placeins}
+\usepackage{tikz}
+\usepackage{txfonts}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage[classicReIm]{kpfonts}
+\usepackage[titletoc,title]{appendix}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[numbers,sort,compress]{natbib}
+\usepackage[pagebackref=true,breaklinks=true,bookmarks=true]{hyperref}
+\usepackage[capitalize]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Additional packages from Ryan's papers
+
+%%% From Peekaboo
+\usepackage{comment}
+
+%%% From DiffIllusions / MotionV2V
+\usepackage{fancybox}
+\usepackage{calc}
+\usepackage{pgfplots}
+\usetikzlibrary{patterns}
+\pgfplotsset{compat=1.18}
+\usepackage{xfp}
+\usepackage{hhline}
+
+%%% From GWTF
+\usepackage{animate}
+
+%%% From DiffIllusions
+\usepackage{tabularx}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands (from Kanchana)
+
+\newcommand{\cmark}{\ding{51}}% checkmarks
+\newcommand{\xmark}{\ding{55}}% crossmarks
+
+\newcommand{\venue}[1]{{$_{\text{#1}}$}}  % venue
+\newcommand\dht[1]{\textcolor{gray}{#1}}  % gray text
+\definecolor{Gray}{gray}{0.90}  % name color
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
+
+\newcommand{\bhdr}[1]{\noindent\textbf{#1}}
+
+\captionsetup{compatibility=false}
+
+\definecolor{row}{RGB}{235, 245, 251}
+\definecolor{rowx}{RGB}{242, 243, 244}
+\definecolor{gridcolor}{RGB}{0,94,255}
+\newcommand{\gridcolor}[1]{\textcolor{gridcolor}{#1}}
+\newcommand{\todo}[1]{{\textcolor{magenta}{[TODO]: #1}}}
+
+\newcommand{\FBS}[0]{FBS}
+\newcommand{\ve}[1]{\mathbf{#1}} % for displaying a vector
+\newcommand{\ma}[1]{\mathrm{#1}} % for displaying a matrix
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\sref}[1]{Sec.~\ref{#1}}
+\newcommand{\chref}[1]{Chapter~\ref{#1}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bw}{\mathbf{w}}
+\def\xx{$\times$}
+
+\newcommand{\bd}[1]{\textbf{#1}}
+\newcommand{\app}{\raise.17ex\hbox{$\scriptstyle\sim$}}
+\newcommand{\ncdot}{{\mkern 0mu\cdot\mkern 0mu}}
+\newcolumntype{x}[1]{>{\centering\arraybackslash}p{#1pt}}
+\newcommand{\dt}[1]{\fontsize{8pt}{.1em}\selectfont \emph{#1}}
+\newlength\savewidth\newcommand\shline{\noalign{\global\savewidth\arrayrulewidth
+		\global\arrayrulewidth 1pt}\hline\noalign{\global\arrayrulewidth\savewidth}}
+\newcommand{\tablestyle}[2]{\setlength{\tabcolsep}{#1}\renewcommand{\arraystretch}{#2}\centering\footnotesize}
+\makeatletter\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}
+	{.5em \@plus1ex \@minus.2ex}{-.5em}{\normalfont\normalsize\bfseries}}\makeatother
+\newcommand{\blocket}[4]{\multirow{-3}{*}{\(\left[\begin{array}{c}\text{1$\times$1$^\text{2}$, #1}\\[-.1em] \text{$3$$\times$3$^\text{2}$, #2}\\[-.1em] \text{1$\times$1$^\text{2}$, #3}\end{array}\right]\)$\times$#4}}
+\addtolength{\floatsep}{-2mm}
+\addtolength{\textfloatsep}{-1mm}
+\addtolength{\intextsep}{-1mm}
+
+\def\eg{\emph{e.g}.~}
+\def\ie{\emph{i.e}., }
+\def\vs{\emph{vs}.~}
+\def\wrt{w.r.t.~}
+\def\etal{\emph{et al}.~}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Go-with-the-Flow custom commands
+
+\newcommand{\method}{Go-with-the-Flow\xspace}
+\newcommand{\cutndrag}{cut-and-drag}
+\newcommand{\Cutndrag}{Cut-and-drag}
+
+\newcommand{\deglevel}{\mathbf{\gamma}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\expansion}{\textit{expansion}}
+\newcommand{\contraction}{\textit{contraction}}
+
+\newcommand*{\affaddr}[1]{#1}
+\newcommand*{\affmark}[1][*]{\textsuperscript{#1}}
+\newcommand{\customfootnotetext}[2]{{% Group to localize change to footnote
+  \renewcommand{\thefootnote}{#1}% Update footnote counter representation
+  \footnotetext[0]{#2}}}% Print footnote text
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GWTF Python code listing style
+
+\definecolor{codeblue}{rgb}{0.25, 0.5, 0.5}
+\definecolor{codeorange}{rgb}{1.0, 0.5, 0.3}
+\definecolor{codegreen}{rgb}{0.13, 0.54, 0.13}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\bfseries\color[rgb]{0.1, 0.5, 0.1},
+    morekeywords=[2]{in, and},
+    keywordstyle=[2]\bfseries\color[rgb]{0.8, 0.2, 0.5},
+    morekeywords=[3]{warp_noise},
+    keywordstyle=[3]\color[rgb]{0.1, 0.1, 0.8},
+    commentstyle=\color[rgb]{0.2, 0.6, 0.2},
+    stringstyle=\color[rgb]{0.0, 0.4, 0.2},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    frame=tb,
+    framerule=0.5pt,
+    rulecolor=\color{black},
+    framesep=2mm,
+    xleftmargin=2mm,
+    xrightmargin=2mm,
+    breaklines=true,
+    captionpos=b,
+    showstringspaces=false
+}
+\lstset{style=pythonstyle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GWTF chapquote environment
+
+\makeatletter
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GWTF math commands
+
+\newcommand{\Var}{\textup{Var}}
+\newcommand{\Cov}{\textup{Cov}}
+\newcommand{\bE}{\mathbb{E}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MotionV2V commands
+
+\newcommand{\ignore}[1]{}
+
+\newcommand{\figplaceholder}[1]{%
+    \begin{center}
+        \textcolor{blue}{\textbf{[FIGURE PLACEHOLDER: #1]}}
+    \end{center}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cleveref configuration (from Peekaboo)
+
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Tab.}{Tabs.}

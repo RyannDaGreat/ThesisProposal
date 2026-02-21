@@ -1,0 +1,19 @@
+\section{Video Motion Editing}
+\label{mv2v_sec:relatedworks}
+
+Diffusion models have fundamentally reshaped media generation, evolving from foundational image synthesis frameworks~\cite{ddpm2020, stablediffusion2022} to complex video dynamics~\cite{vdm2022, imagenvideo2022, makeavideo2022, bar2024lumiere}. Recent text-conditioned video models~\cite{cogvideox2024, wan, opensora2024} have further advanced the field by adopting transformer-based architectures~\cite{dit2023} for scalable denoising.
+
+
+\subsection{Conditional Video Generation}
+
+Conditional video diffusion extends base text-to-video architectures by incorporating auxiliary control signals. Inspired by the spatial conditioning of ControlNet~\cite{controlnet2023}, recent works have adapted similar mechanisms to the temporal domain~\cite{das2025, videocontrolnet2023, motioni2v2024}, enabling guidance through depth maps, motion vectors, and camera parameters.
+Concurrently, video-to-video (V2V) editing methods focus on propagating edits across frames while preserving the features of the source video~\cite{tokenflow2024, fatezero2023, codef2024, pix2video2023, tuneavideo2023, text2videozero2023, cove2024}. Many such approaches leverage DDIM inversion to facilitate appearance modifications~\cite{i2vedit2024, magicedit2023, stablevideo2023}. However, these methods are fundamentally designed for local appearance changes; they struggle with non-local motion edits where the structural correspondence between frames is disrupted. When motion patterns are altered, the temporal alignment assumptions underlying these inversion-based approaches are violated.
+
+
+\subsection{Motion-Guided Video Generation}
+
+Motion control has emerged as a critical research direction, broadly categorized into trajectory-based and optical-flow-based methods. Trajectory-based approaches condition generation on point trajectories~\cite{tora2024, dragnuwa2023, draganything2024, dragavideo2023, imageconductor2024, boximator2024, i2vcontrol2024, 3dtrajmaster2024, flextraj2024, freetraj2024, trailblazer2024}, granting precise control over object paths, camera movement, and complex interactions. Conversely, optical flow-based methods~\cite{onlyflow2024, animateanything2024} utilize dense correspondence priors derived from optical flow estimators and point trackers~\cite{raft2020, tapir2023, bootstap2024, cotracker3_2024} to achieve fine-grained motion transfer.
+
+Despite their impressive capabilities, these methods operate primarily as \textit{generators} rather than editors. Instead of modifying an input video directly, they extract attributes (e.g., optical flow) to condition the synthesis of an entirely new video. Recent trajectory-based methods~\cite{motionprompt2024, gowiththeflow2025, ati} attempt to bridge this by conditioning on single images and motion trajectories. However, while powerful for content creation, they fail to preserve the unrevealed visual context of existing videos when motion is modified. First-frame preserving methods like ReVideo~\cite{revideo2024} attempt to address this via inpainting but degrade when camera motion reveals content absent from the initial frame.
+
+Our method addresses these limitations to enable true video-to-video motion editing. Specifically, we allow for flexible modification of object and camera trajectories while rigorously preserving the remaining video content. This approach generalizes effectively to arbitrary objects, diverse camera motions, and complex multi-element scenes.

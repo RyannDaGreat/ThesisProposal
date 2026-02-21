@@ -1,0 +1,743 @@
+@String(PAMI = {IEEE Trans. Pattern Anal. Mach. Intell.})
+@String(IJCV = {Int. J. Comput. Vis.})
+@String(CVPR= {IEEE Conf. Comput. Vis. Pattern Recog.})
+@String(ICCV= {Int. Conf. Comput. Vis.})
+@String(ECCV= {Eur. Conf. Comput. Vis.})
+@String(NIPS= {Adv. Neural Inform. Process. Syst.})
+@String(ICPR = {Int. Conf. Pattern Recog.})
+@String(BMVC= {Brit. Mach. Vis. Conf.})
+@String(TOG= {ACM Trans. Graph.})
+@String(TIP  = {IEEE Trans. Image Process.})
+@String(TVCG  = {IEEE Trans. Vis. Comput. Graph.})
+@String(TMM  = {IEEE Trans. Multimedia})
+@String(ACMMM= {ACM Int. Conf. Multimedia})
+@String(ICME = {Int. Conf. Multimedia and Expo})
+@String(ICASSP=	{ICASSP})
+@String(ICIP = {IEEE Int. Conf. Image Process.})
+@String(ACCV  = {ACCV})
+@String(ICLR = {Int. Conf. Learn. Represent.})
+@String(IJCAI = {IJCAI})
+@String(PR   = {Pattern Recognition})
+@String(AAAI = {AAAI})
+@String(CVPRW= {IEEE Conf. Comput. Vis. Pattern Recog. Worksh.})
+@String(CSVT = {IEEE Trans. Circuit Syst. Video Technol.})
+
+@String(SPL	= {IEEE Sign. Process. Letters})
+@String(VR   = {Vis. Res.})
+@String(JOV	 = {J. Vis.})
+@String(TVC  = {The Vis. Comput.})
+@String(JCST  = {J. Comput. Sci. Tech.})
+@String(CGF  = {Comput. Graph. Forum})
+@String(CVM = {Computational Visual Media})
+
+
+@String(PAMI  = {IEEE TPAMI})
+@String(IJCV  = {IJCV})
+@String(CVPR  = {CVPR})
+@String(ICCV  = {ICCV})
+@String(ECCV  = {ECCV})
+@String(NIPS  = {NeurIPS})
+@String(ICPR  = {ICPR})
+@String(BMVC  =	{BMVC})
+@String(TOG   = {ACM TOG})
+@String(TIP   = {IEEE TIP})
+@String(TVCG  = {IEEE TVCG})
+@String(TCSVT = {IEEE TCSVT})
+@String(TMM   =	{IEEE TMM})
+@String(ACMMM = {ACM MM})
+@String(ICME  =	{ICME})
+@String(ICASSP=	{ICASSP})
+@String(ICIP  = {ICIP})
+@String(ACCV  = {ACCV})
+@String(ICLR  = {ICLR})
+@String(IJCAI = {IJCAI})
+@String(PR = {PR})
+@String(AAAI = {AAAI})
+@String(CVPRW= {CVPRW})
+@String(CSVT = {IEEE TCSVT})
+
+@inproceedings{li2022_infinite_nature_zero,
+  title     = {InfiniteNature-Zero: Learning Perpetual View Generation of Natural Scenes from Single Images},
+  author    = {Li, Zhengqi and Wang, Qianqian and Snavely, Noah and Kanazawa, Angjoo},
+  booktitle = {ECCV},
+  year      = {2022},
+  short_summary = {managed to generate hundreds of frames of videos from an input image and camera poses using an iterative training process that involves new view generation with refined geometry through inpainting, outpainting and super-resolution.},
+  comparison = {cons: More complex and constraining.}
+}
+
+@inproceedings{yang24_direct_a_video,
+  author = {Shiyuan Yang and Liang Hou and Haibin Huang and Chongyang Ma and Pengfei Wan and Di Zhang and Xiaodong Chen and Jing Liao},
+  title = {Direct-a-Video: Customized Video Generation with User-Directed Camera Movement and Object Motion},
+  booktitle = {Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers '24 (SIGGRAPH Conference Papers '24)},
+  year = {2024},
+  location = {Denver, CO, USA},
+  date = {July 27--August 01, 2024},
+  publisher = {ACM},
+  address = {New York, NY, USA},
+  pages = {12},
+  doi = {10.1145/3641519.3657481},
+  short_summary = {produced videos with decoupled camera and object motions by a self-supervised learning of camera movements through temporal cross-attention layers on simulated pan and zoom motions and by box trajectories guiding object motion through spatial modulation of the existing cross-attention maps.},
+  comparison = {pros: decouples camera and object. cons: limited motion of object}
+}
+
+@InProceedings{zhou2024upscaleavideo,
+      title     = {{Upscale-A-Video}: Temporal-Consistent Diffusion Model for Real-World Video Super-Resolution},
+      author    = {Zhou, Shangchen and Yang, Peiqing and Wang, Jianyi and Luo, Yihang and Loy, Chen Change},
+      booktitle = {CVPR},
+      year      = {2024},
+      short_summary = {generated upscaled video with improved temporal consistency by fine tuning the U-Net with temporal layer to ensure consitency witin local sequences, fine tuning of the VAE to further reduce flickering, and applying a training-free recurrent optical flow based latent propagation.},
+      comparison = {cons: no camera control}
+}
+
+@article{Kumari2024CamViewpoint,
+  title={Customizing Text-to-Image Diffusion with Camera Viewpoint Control},
+  author={Nupur Kumari and Grace Su and Richard Zhang and Taesung Park and Eli Shechtman and Jun-Yan Zhu},
+  journal={ArXiv},
+  year={2024},
+  volume={abs/2404.12333},
+  url={https://api.semanticscholar.org/CorpusID:269214353},
+  short_summary = {generated viewpoint control in a stable diffusion XL model conditioned on multi-view images and camera poses, by adding a cross-attention layer using projected features from a NeRF model aggregated from the features of the raw transformer.},
+  comparison = {cons: static images, no video}
+}
+
+@article{yu2024wonderworld,
+    title={WonderWorld: Interactive 3D Scene Generation from a Single Image},
+    author={Hong-Xing Yu and Haoyi Duan and Charles Herrmann and William T. Freeman and Jiajun Wu},
+    journal={arXiv:2406.09394},
+    year={2024},
+    short_summary = {real-time interactive text-guided generation of 3D scene for foreground objects, background and sky layers, by a well-initialization of surfels properties achieved through generated normals and depth for each pixe in the new inpainted region, guiding the denoiser with the outpainted depth and minimizing aliasing and holes for optimal initial surfels scales.},
+    comparison = {cons: requires 3d geo, pros: interactive control on content, real-time}
+}
+
+@article{Mou2024ReVideo,
+  title={ReVideo: Remake a Video with Motion and Content Control},
+  author={Chong Mou and Mingdeng Cao and Xintao Wang and Zhaoyang Zhang and Ying Shan and Jian Zhang},
+  journal={ArXiv},
+  year={2024},
+  volume={abs/2405.13865},
+  url={https://api.semanticscholar.org/CorpusID:269983340},
+    short_summary = {be able to control both content editing and motion accurately follow a coarse-to-fine training strategy where in the first stage a SVD trained for motion control through a first Controlnet, in the second stage the SVD is trained further additionally conditioned on editing content using a separate ControlNet and a weighted sum of edited and unedited contents from different video inputs, and in a third stage the SVD is further fine-tuned on normal videos training only temporal self-attention layers to remove artifacts at editing region boundaries.},
+    comparison = {cons: motion trajectory difficult to learn. Our noise warping helps with that. pros: editing control.}
+    }
+
+@article{yatim2023SpacetTimeDiffFeatures,
+    title = {Space-Time Diffusion Features for Zero-Shot Text-Driven Motion Transfer},
+    author = {Yatim, Danah and Fridman, Rafail and Bar-Tal, Omer and Kasten, Yoni and Dekel, Tali},
+    journal={arXiv preprint arxiv:2311.17009},
+    year={2023},
+    short_summary = {propose a train-free approach to transfer the motion across different object categories in a video by augmenting the denoising step with an optimization loss that minimizes the difference the relative change in features between the driving video and he generated video, initializing the optimization using the low-frequencies of the DDIM generated latent},
+    comparison = {pros: accurate editing of object motions. cons: not a camera motion.}
+}
+
+@article{Wang2023videocomposer,
+  title={VideoComposer: Compositional Video Synthesis with Motion Controllability},
+  author={Wang, Xiang* and Yuan, Hangjie* and Zhang, Shiwei* and Chen, Dayou* and Wang, Jiuniu, and Zhang, Yingya, and Shen, Yujun, and Zhao, Deli and Zhou, Jingren},
+  booktitle={arXiv preprint arXiv:2306.02018},
+  year={2023},
+  short_summary={Extending upon Composer, Wang et al. (VideoComposer) synthesized videos from text inputs in a first training stage, followed in second training stage by single image and sketch conditions, and motion vector, depth and mask sequence conditions, encoded by a spatio-temporal condition built from a spatial convolutional block followed by a temporal layer.},
+  comparison={cons: mixed camera and object control, pros}
+}
+
+@article{jain2023peekaboo,
+  title={PEEKABOO: Interactive Video Generation via Masked-Diffusion},
+  author={Jain, Yash and Nasery, Anshul and Vineet, Vibhav and Behl, Harkirat},
+  journal={arXiv preprint arXiv:2312.07509},
+  year={2023},
+short_summary={Jain et al. (Peekaboo) enabled the coarse control of objects in diffusion-based video models through a training-free approach that modulates the cross-attention, spatial attention, and temporal attentions using foreground and background temporal masks bounding boxes.},
+comparison={cons: coarse motion, object only; pros: training-free}
+}
+
+@misc{esser2024scalingrectifiedflowtransformers,
+      title={Scaling Rectified Flow Transformers for High-Resolution Image Synthesis}, 
+      author={Patrick Esser and Sumith Kulal and Andreas Blattmann and Rahim Entezari and Jonas Müller and Harry Saini and Yam Levi and Dominik Lorenz and Axel Sauer and Frederic Boesel and Dustin Podell and Tim Dockhorn and Zion English and Kyle Lacey and Alex Goodwin and Yannik Marek and Robin Rombach},
+      year={2024},
+      eprint={2403.03206},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2403.03206}, 
+}
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Ning's citation list starts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@inproceedings{guo2024animatediff,
+  title={Animatediff: Animate your personalized text-to-image diffusion models without specific tuning},
+  author={Guo, Yuwei and Yang, Ceyuan and Rao, Anyi and Liang, Zhengyang and Wang, Yaohui and Qiao, Yu and Agrawala, Maneesh and Lin, Dahua and Dai, Bo},
+  booktitle={ICLR},
+  year={2024}
+}
+
+@inproceedings{blattmann2023align,
+  title={Align your latents: High-resolution video synthesis with latent diffusion models},
+  author={Blattmann, Andreas and Rombach, Robin and Ling, Huan and Dockhorn, Tim and Kim, Seung Wook and Fidler, Sanja and Kreis, Karsten},
+  booktitle={CVPR},
+  year={2023}
+}
+
+@article{yang2024cogvideox,
+  title={Cogvideox: Text-to-video diffusion models with an expert transformer},
+  author={Yang, Zhuoyi and Teng, Jiayan and Zheng, Wendi and Ding, Ming and Huang, Shiyu and Xu, Jiazheng and Yang, Yuanming and Hong, Wenyi and Zhang, Xiaohan and Feng, Guanyu and others},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{guo2024sparsectrl,
+  title={Sparsectrl: Adding sparse controls to text-to-video diffusion models},
+  author={Guo, Yuwei and Yang, Ceyuan and Rao, Anyi and Agrawala, Maneesh and Lin, Dahua and Dai, Bo},
+  booktitle={ECCV},
+  year={2024},
+}
+
+@article{blattmann2023stable,
+  title={Stable video diffusion: Scaling latent video diffusion models to large datasets},
+  author={Blattmann, Andreas and Dockhorn, Tim and Kulal, Sumith and Mendelevitch, Daniel and Kilian, Maciej and Lorenz, Dominik and Levi, Yam and English, Zion and Voleti, Vikram and Letts, Adam and others},
+  journal={arXiv},
+  year={2023}
+}
+
+@article{brooks2024video,
+  title={Video generation models as world simulators. 2024},
+  author={Brooks, Tim and Peebles, Bill and Holmes, Connor and DePue, Will and Guo, Yufei and Jing, Li and Schnurr, David and Taylor, Joe and Luhman, Troy and Luhman, Eric and others},
+  journal={URL https://openai. com/research/video-generation-models-as-world-simulators},
+  year={2024}
+}
+
+
+@misc{bochkovskii2024depthprosharpmonocular,
+      title={Depth Pro: Sharp Monocular Metric Depth in Less Than a Second}, 
+      author={Aleksei Bochkovskii and Amaël Delaunoy and Hugo Germain and Marcel Santos and Yichao Zhou and Stephan R. Richter and Vladlen Koltun},
+      year={2024},
+      eprint={2410.02073},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2410.02073}, 
+}
+@inproceedings{yu2024language,
+  title={Language Model Beats Diffusion--Tokenizer is Key to Visual Generation},
+  author={Yu, Lijun and Lezama, Jos{\'e} and Gundavarapu, Nitesh B and Versari, Luca and Sohn, Kihyuk and Minnen, David and Cheng, Yong and Birodkar, Vighnesh and Gupta, Agrim and Gu, Xiuye and others},
+  booktitle={ICLR},
+  year={2024}
+}
+
+@article{ma2024latte,
+  title={Latte: Latent diffusion transformer for video generation},
+  author={Ma, Xin and Wang, Yaohui and Jia, Gengyun and Chen, Xinyuan and Liu, Ziwei and Li, Yuan-Fang and Chen, Cunjian and Qiao, Yu},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{jain2024peekaboo,
+  title={Peekaboo: Interactive video generation via masked-diffusion},
+  author={Jain, Yash and Nasery, Anshul and Vineet, Vibhav and Behl, Harkirat},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@misc{yang2024generativeimagelayerdecomposition,
+      title={Generative Image Layer Decomposition with Visual Effects}, 
+      author={Jinrui Yang and Qing Liu and Yijun Li and Soo Ye Kim and Daniil Pakhomov and Mengwei Ren and Jianming Zhang and Zhe Lin and Cihang Xie and Yuyin Zhou},
+      year={2024},
+      eprint={2411.17864},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2411.17864}, 
+}
+
+@InProceedings{Burgert_2024_CVPR,
+    author    = {Burgert, Ryan D. and Price, Brian L. and Kuen, Jason and Li, Yijun and Ryoo, Michael S.},
+    title     = {MAGICK: A Large-scale Captioned Dataset from Matting Generated Images using Chroma Keying},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2024},
+    pages     = {22595-22604}
+}
+
+@inproceedings{yang2024direct,
+  title={Direct-a-video: Customized video generation with user-directed camera movement and object motion},
+  author={Yang, Shiyuan and Hou, Liang and Huang, Haibin and Ma, Chongyang and Wan, Pengfei and Zhang, Di and Chen, Xiaodong and Liao, Jing},
+  booktitle={SIGGRAPH},
+  year={2024}
+}
+
+@inproceedings{wang2024motionctrl,
+  title={Motionctrl: A unified and flexible motion controller for video generation},
+  author={Wang, Zhouxia and Yuan, Ziyang and Wang, Xintao and Li, Yaowei and Chen, Tianshui and Xia, Menghan and Luo, Ping and Shan, Ying},
+  booktitle={SIGGRAPH},
+  year={2024}
+}
+
+@inproceedings{shi2024motion,
+  title={Motion-i2v: Consistent and controllable image-to-video generation with explicit motion modeling},
+  author={Shi, Xiaoyu and Huang, Zhaoyang and Wang, Fu-Yun and Bian, Weikang and Li, Dasong and Zhang, Yi and Zhang, Manyuan and Cheung, Ka Chun and See, Simon and Qin, Hongwei and others},
+  booktitle={SIGGRAPH},
+  year={2024}
+}
+
+@inproceedings{wu2024draganything,
+  title={Draganything: Motion control for anything using entity representation},
+  author={Wu, Weijia and Li, Zhuang and Gu, Yuchao and Zhao, Rui and He, Yefei and Zhang, David Junhao and Shou, Mike Zheng and Li, Yan and Gao, Tingting and Zhang, Di},
+  booktitle={ECCV},
+  year={2024},
+}
+
+@article{ling2024motionclone,
+  title={MotionClone: Training-Free Motion Cloning for Controllable Video Generation},
+  author={Ling, Pengyang and Bu, Jiazi and Zhang, Pan and Dong, Xiaoyi and Zang, Yuhang and Wu, Tong and Chen, Huaian and Wang, Jiaqi and Jin, Yi},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{wang2024videocomposer,
+  title={Videocomposer: Compositional video synthesis with motion controllability},
+  author={Wang, Xiang and Yuan, Hangjie and Zhang, Shiwei and Chen, Dayou and Wang, Jiuniu and Zhang, Yingya and Shen, Yujun and Zhao, Deli and Zhou, Jingren},
+  booktitle={NeurIPS},
+  year={2024}
+}
+
+@inproceedings{geyer2023tokenflow,
+  title={Tokenflow: Consistent diffusion features for consistent video editing},
+  author={Geyer, Michal and Bar-Tal, Omer and Bagon, Shai and Dekel, Tali},
+  booktitle={ICLR},
+  year={2024}
+}
+
+@inproceedings{yin2024scalable,
+  title={Scalable Motion Style Transfer with Constrained Diffusion Generation},
+  author={Yin, Wenjie and Yu, Yi and Yin, Hang and Kragic, Danica and Bj{\"o}rkman, M{\aa}rten},
+  booktitle={AAAI},
+  year={2024}
+}
+
+@article{ku2024anyv2v,
+  title={Anyv2v: A plug-and-play framework for any video-to-video editing tasks},
+  author={Ku, Max and Wei, Cong and Ren, Weiming and Yang, Huan and Chen, Wenhu},
+  journal={arXiv},
+  year={2024}
+}
+
+
+@article{kuang2024collaborative,
+  title={Collaborative Video Diffusion: Consistent Multi-video Generation with Camera Control},
+  author={Kuang, Zhengfei and Cai, Shengqu and He, Hao and Xu, Yinghao and Li, Hongsheng and Guibas, Leonidas and Wetzstein, Gordon},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{xu2024camco,
+  title={CamCo: Camera-Controllable 3D-Consistent Image-to-Video Generation},
+  author={Xu, Dejia and Nie, Weili and Liu, Chao and Liu, Sifei and Kautz, Jan and Wang, Zhangyang and Vahdat, Arash},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{chang2024warped,
+  title={How I Warped Your Noise: a Temporally-Correlated Noise Prior for Diffusion Models},
+  author={Chang, Pascal and Tang, Jingwei and Gross, Markus and Azevedo, Vinicius C},
+  booktitle={ICLR},
+  year={2024}
+}
+
+@article{namekata2024sg,
+  title={SG-I2V: Self-Guided Trajectory Control in Image-to-Video Generation},
+  author={Namekata, Koichi and Bahmani, Sherwin and Wu, Ziyi and Kant, Yash and Gilitschenski, Igor and Lindell, David B},
+  journal={arXiv},
+  year={2024}
+}
+
+@misc{hu2021loralowrankadaptationlarge,
+      title={LoRA: Low-Rank Adaptation of Large Language Models}, 
+      author={Edward J. Hu and Yelong Shen and Phillip Wallis and Zeyuan Allen-Zhu and Yuanzhi Li and Shean Wang and Lu Wang and Weizhu Chen},
+      year={2021},
+      eprint={2106.09685},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2106.09685}, 
+}
+
+@inproceedings{yatim2024space,
+  title={Space-time diffusion features for zero-shot text-driven motion transfer},
+  author={Yatim, Danah and Fridman, Rafail and Bar-Tal, Omer and Kasten, Yoni and Dekel, Tali},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@inproceedings{ge2023preserve,
+  title={Preserve your own correlation: A noise prior for video diffusion models},
+  author={Ge, Songwei and Nah, Seungjun and Liu, Guilin and Poon, Tyler and Tao, Andrew and Catanzaro, Bryan and Jacobs, David and Huang, Jia-Bin and Liu, Ming-Yu and Balaji, Yogesh},
+  booktitle={ICCV},
+  year={2023}
+}
+
+@article{chen2023control,
+  title={Control-a-video: Controllable text-to-video generation with diffusion models},
+  author={Chen, Weifeng and Ji, Yatai and Wu, Jie and Wu, Hefeng and Xie, Pan and Li, Jiashi and Xia, Xin and Xiao, Xuefeng and Lin, Liang},
+  journal={arXiv},
+  year={2023}
+}
+
+@article{deng2024infinite,
+  title={Infinite-Resolution Integral Noise Warping for Diffusion Models},
+  author={Deng, Yitong and Lin, Winnie and Li, Lingxiao and Smirnov, Dmitriy and Burgert, Ryan and Yu, Ning and Dedun, Vincent and Taghavi, Mohammad H},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{he2024diffrelight,
+  title={DifFRelight: Diffusion-Based Facial Performance Relighting},
+  author={He, Mingming and Clausen, Pascal and Ta{\c{s}}el, Ahmet Levent and Ma, Li and Pilarski, Oliver and Xian, Wenqi and Rikker, Laszlo and Yu, Xueming and Burgert, Ryan and Yu, Ning and others},
+  booktitle={SIGGRAPH Asia},
+  year={2024}
+}
+
+@article{stabilityai2023deepfloyd,
+  title={DeepFloyd IF},
+  author={StabilityAI},
+  journal={URL https://github.com/deep-floyd/IF?tab=readme-ov-file},
+  year={2023}
+}
+
+@inproceedings{huang2024vbench,
+  title={Vbench: Comprehensive benchmark suite for video generative models},
+  author={Huang, Ziqi and He, Yinan and Yu, Jiashuo and Zhang, Fan and Si, Chenyang and Jiang, Yuming and Zhang, Yuanhan and Wu, Tianxing and Jin, Qingyang and Chanpaisit, Nattapol and others},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@article{pont20172017,
+  title={The 2017 davis challenge on video object segmentation},
+  author={Pont-Tuset, Jordi and Perazzi, Federico and Caelles, Sergi and Arbel{\'a}ez, Pablo and Sorkine-Hornung, Alex and Van Gool, Luc},
+  journal={arXiv},
+  year={2017}
+}
+
+@inproceedings{ling2024dl3dv,
+  title={Dl3dv-10k: A large-scale scene dataset for deep learning-based 3d vision},
+  author={Ling, Lu and Sheng, Yichen and Tu, Zhi and Zhao, Wentian and Xin, Cheng and Wan, Kun and Yu, Lantao and Guo, Qianyu and Yu, Zixun and Lu, Yawen and others},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@inproceedings{yu2024wonderjourney,
+  title={Wonderjourney: Going from anywhere to everywhere},
+  author={Yu, Hong-Xing and Duan, Haoyi and Hur, Junhwa and Sargent, Kyle and Rubinstein, Michael and Freeman, William T and Cole, Forrester and Sun, Deqing and Snavely, Noah and Wu, Jiajun and others},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@inproceedings{teed2020raft,
+  title={Raft: Recurrent all-pairs field transforms for optical flow},
+  author={Teed, Zachary and Deng, Jia},
+  booktitle={ECCV},
+  year={2020},
+}
+
+@book{villar2021learning,
+  title={Learning Blender},
+  author={Villar, Oliver},
+  year={2021},
+  publisher={Addison-Wesley Professional}
+}
+
+@inproceedings{aira2024motioncraft,
+  title={MotionCraft: Physics-based Zero-Shot Video Generation},
+  author={Aira, Luca Savant and Montanaro, Antonio and Aiello, Emanuele and Valsesia, Diego and Magli, Enrico},
+  booktitle={NeurIPS},
+  year={2024}
+}
+
+@inproceedings{song2021score,
+  title={Score-based generative modeling through stochastic differential equations},
+  author={Song, Yang and Sohl-Dickstein, Jascha and Kingma, Diederik P and Kumar, Abhishek and Ermon, Stefano and Poole, Ben},
+  booktitle={ICLR},
+  year={2021}
+}
+
+@inproceedings{ho2020denoising,
+  title={Denoising diffusion probabilistic models},
+  author={Ho, Jonathan and Jain, Ajay and Abbeel, Pieter},
+  booktitle={NeurIPS},
+  year={2020}
+}
+
+@inproceedings{song2021denoising,
+  title={Denoising diffusion implicit models},
+  author={Song, Jiaming and Meng, Chenlin and Ermon, Stefano},
+  booktitle={ICLR},
+  year={2021}
+}
+
+@inproceedings{karras2022elucidating,
+  title={Elucidating the design space of diffusion-based generative models},
+  author={Karras, Tero and Aittala, Miika and Aila, Timo and Laine, Samuli},
+  booktitle={NeurIPS},
+  year={2022}
+}
+
+@article{nichol2021glide,
+  title={Glide: Towards photorealistic image generation and editing with text-guided diffusion models},
+  author={Nichol, Alex and Dhariwal, Prafulla and Ramesh, Aditya and Shyam, Pranav and Mishkin, Pamela and McGrew, Bob and Sutskever, Ilya and Chen, Mark},
+  journal={arXiv},
+  year={2021}
+}
+
+@article{ho2022classifier,
+  title={Classifier-free diffusion guidance},
+  author={Ho, Jonathan and Salimans, Tim},
+  journal={arXiv},
+  year={2022}
+}
+
+@inproceedings{rombach2022high,
+  title={High-resolution image synthesis with latent diffusion models},
+  author={Rombach, Robin and Blattmann, Andreas and Lorenz, Dominik and Esser, Patrick and Ommer, Bj{\"o}rn},
+  booktitle={CVPR},
+  year={2022}
+}
+
+@article{podell2023sdxl,
+  title={Sdxl: Improving latent diffusion models for high-resolution image synthesis},
+  author={Podell, Dustin and English, Zion and Lacey, Kyle and Blattmann, Andreas and Dockhorn, Tim and M{\"u}ller, Jonas and Penna, Joe and Rombach, Robin},
+  journal={arXiv},
+  year={2023}
+}
+
+@inproceedings{radford2021learning,
+  title={Learning transferable visual models from natural language supervision},
+  author={Radford, Alec and Kim, Jong Wook and Hallacy, Chris and Ramesh, Aditya and Goh, Gabriel and Agarwal, Sandhini and Sastry, Girish and Askell, Amanda and Mishkin, Pamela and Clark, Jack and others},
+  booktitle={ICML},
+  year={2021},
+}
+
+@article{raffel2020exploring,
+  title={Exploring the limits of transfer learning with a unified text-to-text transformer},
+  author={Raffel, Colin and Shazeer, Noam and Roberts, Adam and Lee, Katherine and Narang, Sharan and Matena, Michael and Zhou, Yanqi and Li, Wei and Liu, Peter J},
+  journal={JMLR},
+  year={2020}
+}
+
+@inproceedings{brooks2023instructpix2pix,
+  title={Instructpix2pix: Learning to follow image editing instructions},
+  author={Brooks, Tim and Holynski, Aleksander and Efros, Alexei A},
+  booktitle={CVPR},
+  year={2023}
+}
+
+@inproceedings{zhang2023adding,
+  title={Adding conditional control to text-to-image diffusion models},
+  author={Zhang, Lvmin and Rao, Anyi and Agrawala, Maneesh},
+  booktitle={ICCV},
+  year={2023}
+}
+
+@inproceedings{ke2024repurposing,
+  title={Repurposing diffusion-based image generators for monocular depth estimation},
+  author={Ke, Bingxin and Obukhov, Anton and Huang, Shengyu and Metzger, Nando and Daudt, Rodrigo Caye and Schindler, Konrad},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@inproceedings{meng2022sdedit,
+  title={Sdedit: Guided image synthesis and editing with stochastic differential equations},
+  author={Meng, Chenlin and He, Yutong and Song, Yang and Song, Jiaming and Wu, Jiajun and Zhu, Jun-Yan and Ermon, Stefano},
+  booktitle={ICLR},
+  year={2022}
+}
+
+@article{yue2024resshift,
+  title={Resshift: Efficient diffusion model for image super-resolution by residual shifting},
+  author={Yue, Zongsheng and Wang, Jianyi and Loy, Chen Change},
+  journal={NeurIPS},
+  year={2024}
+}
+
+@inproceedings{peebles2023scalable,
+  title={Scalable diffusion models with transformers},
+  author={Peebles, William and Xie, Saining},
+  booktitle={ICCV},
+  year={2023}
+}
+
+@article{chen2023videocrafter1,
+  title={Videocrafter1: Open diffusion models for high-quality video generation},
+  author={Chen, Haoxin and Xia, Menghan and He, Yingqing and Zhang, Yong and Cun, Xiaodong and Yang, Shaoshu and Xing, Jinbo and Liu, Yaofang and Chen, Qifeng and Wang, Xintao and others},
+  journal={arXiv},
+  year={2023}
+}
+
+@inproceedings{qing2024hierarchical,
+  title={Hierarchical spatio-temporal decoupling for text-to-video generation},
+  author={Qing, Zhiwu and Zhang, Shiwei and Wang, Jiayu and Wang, Xiang and Wei, Yujie and Zhang, Yingya and Gao, Changxin and Sang, Nong},
+  booktitle={CVPR},
+  year={2024}
+}
+
+@inproceedings{xing2024dynamicrafter,
+  title={Dynamicrafter: Animating open-domain images with video diffusion priors},
+  author={Xing, Jinbo and Xia, Menghan and Zhang, Yong and Chen, Haoxin and Yu, Wangbo and Liu, Hanyuan and Liu, Gongye and Wang, Xintao and Shan, Ying and Wong, Tien-Tsin},
+  booktitle={ECCV},
+  year={2024},
+}
+
+@article{zhou2024storydiffusion,
+  title={StoryDiffusion: Consistent Self-Attention for Long-Range Image and Video Generation},
+  author={Zhou, Yupeng and Zhou, Daquan and Cheng, Ming-Ming and Feng, Jiashi and Hou, Qibin},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{yin2023dragnuwa,
+  title={Dragnuwa: Fine-grained control in video generation by integrating text, image, and trajectory},
+  author={Yin, Shengming and Wu, Chenfei and Liang, Jian and Shi, Jie and Li, Houqiang and Ming, Gong and Duan, Nan},
+  journal={arXiv},
+  year={2023}
+}
+
+@article{he2024cameractrl,
+  title={Cameractrl: Enabling camera control for text-to-video generation},
+  author={He, Hao and Xu, Yinghao and Guo, Yuwei and Wetzstein, Gordon and Dai, Bo and Li, Hongsheng and Yang, Ceyuan},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{yu2024viewcrafter,
+  title={Viewcrafter: Taming video diffusion models for high-fidelity novel view synthesis},
+  author={Yu, Wangbo and Xing, Jinbo and Yuan, Li and Hu, Wenbo and Li, Xiaoyu and Huang, Zhipeng and Gao, Xiangjun and Wong, Tien-Tsin and Shan, Ying and Tian, Yonghong},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{hou2024training,
+  title={Training-free Camera Control for Video Generation},
+  author={Hou, Chen and Wei, Guoqiang and Zeng, Yan and Chen, Zhibo},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{zhang2024recapture,
+  title={ReCapture: Generative Video Camera Controls for User-Provided Videos using Masked Video Fine-Tuning},
+  author={Zhang, David Junhao and Paiss, Roni and Zada, Shiran and Karnad, Nikhil and Jacobs, David E and Pritch, Yael and Mosseri, Inbar and Shou, Mike Zheng and Wadhwa, Neal and Ruiz, Nataniel},
+  journal={arXiv},
+  year={2024}
+}
+
+@inproceedings{zhang2018unreasonable,
+  title={The unreasonable effectiveness of deep features as a perceptual metric},
+  author={Zhang, Richard and Isola, Phillip and Efros, Alexei A and Shechtman, Eli and Wang, Oliver},
+  booktitle={CVPR},
+  year={2018}
+}
+
+@inproceedings{hore2010image,
+  title={Image quality metrics: PSNR vs. SSIM},
+  author={Hore, Alain and Ziou, Djemel},
+  booktitle={ICPR},
+  year={2010},
+}
+
+@inproceedings{lai2018learning,
+  title={Learning blind video temporal consistency},
+  author={Lai, Wei-Sheng and Huang, Jia-Bin and Wang, Oliver and Shechtman, Eli and Yumer, Ersin and Yang, Ming-Hsuan},
+  booktitle={ECCV},
+  year={2018}
+}
+
+@article{envato,
+  title={Envato},
+  journal={URL https://elements.envato.com/stock-video},
+}
+
+@article{karaev2023cotracker,
+  title={Cotracker: It is better to track together},
+  author={Karaev, Nikita and Rocco, Ignacio and Graham, Benjamin and Neverova, Natalia and Vedaldi, Andrea and Rupprecht, Christian},
+  journal={arXiv},
+  year={2023}
+}
+
+@article{unterthiner2018towards,
+  title={Towards accurate generative models of video: A new metric \& challenges},
+  author={Unterthiner, Thomas and Van Steenkiste, Sjoerd and Kurach, Karol and Marinier, Raphael and Michalski, Marcin and Gelly, Sylvain},
+  journal={arXiv},
+  year={2018}
+}
+
+@article{qiu2024freetraj,
+  title={Freetraj: Tuning-free trajectory control in video diffusion models},
+  author={Qiu, Haonan and Chen, Zhaoxi and Wang, Zhouxia and He, Yingqing and Xia, Menghan and Liu, Ziwei},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{geng2024motion,
+  title={Motion Prompting: Controlling Video Generation with Motion Trajectories},
+  author={Geng, Daniel and Herrmann, Charles and Hur, Junhwa and Cole, Forrester and Zhang, Serena and Pfaff, Tobias and Lopez-Guevara, Tatiana and Doersch, Carl and Aytar, Yusuf and Rubinstein, Michael and others},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{wu2024cat4d,
+  title={CAT4D: Create Anything in 4D with Multi-View Video Diffusion Models},
+  author={Wu, Rundi and Gao, Ruiqi and Poole, Ben and Trevithick, Alex and Zheng, Changxi and Barron, Jonathan T and Holynski, Aleksander},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{zhang2024monst3r,
+  title={Monst3r: A simple approach for estimating geometry in the presence of motion},
+  author={Zhang, Junyi and Herrmann, Charles and Hur, Junhwa and Jampani, Varun and Darrell, Trevor and Cole, Forrester and Sun, Deqing and Yang, Ming-Hsuan},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{wang2024cogvlmvisualexpertpretrained,
+  title={CogVLM: Visual Expert for Pretrained Language Models}, 
+  author={Weihan Wang and Qingsong Lv and Wenmeng Yu and Wenyi Hong and Ji Qi and Yan Wang and Junhui Ji and Zhuoyi Yang and Lei Zhao and Xixuan Song and Jiazheng Xu and Bin Xu and Juanzi Li and Yuxiao Dong and Ming Ding and Jie Tang},
+  journal={arXiv},
+  year={2024}
+}
+
+@article{saharia2022photorealistictexttoimagediffusionmodels,
+  title={Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding}, 
+  author={Chitwan Saharia and William Chan and Saurabh Saxena and Lala Li and Jay Whang and Emily Denton and Seyed Kamyar Seyed Ghasemipour and Burcu Karagol Ayan and S. Sara Mahdavi and Rapha Gontijo Lopes and Tim Salimans and Jonathan Ho and David J Fleet and Mohammad Norouzi},
+  journal={arXiv},
+  year={2022},
+}
+
+@inproceedings{Bain21,
+  title={Frozen in Time: A Joint Video and Image Encoder for End-to-End Retrieval},
+  author={Max Bain and Arsha Nagrani and G{\"u}l Varol and Andrew Zisserman},
+  booktitle={ICCV},
+  year={2021},
+}
+
+@inproceedings{miao2022large,
+  title={Large-scale Video Panoptic Segmentation in the Wild: A Benchmark},
+  author={Miao, Jiaxu and Wang, Xiaohan and  Wu, Yu and Li, Wei and Zhang, Xu and Wei, Yunchao and Yang, Yi},
+  booktitle={CVPR},
+  year={2022}
+
+}
+
+@inproceedings{miao2021vspw,
+  title={Vspw: A large-scale dataset for video scene parsing in the wild},
+  author={Miao, Jiaxu and Wei, Yunchao and Wu, Yu and Liang, Chen and Li, Guangrui and Yang, Yi},
+  booktitle={CVPR},
+  year={2021}
+}
+
+@article{li2024imageconductorprecisioncontrol,
+      title={Image Conductor: Precision Control for Interactive Video Synthesis}, 
+      author={Yaowei Li and Xintao Wang and Zhaoyang Zhang and Zhouxia Wang and Ziyang Yuan and Liangbin Xie and Yuexian Zou and Ying Shan},
+      journal={arXiv},
+      year={2024},
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Ning's citation list ends
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

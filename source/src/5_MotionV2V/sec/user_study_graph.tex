@@ -1,0 +1,59 @@
+% User study win rates graph
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      bar width=6pt,
+      width=\columnwidth,
+      height=5cm,
+      ymin=0, ymax=1,
+      ylabel={Win Rate},
+      symbolic x coords={Ours, ATI, ReVideo, GWTF},
+      xtick=data,
+      ymajorgrids,
+      grid style={dashed,gray!40},
+      enlarge x limits=0.15,
+      legend style={
+          at={(0.98,0.98)},
+          anchor=north east,
+          draw=black,
+          font=\footnotesize,
+          fill=white,
+          cells={anchor=west}
+      },
+      legend image code/.code={
+          \draw[#1] (0cm,-0.1cm) rectangle (0.3cm,0.1cm);
+      },
+      tick label style={font=\footnotesize},
+      label style={font=\footnotesize},
+      title style={font=\footnotesize},
+      title={User Study Win Rates}
+    ]
+
+    % Solid color bars using data macros with \pct helper
+    \addplot[fill=blue!60, draw=black] coordinates {
+      (Ours,\pct{\OursQOne})
+      (ATI,\pct{\ATIQOne})
+      (ReVideo,\pct{\ReVideoQOne})
+      (GWTF,\pct{\GWTFQOne})
+    };
+    \addplot[fill=red!60, draw=black] coordinates {
+      (Ours,\pct{\OursQTwo})
+      (ATI,\pct{\ATIQTwo})
+      (ReVideo,\pct{\ReVideoQTwo})
+      (GWTF,\pct{\GWTFQTwo})
+    };
+    \addplot[fill=brown!60, draw=black] coordinates {
+      (Ours,\pct{\OursQThree})
+      (ATI,\pct{\ATIQThree})
+      (ReVideo,\pct{\ReVideoQThree})
+      (GWTF,\pct{\GWTFQThree})
+    };
+
+    \legend{Q1: Content,Q2: Motion,Q3: Overall}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{User study win rates per question (see Table~\ref{tab:user_study} for values).}
+  \label{fig:winrates-by-question}
+\end{figure}

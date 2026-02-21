@@ -1,0 +1,19 @@
+\begin{figure*}[!h]
+\centering
+\begin{minipage}{\linewidth}
+    \includegraphics[width=\linewidth]{figures__vis_appendix__neural_cat_300.jpg}\\
+    \includegraphics[width=\linewidth]{figures__vis_appendix__raster_cat.jpg} \\
+    \hspace*{\fill}\small{$\overrightarrow{\texttt{Iteration}}$}\hspace*{\fill} \\
+\end{minipage}
+\begin{minipage}{0.25\linewidth}
+    \includegraphics[width=\linewidth]{figures__vis_appendix__neural_cat_300.png}
+    % \includegraphics[width=0.49\linewidth]{figures__vis_appendix__raster_graph.png}
+\end{minipage}
+\hspace{0.01\linewidth}
+\begin{minipage}{0.72\linewidth}
+    \caption{\textbf{Visualizing implicit neural representation}:
+    We illustrate another example of generating an image using our implicit neural representation (top) vs pixel-wise representation (bottom). To the left we show a graph of pixel level variance (y-axis) plotted against iteration (x-axis) for the implicit representation case. In this example, we highlight how the characteristics of the cat (shape, location) is consistent in the pixel-wise case from early iterations. However, in our implicit (parametric) representation, various characteristics of the cat (e.g. size, position) alter throughout the iterations. This latter kind of behaviour is also favourable to our task of mask generation.}
+    \label{fig:ablate_neural1}
+\end{minipage}
+\vspace{-1em}
+\end{figure*}

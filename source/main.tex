@@ -1,0 +1,87 @@
+\documentclass[12pt]{report}
+
+\input{preamble}
+\input{math_commands}
+
+\begin{document}
+\begin{sloppypar}
+
+%------------------------------------------
+\input{src/0a_title_page}
+
+
+%------------------------------------------
+\thispagestyle{empty}
+\pagenumbering{roman}
+\vspace{-3cm}
+\pdfbookmark[1]{Abstract}{abstract}
+\input{src/0b_abstract}
+
+
+%------------------------------------------
+\cleardoublepage
+\hypersetup{linkbordercolor = {white}}
+\addtocontents{toc}{\vspace*{-20pt}}
+\pdfbookmark[1]{Table of Contents}{toc}
+\tableofcontents
+\cleardoublepage
+
+\listoffigures
+\addtocontents{lof}{\vspace*{-25pt}}
+\cleardoublepage
+
+\listoftables
+\addtocontents{lot}{\vspace*{-15pt}}
+
+\hypersetup{linkbordercolor = {green}}
+
+
+%------------------------------------------
+\input{src/0c_publications}
+
+
+%------------------------------------------
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+
+%------------------------------------------
+%------------------------------------------
+
+%%% Chapter 1 Introduction
+\input{src/1_introduction}
+
+%%% Chapter 2 Literature Review
+\input{src/2_literature}
+
+%%% Chapter 3 Peekaboo
+\input{src/3_peekaboo}
+
+%%% Chapter 4 Diffusion Illusions
+\input{src/4_diffusion_illusions}
+
+%%% Chapter 5 MAGICK
+\input{src/5_magick}
+
+%%% Chapter 6 Go-with-the-Flow
+\input{src/6_gwtf}
+
+%%% Chapter 7 MotionV2V
+\input{src/7_motionv2v}
+
+%%% Chapter 8 Conclusion and Future Work
+\input{src/8_future_work}
+
+%------------------------------------------
+%------------------------------------------
+\begingroup
+\renewcommand\bibsection{\chapter*{Bibliography}}
+
+\bibliographystyle{abbrvnat}
+\bibliography{src/1_Peekaboo/egbib,src/2_DiffIllusions/main,src/4_GWTF/main,src/5_MotionV2V/main}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\endgroup
+
+\end{sloppypar}
+\end{document}

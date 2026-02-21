@@ -1,0 +1,397 @@
+% X_suppl_thesis.tex — Supplementary material adapted for thesis inclusion
+% Derived from X_suppl.tex. Sections demoted, labels prefixed, paths fixed.
+
+\section{Additional Details}
+\label{diffill_sec:additional_details}
+
+\begin{figure}
+    \centering
+    \href{https://diffusionillusions.com}{\includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/website_figure_compressed.jpg}}
+    \href{https://diffusionillusions.com}{https://diffusionillusions.com}
+    \caption[Interactive Project Website]{Please visit our project page --- it contains fully interactive simulations of all illusions in this paper, as well as many more!}
+    \label{diffill_fig:website}
+\end{figure}
+
+
+\subsection{Implementation Details}
+
+\subsubsection{Brightness Constant}
+In the actual implementation, you'll see we multiply our derived overlay images by a scalar ``brightness constant'' $k$, that is chosen based on the type of illusion. This constant is visible in the given pseudocode --- please see how it is used there. This is because in real life, when viewing the hidden overlay and rotating overlay illusions, the backlight can be arbitrarily bright. Without this term, the derived images obtained from overlaying other images would necessarily be darker than their prime images, because images have values between 0 and 1, and the product between any two numbers between 0 and 1 are guaranteed to be 1 or less.
+
+Because the hidden character illusion deals with 4 overlays, it benefits from a higher brightness constant than the rotation overlay illusion ($k=3$ vs $k=2$). The brightness constant $k$ is not applicable for the flip illusion, as it does not deal with overlay transparencies.
+
+\subsubsection{Static Targets}
+When creating an illusion, usually text prompts are used for all values of $T$. However, it is possible to specify a fixed image target by setting $T$ as an image instead. This allows us to hide specific images such as QR codes, nyan cat, pentagrams, or even entire segments of text (see \cref{diffill_fig:galhid}). Instead of applying score distillation loss for example, we regress towards that given image. Please see the below pseudocode for an exact implementation.
+
+\subsubsection{Libraries}
+We use SDXL as our latent diffusion model \cite{podell2023sdxl}. Our SDEdit implementation of SDXL comes from \cite{diffusers}, using PyTorch \cite{paszke2019pytorch}. Our implementation of fourier feature networks is directly adapted from the TRITON \cite{Burgert2022}, using the default parameters for their Neural Neural Textures. Our implementation of Score Distillation Loss comes from Peekaboo \cite{Burgert2022PeekabooTT}.
+
+\subsubsection{Pseudocode}
+\label{diffill_sec:pseudocode}
+In this subsection, we show a Python-like pseudocode that outlines the exact process of creating the algorithm.
+
+\begin{lstlisting}
+#           _  ___  _  _      __ ___  _
+#          | \  |  |_ |_ | | (_   |  / \ |\ |
+#          |_/ _|_ |  |  |_| __) _|_ \_/ | \|
+#          ___            __ ___  _        __
+#           |  |  |  | | (_   |  / \ |\ | (_
+#          _|_ |_ |_ |_| __) _|_ \_/ | \| __)
+#
+#
+#                 _   __  _      _   _
+#                |_) (_  |_ | | | \ / \
+#                |   __) |_ |_| |_/ \_/
+#                     _  _   _   _
+#                    /  / \ | \ |_
+#                    \_ \_/ |_/ |_
+
+
+###### PART 1: Initialization
+if ILLUSION_TYPE=='FLIP':
+    n = 1 #Number of Prime images
+    m = 2 #Number of Derived images
+    A = [
+        #A stands for Arrangements
+        lambda P: P[0],
+        lambda P: P[0].rot180(),
+    ]
+    W = [1, 1] # Importance of each derived image
+    T = ['Dog', 'Sloth']
+
+if ILLUSION_TYPE=='ROTATE':
+    n = 2 #Two Prime Images: Base, Rotator
+    m = 4 #Four Derived Images
+    k = 2 #The backlight brightness constant
+    A = [
+        lambda P: k*P[0]*P[1],
+        lambda P: k*P[0]*P[1].rot90(),
+        lambda P: k*P[0]*P[1].rot180(),
+        lambda P: k*P[0]*P[1].rot270(),
+    ]
+    W = [1, 1, 1, 1]
+    T = ['Dog', 'Cat', 'Man', 'Woman']
+
+if ILLUSION_TYPE=='HIDDEN':
+    n = 4 #Two Prime Images: A, B, C, D
+    m = 5 #Four Derived Images:
+          # A, B, C, D, Hidden
+    k = 3 #The backlight brightness constant
+    A = [
+        lambda P: P[0],
+        lambda P: P[1],
+        lambda P: P[2],
+        lambda P: P[3],
+        lambda P: k*P[0]*P[1]*P[2]*P[3],
+    ]
+    W = [1, 1, 1, 1, 3] # Prioritize the hidden image
+    T = ['Dog', 'Penguin', 'Giraffe', 'Cow', 'Cat']
+    ## OR, to use a QR code or another specific image...
+    T = ['Dog', 'Penguin', 'Giraffe', 'Cow',
+         load_image('qr_code.png') ]
+
+assert len(T) == len(A) == len(W) == m
+
+# Initialize all prime images
+P = [RgbFourierFeatureNetwork(resolution=(512,512))
+     for _ in range(n)]
+
+# Initialize our latent diffusion model
+F = StableDiffusion()
+
+# We optimize the prime images via gradient descent.
+optim = SGD(P.parameters())
+
+
+###### PART 2: Helper Functions
+def score_distill_loss(image, prompt):
+    #Same loss proposed in DreamFusion -
+    # but with a latent diffusion model
+    image_latent = F.encode_image(image)
+    timestep = random_int(0, F.max_timestep)
+    noise = F.get_noise(timestep)
+    noised_latent = F.add_noise(
+        image_latent, noise, timestep
+    )
+    with torch.no_grad():
+        text_embed = F.clip.embed(prompt)
+        pred_noise = F.unet(
+            noised_latent, text_embed, timestep
+        )
+    return abs(noise - pred_noise).sum()
+
+def image_similarity(a, b):
+    #Our image similarity metric
+    return SSIM(a,b) - MSE(a,b)
+
+def img2img(image, prompt, strength):
+    #Based on SDEdit - simplified here
+    #When strength=1, the entire image is replaced
+    #When strength=0, nothing is changed
+    image_latent = F.encode_image(image)
+    timestep = int(strength * F.max_timestep)
+    noise = F.get_noise(timestep)
+    noised_latent = F.add_noise(
+        image_latent, noise, timestep
+    )
+
+    #Perform diffusion as normal, but starting from
+    #our noised_latent instead of pure noise
+    diffused_latent = F.text_to_image(
+        prompt,
+        initial_latent=noised_latent,
+        initial_timestep=timestep,
+    )
+
+    new_image = F.decode_image(diffused_latent)
+    return new_image
+
+
+###### PART 3: Optimization
+
+#Phase 1: Score Distillation Loss
+
+for iteration in range(10000):
+    loss = 0
+    for a,t,w in zip(A,T,W):
+        # Derived image d
+        # comes from an arrangement of prime images
+        d = a(P)
+        if isinstance(t, str):
+            loss += w * score_distill_loss(d, t)
+        elif is_image(t):
+            # For hiding custom images such as QR codes
+            loss -= w * image_similarity(d, t)
+    optim.update(loss) # Take a gradient descent step
+
+#Phase 2: Dream-Target Loss
+
+#Start from strength = .90 instead of 1
+# in order to use the results from Phase 1
+schedule = [.90, .89, .88 ... .03, .02, .01]
+
+for strength in schedule:
+    # Define the image translation function
+    G = lambda text,image: img2img(text,image,strength)
+
+    # Step 1: Set our Dream-Targets
+    Z = []
+    for a, t in zip(A,T):
+        if isinstance(t, str):
+            # Tweak a derived image to get a new target
+            d = a(P)
+            z = G(t, d)
+        elif is_image(t):
+            #Use a predefined target (e.g. a QR code)
+            z = t
+        Z.append(z)
+
+    # Step 2: Approach our Dream-Targets
+    for iteration in range(1000):
+        #Optimize P so that D approaches T
+
+        loss = 0
+        for a,z,w in zip(A,Z,W):
+            d = a(P)
+            loss -= w * image_similarity(d, z)
+
+        # Take a gradient descent step
+        optim.update(loss)
+
+
+###### PART 4: Fabrication
+
+#We're done! Return the primes -
+# and print them out physically!
+printed_P = send_to_laser_printer(P)
+
+#Oh, and also, make sure someone uses them...
+fun = have_human_arrange_the_illusions(printed_P)
+\end{lstlisting}
+
+
+\subsection{Extended Quantitative Evaluation}
+\label{diffill_sec:more_eval}
+
+\subsubsection{Quantitative Evaluation Details}
+This section provides more details and additional experiments regarding benchmarking the derived images of Hidden Overlay Illusion and Rotation Overlay Illusion.
+
+\noindent\textbf{Textual Prompts} \quad The set of image styles $T^s$ is listed as follow where \texttt{<s>} stands for the \textit{subject} token:
+
+\begin{quote}
+Style 1: \textit{3d pixar style render animation of a \texttt{<s>}}
+
+Style 2: \textit{an award winning photograph of a \texttt{<s>}}
+
+Style 3: \textit{an award winning photograph of a \texttt{<s>} in the deep jungle}
+
+Style 4: \textit{an award winning photograph of a \texttt{<s>} in times square}
+\end{quote}
+
+The subject set $T^o$ contains subjects from PASCAL VOC dataset~\cite{everingham2010pascal}: \textit{aeroplane}, \textit{bicycle}, \textit{bird}, \textit{boat}, \textit{bottle}, \textit{bus}, \textit{car}, \textit{cat}, \textit{chair}, \textit{cow}, \textit{dining table}, \textit{dog}, \textit{horse}, \textit{motorbike}, \textit{potted plant}, \textit{sheep}, \textit{sofa}, \textit{train}, \textit{tv/monitor}.
+
+\noindent\textbf{Additional Evaluation Metrics} \quad We further extend the evaluation introduced in the main paper by including more metrics in each aspect:
+
+\begin{itemize}
+    \item \textit{Controllability} We take advantage of a vision language model (VLM) LLaVA-1.5~\cite{liu2023visual, liu2023improved} to measure the similarity between the image and the textual prompt. The instruction sent to the VLM is
+    \begin{quote}
+    \textit{Give a single score from 0 to 10 regarding how well the image looks like a \texttt{<s>}. A higher score means the image generally looks similar to a \texttt{<s>}. Only return the score.}
+    \end{quote}
+    where \texttt{<s>} stands for the \textit{subject} token and it will substituted by the actual subject for a specific image.
+    \item \textit{Diversity} Recent research~\cite{darcet2023vision} suggests that the feature from the original DINOv2 might suffer from abnormal patches corresponding to the plain areas of the image. Therefore, we report a new \textit{Vendi Score} using the feature from  DINOv2+reg~\cite{darcet2023vision}.
+    \item \textit{Aesthetics} Similar to Controllability, we collect an aesthetics score from LLaVA-1.5 using the following instruction:
+    \begin{quote}
+    \textit{Give a single score from 0 to 10 regarding how well this image looks. A higher score means the image generally looks more natural and has fewer artifacts. Only return the score.}
+    \end{quote}
+\end{itemize}
+
+In all metrics, the vision encoder of CLIP and the backbone of all DINO variants is a ViT-L/14~\cite{dosovitskiy2020image}. The version of LLaVA-1.5 we utilized is fine-tuned from Vicuna-13B.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/demo_baseline.jpg}
+  \caption[Method vs.\ Baseline Comparison]{Examples of our method and the baseline, starting from the same target image. Note how in the baseline, you can see the sheep in the bus image and the bus in the sheep image - which is why its independence score is lower.}
+  \label{diffill_fig:baseline-demo}
+\end{figure}
+
+\subsubsection{Extended Results of Hidden Overlay Illusion}
+\cref{diffill_fig:baseline-demo} presents comparative examples between the proposed method and the established baseline, starting from the same target image. The images from the baseline are heavily interfered with by others in the same group and the overlay image.
+
+\cref{diffill_fig:big-baseline-fig-full}, \cref{diffill_fig:big-score-fig-full1}, \cref{diffill_fig:big-score-fig-full2} and \cref{diffill_fig:big-score-fig-full3} show full evaluation results of the derived images from baseline and four variants of our method.
+The advantages of our method compared to the baseline are further supported by the new metrics introduced in this section, like better Controllability and Aesthetics Score from LLaVA (see \cref{diffill_fig:big-baseline-fig-full}).
+Meanwhile, LLaVA has relatively less bias on art styles and different subjects (\cref{diffill_fig:big-score-fig-full1} and \cref{diffill_fig:big-score-fig-full3})
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/fig-overall-baseline-full.pdf}
+  \caption[Full Hidden Overlay Evaluation]{Full evaluation on Hidden Overlay Illusion, each row is a group of thematically-aligned figures.}
+  \label{diffill_fig:big-baseline-fig-full}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-clip_score.png}
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-controlablility_llava.png}
+  \caption[Controllability Score Distributions]{Controllability score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{diffill_fig:big-score-fig-full1}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-vendi_score_dino.png}
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-vendi_score_dino_reg.png}
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-vendi_score_clip.png}
+  \caption[Diversity Score Distributions]{Diversity score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{diffill_fig:big-score-fig-full2}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-aesthetics_score.png}
+  \includegraphics[width=0.49\textwidth]{src/2_DiffIllusions/figs/final-aesthetics_llava.png}
+  \caption[Aesthetics Score Distributions]{Aesthetics score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method}
+  \label{diffill_fig:big-score-fig-full3}
+\end{figure}
+
+\subsubsection{Results of Rotation Overlay Illusion}
+We further benchmark the performance of Rotation Overlay Illusion.
+The evaluation follows the same protocol as the Hidden Overlay Illusion except that each group of Rotation Overlay Illusion images only has $4$ derived images, which require $4$ textual prompts at a time and we focus on one style:
+\begin{quote}
+\textit{a beautiful award-winning royalty-free full-frame stock photo of an isolated \texttt{<s>}}.
+\end{quote}
+The result is presented in \cref{diffill_fig:big-baseline-fig-rot}. Our method is significantly better than the baseline in terms of controllability (CLIP cosine similarity) and Aesthetics Score.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/fig-overall-baseline-rot.pdf}
+  \caption[Rotation Overlay Full Evaluation]{Full evaluation on Rotation Overlay Illusion, each row is a group of thematically-aligned figures.}
+  \label{diffill_fig:big-baseline-fig-rot}
+\end{figure}
+
+\noindent\textbf{Ablation on the Number of Derived Images} \quad In this paper, by default we discuss a challenging rotation overlay illusion task where two prime images need to `encode' four derived images. In this section, we conduct an ablation on the number of derived images. We perform an ablation study on the number of derived images, specifically focusing on cases with 2 to 4 derived images.
+Our hypothesis posits that reducing the number of derived images eases generation constraints, potentially enhancing image quality.
+This is corroborated by \cref{diffill_fig:big-baseline-fig-rot-task}, which demonstrates improved image-text alignment and aesthetic scores in simpler tasks.
+Conversely, we observe a divergent trend in diversity, suggesting the interference between multiple derived images.
+\cref{diffill_fig:demo-rot-task} presents a qualitative comparison between problem formulations.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/fig-overall-baseline-rot-task.pdf}
+  \caption[Ablation on Number of Derived Images]{Ablation on the number of the derived images in Rotation Overlay Illusion}
+  \label{diffill_fig:big-baseline-fig-rot-task}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1\linewidth, trim={0, 0, 3cm, 0}, clip]{src/2_DiffIllusions/figs/rot-task-example.pdf}
+  \caption[Rotation Overlay Qualitative Results]{Qualitative results of Rotation Overlay Illusions with different numbers of derived images}
+  \label{diffill_fig:demo-rot-task}
+\end{figure}
+
+\subsection{Fabrication Details}
+All of the illusions we present are realizable in the real world in physical form. To create a flip illusion in real life is quite easy - just print out one of the images onto a sheet of paper using a regular color laser printer.
+
+The hidden overlay and rotation overlay can also be created with a basic color laser printer, and this is how we made all of the photographic examples in this paper. Searching ``transparency film'' online will yield many cheap transparent plastic films that are laser-printer compatible (a pack of 100 sheets sells for about \$20 USD). However, after printing onto these overlays, it is useful to laminate them, as the ink can be easily scratched off. We do this with a basic thermal lamination machine that can also be purchased cheaply online.
+
+After they have been printed, laminated, and cut appropriately - place the stacked transparencies over a source of light. We use a backlight extracted from an old LCD monitor for our photos in this paper. However, any backlight will do - holding them up to a bright window with outdoor sunlight works quite well too!
+
+Since we model the light filtering process as multiplication, and multiplication is commutative, our modeling process assumes that the ordering of the layers doesn't matter. This is true in real life as well - with sufficient backlighting, you will get the same visual result whether transparency $p_1$ is on the top or on the bottom. However in practice, since some light reflects off the top transparency, it won't be perfectly identical.
+
+Additionally, we found that inserting a thin layer of water between the transparent overlay sheets further enhances the visual effect, and slightly reduces the need for as strong of a backlight. We suspect this is because it eliminates the air gap between the sheets, leading to a smaller difference in the index of refraction. This is not necessary, but can somewhat enhance the clarity of the illusion.
+
+We would like to point out, however: \textit{you do not strictly need to use transparencies} to create overlay illusions! Regular paper can also work, provided you use a strong enough backlight and use a sufficient amount of ink. We've included a comparison in \cref{diffill_fig:paperVsPlastic}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.35\linewidth]{src/2_DiffIllusions/figs/fig-sub-clip_score.pdf}
+  \includegraphics[width=0.35\linewidth]{src/2_DiffIllusions/figs/fig-sub-controlablility_llava.pdf}
+  \caption[Controllability by Subject]{Controllability of Hidden Overlay Illusion over different subjects.}
+  \label{diffill_fig:score-sub1}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.33\linewidth]{src/2_DiffIllusions/figs/fig-sub-vendi_score_dino.pdf}
+  \includegraphics[width=0.33\linewidth]{src/2_DiffIllusions/figs/fig-sub-vendi_score_dino_reg.pdf}
+  \includegraphics[width=0.33\linewidth]{src/2_DiffIllusions/figs/fig-sub-vendi_score_clip.pdf}
+  \caption[Diversity by Subject]{Diversity of Hidden Overlay Illusion over different subjects.}
+  \label{diffill_fig:score-sub2}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}{0.66\textwidth}
+      \centering
+      \includegraphics[width=0.49\linewidth]{src/2_DiffIllusions/figs/fig-sub-aesthetics_score.pdf}
+      \includegraphics[width=0.49\linewidth]{src/2_DiffIllusions/figs/fig-sub-aesthetics_llava.pdf}
+      \caption[Aesthetics by Subject]{Aesthetics of Hidden Overlay Illusion over different subjects.}
+      \label{diffill_fig:score-sub3}
+\end{minipage}
+\begin{minipage}{0.33\textwidth}
+      \centering
+      \includegraphics[width=0.96\linewidth]{src/2_DiffIllusions/figs/fig-sub-rm.pdf}
+      \caption[Independence Score by Subject]{Independence Score of Hidden Overlay Illusion over different subjects.}
+      \label{diffill_fig:score-sub4}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=.8\linewidth]{src/2_DiffIllusions/figs/HowToMake-compressed.pdf}
+    \caption[Overlay Illusion Fabrication Process]{The overlay illusion fabrication process is depicted here. You can use paper instead of transparent films if you wish! But please note that if you do, you may need to use a stronger backlight. The accuracy of your printer can affect the quality of the illusions as well - if the illusion doesn't work, check your toner levels.}
+    \label{diffill_fig:paperVsPlastic}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=.88\linewidth]{src/2_DiffIllusions/figs/MakeYourOwnRotators.pdf}
+    \caption[Make Your Own Rotation Overlay Illusions]{Printable rotation overlay illusion examples.}
+    \label{diffill_fig:make-your-own-rotators}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{src/2_DiffIllusions/figs/MakeYourOwnHidden.pdf}
+    \caption[Make Your Own Hidden Overlay Illusions]{Printable hidden overlay illusion examples.}
+    \label{diffill_fig:make-your-own-hidden}
+\end{figure}

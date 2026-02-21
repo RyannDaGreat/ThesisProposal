@@ -1,0 +1,148 @@
+\begin{algorithm}[t]
+
+\caption{Pytorch style pseudocode for Peekaboo}
+\label{alg:peekaboo}
+
+\definecolor{codeblue}{rgb}{0.25,0.5,0.5}
+\definecolor{codeorange}{rgb}{1.0,0.5,0.3} 
+\definecolor{codegreen}{rgb}{0.13,0.54,0.13}
+\lstset{
+  basicstyle=\fontsize{7.2pt}{7.2pt}\ttfamily\bfseries,
+  commentstyle=\fontsize{7.2pt}{7.2pt}\color{codeblue},
+  keywordstyle=\fontsize{7.2pt}{7.2pt}\color{codeorange},
+  stringstyle=\color{codegreen},
+  numbers=left,  % where to put the line-numbers;
+  numbersep=5pt, % how far the line-numbers are from the code
+  numberstyle=\fontsize{6.2pt}{6.2pt}\color{codeblue},
+  columns=fixed,
+  xleftmargin=2em,
+%   frame=single,
+  framexleftmargin=1.5em
+}
+
+
+\begin{lstlisting}[language=python] 
+import torch, stable_diffusion as sd
+
+def segment_image_via_peekaboo(img, prompt):
+  """Given an image and text prompt, return an alpha 
+  mask that is close to 1 in regions where prompt 
+  is relevant and 0 where the prompt is not."""
+  
+  alpha = LearnableAlphaMask(img) # nn.Module 
+  optim = torch.optim.SGD(alpha.parameters())
+  
+  for _ in range(num_iterations):
+      peekaboo_loss(img, prompt, alpha()).backward()
+      optim.step() ; optim.zero_grad()
+  return alpha()
+
+def peekaboo_loss(img, prompt, alpha):
+  """Core of our paper. Blends image with random 
+  color and returns loss guiding alpha mask."""
+  
+  img_embedding = sd.vae.encoder(img)
+  
+  background = torch.random(3) # random RGB color
+  composite_img = torch.lerp(background, img, alpha)
+  
+  loss = alpha_regularization_loss = alpha.sum()
+  loss += score_distill_loss(img_embedding, prompt)
+  
+  return loss
+
+def score_distill_loss(image_embedding, prompt):
+  """Same loss proposed in DreamFusion"""
+  timestep = random_int(0, _diffusion_step)
+  noise = sd.get_noise(timestep)
+  noised_embed = \
+    sd.add_noise(image_embedding, noise, timestep)  
+  with torch.no_grad():
+      text_embed = sd.clip.embed(prompt)    
+      predicted_noise = \ 
+        sd.unet(noised_embed, text_embed, timestep)  
+  return (torch.abs(noise - predicted_noise)).sum()
+
+class LearnableAlphaMask(nn.Module):
+  """This class parameterizes the alpha mask"""
+  def __init__(self, image):
+    _, H, W = image.shape
+    self.alpha = nn.Parameter(torch.random(1, H, W))
+    self.img = image
+  def forward(self):
+    alpha = bilateral_blur(self.alpha, self.img)
+    return torch.sigmoid(alpha)
+\end{lstlisting}
+\end{algorithm}
+% \vspace{-1.0em}
+
+
+
+
+% alpha = LearnableAlphaMask() # This nn.Module is what we optimize!
+
+% \begin{lstlisting}[language=python] 
+% import torch, clip, stable_diffusion as sd
+
+% def score_distillation_loss(image_embedding, prompt):
+%     #This method is first presented in the paper DreamFusion
+%     #In Peekaboo, it is performed in Stable Diffusion's latent space
+%     # instead of in image space, as done in DreamFusion.
+%     #Note that this function is slighly oversimplified as it doesn't include the guidance coefficient.
+
+%     timestep = random_int(0,1000)
+%     noise = sd.get_noise(timestep)
+    
+%     noised_embedding = sd.add_noise(image_embedding, noise, timestep)
+    
+%     with torch.no_grad():
+%         text_embedding = sd.clip.embed(prompt)    
+%         predicted_noise = sd.unet(noised_embedding, text_embedding, timestep)
+    
+%     return (torch.abs(noise - predicted_noise)).sum()
+    
+% def dream_loss(image,prompt,method='stable_diffusion'):
+%     #A dream loss will take an image and prompt pair, and return a loss
+%     # that will guide the image to look more like that prompt.
+
+%     if method=='stable_diffusion':
+%         # This is the default type of dream loss Peekaboo uses.
+%         #We can't apply score distillation loss to an directly to
+%         # an image with stable diffusion; it needs to work in latent space.
+%         #Dream loss, by contrast, operates in image space.
+%         image_embedding = sd.vq_encoder(image)
+%         return score_distillation_loss(image_embedding, prompt)
+        
+%     if method=='clip':
+%         # A clip-based dream loss doesn't perform as well, but we use it for ablations.
+%         return - clip.calculate_similarity(image, prompt)
+
+% def peekaboo_loss(image, prompt, get_alpha):
+%     assert isinstance(get_alpha,torch.nn.Module) # get_alpha is a learnable, parametrized alpha mask
+%     #Note that get_alpha is the ONLY thing we optimize in the entire codebase! 
+
+%     alpha = get_alpha()
+%     assert 0 <= alpha.min() <= alpha.max() <= 1
+%     assert image.shape==(3,height,width) and alpha.shape==(1,height,width)
+
+%     background = torch.random(3,1,1) # The background will be a uniform random RGB color
+%     composited_image = (1-alpha) * background + alpha * image # Simple alpha compositing
+
+%     gravity_loss = alpha.sum() # Gravity loss is a super simple regularization term that pulls alpha down
+
+%     return dream_loss(image,prompt) + gravity_loss
+
+% def segment_image(image, prompt):
+%     #Given an image and a text prompt, return an alpha mask
+%     #The alpha mask should be close to 1 in regions where the
+%     # prompt is relevant, and 0 where the prompt is not.
+
+%     get_alpha = LearnableAlphaMask()
+%     optim=torch.optim.SGD(get_alpha.parameters())
+
+%     for _ in range(num_iterations):
+%         peekaboo_loss(image, prompt, get_alpha).backward()
+%         optim.step() ; optim.zero_grad()
+
+%     return get_alpha()
+% \end{lstlisting}

@@ -1,0 +1,197 @@
+\appendix
+
+\begin{center}
+    
+
+\centering
+\vspace{1em}
+\textsc{\large \mbox{Peekaboo: Text to Image Diffusion Models are Zero-Shot Segmentors}}
+\vspace{3em}
+\end{center}
+
+
+\section{Intuition}
+In this section, we aim to convey some intuition behind Peekaboo. We explore the reasoning behind each component used and 
+explain
+% present our hypotheses on 
+why \modelname works as it does. The key underlying idea is deriving gradients from a conditional diffusion model to guide a mask generation process. 
+
+The diffusion model conditioned on a text caption processes a noisy input to generate a gradient that moves the input toward the target image. This gradient is what we use to guide our learnable alpha mask.
+We use Stable Diffusion \cite{Rombach2022HighResolutionIS}, a text-to-image diffusion model trained on billions of internet images. %(natural and animated images)
+This means the model will target to generate images from that image distribution relevant to a text caption. 
+The noisy input is the image to be segmented alpha blended with a uniform background. 
+Iteratively, it will attempt to update this input to a target distribution image relevant to the text caption. 
+Updating the regions of the image most relevant to the text caption makes more sense.
+Thus, regions of the image relevant to this text caption will have stronger gradients than regions irrelevant to a prompt. 
+For example, consider an image of a dog sitting on a couch. When prompted for ``a dog'', the couch is irrelevant to the prompt and has fewer gradients focused on that region. There is less incentive to remove the alpha mask in that location, and without incentive, it defaults to null due to our alpha regularization loss (\cref{subsec:aux_loss}). This results in the alpha mask focusing on the dog region. 
+
+While this results in our desirable behavior, we observe that it converges to the region most relevant to the text prompt. For example in \cref{fig:vis_ewQ}, in segmenting Emma Watson, it attempts to focus on the region that mostly makes the image look like her, which could be a sub-portion of the human region (in accordance with the accepted notion of segmenting a human).
+While Harry Styles could wear a dress, he would still remain Harry Styles. However, only Emma Watson can have her face. Therefore, Emma Watson's face is more essential to the prompt \texttt{Emma Watson}; hence it prioritized segmenting that region while ignoring the dress. 
+% 
+In a way, one could view this as a new definition of segmentation; \modelname localizes the essence of an object described by language. 
+
+% \input{figures__vis_everyday}
+% \input{figures__vis_ew}
+
+\section{Ablations}
+In this section, we present some ablations on components of our inference time optimization. 
+
+% \input{figures__vis_more}
+
+
+\subsection{Alpha Regularization}
+    \newcommand{\gravco}{\lambda_\alpha} %alpha reg coeff aka gravity coeff
+
+    The alpha regularization term $\gravity$ (see \cref{sec:alpha_reg}) is important, because it prevents Peekaboo from including irrelevant parts of the image in the alpha mask. By adding this alpha penalty, we effectively tell Peekaboo to create a \textit{minimal} alpha mask. In practice, the $\gravity$ term should be scaled by a constant, which in our experiments was $\gravco = .05$ (the alpha regularization coefficient). 
+    
+    In this section, we perform ablations where we vary this $\gravco$ term. We play around with the alpha regularization coefficient $\gravco$, scaling it by different factors. For example, ``2x'' means a $\gravco$ that is ``2x'' the normal value, which is $.05 \times 2 = .1$. 
+
+    We can view the results visually in both the transparent image generation and segmentation contexts. In the transparent image generation task \cref{fig:alpharegfries}, we see that the generated images are more transparent when $\gravco$ is large. Likewise, in the segmentation task \cref{fig:alpharegseg} we can see that Peekaboo generates smaller masks when $\gravco$ is high.
+    
+    \begin{figure*}[!h]
+        \centering
+        
+        \includegraphics[width=.9\textwidth]{figures__AlphaRegFries.pdf}
+        \caption{We display four transparent-image generation timelapses for the prompt ``MacDonalds French Fries'' with varying amonuts of alpha regularization. As we increase alpha regularization, Peekaboo tends to generate images with less alpha. In this case, it means less french fries will be generated. Conversely, when the $\gravco$ is eliminated (aka $\gravco = 0$), more french fries than normal are generated.
+     }
+        \label{fig:alpharegfries}
+        % \vspace{-0.5em}
+    \end{figure*}
+
+        
+    \begin{figure*}[!h]
+        \centering
+        
+        \includegraphics[width=.9\textwidth]{figures__AlphaRegSeg.pdf}
+        \caption{The alpha regularization term plays a large role when using Peekaboo to segment images. If $\gravco$ is too large (on the far right), the entire image might be ignored. Conversely, if $\gravco$ is too small, tons of background details are included.
+     }
+        \label{fig:alpharegseg}
+        % \vspace{-0.5em}
+    \end{figure*}
+
+
+\subsection{Implicit neural representations}
+\input{figures__ablate_implicit}
+\input{figures__ablate_implicit2}
+
+In \modelname's \vart{Fourier} and \vart{Bilateral Fourier} variants, as well as our transparent image generations, we use the neural-neural texture formulation from \cite{Burgert2022} to represent our learnable alpha masks (and RGB channels in transparent image generations, and foreground/background in our analogous example in \cref{sec:analagous}). The alternative to using this implicit neural representation is learning the pixels directly by representing them as a learnable tensor of dimensions $(H,W,C)$ for $C=1$ in mask and $C=3$ in RGB images. In this ablation, we explore how the alternative compares against our selected approach. We highlight the two main drawbacks of pixel-level representations as 1) noisy outputs and 2) bad convergence. 
+
+We illustrate this behavior in \cref{fig:ablate_neural}. First, we attempt to generate images using each of the two image parametrizations through score distillation sampling.  We show that neural representations lead to less noisy outputs. The top two rows in \cref{fig:ablate_neural} correspond to these. Clearly, the neural representation in the first row leads to a less noisy output in comparison to the alternative. Next, we explore the convergence behavior of each approach. To analyze this, we utilize the images being generated and measure their variance at the pixel level. While a natural image contains some variance in pixel space, this is a finite value, and our run-time optimization should ideally converge at this variance. However, utilizing a pixel-level representation results in continuously increasing variance in the image pixels, leading to overly saturated images (dissimilar to a realistic image) and in the case of masks, lack of convergence. This is illustrated in the two graphs at the bottom of \cref{fig:ablate_neural}. We also highlight how in these graphs of \cref{fig:ablate_neural} the variance of the implicit representation converges early on at around 50 iterations (left) while that of the pixel-wise representation (right) fails to converge even after 350 iterations.  
+% \end{comment}
+
+\subsection{Bilateral Filter}
+\input{figures__ablate_bilateral}
+In \cref{sec:bilateralfiltersubsub}, we discussed Peekaboo's use of a bilateral filter as part of the image parametrization. In this section, we provide a visualization of this filter.
+A closer look at the noisy mask in row 3 column 1 of \cref{fig:ablate_bilateral} will show vague outlines of a skeleton within the noise; this is a result of the modified bilateral filter being applied to the mask.
+
+
+
+
+\section{Optimization Details}
+In this section, we discuss all details relevant to our proposed inference time optimization that generates segmentations. In order to generate a single segmentation, we run it for 200 iterations, a learning rate of $1e-5$, and stochastic gradient descent as the optimizer.
+
+Additionally, we apply the modified bilateral blur operation, conditioned on the image to be segmented, onto the learnable alpha masks at initialization, which results in faster and better convergence. Here we use a blur kernel of size 3 with 40 iterations (multiple iterations increase the effective field of view for a kernel).
+
+
+% \section{Visualizations}  
+% In this section, we present some more qualitative evaluations of our proposed method. In \cref{fig:vis_more}, we show some randomly selected examples where \modelname successfully localizes regions of interest based on popular cultural references. The stable diffusion model used in our dream loss is pre-trained on a large corpus of internet image-text pairs. We hypothesize that our \modelname is able to understand such a wide vocabulary due to the strength of the pre-trained diffusion model. We showcase another example of a real-world image captured by our camera in \cref{fig:vis_ed}. 
+ 
+
+% In comparison to existing unsupervised open vocabulary localization methods (particularly ones trained in a discriminative fashion), we highlight that \modelname is truly open vocabulary covering a wide range of concepts that can be encoded in natural language. The generative objectives used for the diffusion model pre-training necessitate learning the image-text distribution it is trained on (as opposed to boundaries). We hypothesize that this generative objective provides the model with a holistic and extensive understanding of that data distribution. It is this understanding that \modelname leverages and extracts using its inference time optimization to perform such open vocabulary unsupervised segmentation. 
+
+% Another characteristic of this open vocabulary nature that endows our model is to probe image regions at varying granularities. We illustrate this behavior in \cref{fig:vis_ew} where sub-regions of a single person can be localized based on different text captions. 
+
+% More results on RefCOCO-C and Pascal VOC-C are shown as \cref{fig:coco_res} and \cref{fig:voc_res}.
+
+
+
+
+
+
+
+
+
+\section{Limitations}  
+\input{figures__vis_lim}
+We also acknowledge that our proposed \modelname contains various limitations and shortcomings. A key drawback is its failure cases that result in a hallucination of the text prompt using some random background region, i.e. it uses the background texture to create a region shaped like the underlying object described by the text. We illustrate this behavior in \cref{fig:vis_lim}. This is clearly visible in the three right-most examples (bird, cat, dog). We also note that such behavior is more common when a simple (often one word) text caption is used. Another failure is the addition of unnecessary parts to the region of interest. For example, in column one of \cref{fig:vis_lim}, while the knife is coarsely localized, \modelname also incorrectly creates a handle for it using a slice of bread from the background. The model also sometimes fails to converge entirely, as illustrated in the second column, where despite localizing the eyes, the generated mask also holds onto outlines of the image foreground object. 
+
+While we hope to address these issues in future work, we also reiterate that despite these limitations, \modelname is a first unsupervised method that is able to perform open vocabulary segmentation using arbitrary natural language prompts. 
+
+
+\newpage
+
+    
+\section{Analagous Example}
+\label{sec:analagous}
+\input{figures__minigrid}
+\input{figures__motivation}
+\input{figures__big_grid}
+In order to explain the intuition behind Peekaboo, we show results of analogous experiment that helped to inspire it. 
+This analagous algorithm is not exactly Peekaboo, but it is very similar and is helps explain the main idea behind how Peekaboo works.
+
+We first examine a stable diffusion model \cite{Rombach2022HighResolutionIS} pre-trained on LAION-5B \cite{laion5b}. Our goal is to explore whether internal knowledge of these models regarding boundaries and localization of individual objects can be accessed and subsequently utilized for tasks such as segmentation.
+We focus on the case of generating a single synthetic object in some background and attempt to generate an accompanying alpha mask that demarcates the region belonging to the foreground object. We utilize score distillation loss (see \cref{subsubsec:sds}) as a cross-modal similarity function that connects a text caption describing a foreground object to the image region it is located. Using this similarity as an optimization objective, we generate the foreground, background, and alpha mask. 
+
+Results obtained from this process are illustrated in \cref{fig:motivation}. While our method is able to generate good segmentation masks relevant to the foreground, we note that generated images are unrealistic. 
+
+We highlight that generated image quality is indifferent to the segmentation component, where we generate single-channel alpha masks. The rest of our work is focused on how this technique can be leveraged for segmenting stand-alone images, i.e. images beyond those generated by a diffusion model. In essence, we attempt to segment real-world images with free-form text captions.  
+
+% \input{figures__per_class}
+
+\newpage
+
+\begin{figure*}[H]
+\centering
+
+\includegraphics[width=.9\textwidth]{figures__eye_spy.pdf}
+\caption{In this figure, we play a game: find the eyes! Peekaboo can segment specific features of images, and is good at finding eyes. Only one prompt was used: \texttt{eyes}. On the top row we have input images, and in the middle row we have the outputted alpha map. On the bottom we overlay the input images with a white mask corresponding to the alpha, to better show which part of the image it chose to segment.
+}
+\label{fig:eye_spy}
+% \vspace{-0.5em}
+\end{figure*}
+
+% \section{More Visualizations}
+% \subsection{Segmentation}
+\section{More Results}
+
+\input{figures__vis_coco_res.tex}
+\input{figures__vis_voc_res.tex}
+\begin{figure*}[!h]
+    \centering
+    
+    \includegraphics[width=.6\textwidth]{figures__web_examples-fs8.png}
+    \caption{Peekaboo's segmentation results on various images, including pop references such as Avatar the Last Airbender and AI-generated images of imaginary objects that don't exist such as avocado armchairs. Prompt and input image are on the left, and the alpha mask output is on the right.
+    }
+    \label{fig:coco_res}
+    % \vspace{-0.5em}
+\end{figure*}
+
+
+% \section{More Transparent Image Generation Results}
+
+
+
+
+\newpage
+% \subsection{Transparent Image Generation}
+    \begin{figure*}[!h]
+        \centering
+        
+        \includegraphics[width=.96\textwidth]{figures__ExtraAlphagens1.png}
+        \caption{\textbf{Part 1/2.} Peekaboo can generate images with transparency masks! Continuing from \cref{fig:rgbaexamples}, we display timelapses of the transparent image generation task described in \cref{sec:rgbagen}. The prompt for each image is to its right.
+     }
+        \label{fig:extrargbapart1}
+        % \vspace{-0.5em}
+    \end{figure*}
+    
+    \newpage
+
+    \begin{figure*}[!h]
+        \centering
+        
+        \includegraphics[width=.96\textwidth]{figures__ExtraAlphagens2.png}
+        \caption{\textbf{Part 2/2.} Peekaboo can generate images with transparency masks! Continuing from \cref{fig:rgbaexamples}, we display timelapses of the transparent image generation task described in \cref{sec:rgbagen}. The prompt for each image is to its right.
+         }
+        \label{fig:extrargbapart1}
+        % \vspace{-0.5em}
+    \end{figure*}

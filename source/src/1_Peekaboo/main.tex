@@ -1,0 +1,694 @@
+% CVPR 2023 Paper Template
+% based on the CVPR template provided by Ming-Ming Cheng (https://github.com/MCG-NKU/CVPR_Template)
+% modified and extended by Stefan Roth (stefan.roth@NOSPAMtu-darmstadt.de)
+
+% \documentclass[10pt,twocolumn,letterpaper]{article}
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+\PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2023
+
+
+% ready for submission
+% \usepackage{neurips_2023}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+\usepackage[preprint]{neurips_2023}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2023}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2023}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{multirow}
+
+
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{bbm}
+\usepackage{comment}
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, e.g. with the
+% file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete
+% ReviewTempalte.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you
+%  should be clear).
+% \usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
+
+
+% Support for easy cross-referencing
+\usepackage[capitalize]{cleveref}
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Tab.}{Tabs.}
+
+
+\newcommand{\todo}[1]{\textcolor{red}{#1}}
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+% \iccvfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{0009} % *** Enter the CVPR Paper ID here
+\def\confName{CVPR}
+\def\confYear{2023}
+
+% \def\iccvPaperID{6345} % *** Enter the ICCV Paper ID here
+% \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+% \ificcvfinal\pagestyle{empty}\fi
+
+\begin{document}
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+% \title{Vision-Language Diffusion Model guided Semantic Grounding}
+% \title{Peekaboo: Diffusion based Visual Grounding via Neural Representations}
+\title{Peekaboo: Text to Image Diffusion Models are Zero-Shot Segmentors}
+% Tentative - other suggestions??
+
+
+% Acronyms:
+\def\modelname{Peekaboo\xspace}
+\def\alphapenalty{Gravity\xspace}
+
+
+\newcommand{\defeq}{\coloneqq}
+\newcommand{\grad}{\nabla}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Ea}[1]{\E\left[#1\right]}
+\newcommand{\Eb}[2]{\E_{#1}\!\left[#2\right]}
+\newcommand{\Vara}[1]{\Var\left[#1\right]}
+\newcommand{\Varb}[2]{\Var_{#1}\left[#2\right]}
+\newcommand{\kl}[2]{D_{\mathrm{KL}}\!\left(#1 ~ \| ~ #2\right)}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bJ}{\mathbf{J}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bzero}{\mathbf{0}}
+\newcommand{\bone}{\mathbf{1}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bh}{\mathbf{h}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bxh}{\hat{\mathbf{x}}}
+\newcommand{\btheta}{{\boldsymbol{\theta}}}
+\newcommand{\bphi}{{\boldsymbol{\phi}}}
+\newcommand{\bepsilon}{{\boldsymbol{\epsilon}}}
+\newcommand{\bmu}{{\boldsymbol{\mu}}}
+\newcommand{\bnu}{{\boldsymbol{\nu}}}
+\newcommand{\bSigma}{{\boldsymbol{\Sigma}}}
+\newcommand{\lsd}{\mathcal{L}_{s}}
+\newcommand{\gravity}{\mathcal{L}_{\alpha}}
+\newcommand{\lpeekaboo}{\mathcal{L}_{p}}
+
+\newcommand{\alphamask}{\boldsymbol{\alpha}}
+\author{%
+  Ryan Burgert \quad
+  Kanchana Ranasinghe \quad
+  Xiang Li \quad
+  Michael S. Ryoo
+  \vspace{0.5em} \\
+  Stony Brook University \quad 
+  \vspace{0.2em} \\
+  \small{\texttt{rburgert@cs.stonybrook.edu}}
+}
+
+% \author{Ryan Burgert\\
+% Institution1\\
+% Institution1 address\\
+% {\tt\small firstauthor@i1.org}
+% % For a paper whose authors are all at the same institution,
+% % omit the following lines up until the closing ``}''.
+% % Additional authors and addresses can be added with ``\and'',
+% % just like the second author.
+% % To save space, use either the email address or home page, not both
+% \and
+% Second Author\\
+% Institution2\\
+% First line of institution2 address\\
+% {\tt\small secondauthor@i2.org}
+% }
+
+\maketitle
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+Recently, text-to-image diffusion models have shown remarkable capabilities in creating realistic images from natural language prompts. However, few works have explored using these models for semantic localization or grounding. In this work, we explore how an off-the-shelf text-to-image diffusion model, trained without exposure to localization information, can ground various semantic phrases without segmentation-specific re-training. We introduce an inference time optimization process capable of generating segmentation masks conditioned on natural language prompts. Our proposal, \modelname, is a first-of-its-kind zero-shot, open-vocabulary, unsupervised semantic grounding technique leveraging diffusion models without  any training. We evaluate \modelname on the Pascal VOC dataset for unsupervised semantic segmentation and the RefCOCO dataset for referring segmentation, showing results competitive with promising results. We also demonstrate how \modelname can be used to generate images with transparency, even though the underlying diffusion model was only trained on RGB images - which to our knowledge we are the first to attempt. 
+Please see our project page, including our code: \url{https://ryanndagreat.github.io/peekaboo}
+%Code and project website is public.
+%, and our project website is \href{https://ryanndagreat.github.io/peekaboo}{.
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+
+% \section{Introduction}
+% \label{sec:intro}
+
+
+% Image segmentation, a long-standing problem in computer vision, involves partitioning of an image into meaningful spatial regions (or segments) \cite{szeliski2010computer}. While semantic segmentation ties the meaning of these segments to a pre-defined set of labels \cite{everingham2010pascal,coco,zhou2018ade}, referring segmentation is more liberal with its open-set labels allowing meaning to be tied to any natural language prompt \cite{hu2016segmentation}. The latter also results in multi-modal output spaces; multiple distinct segmentations corresponding to different language prompts can exist for a single given image leading to a more difficult task. Both tasks are highly useful in numerous real-world applications \cite{geiger2012we,sun2020scalability, hu2016segmentation}, particularly the latter in human-centric automation \cite{hu2016segmentation}. 
+
+% \input{figures__intro}
+% \input{figures__visualization}
+
+% Progress in semantic segmentation utilizing various segmentation-specific deep neural architectures \cite{chen2017deeplab,chen2018searching,Yu2015EfficientVS,Shelhamer2015FullyCN,Zheng2015ConditionalRF} reliant on expensive manual annotations \cite{coco,zhou2018ade,Cordts2016TheCD} for supervision has recently been superseded by learning under weak supervision \cite{pinheiro2015image,Ghiasi2021OpenVocabularyIS,li2022language}, particularly leveraging contrastive image language pre-training models \cite{clip,jia2021scaling}. In referring segmentation, the natural language component has driven even early work to utilize language-specific architectural components \cite{hu2016segmentation}, with recent work \cite{Wang2022CRISCR} similarly building off \cite{clip}. 
+% While some recent semantic segmentation approaches have been able to eliminate reliance on pixel-wise human annotations for training \cite{zabari2021semantic,Xu2022GroupViTSS,Ranasinghe2022PerceptualGI} operating fully unsupervised for segmentation, these approaches often fail with more complex language prompts, particularly at referring segmentation tasks (\cref{tbl:refcoco}).
+
+
+% While contrastive image language pre-training based models \cite{clip} have acted as strong foundation models for these segmentation tasks \cite{Ghiasi2021OpenVocabularyIS, Wang2022CRISCR}, their counterpart in the generative domain - diffusion models \cite{ddpm, pmlr-v37-sohl-dickstein15, scoresde} -  while showcasing impressive performance on realistic text-based image generation \cite{Nichol2022GLIDETP,dalle,dalle2,imagen,parti}, have not been utilized for segmentation tasks (to the best of our knowledge). Moreover, most approaches building off diffusion-based foundation models have been limited to generative tasks (e.g. \cite{Poole2022DreamFusionTU}).  We ask the question, \textit{can pre-trained diffusion models' understanding of separate visual concepts be leveraged to associate natural language to relevant spatial regions of an image?} In this work, we explore how stable diffusion models \cite{Rombach2022HighResolutionIS} contain such information necessary for the localization of language onto images and how they can act as foundation models for segmentation tasks; in particular, we attempt unsupervised semantic and referring segmentation.
+
+% The result, our proposed \modelname, is the first unsupervised approach capable of both semantic and referring segmentation. We perform segmentation under zero-shot, open-vocabulary settings with no segmentation-specific architectures or train objectives. Moreover, our approach simply uses an off-the-shelf pre-trained image-language stable diffusion model \cite{Rombach2022HighResolutionIS} to perform segmentation with no re-training - i.e. \modelname uses the exact same weights as the original model retaining all of its characteristics and strengths. Our contribution is an inference time optimization technique that allows extracting localization-related information contained within these diffusion models. 
+
+% The proposed inference time optimization involves iteratively updating an alpha mask that converges to the optimal segmentation for a given image and paired language caption. We compare multiple representations for improved learning of the alpha mask and proposed a novel alpha compositing-based loss whose optimization generates a suitable segmentation. 
+
+% The key contributions of this work are as follows:
+% \begin{enumerate}[topsep=-0.5ex,itemsep=-0.5ex,partopsep=0ex,parsep=1ex]
+%         \item Introducing a novel mechanism for unsupervised segmentation, applicable in both semantic and referring segmentation settings
+%         \item Establishing the presence of pixel-level localization information within pre-trained text-to-image diffusion models
+%         \item Provide a mechanism for utilizing stable diffusion models as off-the-shelf foundation models for downstream segmentation tasks
+%     \end{enumerate}
+
+% We evaluate our proposed approach on modified RefCOCO \cite{Kazemzadeh2014ReferItGameRT} (RefCOCO-C) and Pascal VOC \cite{everingham2010pascal} (Pascal VOC-C) datasets to showcase performance in semantic and referring segmentation tasks.   
+
+
+\section{Introduction}
+
+
+\label{sec:intro}
+
+Image segmentation, a key computer vision task, involves dividing an image into meaningful spatial regions. Semantic segmentation assigns pre-defined labels \cite{coco}, while referring segmentation allows any natural language prompt \cite{hu2016segmentation}. Both tasks are essential for real-world applications \cite{sun2020scalability}.
+Recent progress in semantic segmentation \cite{chen2017deeplab,chen2018searching} relies on expensive manual annotations, but weak supervision approaches \cite{Ghiasi2021OpenVocabularyIS,li2022language} leveraging contrastive image language pre-training models \cite{clip,jia2021scaling} have emerged. Referring segmentation has adopted language-specific components \cite{Wang2022CRISCR} based on \cite{clip}. Unsupervised semantic segmentation approaches \cite{Xu2022GroupViTSS,Ranasinghe2022PerceptualGI} struggle with complex language prompts, particularly in referring segmentation tasks (\cref{tbl:refcoco}).
+
+Despite contrastive image language pre-training models \cite{clip} serving as a foundation for segmentation tasks \cite{Ghiasi2021OpenVocabularyIS, Wang2022CRISCR}, diffusion models \cite{ddpm, pmlr-v37-sohl-dickstein15, scoresde} have not been utilized for segmentation with the exception of \cite{ODISE}, which requires expensive compute to train. We ask if pre-trained diffusion models can associate natural language with relevant spatial regions of an image. Our proposed \modelname, based on a pre-trained image-language stable diffusion model \cite{Rombach2022HighResolutionIS}, achieves unsupervised semantic and referring segmentation without having to training any model.
+\modelname employs an inference time optimization that iteratively updates an alpha mask, converging to optimal segmentation for a given image and language caption. We propose a novel alpha compositing-based loss for improved learning of the alpha mask.
+Our contributions are:
+\begin{enumerate}[topsep=-0.5ex,itemsep=-0.5ex,partopsep=0ex,parsep=1ex]
+\item Novel mechanism for unsupervised segmentation applicable to semantic and referring segmentation tasks
+\item Demonstrating pixel-level localization information within pre-trained text-to-image diffusion models
+\item A mechanism for using Stable Diffusion as an off-the-shelf foundation model for  segmentation
+\item End-to-end text-to-image generation of RGBA images with transparency, which to our knowledge has not been previously attempted.
+\end{enumerate}
+
+We evaluate our approach on both
+%modified RefCOCO \cite{Kazemzadeh2014ReferItGameRT} (RefCOCO-C)
+RefCOCO \cite{Kazemzadeh2014ReferItGameRT}
+ and modified Pascal VOC \cite{everingham2010pascal} (Pascal VOC-C).
+
+\input{figures__intro}
+\input{figures__visualization}
+
+\section{Related Work}
+\label{sec:related}
+\textbf{Vision-Language Models:} Vision-language models have advanced rapidly, enabling zero-shot image recognition \cite{frome2013devise,socher2013zero} and language generation from visual inputs \cite{karpathy2015deep,vinyals2015show,kiros2014unifying,mao2014explain}. Recent contrastive language-image pre-training models \cite{clip,jia2021scaling} showcase open-vocabulary and zero-shot capabilities, with extensions for a wide range of tasks \cite{pham2021combined,yu2022coca, desai2021virtex, yao2022filip,cui2022democratizing,Zeng2022SocraticMC, yuan2021florence, kamath2021mdetr}. Grounding language to images \cite{Gu2022OpenvocabularyOD, Ghiasi2021OpenVocabularyIS} and unsupervised segmentation \cite{Xu2022GroupViTSS, Ranasinghe2022PerceptualGI} have also been explored. Our proposed \modelname leverages an off-the-shelf diffusion model without segmentation-specific re-training and handles sophisticated compound phrases.
+
+\textbf{Diffusion Models:} Diffusion Probabilistic Models \cite{pmlr-v37-sohl-dickstein15} have been adopted for language-vision generative tasks \cite{Nichol2022GLIDETP,dalle,dalle2,imagen,palette,parti,sr3} and extended to various applications \cite{wavegrad,videodiffusion,diffwave, Poole2022DreamFusionTU}. Recent works \cite{Poole2022DreamFusionTU, graikos2022diffusion} sample diffusion models through optimization. Our \modelname utilizes efficient latent diffusion models and is the first zero-shot method for cross-modal discriminative tasks such as segmentation.
+
+\textbf{Score Distillation Loss:} SDL was introduced in DreamFusion \cite{Poole2022DreamFusionTU} and applied to NeRF \cite{mildenhall2020nerf} to create 3D models. Our work applies it to alpha masks for image segmentation, yielding better results than previous CLIP-based techniques \cite{crowson2022vqganclip,jain2021dreamfields,khalid2022clipmesh}. Like Peekaboo, SDL is also used with Stable Diffusion in \cite{burgert2023diffusion_illusions,lin2022magic3d,wordasimage}.
+
+\textbf{Unsupervised Segmentation:} Unsupervised segmentation \cite{malik2001visual} has evolved from early spatially-local affinity methods \cite{comaniciu1997robust,shi2000normalized,ren2003learning} to deep learning-based self-supervised approaches \cite{caron2021emerging, hamilton2022unsupervised, Cho2021PiCIEUS, VanGansbeke2021UnsupervisedSS, Ji2019InvariantIC}. LSeg \cite{li2022language} is a semi-supervised segmentation algorithm because it's trained with ground truth segmentation masks, but attempts to generalize the dataset labels to language using CLIP embeddings. Our \modelname also enables grouping aligned to natural language, is open-vocabulary.
+
+\textbf{Referring Segmentation:} Referring segmentation \cite{hu2016segmentation,yu2018mattnet,ye2019cross} involves vision and language modalities. Early approaches \cite{hu2016segmentation,liu2017recurrent,li2018referring,margffoy2018dynamic} fuse features, while recent works use attention mechanisms \cite{chen2019referring,shi2018key,ye2019cross,huang2020referring,huilinguistic} and cross-modal pre-training \cite{Wang2022CRISCR}.
+Large supervised segmentation models \cite{SAM,SEEM} have demonstrated high performance, but they require annotated segmentation datasets. Concurrently, an unsupervised referring segmentation method \cite{ODISE} has been developed using the same Stable Diffusion model as us, but it requires significant computational resources, including 5.3 days of training with 32 NVIDIA V100 GPUs. 
+In contrast, \modelname is the first to perform unsupervised referring segmentation without necessitating any model training, effectively reducing the training time to 0 days on 0 GPUs.
+
+
+
+\input{figures__arch}
+\section{Proposed Method}
+
+\begin{figure*}[t]
+	\begin{minipage}{\linewidth}
+		\includegraphics[width=0.96\linewidth]{figures__iterdiagram.pdf}
+	\end{minipage}
+	\caption{\textbf{Inference Process}:
+	Above we show a timelapse of the inference-time alpha mask optimization process
+	}
+	\label{fig:vis_more}
+	% 	\vspace{-1em}
+\end{figure*}
+\label{sec:method}
+In this section, we discuss our \emph{zero-training} approach for \emph{unsupervised zero-shot} segmentation, \modelname. We formulate segmentation as a foreground alpha mask optimization problem and leverage a text-to-image stable diffusion model pre-trained on large internet-scale data. The alpha mask is optimized with respect to image and text prompts.
+%In the following, we discuss the pipeline, loss design of the proposed \modelname, and the way we parameterize our alpha mask. Please see \ref{alg:opl} for pseudo-code tying this all together and the overall pipeline is illustrated in the overview figure \ref{fig:arch}.
+
+\subsection{Background: Score Distillation Sampling} 
+\label{subsubsec:sds}
+First introduced in DreamFusion \cite{Poole2022DreamFusionTU}, Score Distillation Sampling (SDS) is a method that generates samples from a diffusion model by optimizing a loss function we call \textit{score distillation loss} (SDL). This allows us to optimize samples in any parameter space, as long as we can map back to images in a differentiable manner. We modify SDS to optimize learnable alpha masks and operate with latent diffusion.
+
+\subsection{Overview}
+\label{subsec:arch}
+Consider an image of a puppy. Its defining region is the foreground (region containing the puppy): all distinctive characteristics of the puppy are retained even when the background is completely altered. \modelname leverages this idea to iteratively optimize a learnable alpha mask such that it converges to the optimal foreground segmentation. 
+We use a randomly initialized alpha mask ($\alphamask$) to alpha-blend the puppy image ($\bx$) with different backgrounds ($\bb$), generating new composite images ($\hat{\bx}$) as described in \cref{eq:blend}:
+% \vspace{-1.0em}
+\begin{equation}
+\label{eq:blend}
+    \hat{\bx} = \alphamask \bx + (1-\alphamask) \bb
+% \vspace{-0.5em}
+\end{equation}
+The composite image and related text prompt ($\mathbf{p}$) are jointly processed by a pre-trained text-to-image diffusion model. An SDL based objective building off its output is minimized by iteratively optimizing the alpha mask. Minimizing this inference-time objective makes each new composite image similar to the text prompt (e.g. \textit{puppy}) in latent space. We next discuss this inference-time objective in detail. 
+
+\subsection{Inference-time Objective}
+\label{subsec:loss}
+\modelname's inference-time objective $\lpeekaboo$ has two components: {latent score distillation loss} $\lsd$ and {alpha regularization loss} $\gravity$. The total loss, $\lpeekaboo=\lsd+\gravity$, is called the {Peekaboo loss}.
+
+\textbf{Latent Score Distillation Loss} or $\lsd$ can be conceptually interpreted as a measurement of cross-modal similarity between a composite image and a text prompt $\mathbf{p}$. 
+% \todo{The intuition behind this is that if the composite image lies in the data distribution conditioned on the text prompt, the pre-trained diffusion model should yield a high-quality sample that also matches the conditional distribution.} 
+The key intuition lies in how predicted noise from the diffusion model is minimal for samples better matching the conditional distribution.
+\modelname utilizes Stable Diffusion that operates in a latent space. We adapt standard SDL to operate within this latent space, hence the term \emph{latent} score distillation loss.
+
+The Stable Diffusion model jointly processes images and text. Its visual encoder first projects images to a latent space. This latent vector is then processed by the diffusion U-Net ($\mathcal{D}$) conditioned on text embedding (from text encoder $\mathcal{T}$) to produce noise outputs.   
+To measure $\lsd$, we first degrade latent vector $z$ of composite image $\bx$ using forward diffusion, introducing Gaussian noise $\epsilon \sim \mathcal{N}$ to $z$, resulting in a noisy $\Tilde{z}$.
+We then perform diffusion denoising conditioned on the text embedding with pre-trained $\mathcal{D}$. 
+Our loss $\lsd$ is measured as the reconstruction error of noise $\epsilon$, given noisy $\Tilde{z}$ and text embedding $\mathcal{T}\left( \mathbf{p} \right)$ as in \cref{eq:lsdl}:
+\begin{equation}
+\label{eq:lsdl}
+    \lsd = \mathrm{MSE}\left( \epsilon, \mathcal{D}\left(\Tilde{z}, \mathcal{T}\left( \mathbf{p} \right) \right) \right)
+\end{equation}
+where MSE refers to mean-squared loss. Pseudo-code describing $\lsd$ in detail is presented in \cref{alg:peekaboo}.
+
+\input{figures__algorithm}
+
+% Score Distillation Loss
+% \textbf{Alpha Regularization Loss} or $\gravity$ enforces a minimal alpha mask. In detail, $\gravity = \sum_i \alphamask_i$, where $i$ indexes each pixel location in $\alphamask$. 
+% Assuming a given target is in our image sample, a trivial way to satisfy the cross-modal similarity ($\lsd$) is to include every pixel in the image. That is to say, setting $\alphamask = \mathbbm{1}^{H\times W}$ (array of all ones). 
+% In this case, the composite image $\hat{\bx}$ would easily satisfy the prompt since $\hat{\bx}$ is identical to the original input image $\bx$. 
+% To combat this, we penalize high $\alphamask$ values with such regularization. That way, $\alphamask$ is discouraged from adding pixels that aren't necessary to satisfy the given prompt.
+\label{sec:alpha_reg}
+\textbf{Alpha Regularization Loss} or $\gravity$ enforces a minimal alpha mask. Specifically, $\gravity = \sum_i \alphamask_i$, where $i$ indexes pixel location in $\alphamask$.
+\label{subsec:aux_loss}
+Assuming a target is in our image, a trivial way to satisfy cross-modal similarity ($\lsd$) is to include all pixels. That is, setting $\alphamask = \mathbbm{1}^{H\times W}$ (all ones array).
+In this case, composite image $\hat{\bx}$ would satisfy the prompt since $\hat{\bx}$ is identical to input image $\bx$.
+To combat this, we penalize high $\alphamask$ values with regularization, discouraging unnecessary pixels from being added. %Made this slightly shorter/
+
+\subsection{Alpha Mask Parametrization}
+We next discuss the parametrization of our learnable alpha mask. Our experiments indicate that representing an alpha mask as a simple learnable matrix (referred as \textit{raster} parametrization) yields sub-optimal results. To improve this, we apply a bilateral blur to that matrix and then clip it between 0 and 1 using a sigmoid function. 
+This approach, defined \textit{raster bilateral} parametrization, allows us to align our generated segmentation masks with the image content at a pixel level, respecting boundaries between regions present in the image. 
+As a result, we are able to achieve better segmentation. We also investigate alternative parametrizations in section \ref{sec:experiments}.
+
+\subsubsection{Peekaboo's Bilateral Filter}
+\label{sec:bilateralfiltersubsub}
+
+In this subsection, we provide a detailed exploration of the bilateral filter, briefly introduced above.
+
+A standard bilateral filter is a non-linear filter that smooths an image while preserving its edges. It does this by considering both the spatial distance and color differences between pixels, giving higher weight to pixels that are close in space and have similar colors.
+
+We apply a modified version of this filter onto the learnable alpha mask. This filter operates on the alpha mask tensor and modifies it using the color and spatial information of the image to be segmented. This filter is applied at every step the alpha  optimization process, as opposed to during post-processing.
+
+The intention behind using such a filter is to ensure that our generated segmentation masks adhere to the image content at a pixel level from early iterations, leading to improved segmentation in the end.% as demonstrated in \cref{fig:ablate_bilateral}.
+
+%Examining the noisy mask in row 3 column 1 of \cref{fig:ablate_bilateral}, vague outlines of a skeleton within the noise become apparent
+
+%In this subsection we'll dive a little deeper into the bilateral filter mentioned above.
+%
+%Another component of our proposed approach is a modified bilateral filter conditioned on the image to be segmented. A standard bilateral filter is a non-linear filter that smooths an image while preserving its edges. It does this by considering both the spatial distance and color differences between pixels, giving higher weight to pixels that are close in space and have similar colors.
+%
+%In our approach, we apply a modified version of the bilateral filter onto the learnable alpha mask. This filter operates on the alpha mask tensor and modifies it using the color and spatial information of the image to be segmented. Following this filter, we apply a sigmoid function to keep alpha values between $0$ and $1$. This filter is applied during the alpha  optimization, as opposed to during post-processing.
+%
+%The motivation for using such a filter is to align our generated segmentation masks with the image content at a pixel level, i.e., to respect the boundaries between regions present in the image. This modified bilateral filter results in the mask being aligned to these boundaries from early iterations, leading to better segmentation at the end. This behavior is illustrated in \cref{fig:ablate_bilateral}.
+%
+%A closer look at the noisy mask in row 3 column 1 of \cref{fig:ablate_bilateral} will show vague outlines of a skeleton within the noise; this is a result of the modified bilateral filter being applied to the mask.
+
+
+\label{sec:experiments}
+In this section, we present results, both quantitative and qualitative for our downstream tasks of segmentation. We first go over peekaboo and our baseline algorithms, then talk about the specific experiments.
+
+\subsection{Baselines}
+	Following \cite{hu2016segmentation}, we build a baseline that predicts the entire image as the segmentation tagged \textit{Random (whole image)}. For our next baseline, we apply the weakly-supervised segmentation method GroupViT \cite{Xu2022GroupViTSS}. Note that GroupViT is intended for text conditioned segmentation and is trained on datasets similar to those used by Stable Diffusion (i.e. our off-the-shelf diffusion model). Our last baseline, LSeg \cite{li2018referring} is a semi-supervised segmentation alogorithm that has seen the VOC dataset during its training. 
+
+\newcommand{\vart}[1]{\textit{``#1''}}
+\subsection{Peekaboo Variants}
+	We our experiments we showcase several different variants and ablations of Peekaboo.  \cref{fig:visualvariations} gives a qualitative comparison between these variants.
+ 
+    \vart{RGB Bilateral} is the main, default Peekaboo algorithm described in Section \ref{sec:method}. For more details on these methods, please see the appendix.
+	\vart{CLIP}: this variant substitutes score distillation loss for a CLIP-based \cite{clip} loss similar to \cite{jain2021dreamfields}. 
+	All of the other variants are changes solely to the alpha mask parametrization.
+	\vart{Raster}: this ablation skips the bilateral filter, and thus optimizes the alpha map pixel-wise. This yields worse performance than any other parametrization.
+	\vart{Fourier}: this variant parametrizes the alpha mask with a fourier feature network \cite{ffn}, inspired by neural neural textures in \cite{Burgert2022}. This variant does not use a bilateral filter, but yields better results than a basic matrix parametrization. It tends to suffer from hallucinations more than other variants.
+	\vart{Fourier Bilateral}: Just like the Fourier variant, except with the bilateral filter on top. This yields higher performance than the fourier feature network alone.
+	\vart{Depth Bilateral}: Uses a depth map generated using the off-the-shelf monocular depth estimation model MIDAS \cite{midas} to guide the bilateral filter instead of differing RGB values. Intuitively, it means that pixels that are close in 3d space will have similar alpha values. This variant performs better than the main Peekaboo algorithm, and outperforms Clippy  \cite{Ranasinghe2022PerceptualGI} on both COCO and VOC-C. 
+
+ 	
+\begin{figure}[t]
+\centering
+	\includegraphics[width=0.85\linewidth]{figures__VisualVariations.pdf}
+	\caption{\textbf{Visual Variant Comparison}:
+	This figure gives qualitative comparisons between Peekaboo variants on a single image from VOC-C with the prompt ``car''.
+	}
+	\label{fig:visualvariations}
+	% 	\vspace{-1em}
+\end{figure}
+
+
+
+\section{Experiments}
+
+\subsection{Referring Segmentation}
+
+We first present our quantitative evaluations for referring segmentation in \cref{tbl:refcoco}. 
+These results presented in \cref{tbl:refcoco} showcase impressive performance of \modelname. 
+%We reiterate how \modelname operates unsupervised performing no re-training of the diffusion model for the downstream task. 
+
+The RefCOCO dataset is farily challenging, as the prompts are complex refer to a specific portion of the image. Some example prompts: ``giant metal creature with shiny red eyes'', ``bartender at center in gray shirt and blue jeans'', and ``suitcase behind the zebra bag''. 
+
+%GroupViT is a key comparison to our work, given how it is trained on similar noisy image-caption pair from internet scraped data. Stable Diffusion was trained with complex prompts, and that knowledge seems to transfer to Peeakboo - it outperforms GroupViT, a model that was trained specifically for segmentation on 16 NVIDIA V100 GPUs for two days. LSeg was trained for segmenation and outperforms Peekaboo, but we would like to reiterate - \modelname simply utilizes a diffusion model originally trained for text-to-image generation, and adopts it to segmentation with no re-training. 
+
+GroupViT is a key comparison to our work, given how it is trained on similar noisy image-caption pair from internet scraped data. And on this dataset, Peekaboo outperforms GroupViT - a model that was trained specifically for segmentation on 16 NVIDIA V100 GPUs for two days. LSeg was trained for segmentation and outperforms Peekaboo, but we would like to reiterate - \modelname simply utilizes a diffusion model originally trained for text-to-image generation, and adopts it to segmentation with no re-training. 
+
+
+%GroupViT, trained on noisy internet-scraped image-caption pairs, is a key reference in our study. Our Peekaboo model, despite being repurposed from a diffusion model originally designed for text-to-image generation, surpasses GroupViT's performance. This is noteworthy given GroupViT's dedicated segmentation training on 16 NVIDIA V100 GPUs over two days. While LSeg, another model trained for segmentation, outperforms Peekaboo, we emphasize that Peekaboo achieves its results without any re-training.
+
+
+%GroupViT, trained on noisy internet-scraped image-caption pairs, is a key reference in our study because like Stable Diffusion, it was also trained from noisy image-caption pair from internet scraped data. Peekaboo, despite being a mere inference algorithm for a diffusion model originally designed for text-to-image generation, surpasses GroupViT's performance. This is noteworthy given GroupViT's dedicated segmentation training on 16 NVIDIA V100 GPUs over two days. While LSeg, another model trained for segmentation, outperforms Peekaboo, we emphasize that Peekaboo achieves its results without any re-training.
+
+
+ 
+
+\subsection{Semantic Segmentation}
+
+\input{figures__cocoref}
+\begin{table}[t]
+	\centering
+	\begin{tabular}{c|c|c|c|c|c|c}
+		\toprule
+		\textbf{Type} & \textbf{Method} & \textbf{Prec@0.2} & \textbf{Prec@0.4} & \textbf{Prec@0.6} & \textbf{Prec@0.8} & \textbf{mIoU} \\ 
+  \midrule
+  		%All numbers should be in ".XXX" format. No leading 0, and 3 decimals of precision.
+  		%Baselines should always come first - and all methods should stay in the current order.
+  		%Only include precisions .2,.4,.6,.8 
+  		%Use common sense. The correct method names are in this code here. keep the citations.
+        \multirow{4}{*}{Baselines} 
+        & Random & .670 & .198 & .032 & .012 & .281 \\
+    	& Clippy \cite{Ranasinghe2022PerceptualGI} & .757 & .459  & .263  & .049 & .539 \\
+		& GroupViT \cite{Xu2022GroupViTSS} & .862 & .778 & .602 & .205 & .578 \\
+		& LSeg \cite{li2022language} & .952 & .897 & .758 & .311 & .678 \\
+  \midrule
+        \multirow{6}{*}{\begin{tabular}{c}\textbf{Peekaboo}\\Variants (ours)\end{tabular}} 
+		& Raster & .756 & .323 & .103 & .012 & .340 \\
+		& CLIP & .918 & .488 & .093 & .023 & .430 \\
+		& Fourier & .862 & .598 & .231 & .084 & .454 \\
+		& Bilateral Fourier & .845 & .608 & .281 & .123 & .470 \\
+		& Depth Bilateral & .929 & .707 & .455 & .187 & .551 \\
+		& \textbf{RGB Bilateral} & .892 & .709 & .331 & .130 & .520 \\
+        \bottomrule
+	\end{tabular}
+	\caption{\textbf{VOC-C Semantic Segmentation Evaluation.}
+	Our results on the VOC-C dataset report mIoU values for our method and GroupViT baseline. Numbers for our baselines are obtained running their respective pre-trained models. Numbers reported are precision and mean-IoU values.}
+	\label{tbl:pascal}
+	\vspace{-0.5em}
+\end{table}
+
+
+We present evaluations on the VOC-C dataset in \cref{tbl:pascal}. Our modified Pascal VOC dataset, VOC-C, was created by selecting and cropping images  from the original VOC2012 dataset with single subjects larger than 128x128 pixels. 
+
+
+
+The text prompts VOC-C dataset relatively simple. They're simply the names of the dataset's 20 classes. Some examples: ``cat'', ``dog'', ``aeroplane'', ``bird'' - etc. 
+
+While Peekaboo doesn't outperform Clippy, GroupViT or LSeg, it has fairly competitive performance. In fact, Peekaboo's \vart{Depth Bilateral} variant even outperforms Clippy. And to reiterate, unlike these baselines, Peekaboo requires no training whatsoever.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Qualitative Results}
+
+
+% \begin{figure}[t]
+% \centering
+% \begin{minipage}{0.6\linewidth}
+%     \includegraphics[width=\linewidth]{figures__vis_appendix__ducks.png}
+% \end{minipage}
+% \hspace{0.01\linewidth}
+% \begin{minipage}{0.37\linewidth}
+%     \caption{\textbf{Real-world applications}:
+%     Our proposed \modelname is able to localize objects of interest in the real world from arbitrary captions. We highlight how each localization successfully captures the relevant region with a clear overlap over the object centroid. This is particularly useful in applications such as robotics where interaction with arbitrary objects defined by natural language can be valuable.}
+%     \label{fig:vis_edQ}
+% \end{minipage}
+% % 	\vspace{-1em}
+% \end{figure}
+
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=0.3125\linewidth]{figures__vis_appendix__ew_01.png}
+    \includegraphics[width=0.3125\linewidth]{figures__vis_appendix__em_wf.png}
+    \includegraphics[width=0.23125\linewidth]{figures__vis_appendix__ducks.png}
+\end{minipage}
+
+\caption{\textbf{Varying granularity (left)}:
+Another feature of \modelname is its ability to segment at differing granularity. While the model performance in such situations is quite sensitive to the caption, we highlight how subtle variations to the caption allows us to localize relevant regions of image accordingly. \textbf{Real-world applications (right)}:
+    \modelname can localize real-world objects from arbitrary captions. We highlight how each localization successfully captures the relevant region with a clear overlap over each object centroid. This is particularly useful in applications such as robotics where interaction with arbitrary objects defined by natural language can be valuable.}
+\label{fig:vis_ewQ}
+% \caption{\textbf{Real-world applications (right)}:
+%     \modelname can localize real-world objects from arbitrary captions. We highlight how each localization successfully captures the relevant region with a clear overlap over each object centroid. This is particularly useful in applications such as robotics where interaction with arbitrary objects defined by natural language can be valuable.}
+% \label{fig:vis_edQ}
+% \vspace{-1em}
+\end{figure}
+
+
+
+\begin{figure*}[h]
+
+\begin{minipage}{\linewidth}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__001.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__002.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__003.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__004.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__010.png}
+\end{minipage}
+\begin{minipage}{\linewidth}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__005.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__006.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__007.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__008.png}
+	\includegraphics[width=0.195\linewidth]{figures__vis_appendix__009.png}
+\end{minipage}
+\caption{\textbf{\modelname is truly open vocabulary}:
+We illustrate examples where \modelname is able to localize various regions of interest defined by references from popular culture. All of these are examples where the model has been able to correctly localize (identified region centroid or high IoU with correct region). The caption below each image is used to generate the same color mask. 
+An interesting behavior of our model is its localization to the region most defined by the accompanying text caption. For example, in the case of Emma Watson in the top row second figure, it is visible how \modelname localizes on her face and body instead of her frock (see \cref{fig:vis_ewQ} for more on this).
+}
+
+
+
+\label{fig:vis_moreQ}
+% 	\vspace{-1em}
+
+\end{figure*}
+
+
+
+In this section, we present some more qualitative evaluations of our proposed method. In \cref{fig:vis_moreQ}, we show some randomly selected examples where \modelname successfully localizes regions of interest based on popular cultural references. 
+% The stable diffusion model used in our dream loss is pre-trained on a large corpus of internet image-text pairs.
+We hypothesize that our \modelname is able to understand such a wide vocabulary due to the strength of the pre-trained diffusion model, which was trained on an interet-scale dataset. 
+We also analyze real-world image captured by our camera in \cref{fig:vis_moreQ}. 
+ 
+
+% In comparison to existing unsupervised open vocabulary localization methods (particularly ones trained in a discriminative fashion), we highlight that \modelname is truly open vocabulary covering a wide range of concepts that can be encoded in natural language. The generative objectives used for the diffusion model pre-training necessitate learning the image-text distribution it is trained on (as opposed to boundaries). We hypothesize that this generative objective provides the model with a holistic and extensive understanding of that data distribution. It is this understanding that \modelname leverages and extracts using its inference time optimization to perform such open vocabulary unsupervised segmentation. 
+
+Another characteristic of this open vocabulary nature that endows our model is to probe image regions at varying granularities. We illustrate this behavior in \cref{fig:vis_ewQ} where sub-regions of a single person can be localized based on different text captions. 
+
+
+
+
+
+
+
+
+
+
+
+
+%With these simpler prompts, GroupViT, Clippy and LSeg all outperform Peekaboo - but Peekaboo's performance is quite competitive with both Clippy and GroupViT  Peekaboo's \vart{Depth Bilateral} variant outperforms Clippy, however. Other ablations and variants are shown in the table as well
+
+%[[[[Thank you for your interest. Here comes the code we used to generate cropped images since I'm not sure whether I have the right to distribute the dataset. You can put this notebook file in the VOC2012 folder, and it will generate cropped images in ../VOC-cropped folder (You also need to create this folder first).
+%<image.png>
+%Essentially, we choose the image that contains only one object, and the width or height of the object should be larger than 128 pixels. Then we make the borders of 10 pixels for the object bounding box and use this enlarged box to crop the image. The xy coordinates of this bounding box are recorded in the txt file with the same name as the image. (Format: x1 x2 y1 y2).
+%By doing this, we got 1994 cropped images. Then we read both the training set and test set in ImageSets/Segmentation/ and find the intersection between the combination of these two sets and available cropped images. This gave us 342 images in total and we use these images to benchmark all the methods in the paper.
+%
+%Please let me know if you have any questions regarding this process.
+%]]]]
+
+%GroupViT is a key comparison to our work, given how it is trained on similar noisy image-caption pair from internet scraped data. However, we highlight that unlike the Stable Diffusion model we use, GroupViT is trained with an architecture and objective specially geared towards segmentation. In contrast, \modelname simply utilizes a diffusion model originally trained for text-to-image generation, and adopts it to segmentation with no re-training.  
+
+%GroupViT and lseg both outperform peekaboo here (write it in more elegantly)
+
+
+
+% \section{Visualizations}  
+% In this section, we present qualitative evaluations of Peekaboo segmentation. In \cref{fig:vis_more}, we show some randomly selected examples where \modelname successfully localizes regions of interest based on popular cultural references. The stable diffusion model used in our dream loss is pre-trained on a large corpus of internet image-text pairs. We hypothesize that our \modelname is able to understand such a wide vocabulary due to the strength of the pre-trained diffusion model. We showcase another example of a real-world image captured by our camera in \cref{fig:vis_ed}. 
+ 
+
+% In comparison to existing unsupervised open vocabulary localization methods (particularly ones trained in a discriminative fashion), we highlight that \modelname is truly open vocabulary covering a wide range of concepts that can be encoded in natural language. The generative objectives used for the diffusion model pre-training necessitate learning the image-text distribution it is trained on (as opposed to boundaries). We hypothesize that this generative objective provides the model with a holistic and extensive understanding of that data distribution. It is this understanding that \modelname leverages and extracts using its inference time optimization to perform such open vocabulary unsupervised segmentation. 
+
+% Another characteristic of this open vocabulary nature that endows our model is to probe image regions at varying granularities. We illustrate this behavior in \cref{fig:vis_ew} where sub-regions of a single person can be localized based on different text captions. 
+
+
+
+
+% \section{Visualizations}  
+% In this section, we provide visual evaluations of the Peekaboo segmentation. As shown in \cref{fig:vis_more}, \modelname is effective at localizing regions tied to various cultural references. This ability is largely due to our pre-training of the stable diffusion model on a comprehensive internet image-text corpus. This hypothesis is further exemplified in \cref{fig:vis_ed} through an example of a real-world image captured by our camera.
+
+% In contrast to other unsupervised open vocabulary localization methods, notably those trained in a discriminative manner, \modelname has an exceptional range covering many concepts that can be expressed in natural language. This is due to the generative objectives used in pre-training the diffusion model, which force the model to learn the image-text distribution it's trained on. This broad understanding is what \modelname capitalizes on during inference time optimization, leading to its ability for open vocabulary unsupervised segmentation.
+
+% Additionally, the open vocabulary nature of \modelname allows it to explore image regions at various levels of granularity. We demonstrate this in \cref{fig:vis_ew}, where different text captions can localize sub-regions within a single individual.
+
+
+
+
+
+
+
+\section{Generating Images with Transparency}
+\label{sec:rgbagen}
+
+Peekaboo loss can do more than just segment images - it can generate images with transparency. In fact, it does this quite reliably - giving detailed alpha masks along with each generated image.
+Images with transparency are incredibly useful for many domains, such as graphic design assets and video game textures. However, to the best of our knowledge, all current text-to-image models such  as \cite{imagen}\cite{StableDiffusion}\cite{parti}\cite{dalle2} have trained strictly on RGB images, and are not designed to generate images with an alpha channel.
+
+Despite the absence of such models, we can generate RGBA images by iteratively optimizing an RGB image jointly with an alpha mask using Peekaboo loss. Pseudocode for this process is given in Algorithm \ref{alg:rgbageneration}, which builds on Algorithm \ref{alg:peekaboo}. 
+
+\begin{algorithm}[h]
+    \caption{Pytorch style pseudocode for transparent RGBA image generation}
+    \label{alg:rgbageneration}
+    \definecolor{codeblue}{rgb}{0.25,0.5,0.5}
+    \definecolor{codeorange}{rgb}{1.0,0.5,0.3} 
+    \definecolor{codegreen}{rgb}{0.13,0.54,0.13}
+    \lstset{
+      basicstyle=\fontsize{7.2pt}{7.2pt}\ttfamily\bfseries,
+      commentstyle=\fontsize{7.2pt}{7.2pt}\color{codeblue},
+      keywordstyle=\fontsize{7.2pt}{7.2pt}\color{codeorange},
+      stringstyle=\color{codegreen},
+      numbers=left,  % where to put the line-numbers;
+      numbersep=5pt, % how far the line-numbers are from the code
+      numberstyle=\fontsize{6.2pt}{6.2pt}\color{codeblue},
+      columns=fixed,
+      xleftmargin=2em,
+    %   frame=single,
+      framexleftmargin=1.5em
+    }
+    \begin{lstlisting}[language=python] 
+    #Continued from Algorithm 1
+    def text_to_rgba_image(prompt):
+    	"""Given a text prompt, generate a new RGBA image
+    	(An image with an alpha transparency mask)"""
+    	
+    	alpha = LearnableAlphaMask() # nn.Module 
+    	image = LearnableRGBImage() # nn.Module 
+    	optim = torch.optim.SGD(alpha.parameters(), image.parameters())
+    	
+    	for _ in range(num_iterations):
+    		peekaboo_loss(image(), prompt, alpha()).backward()
+    		optim.step() ; optim.zero_grad()
+    	return image(), alpha()
+    \end{lstlisting}
+\end{algorithm}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[width=0.99\linewidth]{figures__PeekabooGenerativeTimeline.png}
+	\caption{\textbf{Image Generation Timelapse}:
+	Above we show a timelapse of the RGBA image generation process. The prompts from top to bottom are ``avocado armchair'', ``globe'', ``pikachu'', ``cat in a box''.  More examples are in the appendix. The images are on  checkerboards to illustrate transparency. %The initial noisy images are on the left, and the far right is
+	}
+	\label{fig:rgbatimelapse}
+	% 	\vspace{-1em}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[width=0.8\linewidth]{figures__MoreRGBAExamples.pdf}
+	\caption{\textbf{Image Generation Examples}:
+	Above we show five more examples of RGBA images generated with this method, placed on different backgrounds. Note how Peekaboo successfully separates high-frequency details, for example, between rib bones and the background. %The initial noisy images are on the left, and the far right is
+	}
+	\label{fig:rgbaexamples}
+	% 	\vspace{-1em}
+\end{figure}
+
+Example images can be found in \cref{fig:rgbaexamples} and \cref{fig:rgbatimelapse}.
+
+This process of creating images via optimization is very similar to \cite{burgert2023diffusion_illusions}, which also uses score distillation loss to optimize 2d images. However, it also suffers from some of the same caveats.
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+In this work, we established how text-to-image diffusion models trained on large-scale internet data contain strong cues on localization. Note that their training process contains no explicit modelling of localization. We then propose a novel \textit{inference-time optimization} technique that can extract this localization knowledge and apply this to downstream referring and semantic segmentation tasks. In particular, we perform such segmentation with no segmentation-specific re-training of the diffusion modell, leaving its weights (and therein all strengths of the model) intact.
+
+The major limitation of our work is its reliance on a large diffusion model pre-trained on internet-scale data. Given the difficulty of training such diffusion models under usual academic settings (resource constraints), approaches building off \modelname must rely on publicly available diffusion models. Moreover, all flaws and biases contained within such diffusion models \cite{sueing_sd} as well as internet-scale datasets used for training \cite{birhane2021multimodal} will be transferred to \modelname. 
+
+
+
+% \section*{Reproducibility \& Ethics}
+% We utilize publicly available pre-trained stable diffusion models for all our experiments. All code relevant to our contribution will be released publicly. We do acknowledge how pre-trained diffusion models we use contain harmful biases which will be transferred to segmentation by our proposed method. 
+
+
+\newpage
+%%%%%%%%% REFERENCES
+{\small
+\bibliographystyle{unsrt}
+\bibliography{egbib}
+}
+
+\newpage
+\input{appendix}
+
+\end{document}

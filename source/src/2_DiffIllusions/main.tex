@@ -1,0 +1,683 @@
+% CVPR 2024 Paper Template; see https://github.com/cvpr-org/author-kit
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+% \usepackage{cvpr}              % To produce the CAMERA-READY version
+% \usepackage[review]{cvpr}      % To produce the REVIEW version
+\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Import additional packages in the preamble file, before hyperref
+\input{preamble}
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, 
+% e.g. with the file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete *.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you should be clear).
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,citecolor=cvprblue]{hyperref}
+
+\usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{hhline}
+\usepackage{comment}
+% \usepackage{dblfloatfix}
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\paperID{} % *** Enter the Paper ID here
+\def\confName{CVPR}
+\def\confYear{}
+
+\newcommand{\bp}[1]{\textcolor{red}{{[BP: #1]}}}
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{Diffusion Illusions: Hiding Images in Plain Sight}
+
+%%%%%%%%% AUTHORS - PLEASE UPDATE
+\author{%
+\vspace{-0.5em}
+  Ryan Burgert \quad
+  Xiang Li \quad 
+  Abe Leite \quad
+  Kanchana Ranasinghe \quad
+  Michael S. Ryoo
+  \vspace{0.5em} \\
+  Stony Brook University \quad 
+  \vspace{0.2em} \\
+  \small{\texttt{rburgert@cs.stonybrook.edu}}
+  \vspace{0.8em} 
+}
+
+% \renewcommand{\baselinestretch}{0.98}
+\newcommand{\projurl}{\url{https://diffusionillusions.com}}
+
+
+\begin{document}
+% \maketitle
+
+
+\twocolumn[{%
+\renewcommand\twocolumn[1][]{#1}%
+    \vspace{-5.8em}
+\begin{center}
+\maketitle
+    \vspace{-2.8em}
+    \centering
+    % \includegraphics[width=1\textwidth]{figs/TeaserLabeled_Compressed.pdf}
+    \includegraphics[width=1\textwidth]{figs/AlignedTeaser_Compressed-crop.pdf}
+    \vspace{-1.3em}
+    \captionof{figure}{Diffusion Illusions are a new class of automatically generated optical illusions. The images on top demonstrate the three major types of illusions we discuss in this paper: Flip Illusions, Rotation Overlay Illusions, and Hidden Overlay Illusions. (Terminology is formally defined in \cref{sec:problem}). The bottom showcases an example of Hidden Overlay Illusions: four images (prime images $p_{1\dots4}$) that when stacked on top of each other (arrangement) reveal a new fifth image (derived image $d_5$). 
+    \textit{Please note that these illustrations are \underline{all photographs} of the generated images \underline{physically fabricated} in the real world.} 
+    }
+    \label{fig:teaser}
+    \vspace{0.5em}
+\end{center}%
+}]
+
+
+\begin{abstract}
+\vspace{-1.4em}
+We explore the problem of computationally generating special `prime' images that produce optical illusions when physically arranged and viewed in a certain way.
+First, we propose a formal definition for this problem.
+Next, we introduce Diffusion Illusions, the first comprehensive pipeline designed to automatically generate a wide range of these illusions.
+Specifically, we both adapt the existing `score distillation loss' and propose a new `dream target loss' to optimize a group of differentially parametrized prime images, using a frozen text-to-image diffusion model.
+We study three types of illusions, each where the prime images are arranged in different ways and optimized using the aforementioned losses such that images derived from them align with user-chosen text prompts or images.
+We conduct comprehensive experiments on these illusions and verify the effectiveness of our proposed method qualitatively and quantitatively.
+Additionally, we showcase the successful physical fabrication of our illusions --- as they are all designed to work in the real world.
+Our code and examples are publicly available at our 
+\textit{interactive} project website: \projurl
+\vspace{-1.5em}
+\end{abstract}
+
+\section{Introduction}
+An image that is viewed right-side up appears to be an ordinary photo of a dog but viewed upside-down looks like a sloth. Four images, each showing an everyday playground, when superimposed form a QR code (see \cref{fig:teaser}). These types of images that cause illusions have long required immense time and skill to create, but we have developed a general pipeline capable of generating appealing illusions automatically.
+More specifically, given a frozen text-to-image diffusion model, we adapt existing score distillation loss and propose a new dream target loss to optimize a group of prime images differentiably parametrized by fourier feature networks.
+Eventually, the images are optimized to comply with the textual and/or image prompts given by the user to trigger illusions in a certain arrangement.
+
+Generating such images is not the sole domain of play. Illusions -- that is, visual stimuli whose interpretation depends on how they are arranged and viewed -- have been created and studied for centuries. While they are an appealing sort of ``visual puzzle'', they also reveal much about how humans perceive the world and about the abstract structure of images. Even though illusions have been created and studied for centuries, and certain types have been generated by computers for decades, photorealistic illusions have remained largely out of reach until the very recent past, and until this point, there has been no general framework for understanding and generating such illusions.
+
+\subsection{Contributions}
+% \noindent \textbf{Contributions:}
+%In this work, we make three main contributions: 
+In this paper, we present the first formalized, generic framework for creating such illusions. We name our framework \textit{Diffusion Illusions}. Our major contributions can be summarized as follows:
+% The major contributions of this work can be summarized as follows:
+\begin{enumerate}[leftmargin=1.5em,noitemsep,topsep=0.0ex,itemsep=-1.0ex,partopsep=0ex,parsep=1ex]
+   \item We provide the first formal definition for the problem of generating illusions; 
+   \item We present Diffusion Illusions, a flexible tool for generating multiple types of illusions;
+   \item We assess the quality of computer-generated illusions in multiple aspects and conduct comprehensive experiments to validate the effectiveness of our method;
+   \item We successfully fabricate the generated images and their corresponding illusions in the real world.
+\end{enumerate}
+
+
+\subsection{Related Work: History of Illusions}
+\input{figs/relatedwork}
+
+\subsubsection{Classical illusions}
+% \noindent \textbf{Classical Illusions}
+Images whose interpretation depends on viewing angle or category bias, sometimes known as ambiguous images, have been designed for centuries. Such images have drawn the scholarly interest of psychologists \cite{jastrow1899mind, boring_new_1930} and philosophers \cite{wittgenstein_philosophical_1953} since the 1800s. Ambiguous images have been used experimentally to understand how category bias during perception varies as people age \cite{nicholls_perception_2018}, and families of ambiguous images, such as ambigrams \cite{hofstadter1985meta}, are often constructed as a way of better understanding the domains they belong to. We present some relevant examples of classical illusions in \Cref{fig:intro}.
+
+\begin{comment}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{mainimage.png}
+    \includegraphics[width=1\linewidth]{figs/hidemethod.png}
+    \vspace{-2em}
+    \caption{Diffusion Illusions are a new class of automatically generated optical illusions. The top image demonstrates our Flip illusion, and the bottom one showcases four transparent images that when stacked on top of each other and put on a backlight reveal fifth images. \textit{Please note that these are all \underline{real photographs}.}}
+    \label{fig:teaser}
+    \vspace{-2em}
+\end{figure}
+\end{comment}
+
+
+\subsubsection{Computationally-generated illusions}
+% \textbf{Computationally-generated Illusions} 
+A growing stream of research has focused on computationally generating specific types of illusions. One early example is hybrid images \cite{oliva2006hybrid}. Hybrid images are created from two images by combining the low-frequency features of one with the high-frequency features of the other. Viewers see the object from the low-frequency image when viewing the hybrid image from a distance, and see the object from the high-frequency image when viewing up-close. While this process may be automated, the authors note that for best results, the overall shapes of the low-frequency and high-frequency images should be manually aligned.
+
+A number of researchers have created 3-dimensional objects that are interpreted as different objects when they are viewed from different angles. In multi-view wire art \cite{hsiao_multi-view_2018}, a single 3D wire may be viewed or lit from multiple angles to obtain different clean line drawings; and in view-dependent surfaces \cite{perroni-scharf_constructing_2023}, a colored 3D-printed height field may be viewed from different angles to obtain different colored images.
+
+An additional type of illusion is steganography, in which apparently normal objects may be viewed in a particular way to uncover a hidden meaning. In The Magic Lens \cite{papas_magic_2012}, seemingly meaningless dots are generated such that, when viewed through an intricate refractive lens, they will comprise a specified image.
+
+
+
+
+\subsubsection{Diffusion-based Image Generation}
+% \noindent \textbf{Diffusion-based Image Generation} 
+Diffusion Probabilistic Models \cite{pmlr-v37-sohl-dickstein15} resulted in rapid advances for image generation tasks, including text-to-image generation \cite{Nichol2022GLIDETP,diffusionbeatsgans,dalle,dalle2,imagen,palette,parti,sr3}. Recent works \cite{Poole2022DreamFusionTU,Burgert2022PeekabooTT} sample pre-trained diffusion models without re-training to generate outputs in novel domains. Score Distillation introduced in DreamFusion \cite{Poole2022DreamFusionTU} is the underlying technique enabling optimization of samples in any arbitrary parameter space without backpropagation through the diffusion model. 
+We utilize these techniques to construct a novel framework for illusion generation. 
+% Recent progress in text-to-image models \cite{} and more specifically text-conditioned diffusion denoising models \cite{} has resulted in the usual boilerplate about impressive generative AI. 
+These rapid advances have led to an exploration of suitable evaluation metrics, both quantitative and qualitative \cite{lee_holistic_2023,Benny2020EvaluationMF,Betzalel2022ASO,yeh2023navigating, friedman2022vendi}, which we use to evaluate our proposed framework.
+
+\subsubsection{Contemporary Work}
+% \noindent \textbf{Contemporary Work}
+Following recent image generation developments, a small but growing body of non-scholarly or unpublished work has approached the problem of generating multi-view 2D images \cite{tancik_illusiondiffusion_2023} or ambigrams \cite{samsudin_ambigrams_2023}. While these approaches appear to yield appealing results, they are narrowly focused on specific illusions, may require substantial cherry-picking, and have not been formally presented or published. 
+In contrast, we present a formalized, generic approach capable of generating variable types of illusions followed by extensive evaluation (both quantitative and qualitative) of our approach.
+Inspired by our Diffusion Illusions project, contemporary work in \cite{geng2023visualanagrams} presents a formal framework for efficient (fast inference) illusion generation, but operates on a subset of our illusions (namely, those with a single ``prime image'' in our terminology). Furthermore, \cite{geng2023visualanagrams} does not explore any illusions with overlay which is generally more challenging and the generality for real-world transfer (i.e. fabrication of illusions in the real world). 
+
+%%% CONTRIBUTIONS USED TO BE HERE - I MOVED IT UP (ryan)
+
+\section{Problem Statement}
+\label{sec:problem}
+
+\input{figs/overview-figure}
+% We define an illusion as the situation that occurs when a set of physically realized \textit{prime} images are \textit{arranged} in multiple ways, each yielding a unique \textit{derived} image representing a specific object or scene. 
+We define an illusion as the situation that occurs when a set of physical images called \textit{prime images} $p$ are viewed or \textit{arranged} in multiple ways, with each arrangement yielding a unique perceived image, referred to as a \textit{derived image} $d$, that represents a specific object or scene. 
+
+Most of the existing illusions we have discussed consist of a single 2D image or 3D object as a prime image, with the arrangements being simple translations and rotations of the prime image in 2D or 3D space. In the simplest case where a 2D drawing is rotated to yield different perceived objects, the arrangement operations may be modeled as simple rotations. The near and distant views composing the Hybrid Images illusion \cite{oliva2006hybrid}, on the other hand, might be best modeled by high-pass and low-pass spatial frequency filters.
+
+In an effort to find a fully general definition of illusions and leverage the new possibilities afforded by text-to-image models, we do not limit ourselves to a single prime image. % EXISTING WORK WITH MULTIPLE PRIME IMAGES? Maybe something where multiple things need to align?
+We additionally consider situations where \textit{multiple} composable prime images, for instance, stencils or light-filtering transparencies, may be arranged in different ways to yield different derived images. In the particular case of composing two light-filtering transparencies, the arrangement operation may be modeled as a rotation of each prime image followed by a multiply operation to model the light-filtering step.
+
+Formally, the illusion process is described as follows. Consider some prime image space $\mathcal{P}$ representing physically realizable visual stimuli, and some derived image space $\mathcal{D}$ representing a human view of a scene. (Practically, we use 2D RGB images to represent both spaces.) Then, an illusion consists of a tuple of $n$ prime images $\{p_1, p_2, \ldots, p_n\}, p_i \in \mathcal{P}$ and a tuple of $m$ arrangement operations $A = \{a_1, a_2, \ldots, a_m\}, a_j : \mathcal{P}^n \rightarrow \mathcal{D}$. Each $a_j$ represents an arrangement of all of the prime images to obtain a single derived image $d_j$, such that the illusion yields a tuple of $m$ derived images $\{d_1, d_2, \ldots, d_m\}, d_j \in \mathcal{D}$. (This articulation may be easily generalized to heterogeneous illusions, such as a wireframe viewed through a stencil; in this case, each prime image $p_i$ belongs to its own prime image space $\mathcal{P}_i$.)
+
+This framing is complementary to the existing literature on ``ambiguous images''. The illusion process is not intended to cover images that have multiple interpretations when viewed in exactly the same way, though it may be possible to articulate a perceptual bias towards a certain category as a type of arrangement. However, the illusion process otherwise broadens the category of ambiguous images to include situations involving multiple composed images. We propose multiple examples below that are to our knowledge wholly novel.
+
+This definition allows one to separate the process of creating an illusion into two steps: first, selecting a prime image domain and defining and modeling the arrangement operation; and second, searching the prime image domain for images that yield the desired derived images when arranged in each way. While the first step requires creativity and experimentation, the second is sufficiently concrete that it may be practically automated, as discussed in \cref{sec:method}.
+
+
+% We formally define an illusion as the situation that occurs when at least one physically realized \textit{prime} image may be \textit{viewed} in multiple ways, yielding multiple \textit{derived} images that are perceived as different objects or scenes. Most of the classical illusions we have discussed consist of a single 2D image or 3D object as a prime image, with the views being simple translations and rotations of the prime image in 2D or 3D space. In the simplest case where a 2D drawing is rotated to yield different perceived objects, the prime-to-derived transition may be modeled as a simple rotation. The near and distant views composing the Hybrid Images illusion \cite{}, on the other hand, might be best modeled by high- and low-pass spatial frequency filters.
+
+
+\section{Method}
+\label{sec:method}
+
+We introduce Diffusion Illusions, a flexible tool for generating multiple types of visual illusions that can be styled with unprecedented control (e.g. photorealistic images, artistic styles, or even arbitrary information such as QR codes).
+At a high level, the Diffusion Illusions pipeline consists of 
+\begin{itemize}[leftmargin=2em,noitemsep,topsep=0.0ex,itemsep=-1.0ex,partopsep=0ex,parsep=1ex]
+    \item a set of prime images parameterized by $\theta$ ($\mathcal{P}$),
+    \item a set of specific arrangement processes ($A$, that derive images from all primes), 
+    \item a frozen text-to-image diffusion model ($\mathcal{F}$)
+\end{itemize}
+We refer to the outputs of the arrangement processes as derived images ($D$). 
+The diffusion model is used to provide a signal using one of two mechanisms (\textit{Score Distillation Loss} or \textit{Dream Target Loss}, which will be covered in \cref{sec:losses}) to suitably optimize the prime images, which in turn modifies the derived images.
+Our overall pipeline is illustrated in \cref{fig:overview}.
+
+\subsection{Prime Images}
+As described in \cref{sec:problem}, prime images are the physical images we eventually want to generate, that will trigger an illusion when viewed or arranged in multiple ways.
+
+In our framework, prime images are represented as $512 \times 512$ dimensional RGB images, meaning that $\mathcal{P} \simeq \mathbb{R}^{(512,512,3)}$.
+Instead of direct pixel-space image representation, we use Fourier Features Networks (FFN)~\cite{tancik2020fourier} to represent prime images in parametric form. 
+For each prime image, the learnable weights of a single MLP network act as its representation. 
+The MLP network maps image-space coordinates to corresponding RGB values similar to \cite{Burgert2022}, forming an implicit image representation.
+We further discuss the advantages of FFN in \cref{sec:discussion}.
+
+% Earlier experiments optimizing prime images directly in pixel space resulted in information being encoded at very high frequencies and requiring pixel-perfect alignment to generate the intended derived images (see \cref{fig:fig-noisy}). While the result was pleasing when viewed digitally, it was impractical for real-world illusions. Motivated by previous arguments \cite{Burgert2022PeekabooTT, Burgert2022}, we elect to use Fourier Features Network \cite{tancik2020fourier} based parametric image representations. 
+
+\subsection{Arrangement Processes}
+\label{sec:illusions}
+The purpose of arrangement processes, $A$, is to operate on a set of prime images (including single element sets) and produce unique outputs, the derived images. For a single arrangement process $a_i$, 
+\begin{align}
+    d_i = a_i(P)
+\end{align}
+each unique sequence of prime images produces a distinct derived image, $d_i$.
+Each operation $a_i \in A$ should possess three properties: 
+1) For the same set of inputs the operation should always provide the same output (fixed operation). 
+2) $a_i$ should also be differentiable, i.e., the possibility to explicitly calculate gradients propagation from output to input through the operation. 
+3) $a_i$ should also be realizable in the real world: some series of physical actions on prime images (in physical form) should result in the same derived image. 
+To summarize, an arrangement process must be fixed, differentiable, and realizable in the real world. 
+\begin{comment}
+In our work, we generate illusions belonging to three categories as discussed in \cref{sec:illusions}. 
+
+\begin{itemize}  
+\item \textbf{Flip Illusions} utilize two arrangement operations with a single prime image. \todo{describe referring to example figure in intro}
+\item \textbf{Rotation Overlay Illusions} utilize 4 arrangement operations with 2 sets of prime images. 
+A derived image is obtained by modifying the spatial arrangement of the prime image pair through the rotation of one image relative to the other followed by a multiplicative combination. 
+\item \textbf{Hidden Overlay Illusions} utilize 5 arrangement operations on 4 sets of prime images. Four operations select one prime image (identity operation on selected) and the fifth combines all four together (multiplicative). 
+\end{itemize}
+\end{comment}
+
+% \subsection{Specific Illusions} 
+We select three illusion categories for further study:
+% we study three types of illusions: a classical illusion \textbf{Flip Illusions}, a minimal expansion to multiple prime images \textbf{Rotation Overlay Illusions}, and an exploration of a complex arrangement combining four prime images \textbf{Hidden Overlay Illusions}.
+
+\begin{itemize}
+
+\item \textbf{Flip Illusion} is one of the most classical types of illusions. We define this illusion as consisting of a single 2D prime image, which is interpreted as some object when viewed upright (the first derived image $d_1$) and as another object when viewed upside-down (the second derived image $d_2$).
+
+\item \textbf{Rotation Overlay Illusion} is a minimal type of illusion involving multiple prime images. This illusion is based on two square light-filtering 2D prime images, one base and one rotator. The rotator image is rotated with 0, 90, 180, and 270 degree angles and superimposed on the base image; each rotation yields a derived image interpreted as a different object (see \cref{fig:rot_illusion}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figs/RotationPhoto.pdf}
+    \vspace{-2em}
+    \caption{This figure shows the rotation overlay illusion arrangement process. \textit{Please note that these are all \underline{real photographs.}} The ``rotator'' image is placed on a ``base'' image over a backlight, both printed out onto transparent sheets. Then, as the rotator spins, we derive four different images. }
+    \label{fig:rot_illusion}
+    \vspace{-0.5em}
+\end{figure}
+
+\item \textbf{Hidden Overlay Illusion} is introduced to push the boundaries of the prime-to-derived relationship, in which four light-filtering prime images, each of which is interpretable on its own, may be merged to obtain a fifth hidden image. Here the modeled view process for the first four derived images is simply the identity function; the view process for the fifth is the product of the four prime images (see \cref{fig:hidden_overlay_animals_photo}).
+% The Hidden Overlay Illusion demonstrated in real life. Please note that these are all real photographs.
+
+
+\end{itemize}
+We select these illusion styles to cover varying set cardinalities for prime images and arrangement processes. The arrangement process relevant to each illusion is presented in \cref{tbl:arrangements}. We also present photographs of real-world fabrications for each illusion type in \cref{fig:teaser}, \cref{fig:rot_illusion} and \cref{fig:hidden_overlay_animals_photo}. 
+% Note that different illusion styles may involve varying set cardinalities for prime images and arrangement processes. The arrangement process relevant to each illusion is presented in \cref{tbl:arrangements}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figs/overlaydiagram.jpg}
+    \caption{This figure shows the rotation overlay illusion arrangement process. \textit{Please note that these are all \underline{real photographs.}}}
+    %\caption{\textbf{Hidden Overlay Illusion:} Photographs of different prime images as we overlay them in real life.}
+    \label{fig:hidden_overlay_animals_photo}
+\end{figure}
+
+
+\begin{comment}
+    
+
+
+\subsection{Specific illusions}
+\label{sec:illusions}
+In this paper, we study three types of illusions: a classical illusion, a minimal expansion to multiple prime images, and an exploration of a complex arrangement combining four prime images.
+
+\begin{itemize}
+
+\item The \textbf{Flip Illusion} is one of the most classical types of illusions. We define this illusion as consisting of a single 2D prime image, which is interpreted as some object when viewed upright (derived image 1) and as another object when viewed upside-down (derived image 2).
+
+\item As a minimal type of illusion involving multiple prime images, we introduce the \textbf{Rotation Overlay Illusion}. This illusion is based on two square light-filtering 2D prime images, one base and one rotator. The rotator image is rotated with 0, 90, 180, and 270 degree angles and superimposed on the base image; each rotation yields a derived image interpreted as a different object.
+
+\item In an effort to push the boundaries of the prime-to-derived relationship, we introduce the \textbf{Hidden Overlay Illusion}, in which four light-filtering prime images, each of which is interpretable on its own, may be merged to obtain a fifth hidden image. Here the modeled view process for the first four derived images is simply the identity function; the view process for the fifth is the product of the four prime images.
+
+\end{itemize}
+
+\end{comment}
+
+
+\input{figs/illusion_table}
+
+% \subsection{Learning Process}
+\subsection{Diffusion Illusion Optimization}
+\label{sec:losses}
+Having selected three diverse illusion styles, we next discuss the process for learning optimal prime images.
+Given fully-differentiable operations (also realizable in the physical world) that arrange a set of prime images to produce a derived image, we leverage two types of losses in successive phases to provide suitable alignment signals to the derived images, which in turn would update the prime images. 
+In the first phase, we use \textit{Score Distillation Loss}~\cite{Poole2022DreamFusionTU}, a high-fidelity but expensive algorithm that applies a conditional denoising model to the input at every image update step. 
+In the second phase, we introduce the complementary \textit{Dream Target Loss}, a faster technique that pulls the derived images towards periodically updated target images.
+
+Given a frozen text-to-image latent diffusion model $\mathcal{F}$~\cite{rombach2022high} which contains a text encoder $\mathcal{F}_t$, an image encoder $\mathcal{F}_e$ and the denoising network $\mathcal{F}_u$, 
+we initialize a series of prime images $p_i$ each represented by a Fourier Feature Network with random parameters $\theta_i$. 
+Derived images $d_i$ then can be presented by the arrangement process as introduced in \cref{sec:illusions}.
+For each derived image $d_i$, a target $t_i$ that describes in natural language the expected visual appearance of its final form is given by the user. 
+% we introduce a target ($t_i$) that describes in natural language the expected visual appearance of its final form. 
+% These natural language descriptions $t_i$ are used to control the visual concepts desired in the final derived images. 
+% Optionally, one or more $t_i$ can be given as a specific image instead of a text prompt --- letting users hide targets such as QR codes or blocks of text. 
+% We will cover such cases at the end of this subsection.
+% ; please see the pseudo-code in the appendix for more details. 
+% In this paper, $t_i$ is presumed to be a language description unless otherwise specified.
+
+% \noindent
+% \textbf{Score Distillation Loss} 
+\subsubsection{Score Distillation Loss}
+Score Distillation Loss is a widely-used technique to align images with external conditioning such as textual prompts. 
+In essence, Score Distillation Loss ($\mathcal{L}^{\text{SD}}$) randomly selects a timestep $\tau$ of the denoising process, adds noise $\eta_\tau$ proportionate to the timestep $\tau$ to a derived image $d_i$ and applies the denoising process, which is conditioned on corresponding $t_i$, to $d_i + \eta_\tau$ to obtain an estimated noise $\hat{\eta_\tau}$. 
+The difference, which we implement as a mean absolute error, between the estimated noise $\hat{\eta_\tau}$ and actual noise $\eta_\tau$ provides a signal for the discrepancy between the derived image $d_i$ and the target description $t_i$ for the derived image. 
+This difference is normalized by $\tau$ and then provided as a gradient to the derived image and backpropagated through the arrangement process to the prime image. 
+Importantly, this process does not require any backpropagation through the diffusion model. 
+
+In summary, as shown in ~\cref{eq:sd_loss}, score distillation loss provides gradients to optimize the image parameterized by $\theta$, such that iterative updates to the image converge its appearance towards the paired text $t_i$. % Minimizing  $\mathcal{L}^{\text{SD}}$ and propagating gradients provide a minimal framework with strong results. 
+% We next explore how the compute efficiency of this setup can be improved. 
+
+\begin{align}
+    \hat{\eta_\tau} &= \mathcal{F}_u(d_i + \eta_\tau, \tau, \mathcal{F}_t(t_i)) \\
+    \mathcal{L}_i^{\text{SD}}(t_i, d_i)&=\| \eta_\tau - \hat{\eta_\tau} \|_1
+    \label{eq:sd_loss}
+\end{align}
+
+% \subsubsection{Score Distillation Loss}
+
+
+% one more difference: single step in SDL, fully denoise in Dream Target Loss
+% Look at Peekaboo paper.
+% Have an image as an input, get gradient for the image.
+% Choose a random diffusion timestep, add noise proportional to that timestep. Predict noise at that timestep using U-Net. The gradient is the difference between actual noise and predicted noise. Normalize the gradient based on the timestep.
+% Never backpropagate through diffusion network.
+% SDL is the start, run this for first iterations -> makes it noisy. Could be omitted.
+\subsubsection{Dream Target Loss}
+% \noindent
+% \textbf{Dream Target Loss} 
+Dream Target Loss is a novel optimized version of the Score Distillation Loss for circumstances where it is not trivial for prime image(s) to follow the gradients from the Score Distillation Loss. 
+% In a situation where the gradients from multiple derived images are competing to influence the prime images, it is inefficient to apply a full diffusion model at every iteration while this competition is being resolved.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth, trim={1cm 1cm 6cm 1cm}, clip]{figs/approaching_dreams.png}
+  \vspace{-2.0em}
+  \caption{We depict the dream-target loss above. It is an iterative process, refining derived images using SDEdit to create target images, which the derived images are then regressed to with gradient descent. Note how the derived images look more like the targets after approaching them than before, such as the man's green face.}
+  \label{fig:fig-dream-approach}
+  \vspace{-0.5em}
+\end{figure}
+
+Instead, Dream Target Loss ($\mathcal{L}^{\text{DT}}$) periodically applies a conditional image-to-image process $z_i = \mathcal{G}(t_i, d_i)$ to obtain a target image $z_i$ for each derived image $d_i$, conditioned on the textual prompt $t_i$.
+Then we gradually pull each derived image $d_i$ towards its target image $z_i$ using a combination of the structural image similarity loss ($\mathcal{L}_{SSIM}$) and a pixel-wise mean squared error loss ($\mathcal{L}_{2}$). 
+
+Therein, we obtain a joint loss to similarly learn optimal prime images $p_i$ resulting in derived images aligned to each of our target concepts. 
+% \begin{align}
+%     \mathcal{L}_i = \mathcal{L}_{SSIM}(\mathcal{G}(t_i), d_i) + \mathcal{L}_{2}(\mathcal{G}(t_i), d_i)
+% \end{align}
+\begin{align}
+    z_i &= \mathcal{G}(t_i, d_i)\\
+    \mathcal{L}_i^{\text{DT}}(z_i, d_i) &= \mathcal{L}_{\text{SSIM}}(z_i, d_i) + \mathcal{L}_{2}(z_i, d_i)
+    \label{eq:img_sim}
+\end{align}
+
+% In the case that $t_i$ is given as an image instead of a text prompt, we instead set $z_i = t_i$ --- useful for when we want to target a specific image such as a QR code.
+
+
+An additional feature of the Dream Target Loss relative to the SD variant is that it tends to introduce less noise. 
+
+The total dream target loss is a weighted average across all per derived image loss terms.
+% , $\mathcal{L}_i^{\text{DT}}$ to obtain, 
+\begin{align}
+    \mathcal{L}^{\text{DT}} = \sum w_i \mathcal{L}_i^{\text{DT}}
+\end{align} where the loss terms are weighted by importance values $w_{1\dots m}$. By default, all $w_i=1$ except in the hidden overlay illusion where the hidden image is prioritized via $w_5=3$.
+
+In practice, for each target image, we optimize the prime image for multiple (i.e. $1000$) steps using the dream target loss. 
+Then we repeat the process with the latest prime image so that the target image is updated towards the current derived image for faster convergence (Illustrated in \cref{fig:fig-dream-approach}). 
+We implement $\mathcal{G}$ using SDEdit~\cite{meng2022sdedit} where random noise is first added to the input image, and the noisy image is then iteratively denoised conditioned on the text prompt using a frozen diffusion model to generate an output image (see \cref{sec:pseudocode}). 
+% We define new image targets as $z_i = \mathcal{G}(t_i, d_i)$ for each derived image using the same textual targets, 
+
+Note that in both Score Distillation Loss and Dream Target Loss, we propagate gradients to the prime images, updating their parametric representation (i.e. the weights of the MLP Fourier Feature Networks $\theta$), and the diffusion model is kept frozen.
+
+% \noindent
+% \textbf{Visual Prompt} 
+\subsubsection{Visual Prompt}
+Optionally, one or more $t_i$ can be given as a specific target image instead of a text prompt --- letting users hide targets such as QR codes or blocks of text. 
+In that case, for both phases, the discrepancy between the derived image and the target image is measured using \cref{eq:img_sim}, providing gradients for the prime images.
+
+\subsection{Fabrication}
+The flip illusions are trivial to manufacture in real life and need only a printer. The hidden overlay and rotation overlay illusions are created by printing their prime images on overhead display sheets on a color laser printer, before being laminated to protect them from scratches.  % It's a really simple process! 
+With a strong enough backlight, the hidden overlays and rotation overlay illusions can be performed on regular pieces of paper as well.
+
+% (Provide examples of target derived image update process, with different image-to-image weights.)
+
+
+% \subsection{Optimization Schedule}
+
+
+
+
+
+\section{Experiments}
+In this section, we evaluate our framework presenting qualitative visualizations and quantitative metrics. % We focus on the three styles of illusions presented in \cref{sec:illusions} for all evaluations. 
+
+\subsection{Qualitative Evaluation}
+We illustrate randomly selected example outputs of our Diffusion Illusions framework. Visualizations for our three selected illusion styles, Flip Illusion, Rotation Overlay Illusion, and Hidden Overlay Illusion are presented in \cref{fig:galflip},
+\cref{fig:galrot}, and \cref{fig:galhid} respectively. 
+% are shown in \cref{fig:galflip}, Hidden Overlay Illusions are shown in \cref{fig:galhid}, and Rotation Overlay Illusions are shown in \cref{fig:galrot}.
+For more interactive examples, please refer to the project website \projurl
+
+\begin{figure}
+    \centering
+    % \includegraphics[width=.8\linewidth]{figs/FlipGallery.pdf}
+    \includegraphics[width=.7\linewidth, trim={0 0 0 1cm}, clip]{figs/rearrangeFlipIllusion.pdf}
+    \vspace{-0.5em}
+    \caption{\textbf{Flip Illusion Examples:} Please view these images upside-down as well as right-side-up to see two different subjects.  Note: In this illusion,  $d_1 = p_1$}
+    % \textit{Please zoom in!}  
+    \label{fig:galflip}
+    \vspace{-0.5em}
+\end{figure}
+
+\begin{figure}
+    \centering
+    % \includegraphics[width=0.7\linewidth]{Gallery2.png}
+    % \includegraphics[width=1\linewidth]{figs/FixedRotationFigure.pdf}
+    % \includegraphics[width=1\linewidth]{figs/lessRotationOverlay.pdf}
+    % \includegraphics[width=1\linewidth,trim={0cm 1cm 1cm 0cm}, clip]{figs/rearrangeRotationIllusion.pdf}
+    \includegraphics[width=0.98\linewidth,trim={0cm 0cm 1cm 0cm}, clip]{figs/rotGal.pdf}
+    \vspace{-0.5em}
+    \caption{\textbf{Rotation Overlay Examples:}  On the left are the two prime images $p_1$, $p_2$, and on the right are the four derived images $d_{1\dots 4}$ that are obtained by taking the product of the primes, simulation of them overlaid on a backlight.}
+    \vspace{-0.5em}
+    % \textit{Please zoom in!} 
+    \label{fig:galrot}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.96\linewidth, trim={0 0.95cm 0 0}, clip]{figs/hiddenGal.pdf}
+    % \includegraphics[width=1\linewidth]{figs/GalHid.pdf}
+    %\includegraphics[width=1\linewidth]{figs/HiddenOverlayGallery.pdf}
+    % \centering\includegraphics[width=1\linewidth]{figs/rearrangeHiddenOverlay.pdf}%\includegraphics[width=1\linewidth]{figs/HiddenOverlayGallery.pdf}
+    \vspace{-0.5em}
+    \caption{\textbf{Hidden Overlay Examples:} On the left are the four prime images $p_1$, $p_2$, $p_3$, $p_4$ and on the right is the derived image $d_5 = p_1 \cdot p_2 \cdot p_3 \cdot p_4$, which simulates overlaying them over a backlight. Note: In this illusion,  $d_i = p_i$ for $i\in 1\dots 4$}
+    \vspace{-0.5em}
+    \label{fig:galhid}
+    % \textit{Please zoom in!}  
+\end{figure}
+
+
+
+
+
+
+% \todo{xl: please specify the model and the algorithm used to generate the cherry-pick sample
+% qualitative images, grid stuff
+
+% 1. Regular samples;  along with the clip score heatmap
+
+% 2. QR code
+
+% 3. Text 
+
+% 4. we can do more like rotation and it will appear in appendix
+% }
+\subsection{Quantitative Evaluation}
+\label{sec:numbers}
+Next, we quantitatively benchmark the Hidden Overlay Illusion generated by the variants of Diffusion Illusion in multiple aspects and demonstrate the generalization ability and robustness of the proposed framework. Please check  Appendix~\ref{sec:more_eval} as well for other illusions and more details.
+
+\noindent\textbf{Image Generation Protocol} \quad We design a pipeline that constructs diverse textual prompts randomly and automatically. 
+The pipeline relies on two sets of textual prompts. 
+The first set $T^s$ is of sentences where each sentence describes a unique art style of an image and contains one \textit{subject} token representing the potential subject of the sentence. 
+The second set $T^o$ is of different subjects like `dog', `cat', `car', and so on.
+When generating images with a specific style $t^s \in T^s$, we uniformly sample five unique subjects $t^o_i$ where $i \in\{1, \ldots, 5\}$ from $T^o$.
+Then we substitute the \textit{subject} token in $t^s$ with $t^o_i$ to construct the textual prompt $t_i$.
+Finally, $t_1, \ldots, t_5$ is used to guide the generation of derived images.
+
+For a full evaluation, the whole pipeline is repeated for $N$ times per style $t^s$ to generate $N$ groups of illusion images.
+In practice, we set $|T^s| = 4$, $T_o$ is the set of all object classes except `person' in PASCAL VOC~\cite{everingham2010pascal} ($|T^o|=19$), and $N=64$. % [xl: number by average, not true!]. 
+Please refer to the Appendix~\ref{sec:more_eval} for the complete list of subjects and styles.
+
+\noindent\textbf{Evaluation Metrics} \quad Inspired by recent works on diffusion model evaluation~\cite{yeh2023navigating, lee2023holistic}, we measure the following properties of the derived images:
+
+\begin{itemize}
+    \item \textit{Controllability:} how well the generated images align with the textual prompts. For each generated image and its corresponding textual prompt, we measure the \textit{average cosine similarity} between the image embedding and the text embedding, extracted from a pretrained CLIP~\cite{radford2021learning} model.
+    \item \textit{Diversity:} the variety of generated images conditioned on the same prompt. For images generated by the same textual prompt, we calculate two \textit{Venti scores}~\cite{friedman2022vendi} independently based on two visual embeddings: the \texttt{[CLS]} embeddings of DINOv2~\cite{oquab2023dinov2} and CLIP visual embeddings (see Appendix). % and DINOv2+reg~\cite{darcet2023vision}.
+    \item \textit{Aesthetics:} the assessment of an image's visual appeal and artistic quality. For each image, we utilize AVA LAION-Aesthetics Predictor V2, which is pretrained on AVA~\cite{murray2012ava} dataset, to estimate an aesthetics score range from 0 to 10. 
+    % In addition, we collect a score from GPT-4 Turbo with vision~\cite{openai2023gpt4} using a predefined prompt to reflect the image quality (see Appendix).
+    % In addition, we collect a score from a vision language model LLaVA-1.5~\cite{liu2023visual, liu2023improved} using a predefined prompt to reflect the image quality (see Appendix).
+    
+\end{itemize}
+
+In addition, we study a new property ~\textit{Independence} specifically for the illusion scenario. 
+Intuitively, each image is expected to stick to its corresponding textual prompt while not being distracted by other textual prompts in the same group.
+Such property is named as \textit{Independence}, which is different from \textit{Controllability} because independence is designed to reflect not only the similarity between an image and its corresponding textual prompt but also the \textit{dissimilarity} between the image and the textual prompts for other images. 
+In other words, this property focuses on how well the prime images can `hide' the overlay image or how challenging it will be for people to infer the overlay image from a single prime image and vice versa. 
+
+\begin{itemize}
+\item \emph{Independence Score:} Therefore, we propose a new metric Independence Score to reflect such property. Consider a set of $m$ derived images, denoted as $\{d_1, d_2, \ldots, d_m\}$, along with their corresponding textual prompts $\{t_1, t_2, \ldots, t_m\}$. Initially, we extract the visual embeddings $v_i=f_v(d_i)$ and text embeddings $e_j=f_t(t_j)$ using the visual encoder $f_v$ and the text encoder $f_t$ from a pretrained CLIP~\cite{radford2021learning} model respectively. Subsequently, we compute the cosine similarity $k_{ij}=\text{CosineSimilarity}(v_i, e_j)$ between any visual and text embeddings $v_i$ and $e_j$. The results are assembled into a matrix $K$, where $k_{ij}$ is put in the $i$-th row and $j$-th column. The Independence Score $S_\mathrm{IS}$ is calculated by the following equations.
+\begin{align}
+% \label{eq:inscore}
+K_0 &= \mathrm{Softmax}(K / \tau, 0) \\ 
+K_1 &= \mathrm{Softmax}(K / \tau, 1) \\ 
+S_\mathrm{IS} & := \min(\mathrm{diag}(K_0) \cup \mathrm{diag}(K_1)) 
+\end{align}
+where $\tau=0.05$ is a temperature constant, $\text{Softmax}(\cdot, l)$ stands for softmax operation along $l$-th dimension and $\text{diag}(\cdot)$ presents a set of the diagonal elements of $(\cdot)$. 
+$S_\mathrm{IS}$ is designed to become higher when all images $d_i$ align best with their corresponding textual prompts compared with other textual prompts.
+\end{itemize}
+
+\noindent\textbf{Methods} \quad The baseline method of our experiments is a vanilla SDXL generating target images with corresponding textual prompts independently for one step using score distillation loss. We benchmark four variants of our methods named A, B, C, and D. Method C is our default method. It involves 500 steps of score distillation loss followed by 8 steps of dream target loss and applies relative weights [1,1,1,1,3] respectively - which prioritizes the quality-derived hidden image over its constituent primes. In addition, Method A uses Stable Diffusion 1.5 instead of SDXL, which is used by all other methods. Method B uses equal weights for all derived images, using weights [1,1,1,1,1] respectively. Lastly, method D uses 4000 steps of score distillation loss followed by 1 step of dream target loss for smoothness, to evaluate the ability of score distillation loss alone in this task.
+% - which we found sometimes lets the fifth image, D5, collapse to black - resulting in lower scores on our metrics.
+For fairness, all methods were constrained to run in a 15-minute time window on a single NVIDIA A100 GPU.
+
+\noindent\textbf{Results} \quad For all metrics, we report the score distributions achieved by our default method and the baseline in \cref{fig:big-baseline-fig}. 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{figs/fig-overall-baseline.pdf}
+  \vspace{-0.5em}
+  \caption{Comparison of multiple score distributions. Refer to axes for metrics. Our framework clearly outperforms the baseline for all metrics except diversity (Vendi Score). We argue the additional constraints intrinsic to our task (of generating illusions) contributed to reduced diversity.}
+  \label{fig:big-baseline-fig}
+\end{figure}
+
+Our method significantly outperforms the baseline in all metrics except the Vendi Score, which is expected because, for our method, there are more constraints from the derived images applied during the generation process.
+
+The score distributions of four variants of our method are presented in \cref{fig:big-score-fig}. Each row of \cref{fig:big-score-fig} presents two metrics. The subfigures on the left-hand side show the overall performance of a specific method. 
+In general, all methods perform similarly well in terms of Controllability (Cosine Similarity) and Diversity (Vendi Score) (the first two rows in \cref{fig:big-score-fig}). Method C shows significant advantages in Aesthetics (Aesthetics Score) and Methods C and D achieve relatively higher Independence Score. 
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figs/final-clip_score.png}
+  \includegraphics[width=\linewidth]{figs/final-vendi_score_dino.png}
+  \includegraphics[width=\linewidth]{figs/final-aesthetics_score.png}
+  \includegraphics[width=\linewidth]{figs/final-rm.png}
+  \vspace{-0.5em}
+  \caption{Score distributions over methods (left) and styles (right). A, B, C, D stands for four variants of our method. Results indicate the significance of prompts for illusion generation.}
+  \label{fig:big-score-fig}
+\end{figure}
+
+
+A detailed look at different art styles is presented on the right-hand side of each row of \cref{fig:big-score-fig}, where different metrics respond diversely to different art styles.
+Controllability (Cosine Similarity) prefers Style 3 and Style 4 while the Diversity (Vendi Score) prefers Style 2. 
+The Aesthetics Score and Independence Score are generally robust to the different styles.
+However, the Aesthetics Score prefers Style 4 slightly more than Style 1.
+
+In conclusion, the prompts used are far more important than the chosen implementation. There is no clear one-size-fits-all method indicated by our quantitative evaluations, however, we observe that depending on the art styles and subjects used, a different method will be optimal. 
+% than they are to the method variants.
+One should carefully pick up a method when generating illusions in a specific art style.
+% In conclusion, there is no clear winner given all the quantitative evaluations, and we observe that different metrics are more sensitive to the art styles instead of the variants of methods.
+% One should carefully pick up a method when generating illusions in a specific art style.
+A further study on subjects is available in the Appendix.
+
+\subsection{Discussions}
+\label{sec:discussion}
+In this section, we discuss several observations that may inspire future investigation.
+
+\noindent\textit{Q1: Can Diffusion Illusion yield better images when running for a longer time?} 
+
+\noindent Yes. \cref{fig:fig-grad-increase} presents the trend of Controllability (Cosine Similarity) and Aesthetics (Aesthetics Score) as the images used in \cref{sec:numbers} are getting optimized. 
+% The relative time indicates the wall clock time passed for optimization, where 0 means the beginning of the optimization and 1 means the end of the optimization. 
+% For all four methods, there is a significant trend that all scores increase as the training goes on.
+The term `relative time' is employed to denote the progression of wall-clock time during the optimization process. 
+A relative time value of 0 means the beginning of optimization, whereas a value of 1 marks its conclusion. 
+\cref{fig:fig-grad-increase} reveals a notable trend: there is a consistent increase in metrics as the optimization process advances.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figs/final-grad.png}
+  \caption{CLIP Cosine Similarity (left) and Aesthetics Score (right) increase when optimizing for a longer time.}
+  \label{fig:fig-grad-increase}
+\end{figure}
+
+\noindent\textit{Q2: Is Independence Score a qualitatively valid metric?}
+
+\noindent Generally yes. \cref{fig:fig-sis} shows four illusions randomly selected with diverse independence scores. For each row, the subject of each image is listed above, and the method, style, and independence scores are listed on the left-hand side. 
+The four images grouped in the middle are prime images and they derive the overlay image on the right-hand side.
+For the first two examples where the independence score is relatively high, each image aligns with its corresponding textual prompt. 
+However, for the third example, the overlay image is not closely related to the subject `sofa', resulting in a lower independence score. 
+Furthermore, in the last example of \cref{fig:fig-sis}, the overlay image visually biases more towards `cow' instead of `bottle', leading to the lowest independence score.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figs/sis_large_demo.jpg}
+  \caption{Examples with diverse independence scores}
+  \label{fig:fig-sis}
+\end{figure}
+
+\noindent\textit{Q3: What are the reasons to use Fourier Features Network?} 
+
+\noindent Earlier experiments optimizing prime images directly in pixel space resulted in information being encoded at very high frequencies and requiring pixel-perfect alignment to generate the intended derived images (see \cref{fig:fig-noisy}). While the result was pleasing when viewed digitally, it was impractical for real-world illusions. Motivated by previous arguments \cite{Burgert2022PeekabooTT, Burgert2022}, we elect to use Fourier Features Network \cite{tancik2020fourier} based parametric image representations. 
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figs/demo_noisy_fft.jpg}
+  \caption{A Hidden Overlay image with prime images optimized directly in pixel space. While high-frequency encoding of the hidden image results in less perceivable interference in each individual image, it results in a brittle illusion that is disrupted without pixel-perfect printing and alignment.}
+  \label{fig:fig-noisy}
+\end{figure}
+
+
+
+% \subsection{Comparison to Related Work}
+% \subsubsection{Summary}
+
+% 1. different methods are good at different aspects, overall it works
+
+% 2. if you keep training, you will get better results
+
+% 3. the current metrics suck, prompt matters more
+
+% more on appendix
+
+% \subsection{Discussion}
+
+\section{Conclusion}
+In this paper, we establish the formal definition of the problem of generating illusions and introduce Diffusion Illusions, a versatile pipeline designed for the generation of a diverse array of illusions. 
+Complemented by comprehensive experiments conducted across multiple facets, we verify the effectiveness of our proposed method qualitatively and quantitatively.
+We also successfully fabricate the prime images in the real world.
+% \todo{xl: I'm going to add some future works}
+% In addition, we observe that in some cases, the arrangement of Hidden Overlay Illusion in \cref{tbl:arrangements} may not precisely reflect the actual overlay arrangement when the prime images are printed out. Even the inconsistent performance of different printers may compromise the performance (see Appendix).
+% We hope this paper and the issues above inspire further study on more types of illusion generation and creative ways to take advantage of diffusion models. 
+Other areas to explore include more types of illusion generation and creative ways to take advantage of diffusion models. 
+
+\vspace{2em}
+\noindent
+\textbf{Limitations}  \quad
+The main limitation of our framework is the relatively high inference time required for generating illusions. While our framework improves over plain score distillation in terms of inference time, we are still slow. Improving the speed of illusion generation frameworks such as ours presents an interesting future direction. 
+We note that contemporary work has already explored ways to minimize this inference time. 
+
+Furthermore, 
+% the accuracy of the Rotation Overlay or Hidden Overlay illusions might vary due to physical imperfections in the printing process - leaving room for further exploration. 
+the effectiveness of visual illusion in the real world may vary a lot due to the errors introduced in the printing process. \cref{fig:simreal2} and \cref{fig:simreal} present the effect of the color shifts when printing the images.
+
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=1\linewidth]{figs/simreal2.png}
+  \includegraphics[width=1\linewidth, trim={1cm 1cm 1cm 1cm}, clip]{figs/SimRealRot.jpg}
+  \caption{The colors shift after printing out Rotation Overlay Illusion images. First row: digital copy of the images and the overlay simulation. Second row: real-world photos of the printed images.}
+  \label{fig:simreal2}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\linewidth]{figs/SimRealHidAdjust.jpg}
+  \caption{The colors shift after printing out Hidden Overlay Illusion images. First row: digital copy of the images and the overlay simulation. Second row: real-world photos of the printed images.}
+  \label{fig:simreal}
+\end{figure}
+
+Other limitations include biases contained in our models (discussed in detail under the ethics statement). 
+
+\vspace{1em}
+\noindent
+\textbf{Reproducibility Statement}  \quad
+Our work builds off open-source models whose pre-trained weights are publicly available. Our framework simply performs inference time optimizations to generate illusions. In our paper, we detail all specifics of our implementation (including PyTorch style pseudo-code) necessary to generate such illusions. Our code (and all material necessary to replicate results in paper) will be released publicly. 
+
+\vspace{1em}
+\noindent
+\textbf{Ethics Statement}  \quad
+A main ethical concern for any generative art model is that it will reduce the demand for human artists in its domain. Generating optical illusion artwork is a very difficult artistic task, and there are few artists that attempt it. Thus, the genre of illusions is currently relatively small and there is limited demand for illusions at present. Diffusion Illusions makes the generation of optical illusions accessible to the general public, making illusions more accessible to the layperson. We believe that, if anything, Diffusion Illusions and related works are likely to increase interest in illusions and the demand for human-created illusions as a result.
+Secondly, our experiments utilize Stable Diffusion 1.5 and Stable Diffusion-XL models, and thus our reference implementation of the Diffusion Illusions pipeline will replicate any biases contained within these models. These models are trained on the LAION-2B(en) and LAION-5B datasets, and may over-represent English-language or Western content. The Stable Diffusion 1.5 and Stable Diffusion-XL models are intended for research purposes only, and thus our reference implementation should also be used exclusively for research and informative purposes. Some recent models, including DeepFloyd, are licensed for limited production use and our pipeline easily generalizes to them; however, they have higher system requirements.
+
+\vspace{1em}
+\noindent
+\textbf{Contributions}  \quad
+RB led the project, conceived the prime image / derived image illusion relationship, invented the classes of hidden and rotation overlay illusions, and designed \& implemented the Diffusion Illusions pipeline.
+XL designed and performed all quantitative evaluation experiments.
+AL formalized and wrote the Illusion problem statement and contributed to paper writing.
+KR discussed multiple aspects of the project, supported designing a prior framework (Peekaboo~\cite{Burgert2022PeekabooTT}) important for building our setup, and contributed to paper writing.
+MR supervised the project, advised on research direction, and discussed all aspects of the project.  
+
+\vspace{1em}
+\noindent \textbf{Acknowledgements} \quad
+We would like to thank Brian Price and Jinghuan Shang for helpful discussions about this paper, and Jongwoo Park for both his discussions as well as posing for the flip illusion photo in \cref{fig:teaser}. This material is based upon work supported by the National Science Foundation Graduate Research Fellowship under Grant No. 2234683.
+
+
+% \clearpage
+% \newpage
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+% WARNING: do not forget to delete the supplementary pages from your submission 
+\input{X_suppl}
+
+\end{document}

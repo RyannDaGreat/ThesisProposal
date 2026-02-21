@@ -1,0 +1,51 @@
+%
+% --- inline annotations
+%
+
+\usepackage{algorithm}
+% \usepackage{algorithmic}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{algpseudocode}
+
+
+
+
+
+% \usepackage[dvipsnames]{xcolor}
+% \newcommand{\red}[1]{{\color{red}#1}}
+% \newcommand{\todo}[1]{{\color{red}#1}}
+% \newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% --- disable by uncommenting  
+% \renewcommand{\TODO}[1]{}
+% \renewcommand{\todo}[1]{#1}
+
+% \usepackage[indent]{parskip}
+% \setlength{\parskip}{2pt plus2pt}
+
+\usepackage{colortbl}
+\definecolor{Gray}{gray}{0.90}
+
+
+\renewcommand{\baselinestretch}{0.98}
+
+% Define custom colors
+\definecolor{codeblue}{rgb}{0.25, 0.5, 0.5}
+\definecolor{codeorange}{rgb}{1.0, 0.5, 0.3}
+\definecolor{codegreen}{rgb}{0.13, 0.54, 0.13}
+
+% Listings configuration
+\lstset{
+    language=Python,
+     basicstyle=\fontsize{7.2pt}{7.2pt}\ttfamily\bfseries,
+      commentstyle=\fontsize{7.2pt}{7.2pt}\color{codeblue},
+      keywordstyle=\fontsize{7.2pt}{7.2pt}\color{codeorange},
+      stringstyle=\color{codegreen},
+      numbers=left,  % where to put the line-numbers;
+      numbersep=5pt, % how far the line-numbers are from the code
+      numberstyle=\fontsize{6.2pt}{6.2pt}\color{codeblue},
+      columns=fixed,
+      xleftmargin=2em,
+    %   frame=single,
+      framexleftmargin=1.5em
+}

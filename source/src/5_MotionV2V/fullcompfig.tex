@@ -1,0 +1,97 @@
+% ============================================================================
+% FULLCOMPFIG - Figure cropping macro for comparison images
+% ============================================================================
+%
+% PURPOSE:
+%   Displays multi-column comparison images with optional frame deletion.
+%   Images are 4400x2218 pixels with 5 columns and 4 frames vertically.
+%
+% USAGE:
+%   \fullcompfig[frame]{columns}{path}
+%
+% PARAMETERS:
+%   [frame]   - (optional) Frame to delete: 0, 1, or 2. Omit for no deletion.
+%   {columns} - Number of columns to display: 2, 3, 4, or 5
+%   {path}    - Image file path (can include macros like \figfolder)
+%
+% EXAMPLES:
+%   % Show all 5 columns, all 4 frames:
+%   \fullcompfig{5}{\figfolder/MyImage}
+%
+%   % Show 4 columns, delete frame 1:
+%   \fullcompfig[1]{4}{\figfolder/MyImage}
+%
+%   % Show 3 columns, no frame deletion:
+%   \fullcompfig{3}{\figfolder/MyImage}
+%
+% IMAGE STRUCTURE:
+%   Horizontal: 5 columns, 880px each (total 4400px)
+%   Vertical splits at y = 0, 87, 614, 1135, 1656, 2218 (total 2218px)
+%   Frame 0: rows  87-614  (header/labels)
+%   Frame 1: rows 614-1135 (first comparison row)
+%   Frame 2: rows 1135-1656 (second comparison row)
+%
+% COLUMN CROP VALUES (trim from right as fraction of width):
+%   2 columns: 0.6009 (keep 39.91%)
+%   3 columns: 0.4000 (keep 60.00%)
+%   4 columns: 0.1989 (keep 80.11%)
+%   5 columns: 0.0000 (keep 100%)
+%
+% FRAME DELETION:
+%   When deleting frame N, we crop out one horizontal band and stack the pieces
+%
+% ============================================================================
+
+\makeatletter
+
+% Your 5 dividers (y-pixels): 87, 614, 1135, 1656, 2218
+\def\@divA{.0392\height}  % 87/2218
+\def\@divB{.2769\height}  % 614/2218
+\def\@divC{.5118\height}  % 1135/2218
+\def\@divD{.7467\height}  % 1656/2218
+\def\@divE{1.0\height}    % 2218/2218
+
+% Helper macro: Stack two vertically-cropped images
+% #1: horizontal crop fraction
+% #2: top piece bottom trim (can be calc expression like \@divE-\@divA)
+% #3: bottom piece top trim
+% #4: image file path
+\newcommand{\@stackimg}[4]{%
+    \adjustbox{trim={0 0 {#1} 0}, clip, width=\linewidth}{%
+        \begin{tabular}{@{}c@{}}%
+            \adjustbox{trim={0 {\dimexpr#2\relax} 0 0}, clip}{\includegraphics{#4}}\\[-4pt]%
+            \adjustbox{trim={0 0 0 {#3}}, clip}{\includegraphics{#4}}%
+        \end{tabular}%
+    }%
+}
+
+% Main command: Display comparison figure with cropping
+\newcommand{\fullcompfig}[3][none]{%
+    % Determine horizontal crop based on column count
+    \def\hcrop{0\width}%
+    \ifnum#2=2\def\hcrop{.6009\width}\fi%
+    \ifnum#2=3\def\hcrop{.4\width}\fi%
+    \ifnum#2=4\def\hcrop{.1989\width}\fi%
+    % Process based on frame deletion parameter
+    \def\nonetext{none}%
+    \def\delframe{#1}%
+    \ifx\delframe\nonetext%
+        % No frame deletion - simple crop
+        \ifnum#2=5\relax%
+            \includegraphics[width=\linewidth]{#3}%
+        \else%
+            \adjustbox{trim={0 0 {\hcrop} 0}, clip, width=\linewidth}{\includegraphics{#3}}%
+        \fi%
+    \else%
+        % Frame deletion - stack images with vertical crops
+        \ifnum#1=0\relax% Delete frame 0 (87-614): keep 0-87, then 614-2218
+            \@stackimg{\hcrop}{\@divE-\@divA}{\@divB}{#3}%
+        \else\ifnum#1=1\relax% Delete frame 1 (614-1135): keep 0-614, then 1135-2218
+            \@stackimg{\hcrop}{\@divE-\@divB}{\@divC}{#3}%
+        \else\ifnum#1=2\relax% Delete frame 2 (1135-1656): keep 0-1135, then 1656-2218
+            \@stackimg{\hcrop}{\@divE-\@divC}{\@divD}{#3}%
+        \fi\fi\fi%
+    \fi%
+}
+
+\makeatother

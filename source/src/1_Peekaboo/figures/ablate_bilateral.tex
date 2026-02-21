@@ -1,0 +1,21 @@
+\begin{figure}[h]
+\centering
+\begin{minipage}{\linewidth}
+    \includegraphics[width=\linewidth]{figures__vis_appendix__bilateral_overlay_timelapse.jpg}\\
+    \includegraphics[width=\linewidth]{figures__vis_appendix__non_bilateral_overlay_timelapse.jpg} \\
+    \includegraphics[width=\linewidth]{figures__vis_appendix__new_bilateral_timelapse.jpg}\\
+    \includegraphics[width=\linewidth]{figures__vis_appendix__skeleton_nonbilateral_alphas.jpg}\\
+    \hspace*{\fill}\small{$\overrightarrow{\texttt{Iteration}}$}\hspace*{\fill} \\
+\end{minipage}
+% \vspace{1em}
+\begin{minipage}{\linewidth}
+    \caption{\textbf{Ablation on bilateral filters}:
+    The bilateral filter improves segmentation alignment with object boundaries, resulting in more accurate and precise segmentations. In this figure, we show a timelapse of the alpha mask optimization process over time from left to right, for both Peekaboo variants \vart{Fourier} and \vart{Bilateral Fourier} (see \cref{sec:experiments}). The bottom two rows show a timelapse of the alpha maps, and the top two rows show a timelapse of those alpha maps overlaid on the original image to help visualize their accuracy. The first and third rows depict the \vart{Fourier} variant, while the second and fourth rows depict the \vart{Bilateral Fourier} variant.
+    % The bilateral filter improves segmentation alignment with object boundaries, resulting in more accurate and precise segmentations.
+    % We utilize a bilateral filter conditioned on the image to initialize the learnable alpha mask. This results in better segmentations that are more aligned to the boundaries of the objects contained within the image. The rows from top to bottom show, a) \vart{} overlay with bilateral filter, b) overlay without bilateral filter, c) mask with bilateral filter, and d) mask without bilateral filter.
+    % The bilateral filter results in better segmentations that are more aligned to the boundaries of the objects contained within the image. We highlight how the bilateral filter leads to better alignment of segmentation to the object boundaries.
+    }
+    \label{fig:ablate_bilateral}
+\end{minipage}
+\vspace{-1em}
+\end{figure}

@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\small
+\def\arraystretch{1.8}  % height
+\setlength\tabcolsep{0.7em}  % width
+\scalebox{0.86}{
+\begin{tabular}{cccc}
+    \toprule \rowcolor{Gray}
+    Illusion & $n$ & $m$ & $\mathbf{a}$ \\ \midrule
+    Flip & 1 & 2 & \makecell{$a_1(\mathbf{p}) = p_1$ \\ $a_2(\mathbf{p}) = \mathrm{rot}(p_2, 180)$} \\ \midrule
+    Rotation Overlay & 2 & 4 & $a_j(\mathbf{p}) = p_1 * \mathrm{rot}(p_2, 90j)$ \\ \midrule
+    Hidden Overlay & 4 & 5 & \makecell{$a_j(\mathbf{p}) = p_j, j \le 4$ \\ $a_5(\mathbf{p}) = p_1 * p_2 * p_3 * p_4$} \\ \bottomrule
+\end{tabular}
+}
+\vspace{-0.5em}
+\caption{This table describes our mathematical models of the Flip, Rotation Overlay, and Hidden Overlay illusions, describing the number of prime images $n$, the number of derived images $m$, and the arrangement operator $\mathbf{a}$ mapping from prime image space $\mathcal{P}^n$ to derived image space $\mathcal{D}^m$. The arrangements in the Flip illusion are simply the identity and a 180 degree rotation. The arrangement operations in the Overlay illusions use a multiplication blend operation to model shining light through multiple transparencies; the result is multiplied by a constant and normalized using $\mathrm{tanh}$ to avoid losing dynamic range.}
+\label{tbl:arrangements}
+\vspace{-0.5em}
+\end{table}
+
+%% We can revert back to old format using this if preferred 
+% \begin{tabular}{|c|c|c|c|}
+%     \hline
+%     Illusion & $n$ & $m$ & $\mathbf{a}$ \\
+%     \hhline{|=|=|=|=|}
+%     Flip & 1 & 2 & \makecell{$a_1(\mathbf{p}) = p_1$ \\ $a_2(\mathbf{p}) = \mathrm{rot}(p_2, 180)$} \\
+%     \hline
+%     Rotation Overlay & 2 & 4 & $a_j(\mathbf{p}) = \mathrm{tanh}\left(2 * p_1 * \mathrm{rot}(p_2, 90j)\right)$ \\
+%     \hline
+%     Multiple Overlay & 4 & 5 & \makecell{$a_j(\mathbf{p}) = p_j, j \le 4$ \\ $a_5(\mathbf{p}) = \mathrm{tanh}\left(3 * p_1 * p_2 * p_3 * p_4\right)$} \\
+%     \hline
+% \end{tabular}
