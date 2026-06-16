@@ -6,7 +6,7 @@ Write Ryan Burgert's PhD thesis proposal document. The `source/` directory is wh
 
 ## Thesis Theme
 
-**"Controlling Diffusion Models"** (working title — stored as a variable for easy changing later). The unifying narrative is: how to make diffusion models do what you want.
+**"How to Control Your Diffusion Model"** — the official thesis title. The unifying narrative is: how to make diffusion models do what you want.
 
 ## Chapter Ordering (chronological)
 
