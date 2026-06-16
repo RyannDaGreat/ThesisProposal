@@ -1,4 +1,38 @@
+\chapter{Research Impact}
+
+so maybe some subsections go here - we talk about how important the research was and how it impacted things. Do 1 research frenzy for each of my papers to see if I miss anything.
+
+Make a list of things you need to fact check as you read. Follow all instructions in my rambles.
+
+
+DO NOT DO MORE THAN ONE PARAGRAPH AT A TIME this is like brushign teeth do NOT rush this job. this is LITERALLY my PhD thesis. So I'll know if you delete some instruction or glaze over something. Each instruction MUST be cataloggd inthe todo and where a frenzy is called for, a 10-agent frenzy is warranted for each and every place I call for it. 
+
+Peekaboo: 
+this work was impactful because it showed people that diffusion foundation models could be used, even as a black box that predicts noise and without pulling apart the attention layers etc, to do more than just image generation. It inspired well cited papers such as the "your diffusion model is secretly a classifier" paper which was extremely well cited [ but I am unfamiliar so please take a look ]. It was also the first work to demonstrate RGBA text-to-image generation, albeit at low quality. The mechanism behind this paper's optimization was also directly used for diffusion illusions imeediateyly after the paper was written.
+
+Diffusion Illusions:
+It basically spawned its own subfield of research. It won the CVPR demo award, got featured as a SIGGRAPH paper, and was the focus of two youtube videos by popular science communication youtubers Steve Mould and Matt Parker. It won the best CVPR demo award for (2024? 2023?) [claude: please see the website it talks more about that]. it triggered other works such as Visual Anagrams (did it get an oral?), the one by Pascal (lookingglass) which got a CVPR oral, and the multi-scale diffusion thing that Daneil Geng also made that got featued on the back of every CVPR shirt in 2025 (i remember now it was calld the factorized diffusion paper). Illusion3D was similar to lookingglass, and was also in SIGGRAPH I think? [Please list other diffusion works here that were inspired by it too - do a research frenzy]. Diffusion Illusions essentially spawned a new subfield of research: using foundation models to create optical illusions. 
+
+MAGICK: [was this work high impact? who cited it any why?] It was at the time, the largest general domain RGBA image dataset available to the public [ the PDF paper alone had more examples of RGBA images in it than the previous largest matting dataset did]. 
+
+Go with the flow: My other most impactful work - a CVPR oral. It was at its time the best motion control model SOTA - by a long shot - and stayed that way for months. This is because of how simple it was to set up, letting us jump on the CogVideoX5B base model the week it was released. Go-with-the-Flow was easy to set up cause all I needed to do was swap out one noise for another, and fine tune. As a result, the open source community picked up the code base and within a few weeks of release people had built GWTF versions for AnimateDiff and HunyuanVideo. People also built GUI's and Comfy Nodes around it too (zeptaframe and kijai made some).  It received over 1000 stars on Github, and became the adopted base model for many future works such as [ that physics paper charles hermann made about playing with physics and using GWTF to render it ] and [ I know there were like 5 other papers that did this too. find them and talk to me about them with links etc].
+In addition to the motion control aspect of this paper, many other works have continued to make use of, and in many cases improve, the warped noise itself [ please research frenzy here to see who did I know there are several ]. Some people extended it to 3d even [who?]
+Also, not sure where I should put this, but GWTF was also used in a demo in CVPR 2025? I think? With Yosun Chang and I that got an honorable mention. Please look into that too - research it and get back to me. 
+
+
+MotionV2V:
+This paper is rather new (CVPR 2026) - so it's not clear what impact it will have yet. But it was the first paper to demonstrate a new type of edit. Motion edits are a class of edit that, if we want to be able to manipulate any video, will eventuanly have to become mainstream. Did anyone cite it yet?
+
+TODO CLAUDE: By the way, we need to make sure nowhere in this paper do we ever say "this paper" - make a macro for it or some set of macros...since this is a thesis, it should say "this thesis" everwhere instead.
+
+
 \chapter{Conclusion and Future Work}
 \label{chapter:conclusion}
+
+[restate intro here basically] 
+Foundation models are very powerful for many tasks. But they aren't useful if we stick to just text to image or text to video. Our ability to harness and control these models is what makes them useful, and is the focus of my work. 
+
+Future work:
+In the future, I'll be working on video editing tasks - such as proof that an image-to-image general editor can be turned into a video-to-video general editor (like nanobanana but for video, look it up so you understand what that means claude).
 
 \textcolor{red}{[PLACEHOLDER: Conclusion and future work to be written.]}
