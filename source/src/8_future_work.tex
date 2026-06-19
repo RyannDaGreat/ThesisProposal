@@ -32,10 +32,4 @@ MotionV2V is the most recent work in this thesis, accepted to CVPR~2026, so its 
 \chapter{Conclusion and Future Work}
 \label{chapter:conclusion}
 
-[restate intro here basically] 
-Foundation models are very powerful for many tasks. But they aren't useful if we stick to just text to image or text to video. Our ability to harness and control these models is what makes them useful, and is the focus of my work. 
-
-Future work:
-In the future, I'll be working on video editing tasks - such as proof that an image-to-image general editor can be turned into a video-to-video general editor (like nanobanana but for video, look it up so you understand what that means claude).
-
-\textcolor{red}{[PLACEHOLDER: Conclusion and future work to be written.]}
+Diffusion foundation models have made photorealistic image and video generation broadly accessible, but raw text-to-image and text-to-video generation expose only a narrow slice of what these models can do. The user supplies a short description and the model fills in everything else---composition, transparency, motion, semantics---from its prior, leaving a persistent gap between what the user intends and what the model produces. The thesis takes the position that closing this gap is what makes foundation models genuinely useful, and that the structure needed to close it already lives inside the frozen model, waiting to be controlled. The five works presented here---Peekaboo, Diffusion Illusions, MAGICK, Go-with-the-Flow, and MotionV2V---each extend control along a different axis (spatial semantics, multi-view geometry, transparency, temporal motion, and motion editing), and together they show that a frozen or lightly fine-tuned diffusion model can be steered toward tasks its training objective never directly anticipated.
