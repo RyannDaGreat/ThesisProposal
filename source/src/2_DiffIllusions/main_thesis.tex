@@ -198,7 +198,7 @@ We implement $\mathcal{G}$ using SDEdit~\cite{meng2022sdedit} where random noise
 Note that in both Score Distillation Loss and Dream Target Loss, we propagate gradients to the prime images, updating their parametric representation (i.e. the weights of the MLP Fourier Feature Networks $\theta$), and the diffusion model is kept frozen.
 
 \subsubsection{Visual Prompt}
-Optionally, one or more $t_i$ can be given as a specific target image instead of a text prompt --- letting users hide targets such as QR codes or blocks of text.
+Optionally, one or more $t_i$ can be given as a specific target image instead of a text prompt, letting users hide targets such as QR codes or blocks of text.
 In that case, for both phases, the discrepancy between the derived image and the target image is measured using \cref{diffill_eq:img_sim}, providing gradients for the prime images.
 
 \subsection{Fabrication}

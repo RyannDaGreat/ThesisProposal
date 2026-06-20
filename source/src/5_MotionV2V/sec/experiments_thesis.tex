@@ -149,7 +149,7 @@ particularly in scenarios involving content not visible in initial frames.
 \subsection{Qualitative Comparisons}
 
 \noindent \textbf{Iterative Edits.}
-One of the strengths of our technique is that it can be applied iteratively --- taking the output of one run and using it as input for a successive video edit. This allows users to chain multiple simple, intuitive edits together in order to achieve a very complicated edit. This iterative editing also provides more immediate feedback to the user making the process more transparent and easier to control. In~\cref{mv2v_fig:iterative_editing}, we show that a complex edit (an object motion and a camera change) can be decomposed into its core parts and applied one by one. While this example demonstrates some degree of subject drift, this can be attributed in part to the quality of the base video model. We believe that future versions of our method will be able to be applied infinitely.
+One of the strengths of our technique is that it can be applied iteratively, taking the output of one run and using it as input for a successive video edit. This allows users to chain multiple simple, intuitive edits together in order to achieve a very complicated edit. This iterative editing also provides more immediate feedback to the user making the process more transparent and easier to control. In~\cref{mv2v_fig:iterative_editing}, we show that a complex edit (an object motion and a camera change) can be decomposed into its core parts and applied one by one. While this example demonstrates some degree of subject drift, this can be attributed in part to the quality of the base video model. We believe that future versions of our method will be able to be applied infinitely.
 
 \begin{figure}
     \centering
@@ -162,7 +162,7 @@ and ATI's result (with additional baselines shown for subfigure 4).
 Move Object (repositioning objects),
 Move Camera (changing camera motion),
 Time Control (retiming events),
-Changed All Frames (no shared frames between input/output---impossible for image-to-video methods).
+Changed All Frames (no shared frames between input/output, impossible for image-to-video methods).
 Colored dots track correspondence points throughout the video;
 dot presence/absence indicates object visibility.
 Red circles highlight key differences where baselines fail.}
@@ -173,7 +173,7 @@ Red circles highlight key differences where baselines fail.}
 a trajectory-guided image-to-video method based on WAN 2.1~\cite{wan},
 our strongest baseline despite using a more powerful base model than our CogVideoX base.
 Subfigure 4 additionally shows ReVideo~\cite{revideo2024} and Go-with-the-Flow~\cite{gowiththeflow2025},
-which rated poorly in user evaluation---ReVideo lacks text conditioning and Go-with-the-Flow was not designed for point control.
+which rated poorly in user evaluation: ReVideo lacks text conditioning and Go-with-the-Flow was not designed for point control.
 
 
 \noindent\textbf{Edit \#1: Complex Edits on the Boat Scene.} This edit moves the boat left and shifts the camera so that mountains from the original's last frame appear in the edit's first. This requires specifying a substantial temporal trajectory change and holistic knowledge of the scene content. Ours is the only method that realistically moves the boat while correctly adjusting the camera to reveal the mountains at the beginning of the video.
@@ -199,4 +199,4 @@ As the camera follows a red car, a motorcyclist enters late. We reposition this 
 
 
 \noindent\textbf{Discussion.}
-These scenarios highlight I2V limitations: conditioning only on the first frame prevents leveraging information from the full input. Our V2V formulation enables bidirectional flow, allowing outputs to pull content from \emph{any} input frame. This handles offscreen content, camera changes, and reordering---challenges where I2V methods like ReVideo~\cite{revideo2024}, Go-with-the-Flow~\cite{gowiththeflow2025}, and MotionPrompting~\cite{motionprompt2024} fail.
+These scenarios highlight I2V limitations: conditioning only on the first frame prevents leveraging information from the full input. Our V2V formulation enables bidirectional flow, allowing outputs to pull content from \emph{any} input frame. This handles offscreen content, camera changes, and reordering, challenges where I2V methods like ReVideo~\cite{revideo2024}, Go-with-the-Flow~\cite{gowiththeflow2025}, and MotionPrompting~\cite{motionprompt2024} fail.

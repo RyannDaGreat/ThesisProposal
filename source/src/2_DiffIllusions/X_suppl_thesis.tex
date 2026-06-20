@@ -8,7 +8,7 @@
     \centering
     \href{https://diffusionillusions.com}{\includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/website_figure_compressed.jpg}}
     \href{https://diffusionillusions.com}{https://diffusionillusions.com}
-    \caption[Interactive Project Website]{Please visit our project page --- it contains fully interactive simulations of all illusions in \thiswork, as well as many more!}
+    \caption[Interactive Project Website]{Please visit our project page; it contains fully interactive simulations of all illusions in \thiswork, as well as many more!}
     \label{diffill_fig:website}
 \end{figure}
 
@@ -16,7 +16,7 @@
 \subsection{Implementation Details}
 
 \subsubsection{Brightness Constant}
-In the actual implementation, you'll see we multiply our derived overlay images by a scalar ``brightness constant'' $k$, that is chosen based on the type of illusion. This constant is visible in the given pseudocode --- please see how it is used there. This is because in real life, when viewing the hidden overlay and rotating overlay illusions, the backlight can be arbitrarily bright. Without this term, the derived images obtained from overlaying other images would necessarily be darker than their prime images, because images have values between 0 and 1, and the product between any two numbers between 0 and 1 are guaranteed to be 1 or less.
+In the actual implementation, you'll see we multiply our derived overlay images by a scalar ``brightness constant'' $k$, that is chosen based on the type of illusion. This constant is visible in the given pseudocode; please see how it is used there. This is because in real life, when viewing the hidden overlay and rotating overlay illusions, the backlight can be arbitrarily bright. Without this term, the derived images obtained from overlaying other images would necessarily be darker than their prime images, because images have values between 0 and 1, and the product between any two numbers between 0 and 1 are guaranteed to be 1 or less.
 
 Because the hidden character illusion deals with 4 overlays, it benefits from a higher brightness constant than the rotation overlay illusion ($k=3$ vs $k=2$). The brightness constant $k$ is not applicable for the flip illusion, as it does not deal with overlay transparencies.
 

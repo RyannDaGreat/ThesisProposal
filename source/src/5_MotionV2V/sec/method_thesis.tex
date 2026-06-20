@@ -49,7 +49,7 @@ Given a source video $\Vfull$ of length $\Ffull$ frames, we generate video pairs
 
 For the counterfactual video $\Vcf$, we randomly select start and end frame indices $\fstartcf, \fendcf \sim \text{Uniform}(0, \Ffull-1)$ and choose one of two generation strategies:
 
-\noindent \textbf{Frame Interpolation:} We use a video diffusion model conditioned on frames $\fstartcf$ and $\fendcf$ to generate a $\Fframes$-frame video. This adds new content via LLM-generated prompts---e.g., instructing a walking person to ``twirl'' (Figure~\ref{mv2v_fig:video_prep}). This provides more data than first-frame-only methods, allowing the model to use more of the input video.
+\noindent \textbf{Frame Interpolation:} We use a video diffusion model conditioned on frames $\fstartcf$ and $\fendcf$ to generate a $\Fframes$-frame video. This adds new content via LLM-generated prompts, e.g.\ instructing a walking person to ``twirl'' (Figure~\ref{mv2v_fig:video_prep}). This provides more data than first-frame-only methods, allowing the model to use more of the input video.
 
 \noindent \textbf{Temporal Resampling:} We extract $\Fframes$ frames evenly spaced between $\fstartcf$ and $\fendcf$ from $\Vfull$. This creates natural speed variations, temporal shifts, and sometimes reversed motion when $\fstartcf > \fendcf$.
 
@@ -61,7 +61,7 @@ Next, we establish point correspondences between the video pair. We initialize $
 
 We use TAPNext~\cite{tapnext}, a bidirectional point tracker, on $\Vfull$ with these initial points to obtain target tracks $\Ttarget$. For counterfactual tracks $\Tcf$: in temporal resampling cases, we use the same tracker output; for interpolation cases, we first replace the corresponding frames in $\Vfull$ with the interpolated $\Vcf$ frames before running TAPNext~\cite{tapnext}.
 
-Finally, we apply geometric augmentations to the counterfactual videos including random sliding crops, rotations, and scale changes, with the same transformations applied to the corresponding tracking points to maintain correspondence. These artificial moving crops approximate multi-view videos and ensure perfect temporal synchronization---giving the model a bias toward synchronizing appearance when otherwise unspecified.
+Finally, we apply geometric augmentations to the counterfactual videos including random sliding crops, rotations, and scale changes, with the same transformations applied to the corresponding tracking points to maintain correspondence. These artificial moving crops approximate multi-view videos and ensure perfect temporal synchronization, giving the model a bias toward synchronizing appearance when otherwise unspecified.
 
 \paragraph{Trajectory Representation}
 A key part of our method is our representation of motion throughout videos. Our model is conditioned on three videos: the counterfactual video $\Vcf$, the rendered counterfactual motion tracks $\Bcf$, and the rendered target motion tracks $\Btarget$, each of dimension $\mathbb{R}^{\Fframes \times 3 \times \Hrgb \times \Wrgb}$. Additionally, like our base model, text prompts provide semantic conditioning, which we will leave out of equations in this section for brevity.
