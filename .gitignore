@@ -20,6 +20,9 @@
 .frenzy
 #<RP Default Gitignore End>
 
+# Claude scratch
+.claude_papers
+
 # LaTeX generated files
 *.aux
 *.bbl
