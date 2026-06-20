@@ -20,7 +20,7 @@
     "\textit{We adore chaos because we love to produce order.}" --- M. C. Escher, Dutch artist
 \end{quote}
 
-The essence of generative modeling lies in producing order from chaos, learning to transform random noise from the latent space into structured outputs that align with the distribution of training data. In this paper, we propose a novel approach to enhance generative model learning by proactively introducing partial order into the chaos of latent space sampling.
+The essence of generative modeling lies in producing order from chaos, learning to transform random noise from the latent space into structured outputs that align with the distribution of training data. \Inthiswork, we propose a novel approach to enhance generative model learning by proactively introducing partial order into the chaos of latent space sampling.
 
 Our work is motivated by the remarkable progress in video diffusion generative models~\cite{guo2024animatediff,blattmann2023align,guo2024sparsectrl,blattmann2023stable,brooks2024video,yang2024cogvideox} and the equally significant challenges they face in terms of controllability beyond text and image guidance. Fine-grained interactive control over motion dynamics remains an under-explored area due to the intricate spatiotemporal correlations among video frames. The complexity of modern video diffusion architectures~\cite{brooks2024video,yang2024cogvideox}, which leverage 3D autoencoders~\cite{yu2024language} and spatiotemporal tokenizers~\cite{ma2024latte}, further complicates efforts to adapt models for effective motion control. The optimal format for defining and disentangling motion control from other guidance remains an open question.
 

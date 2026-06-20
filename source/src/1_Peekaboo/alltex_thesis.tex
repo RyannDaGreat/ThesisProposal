@@ -242,7 +242,7 @@ def segment_image_via_peekaboo(img, prompt):
   return alpha()
 
 def peekaboo_loss(img, prompt, alpha):
-  """Core of our paper. Blends image with random 
+  """Core of our method. Blends image with random
   color and returns loss guiding alpha mask."""
   
   img_embedding = sd.vae.encoder(img)

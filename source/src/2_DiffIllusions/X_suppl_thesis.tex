@@ -8,7 +8,7 @@
     \centering
     \href{https://diffusionillusions.com}{\includegraphics[width=1\linewidth]{src/2_DiffIllusions/figs/website_figure_compressed.jpg}}
     \href{https://diffusionillusions.com}{https://diffusionillusions.com}
-    \caption[Interactive Project Website]{Please visit our project page --- it contains fully interactive simulations of all illusions in this paper, as well as many more!}
+    \caption[Interactive Project Website]{Please visit our project page --- it contains fully interactive simulations of all illusions in \thiswork, as well as many more!}
     \label{diffill_fig:website}
 \end{figure}
 
@@ -309,7 +309,7 @@ The result is presented in \cref{diffill_fig:big-baseline-fig-rot}. Our method i
   \label{diffill_fig:big-baseline-fig-rot}
 \end{figure}
 
-\noindent\textbf{Ablation on the Number of Derived Images} \quad In this paper, by default we discuss a challenging rotation overlay illusion task where two prime images need to `encode' four derived images. In this section, we conduct an ablation on the number of derived images. We perform an ablation study on the number of derived images, specifically focusing on cases with 2 to 4 derived images.
+\noindent\textbf{Ablation on the Number of Derived Images} \quad \Inthiswork, by default we discuss a challenging rotation overlay illusion task where two prime images need to `encode' four derived images. In this section, we conduct an ablation on the number of derived images. We perform an ablation study on the number of derived images, specifically focusing on cases with 2 to 4 derived images.
 Our hypothesis posits that reducing the number of derived images eases generation constraints, potentially enhancing image quality.
 This is corroborated by \cref{diffill_fig:big-baseline-fig-rot-task}, which demonstrates improved image-text alignment and aesthetic scores in simpler tasks.
 Conversely, we observe a divergent trend in diversity, suggesting the interference between multiple derived images.
@@ -332,9 +332,9 @@ Conversely, we observe a divergent trend in diversity, suggesting the interferen
 \subsection{Fabrication Details}
 All of the illusions we present are realizable in the real world in physical form. To create a flip illusion in real life is quite easy - just print out one of the images onto a sheet of paper using a regular color laser printer.
 
-The hidden overlay and rotation overlay can also be created with a basic color laser printer, and this is how we made all of the photographic examples in this paper. Searching ``transparency film'' online will yield many cheap transparent plastic films that are laser-printer compatible (a pack of 100 sheets sells for about \$20 USD). However, after printing onto these overlays, it is useful to laminate them, as the ink can be easily scratched off. We do this with a basic thermal lamination machine that can also be purchased cheaply online.
+The hidden overlay and rotation overlay can also be created with a basic color laser printer, and this is how we made all of the photographic examples in \thiswork. Searching ``transparency film'' online will yield many cheap transparent plastic films that are laser-printer compatible (a pack of 100 sheets sells for about \$20 USD). However, after printing onto these overlays, it is useful to laminate them, as the ink can be easily scratched off. We do this with a basic thermal lamination machine that can also be purchased cheaply online.
 
-After they have been printed, laminated, and cut appropriately - place the stacked transparencies over a source of light. We use a backlight extracted from an old LCD monitor for our photos in this paper. However, any backlight will do - holding them up to a bright window with outdoor sunlight works quite well too!
+After they have been printed, laminated, and cut appropriately - place the stacked transparencies over a source of light. We use a backlight extracted from an old LCD monitor for our photos in \thiswork. However, any backlight will do - holding them up to a bright window with outdoor sunlight works quite well too!
 
 Since we model the light filtering process as multiplication, and multiplication is commutative, our modeling process assumes that the ordering of the layers doesn't matter. This is true in real life as well - with sufficient backlighting, you will get the same visual result whether transparency $p_1$ is on the top or on the bottom. However in practice, since some light reflects off the top transparency, it won't be perfectly identical.
 
