@@ -113,3 +113,10 @@
 - Reorder chapters in main.tex to match chronological order
 - Committee form
 - Decide on MotionV2V inclusion
+
+## 2026-06-19: MotionV2V inclusion RESOLVED — stays as full Ch7
+
+- Long-open question (flagged "Ryan undecided / may be removed" since the early sessions) is now DECIDED: MotionV2V remains a full contribution chapter (Ch7).
+- Rationale: the original reason to maybe-cut it ("unproven arXiv preprint") no longer holds. The 10-agent impact frenzy confirmed it is accepted to CVPR 2026 (CVF proceedings pp. 35988-35997) and already has ~10 citations at ~7 months post-release.
+- No LaTeX change required (it was already Ch7). Cleared the "may be removed" flags in claude_instructions.md (3 places).
+- Also corrected a long-standing manifest error while here: the chapter order note said "DiffIllusions → Peekaboo" but the true chronological (arXiv-v1) order is Peekaboo (Nov 2022) → DiffIllusions (Dec 2023). main.tex was already correct; only the note was wrong.

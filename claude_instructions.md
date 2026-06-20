@@ -16,7 +16,7 @@ Write Ryan Burgert's PhD thesis proposal document. The `source/` directory is wh
 4. **Peekaboo** (arXiv Nov 2022) — currently Ch3 in source, needs reordering
 5. **MAGICK** (CVPR 2024) — currently Ch5 in source
 6. **Go-with-the-Flow** (CVPR 2025 Oral, arXiv Jan 2025) — currently Ch6 in source
-7. **MotionV2V** (arXiv Nov 2025) — currently Ch7 in source. **May be removed — Ryan hasn't decided yet.**
+7. **MotionV2V** (CVPR 2026, arXiv Nov 2025) — Ch7 in source. **DECIDED 2026-06-19: stays as a full contribution chapter** (confirmed CVPR 2026, ~10 citations; no longer "may be removed").
 8. Future Work (placeholder)
 
 **NOTE**: The source files currently have the OLD ordering (Peekaboo=Ch3, DiffIllusions=Ch4). Reordering main.tex `\input` lines will renumber chapters automatically since we use `\chapter{}` not `\chapter[N]{}`.
@@ -29,7 +29,7 @@ Write Ryan Burgert's PhD thesis proposal document. The `source/` directory is wh
 | 4 | **Peekaboo** | arXiv 2022 | 2211.13224 | `Peekaboo_2211.13224_source.tar.gz` |
 | 5 | **MAGICK** | CVPR 2024 | — | Source from `/Users/ryan/CleanCode/Projects/Adobe2023/MAGICK_Paper` |
 | 6 | **Go-with-the-Flow** | CVPR 2025 Oral | 2501.08331 | `Go-with-the-Flow_2501.08331_source.tar.gz` |
-| 7 | **MotionV2V** | arXiv 2025 | 2511.20640 | `MotionV2V_2511.20640_source.tar.gz` (may be removed) |
+| 7 | **MotionV2V** | CVPR 2026 | 2511.20640 | `MotionV2V_2511.20640_source.tar.gz` |
 
 ## Actual source/ File Structure (as built)
 
@@ -196,7 +196,7 @@ For each paper → thesis chapter, apply these mechanical transformations:
 - Total literature review: ~2000-2500 words
 
 ### Chapter Ordering for Related Works
-Chronological: Diffusion Illusions → Peekaboo → MAGICK → GWTF → MotionV2V (may be removed)
+Chronological by arXiv-v1 first-public date (CONFIRMED 2026-06-19): Peekaboo (Nov 2022) → Diffusion Illusions (Dec 2023) → MAGICK (2024) → GWTF (Jan 2025) → MotionV2V (Nov 2025). This is already the order in `main.tex`. NOTE: an earlier note said "DiffIllusions → Peekaboo" — that was WRONG; Peekaboo predates DiffIllusions by 13 months. MotionV2V stays (full Ch7).
 
 ## Ryan's Voice Notes — Abstract & Intro Direction (2026-02-21)
 
