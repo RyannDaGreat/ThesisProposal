@@ -236,6 +236,17 @@
 \newcommand{\Inthiswork}{In this thesis\xspace}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AI-draft flagging macro
+%%% \AI{...} renders AI-drafted text in orange so Ryan can spot every passage
+%%% that still needs to be rewritten in his own words. NONE of this is final.
+%%% Ryan's original handwritten notes are kept as %-comments next to each block.
+%%% To find all remaining AI text: search the source for "\AI{".
+%%% To see the final look without highlighting, redefine to \newcommand{\AI}[1]{#1}.
+
+\definecolor{aidraft}{RGB}{217, 95, 2}  % orange
+\newcommand{\AI}[1]{{\color{aidraft}#1}}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MotionV2V commands
 
 \newcommand{\ignore}[1]{}
