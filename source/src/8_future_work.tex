@@ -55,7 +55,13 @@ Peekaboo's impact came from demonstrating how image diffusion foundation models 
 %\AI{It triggered a steady run of follow-ups. Visual Anagrams~\cite{geng2023visualanagrams}, a CVPR~2024 Oral, gave a simpler zero-shot take on view-conditioned illusions; Factorized Diffusion~\cite{geng2024factorized} pushed the idea into frequency-decomposed hybrid images; PTDiffusion~\cite{gao2025ptdiffusion} hid images through training-free phase transfer; and the whole thing jumped from 2D into 3D with Illusion3D~\cite{feng2024illusion3d} and the CVPR~2025 Oral LookingGlass~\cite{chang2025lookingglass}, which does anamorphic 3D illusions. Together they make up a small but clearly recognizable cluster of diffusion-based illusion work that I think Diffusion Illusions helped seed.}
 
 Diffusion Illusions was one of the most well known works in my thesis. It was built on technological foundations of Peekaboo: it parametrized images with fourier feature networks, and used score distillation loss to optimize them. But it had a different goal, which was to create optical illusions, some of which humans would have little hope of designing by hand. In particular, the overlay illusions which reveal hidden images when superimposed on each other and rotated would be monstrously difficult for a human artist to do by hand.
-It ended up triggering it's own small subfield of research: generating illusions via diffusion foundation models. Visual Anagrams~\cite{geng2023visualanagrams}, a CVPR~2024 Oral, gave a simpler zero-shot take on view-conditioned illusions; Factorized Diffusion~\cite{geng2024factorized} pushed the idea into frequency-decomposed hybrid images; PTDiffusion~\cite{gao2025ptdiffusion} hid images through training-free phase transfer; and the whole thing jumped from 2D into 3D with Illusion3D~\cite{feng2024illusion3d} and the CVPR~2025 Oral LookingGlass~\cite{chang2025lookingglass}, which does anamorphic 3D illusions.
+
+Diffusion Illusions ended up triggering it's own small subfield of research: generating illusions via diffusion foundation models: every one of the papers in this paragraph was directly inspired by and builds on our work.
+Visual Anagrams~\cite{geng2023visualanagrams}, a CVPR~2024 Oral, provided a way to generate a subset of illusions that can be represented by invertible, orthogonal transforms (i.e. rotations, puzzles with multiple solutions, or color inversions that turn one image into another). Factorized Diffusion~\cite{geng2024factorized} pushed the idea into frequency-decomposed hybrid images that show different subjects when viewing the image, and was used on the back of the official shirts for CVPR 2024.
+  PTDiffusion~\cite{gao2025ptdiffusion} hid images through training-free phase transfer, such as a cliff face that simultaneously looks like a face.
+  Illusion3D~\cite{feng2024illusion3d} and the CVPR~2025 Oral LookingGlass~\cite{chang2025lookingglass} created 3D diffusion illusions - using differentiable rendering, so that different lenses and mirrors placed on one subject (i.e. a castle) reveal another hidden subject (i.e. a lion) when viewed from a certain angle.
+
+
 Diffusion Illusions itself was published at SIGGRAPH~2024, won the Best Demo Award at CVPR~2023, became the subject of two videos by the science-communication YouTubers Steve Mould and Matt Parker - amassing over a million views. 
 
 
@@ -71,7 +77,25 @@ Diffusion Illusions itself was published at SIGGRAPH~2024, won the Best Demo Awa
 %  LayeringDiff, a matting work. ~20 cites, 6448 HF dl/mo. See impact_verified.md
 %  sec 3.]
 
-[TODO: Fact Check these claims. Do these papers actually use my dataset? ]
+% --- RYAN'S TODO (2026-07-22, moved out of body text so it doesn't print) ---
+% [TODO: Fact Check these claims. Do these papers actually use my dataset? ]
+% [FACT-CHECK 2026-08-03: fresh frenzy, 10 agents, reports in ../.frenzy/magick_factcheck/.
+%  VERDICT: YES. All three papers cited below materially use the dataset (verbatim quotes on file):
+%  - Trans-Adapter (ICCV'25): trains on 90% of a MAGICK subset, benchmarks on the other 10%,
+%    runs a "w/o MAGICK" ablation. Its LayerBench = 800 imgs, 200 from MAGICK (25%, largest
+%    single source) -> "good chunk of LayerBench" is ACCURATE.
+%  - TKG-DM (CVPR'25 Highlight): builds its 3,000-image eval benchmark from MAGICK; headline
+%    FID/mask-FID computed against it.
+%  - PrismLayers (arXiv-only as of Aug'26, MSRA): trains its transparency VAE decoder on MAGICK;
+%    Layer-Bench eval prompts sampled from MAGICK; suffix-prompt scheme "Inspired by MAGICK".
+%  Also verified users (uncited here): PSDiffusion (WACV'26), LayeringDiff (arXiv'25, NOT AAAI).
+%  CORRECTION vs June frenzy: the portrait-matte paper replicates MAGICK's chroma-key METHOD
+%  only, never uses the data -> material users = 5, not 6.
+%  "Largest public general-domain RGBA dataset / none bigger since" HOLDS thru Aug 2026
+%  (LayerDiffuse 1M never released; ART MLTD private; PrismLayersPro only ~20K). To dodge
+%  layer-counting pedantry, consider qualifier "individual captioned RGBA images".
+%  HF downloads now 3,773/mo (was 6,448 in June) - "thousands of times a month" still true but
+%  barely plural; "over 150K downloads all-time" (158,640) is the sturdier phrasing.]
 \AI{When we released it, MAGICK was the largest general-domain RGBA image dataset available to the public, by a wide margin: the previous largest released general-domain matting set had only a few hundred objects, and in fact MAGICK shows more RGBA examples in its own figures than that dataset had in total. No bigger one has come out since, so it has quietly become the go-to dataset for transparent and layered image generation. Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, and PrismLayers~\cite{prismlayers2025} train or evaluate on it directly, and its images make up a good chunk of the LayerBench benchmark. MAGICK was a standard conference poster, so its impact does not really show up in citation counts or press; it shows up in people actually using the data, which they do thousands of times a month.}
 
 \section{Go-with-the-Flow}
