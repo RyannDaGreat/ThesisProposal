@@ -97,7 +97,9 @@ Diffusion Illusions itself was published, presented at, and also had a demo sess
 %  layer-counting pedantry, consider qualifier "individual captioned RGBA images".
 %  HF downloads now 3,773/mo (was 6,448 in June) - "thousands of times a month" still true but
 %  barely plural; "over 150K downloads all-time" (158,640) is the sturdier phrasing.]
-When we released it, MAGICK was the largest general-domain RGBA image dataset available to the public, by a wide margin: the previous largest released general-domain matting set had only a few hundred objects, and in fact MAGICK shows more RGBA examples in its own figures than that dataset had in total. No bigger one has come out since, so it has quietly become the go-to dataset for transparent and layered image generation. Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, and PrismLayers~\cite{prismlayers2025} train or evaluate on it directly, and its images make up a good chunk of the LayerBench benchmark. MAGICK was presented and published at CVPR 2025.
+MAGICK was presented and published at CVPR 2025. When we released it, MAGICK was the largest general-domain RGBA image dataset available to the public, by a wide margin: the previous largest released general-domain matting set had only a few hundred objects, and in fact MAGICK shows more RGBA examples in its own figures than that dataset had in total. 
+%No bigger one has come out since, so it has become a go-to dataset for transparent and layered image generation. 
+Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, and PrismLayers~\cite{prismlayers2025} train or evaluate on it directly, and its images make up a good chunk of the LayerBench benchmark. LayeringDiff~\cite{kang2025layeringdiff} leans on it hardest, drawing every foreground in its synthetic training set from MAGICK's 150K images and reusing it as both its FID reference and the source of its matting test set, while PSDiffusion~\cite{huang2026psdiffusion} folds curated MAGICK assets into its training dataset and scores its generated RGBA layers against MAGICK as the ground-truth distribution. 
 
 \section{Go-with-the-Flow}
 
@@ -128,9 +130,22 @@ When we released it, MAGICK was the largest general-domain RGBA image dataset av
 %  it - dropped). 3D = CameraNoise (ICML'26). Yosun Chang demo "AI3D Render" = Best
 %  Demo Honorable Mention. ~107 cites. "SOTA for months" NOT verified - softened.
 %  See impact_verified.md sec 4.]
-\AI{Go-with-the-Flow, a CVPR~2025 Oral, is my other most impactful work and the most widely adopted method in this thesis. On our benchmarks it was the best motion-control model at the time by a clear margin, and it held that lead for months, largely because it was so simple to set up: all I really had to do was swap out one noise for another and fine-tune. That meant I could jump on a new base model like CogVideoX-5B the week it dropped, with no architectural surgery. The same simplicity is why the open-source community picked it up so fast. The release passed a thousand GitHub stars, and within weeks people had ported it to other backbones like AnimateDiff and HunyuanVideo and wrapped it in interactive tools and ComfyUI nodes for noise warping. It has since become a building block for things well outside motion transfer, like WonderPlay~\cite{wonderplay2025}, which uses it to render physically simulated scenes.}
+\AI{
+Go-with-the-Flow, a CVPR~2025 Oral, is my other most impactful work and the most widely adopted method in this thesis. It was the best motion-control model at the time of release by a clear margin, and it held that lead for several months, largely because it was so simple to set up: once the noise warping code was complete, training was as simple as swapping out one noise for another and fine-tuning. As a result, I was able to train GWTF on CogVideoX-5B the week it dropped, when every other paper released for months afterwards was still using AnimateDiff. This simplicity is why the open-source community picked it up so fast: within weeks, the release passed a thousand GitHub stars, people had ported it to other backbones like AnimateDiff and HunyuanVideo, and others wrapped it in interactive tools and ComfyUI nodes for noise warping. 
 
-\AI{Beyond the motion-control application, people have kept building on, and improving, the warped noise itself. EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does, casting it in terms of equivariance, and others have carried it into new settings, including warping the noise around 3D camera geometry for camera-controllable generation~\cite{cameranoise2026}. Separately, Yosun Chang and I used the warped-noise sampler to build an interactive demo at CVPR~2025 that won a Best Demo Honorable Mention.}
+It has since become a building block for things well outside motion transfer, like WonderPlay~\cite{wonderplay2025}, which uses it to render physically simulated scenes.} [there are so many other works that use it...didnt charles hermann have others? Didn't other papers use Go-with-the-flow as a rendering backbone?]
+
+\AI{Beyond the motion-control application, people have kept building on, and improving, the warped noise itself. 
+EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does [wtf? this claims to be concurrent. should we list it?]
+, casting it in terms of equivariance, and others have carried it into new settings, including warping the noise around 3D camera geometry for camera-controllable generation~\cite{cameranoise2026}. 
+
+[I have another paper that does warped noise that was concurrent with this one by the way. Please list that. There are other papers too that try to do warped noise in different ways right? How many cite us?]
+
+[How many papers are based on us to the degree that we could safely say: If GWTF didn't exist, their entire paper would have been different or wouldn't exist?]
+
+
+Yosun Chang and I used Go-with-the-Flow to build an interactive demo at CVPR~2025 that won a Best Demo Honorable Mention, where users pupeteered objects in a 3D virtual-reality dollhouse, and animated them to life with our model.
+}
 
 
 \section{MotionV2V}
