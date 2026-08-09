@@ -295,6 +295,32 @@ freely; each has primary-source proof on file.
   Mochi); ZeptaFrame moribund (repo 10 stars, site down). ACTION ITEM: both README-linked
   HF demo Spaces are broken (PAUSED / RUNTIME_ERROR) — tell Eyeline.
 
+### MotionV2V (CVPR 2026, standard poster) — updated 2026-08-08
+
+- **11 citers total (S2, complete list cross-checked). NONE substantially based on it** —
+  batch swarm deep-read all 11 full texts: 10 completeness/positioning cites + Motion4Motion,
+  which excluded it from baselines because "the implementation... was not publicly available
+  before submission" (verbatim). VEFX-Bench's cite is bibliography-only.
+- **CORRECTION to impact_verified.md sec 5**: TrajectoryMover is NOT an end-to-end MotionV2V
+  citer. It cites two Burgert 2025 papers; its Table 1 baseline is GWTF (2025b); MotionV2V
+  (2025a) appears only in Related Work as "concurrent work... targets V2V editing via
+  'motion edits'".
+- **"First V2V general-object motion editor" HOLDS** (~40 candidates re-checked, Aug 2026).
+  Near-neighbors: Point-to-Point (arXiv 2511.18277, 2 days earlier, INVERSE task — preserves
+  motion, edits appearance); Lee et al. "Generative Video Motion Editing with 3D Point
+  Tracks" (arXiv 2512.02015, CVPR 2026, Adobe/UMD, 6 days later — independent convergence;
+  their project page calls MotionV2V "concurrent work"). Keep the paper's own "first in its
+  class" scoping in prose.
+- **Subfield forming**: MotionV2V + Lee et al. = twin founding V2V motion-editing references,
+  explicitly linked by TrajectoryMover; "motion editing" emerging as task label; "motion
+  counterfactuals" coinage not yet adopted by others.
+- **No code released** (repo = project page, 58 stars, flat). Demand on record: GitHub issue
+  "When the code be available?" + HuggingFace's Niels Rogge requesting checkpoints/dataset
+  (Dec 2025), both unanswered. RELEASING CODE IS THE TOP IMPACT LEVER for this chapter.
+- CVPR 2026: poster (ExHall F #40209), no award/highlight; press/social checks inconclusive
+  (search quota/CAPTCHA blocks), nothing major surfaced.
+- Full evidence: `.frenzy/motionv2v_update/E1-E5` + `batch/agent_1-4` (verbatim quotes).
+
 ## Critical Constraints
 
 - `source/` is the ONLY writable directory for thesis content

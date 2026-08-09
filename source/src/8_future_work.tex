@@ -148,16 +148,18 @@ Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, a
 %  it - dropped). 3D = CameraNoise (ICML'26). Yosun Chang demo "AI3D Render" = Best
 %  Demo Honorable Mention. ~107 cites. "SOTA for months" NOT verified - softened.
 %  See impact_verified.md sec 4.]
-\AI{
+%\AI{
 Go-with-the-Flow, a CVPR~2025 Oral, is my other most impactful work and the most widely adopted method in this thesis. It was the best motion-control model at the time of release by a clear margin, and it held that lead for several months, largely because it was so simple to set up: once the noise warping code was complete, training was as simple as swapping out one noise for another and fine-tuning. As a result, I was able to train GWTF on CogVideoX-5B the week it dropped, when every other paper released for months afterwards was still using AnimateDiff. This simplicity is why the open-source community picked it up so fast: within weeks, the release passed a thousand GitHub stars, people had ported it to other backbones like AnimateDiff and HunyuanVideo, and others wrapped it in interactive tools and ComfyUI nodes for noise warping. 
 
-It has since become the standard rendering bridge for simulation-to-video work: papers that compute motion some other way and then hand it to GWTF to render as photoreal video. WonderPlay~\cite{wonderplay2025} drives it with an interactive physics simulator, and PSIVG~\cite{psivg2026} puts a physical simulator in the generation loop; NewtonGen~\cite{newtongen2026} feeds it neural Newtonian dynamics; VLIPP~\cite{vlipp2025} plans physically plausible motion with a vision-language model; VideoFrom3D~\cite{videofrom3d2025} renders camera trajectories through 3D scene geometry; and FOFPred~\cite{fofpred2026} drives it with predicted future optical flow. For each of these papers GWTF is the backend renderer, and RealWonder~\cite{realwonder2026} goes a step further, re-implementing the warping inside its own real-time model.}
+It has since become the standard rendering bridge for simulation-to-video work: papers that compute motion some other way and then hand it to GWTF to render as photoreal video. WonderPlay~\cite{wonderplay2025} drives it with an interactive physics simulator, and PSIVG~\cite{psivg2026} puts a physical simulator in the generation loop; NewtonGen~\cite{newtongen2026} feeds it neural Newtonian dynamics; VLIPP~\cite{vlipp2025} plans physically plausible motion with a vision-language model; VideoFrom3D~\cite{videofrom3d2025} renders camera trajectories through 3D scene geometry; and FOFPred~\cite{fofpred2026} drives it with predicted future optical flow. For each of these papers GWTF is the backend renderer, and RealWonder~\cite{realwonder2026} goes a step further, re-implementing the warping inside its own real-time model.
+%}
 % Ryan's note (answered in FACT-CHECK below): [there are so many other works that use
 % it...didnt charles hermann have others? Didn't other papers use Go-with-the-flow as a
 % rendering backbone?]
 
-\AI{Beyond the motion-control application, people have kept building on, and improving, the warped noise itself. 
-EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does, casting it in terms of equivariance, and others have replaced the 2D optical flow with 3D structure: camera geometry for camera-controllable generation~\cite{cameranoise2026}, SMPL body surfaces for articulated humans~\cite{humandiff2026}, and sparse 3D point tracks for joint camera and object control~\cite{unicamo2026}. Warped noise also has a concurrent sibling paper: InfRes~\cite{deng2025infres}, an ICLR~2025 paper I co-authored, develops a competing infinite-resolution integral noise-warping algorithm; the two were developed side by side, and GWTF benchmarks against it. Across all of this, GWTF has picked up over 115 citations in the year and a half since release.
+%\AI{
+Beyond the motion-control application, people have kept building on, and improving, the warped noise itself. 
+EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does, casting it in terms of equivariance, and others have replaced the 2D optical flow with 3D structure: camera geometry for camera-controllable generation~\cite{cameranoise2026}, SMPL body surfaces for articulated humans~\cite{humandiff2026}, and sparse 3D point tracks for joint camera and object control~\cite{unicamo2026}. Warped noise also has a concurrent sibling paper: InfRes~\cite{deng2025infres}, an ICLR~2025 paper I co-authored, showed infinite-resolution integral noise-warping algorithm inspired by our GWTF. Across all of this, GWTF has picked up over 115 citations in the year and a half since release.
 % Ryan's notes (answered in FACT-CHECK below):
 % [wtf? this claims to be concurrent. should we list it?]
 % [I have another paper that does warped noise that was concurrent with this one by the way.
@@ -192,7 +194,7 @@ EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves t
 
 
 Yosun Chang and I used Go-with-the-Flow to win the a CVPR~2025 Best Demo Honorable Mention, where users pupeteered objects in a 3D virtual-reality dollhouse, and animated them to life with our model.
-}
+%}
 
 
 \section{MotionV2V}
@@ -207,7 +209,32 @@ Yosun Chang and I used Go-with-the-Flow to win the a CVPR~2025 Best Demo Honorab
 %  (MotionEditor'23, MotionFollower'24, ReVideo'24) -> scope to "first
 %  video-to-video general-object motion editor". CVPR 2026 confirmed. See
 %  impact_verified.md sec 5.]
-\AI{MotionV2V is my most recent work, accepted to CVPR~2026, so it is still too new to say where its impact lands. What it does is demonstrate a new class of edit: motion editing. Earlier methods could change appearance or follow a trajectory you hand them~\cite{motioneditor,motionfollower,revideo2024}, but MotionV2V is, as far as I know, the first to do true video-to-video motion editing on arbitrary objects, reaching into the motion already present in a real video and changing it while keeping the content, instead of regenerating the scene or only handling human skeletons. I think motion edits are a class of edit that will eventually have to become mainstream: if we want to be able to manipulate any video, we will need them. Even this early, it has already started picking up citations from follow-up work on trajectory-based video editing.}
+%\AI{MotionV2V is my most recent work, accepted to CVPR~2026, so it is still too new to say where its impact lands. What it does is demonstrate a new class of edit: motion editing. Earlier methods could change appearance or follow a trajectory you hand them~\cite{motioneditor,motionfollower,revideo2024}, but MotionV2V is, as far as I know, the first to do true video-to-video motion editing on arbitrary objects, reaching into the motion already present in a real video and changing it while keeping the content, instead of regenerating the scene or only handling human skeletons. I think motion edits are a class of edit that will eventually have to become mainstream: if we want to be able to manipulate any video, we will need them. And a motion-editing subfield is already starting to form: an Adobe and University of Maryland team arrived at the same video-to-video task independently within a week of our release~\cite{lee2026pointtracks}, their project page describes MotionV2V as concurrent work, and follow-ups like TrajectoryMover~\cite{trajectorymover2026} now frame the two papers together as the reference points for motion editing. In its first nine months MotionV2V has picked up around a dozen citations, so far as related-work context rather than as a foundation, which is the usual shape of a task-defining paper's first year before its code is out.}
+
+
+MotionV2V is my most recent paper, which was accepted to CVPR~2026. It's main impact came from defining a new task. It was the first paper to do true motion video editing - where the entire video context, without discarding human-chosen chunks of information (i.e. inpainting or first-frame-to-video). I think motion edits are a class of edit that will eventually have to become mainstream: if we want to be able to manipulate any video without laborious inpainting, and be able to preserve arbitrary appearance content (such as an actor's facial expression), I would argue this is the most pure problem formulation for that. 
+A concurrent work released a month after ours [insert motion paper here] attempts a similar goal, but with a greater point density - which gives it a slightly different use-case since a human can't be reasonably be exccpected to specify all those points, unlike ours which is sparse. It has around 11 citations right now. There are other papers currently being worked on that have the same goal of motion editing, which will come out later this year. 
+% [FACT-CHECK 2026-08-08, 5 sonnet agents + batch-4 swarm deep-reading ALL 11 citers ->
+%  ../.frenzy/motionv2v_update/ (E1-E5, batch/agent_1-4). Verbatim quotes on file.
+%  - "Substantially based on us?" NO - 0 of 11 citers; 10 completeness/positioning cites +
+%    Motion4Motion, which wanted to benchmark MotionV2V but says the "implementation...was
+%    not publicly available before submission". VEFX-Bench cite is bibliography-only.
+%  - CORRECTION to June's impact_verified.md sec 5: TrajectoryMover was NOT an end-to-end
+%    citer of MotionV2V - it cites TWO Burgert 2025 papers; its Table 1 baseline is GWTF
+%    (2025b), while MotionV2V (2025a) appears in Related Work as "concurrent work".
+%  - "First V2V general-object motion editor" HOLDS (~40 candidates re-checked). Near-
+%    neighbors, not counterexamples: Point-to-Point (2511.18277, 2 days BEFORE, inverse
+%    task: keeps motion, edits appearance); Lee et al. 3D point tracks (2512.02015, 6 days
+%    after, independent convergence, never disputes us). Keep the paper's own "first in
+%    its class" scoping.
+%  - Subfield forming: MotionV2V + Lee et al. = twin founding V2V references (TrajectoryMover
+%    links them by name); "motion editing" emerging as task label; "motion counterfactuals"
+%    coinage NOT yet adopted by others.
+%  - CVPR 2026: standard poster (ExHall F #40209), no award/highlight; no press found
+%    (search partially blocked - inconclusive).
+%  - Ecosystem: repo 58 stars (flat), STILL NO CODE. Demand on record: open issue "When
+%    the code be available?" + HuggingFace's Niels Rogge requesting checkpoints/dataset
+%    (Dec 2025, unanswered). Releasing code is the top impact lever for this chapter.]
 
 
 \chapter{Conclusion and Future Work}

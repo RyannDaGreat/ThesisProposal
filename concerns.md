@@ -187,3 +187,21 @@
 - MISTAKE LOG: two Edit calls failed because the MAGICK section changed on disk mid-session
   (Ryan's rewrite). Lesson: in an actively-co-edited file, re-read the target section
   immediately before every Edit, not just at session start.
+
+## 2026-08-08 — MotionV2V developments check (5 Sonnet agents + batch-4 citer swarm)
+- Ryan asked: any new developments, and are citers substantially based on it or citing for
+  completeness? ANSWER: completeness — 0 of 11 citers build on it (all 11 full texts read).
+- MISTAKE FOUND & LOGGED: June frenzy's "TrajectoryMover = verified end-to-end citer" was a
+  conflation of two Burgert 2025 papers (its real baseline is GWTF 2025b; MotionV2V 2025a is
+  a "concurrent work" related-work mention). Lesson: when an author has multiple same-year
+  papers, always resolve 2025a/2025b keys before crediting a citation.
+- Positives: "first V2V general-object motion editor" claim re-verified against ~40
+  candidates and HOLDS; motion-editing subfield forming with MotionV2V + Lee et al.
+  (2512.02015, 6 days later, calls us "concurrent work") as twin founding references.
+- Negatives: no code released (58 stars flat; Motion4Motion cites the missing code as why
+  it's absent from their baseline table; HF's Niels Rogge request unanswered since Dec 2025);
+  CVPR 2026 standard poster, no award.
+- Actions: MotionV2V \AI{} rewritten (subfield framing, honest citation
+  characterization); FACT-CHECK comment block added; 2 verified bib entries
+  (lee2026pointtracks, trajectorymover2026) appended to 5_MotionV2V/main.bib (bibtex error
+  count unchanged = parse clean); manifest MotionV2V findings subsection added.

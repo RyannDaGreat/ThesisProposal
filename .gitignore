@@ -42,3 +42,5 @@
 *.snm
 *.vrb
 source/main.pdf
+source/.texpadtmp/main.pdf
+source/.texpadtmp
