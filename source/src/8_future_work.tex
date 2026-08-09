@@ -97,9 +97,27 @@ Diffusion Illusions itself was published, presented at, and also had a demo sess
 %  layer-counting pedantry, consider qualifier "individual captioned RGBA images".
 %  HF downloads now 3,773/mo (was 6,448 in June) - "thousands of times a month" still true but
 %  barely plural; "over 150K downloads all-time" (158,640) is the sturdier phrasing.]
-MAGICK was presented and published at CVPR 2025. When we released it, MAGICK was the largest general-domain RGBA image dataset available to the public, by a wide margin: the previous largest released general-domain matting set had only a few hundred objects, and in fact MAGICK shows more RGBA examples in its own figures than that dataset had in total. 
-%No bigger one has come out since, so it has become a go-to dataset for transparent and layered image generation. 
-Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, and PrismLayers~\cite{prismlayers2025} train or evaluate on it directly, and its images make up a good chunk of the LayerBench benchmark. LayeringDiff~\cite{kang2025layeringdiff} leans on it hardest, drawing every foreground in its synthetic training set from MAGICK's 150K images and reusing it as both its FID reference and the source of its matting test set, while PSDiffusion~\cite{huang2026psdiffusion} folds curated MAGICK assets into its training dataset and scores its generated RGBA layers against MAGICK as the ground-truth distribution. 
+% [RE-VERIFIED 2026-08-03 at Ryan's request: 10-agent ADVERSARIAL frenzy told to refute
+%  "no bigger one since" -> ../.frenzy/magick_biggest_check/. ZERO surviving counterexamples.
+%  Both attempted refutations died on direct audit: PrismLayers' "200K" ships only as
+%  fragmented stylized repos (Plus 80.8K + MultiRes 91.4K resolution-variants + Pro 20K;
+%  styles = 3D/Pokemon/anime/doodle - NOT general-domain; multi-layer comps, not individual
+%  RGBA images); openclipart "178K" contains no images at all (metadata + SVG text + URLs).
+%  Also confirmed: LayerDiffuse 1M never released (GitHub issue still open), ART MLTD private,
+%  HIM-100K not public, Green100K 88% recomposited, VMReal unreleased. CLAIM IS SAFE as long
+%  as the qualifiers stay: "public" + "general-domain" + "individual captioned RGBA images".
+%  Also: GitHub says "140,000+" vs paper's 150K - phrase count as "over 140,000" to be safe.]
+MAGICK was presented and published at CVPR 2024. When we released it, MAGICK was the largest general-domain RGBA image dataset available to the public, by a wide margin: the previous largest released general-domain matting set had only a few hundred objects, and in fact MAGICK shows more RGBA examples in its own figures than that dataset had in total. 
+%No bigger one has come out since, so it has become a go-to dataset for transparent and layered image generation.
+% ^ Ryan commented this pending verification. VERIFIED TRUE 2026-08-03 (10-agent adversarial
+%   frenzy, zero surviving counterexamples - see RE-VERIFIED block above). Restored below in
+%   \AI{} with the qualifiers that make it committee-proof:
+%\AI{
+In the two years since, no larger public general-domain collection of individual captioned RGBA images has been released for transparent and layered image generation, and several works were built using it.
+
+%, and MAGICK has quietly become the default public dataset for transparent and layered image generation, passing 150,000 total downloads on Hugging Face.
+%}
+Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, and PrismLayers~\cite{prismlayers2025} train or evaluate on it directly, and its images make up a good chunk of the LayerBench benchmark. LayeringDiff~\cite{kang2025layeringdiff} leans on it hardest, drawing every foreground in its synthetic training set from MAGICK's 140,000+ images and reusing it as both its FID reference and the source of its matting test set, while PSDiffusion~\cite{huang2026psdiffusion} folds curated MAGICK assets into its training dataset and scores its generated RGBA layers against MAGICK as the ground-truth distribution. 
 
 \section{Go-with-the-Flow}
 
@@ -133,18 +151,47 @@ Papers like Trans-Adapter~\cite{dai2025transadapter}, TKG-DM~\cite{tkgdm2025}, a
 \AI{
 Go-with-the-Flow, a CVPR~2025 Oral, is my other most impactful work and the most widely adopted method in this thesis. It was the best motion-control model at the time of release by a clear margin, and it held that lead for several months, largely because it was so simple to set up: once the noise warping code was complete, training was as simple as swapping out one noise for another and fine-tuning. As a result, I was able to train GWTF on CogVideoX-5B the week it dropped, when every other paper released for months afterwards was still using AnimateDiff. This simplicity is why the open-source community picked it up so fast: within weeks, the release passed a thousand GitHub stars, people had ported it to other backbones like AnimateDiff and HunyuanVideo, and others wrapped it in interactive tools and ComfyUI nodes for noise warping. 
 
-It has since become a building block for things well outside motion transfer, like WonderPlay~\cite{wonderplay2025}, which uses it to render physically simulated scenes.} [there are so many other works that use it...didnt charles hermann have others? Didn't other papers use Go-with-the-flow as a rendering backbone?]
+It has since become the standard rendering bridge for simulation-to-video work: papers that compute motion some other way and then hand it to GWTF to render as photoreal video. WonderPlay~\cite{wonderplay2025} drives it with an interactive physics simulator, and PSIVG~\cite{psivg2026} puts a physical simulator in the generation loop; NewtonGen~\cite{newtongen2026} feeds it neural Newtonian dynamics; VLIPP~\cite{vlipp2025} plans physically plausible motion with a vision-language model; VideoFrom3D~\cite{videofrom3d2025} renders camera trajectories through 3D scene geometry; and FOFPred~\cite{fofpred2026} drives it with predicted future optical flow. For each of these papers GWTF is the backend renderer, and RealWonder~\cite{realwonder2026} goes a step further, re-implementing the warping inside its own real-time model.}
+% Ryan's note (answered in FACT-CHECK below): [there are so many other works that use
+% it...didnt charles hermann have others? Didn't other papers use Go-with-the-flow as a
+% rendering backbone?]
 
 \AI{Beyond the motion-control application, people have kept building on, and improving, the warped noise itself. 
-EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does [wtf? this claims to be concurrent. should we list it?]
-, casting it in terms of equivariance, and others have carried it into new settings, including warping the noise around 3D camera geometry for camera-controllable generation~\cite{cameranoise2026}. 
+EquiVDM~\cite{liu2025equivdm} works out the theory of why warped noise behaves the way it does, casting it in terms of equivariance, and others have replaced the 2D optical flow with 3D structure: camera geometry for camera-controllable generation~\cite{cameranoise2026}, SMPL body surfaces for articulated humans~\cite{humandiff2026}, and sparse 3D point tracks for joint camera and object control~\cite{unicamo2026}. Warped noise also has a concurrent sibling paper: InfRes~\cite{deng2025infres}, an ICLR~2025 paper I co-authored, develops a competing infinite-resolution integral noise-warping algorithm; the two were developed side by side, and GWTF benchmarks against it. Across all of this, GWTF has picked up over 115 citations in the year and a half since release.
+% Ryan's notes (answered in FACT-CHECK below):
+% [wtf? this claims to be concurrent. should we list it?]
+% [I have another paper that does warped noise that was concurrent with this one by the way.
+%  Please list that. There are other papers too that try to do warped noise in different ways
+%  right? How many cite us?]
+% [How many papers are based on us to the degree that we could safely say: If GWTF didn't
+%  exist, their entire paper would have been different or wouldn't exist?]
+% [FACT-CHECK 2026-08-03, 8 sonnet agents -> ../.frenzy/gwtf_impact2/ (D1-D8). Answers to
+%  Ryan's brackets above:
+%  - RENDERING-BACKBONE USERS (motion computed elsewhere, GWTF renders): WonderPlay (ICCV'25
+%    Highlight, "as our g"), NewtonGen (ICLR'26), VideoFrom3D (SIGGRAPH Asia'25), VLIPP,
+%    PSIVG (2603.06408), FOFPred (Salesforce). RealWonder reimplements the warping technique.
+%    Pattern worth naming: GWTF = the standard rendering bridge for sim/planned-motion->video.
+%    These 6 pass the strict "wouldn't exist without GWTF" test. Herrmann's only other
+%    GWTF paper is MotionV2V itself (baseline).
+%  - EQUIVDM CONCURRENCY: v1 (Apr'25) called GWTF "concurrent work"; v2 (Oct'25, post-CVPR)
+%    removed that and frames GWTF as prior work it builds on. Safe to list as follow-up
+%    theory. NOTE: arXiv v2+ retitled it "On Equivariance and Fast Sampling in Video
+%    Diffusion Models Trained with Warped Noise".
+%  - RYAN'S CONCURRENT PAPER: InfRes = "Infinite-Resolution Integral Noise Warping for
+%    Diffusion Models", ICLR 2025 (Deng, Lin, Li, Smirnov, Burgert, Yu, Dedun, Taghavi;
+%    arXiv 2411.01212, posted Nov'24 BEFORE GWTF; GWTF Sec 4.2 calls it "the concurrent
+%    InfRes"). Frame as concurrent sibling w/ competing algorithm, not precursor (that's
+%    HIWYN, ICLR 2024).
+%  - WARPED-NOISE VARIANTS: CameraNoise (ICML'26) + UniCam (IJCV), HumANDiff (SMPL surface),
+%    UniCaMo/"Track the Noise" (3D point tracks), Phi-Noise (frequency-domain), IF-V2V.
+%  - CITES: 117 Semantic Scholar (22 influential) / 120 Google Scholar (Aug'26; was ~107 Jun).
+%  - Virtually Being (SIGGRAPH Asia'25) fine-tunes the GWTF checkpoint but Burgert co-authors
+%    it - own-group, don't count as external adoption.
+%  - Ecosystem: 1,090 stars (flat since Jun); kijai node 162 stars; NO new backbone ports;
+%    both README-linked HF demo Spaces are BROKEN (paused / runtime error) - tell Eyeline.]
 
-[I have another paper that does warped noise that was concurrent with this one by the way. Please list that. There are other papers too that try to do warped noise in different ways right? How many cite us?]
 
-[How many papers are based on us to the degree that we could safely say: If GWTF didn't exist, their entire paper would have been different or wouldn't exist?]
-
-
-Yosun Chang and I used Go-with-the-Flow to build an interactive demo at CVPR~2025 that won a Best Demo Honorable Mention, where users pupeteered objects in a 3D virtual-reality dollhouse, and animated them to life with our model.
+Yosun Chang and I used Go-with-the-Flow to win the a CVPR~2025 Best Demo Honorable Mention, where users pupeteered objects in a 3D virtual-reality dollhouse, and animated them to life with our model.
 }
 
 

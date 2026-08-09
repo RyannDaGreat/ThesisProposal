@@ -120,3 +120,70 @@
 - Rationale: the original reason to maybe-cut it ("unproven arXiv preprint") no longer holds. The 10-agent impact frenzy confirmed it is accepted to CVPR 2026 (CVF proceedings pp. 35988-35997) and already has ~10 citations at ~7 months post-release.
 - No LaTeX change required (it was already Ch7). Cleared the "may be removed" flags in claude_instructions.md (3 places).
 - Also corrected a long-standing manifest error while here: the chapter order note said "DiffIllusions → Peekaboo" but the true chronological (arXiv-v1) order is Peekaboo (Nov 2022) → DiffIllusions (Dec 2023). main.tex was already correct; only the note was wrong.
+
+## 2026-08-03 — MAGICK impact fact-check (Ryan's in-text TODO), fresh frenzy of 10 agents
+- Trigger: Ryan's commit d4f1af3 added `[TODO: Fact Check these claims. Do these papers actually use my dataset? ]` in the BODY TEXT of the MAGICK section of src/8_future_work.tex (it was printing into the PDF). Now moved into a %-comment with the verdict appended.
+- Method: fresh frenzy (agents given no prior conclusions from the June impact frenzy). Reports: .frenzy/magick_factcheck/A1-A10.
+- VERDICT: all three papers cited in the draft materially USE the dataset (verbatim quotes on file):
+  Trans-Adapter (ICCV'25, trains on 90% MAGICK subset + "w/o MAGICK" ablation), TKG-DM (CVPR'25
+  Highlight, 3,000-image MAGICK eval benchmark), PrismLayers (MSRA, trains transparency VAE
+  decoder on MAGICK). Also PSDiffusion (WACV'26) and LayeringDiff (arXiv'25). LayerBench = 25%
+  MAGICK (200/800, largest single source). "Largest public general-domain RGBA dataset, none
+  bigger since" HOLDS through Aug 2026.
+- CORRECTIONS vs June frenzy (impact_verified.md sec 3):
+  1. The portrait-matte paper (Lu et al., Pattern Recognition 2026) replicates MAGICK's chroma-key
+     METHOD as a baseline but never uses the data → material users = 5, not 6.
+  2. HF downloads dropped 6,448 → 3,773/month. "Thousands a month" still true but barely plural;
+     "over 150K all-time downloads" (158,640) is sturdier.
+  3. LayeringDiff is arXiv-only (author's homepage confirms), despite one agent labeling it AAAI 2025.
+- Bib repairs while verifying (bibtex error count 45 → 33; remaining 33 are benign cross-file
+  duplicate keys from merging five papers' bibs):
+  1. Stub authors "and others" filled with real lists: dai2025transadapter, tkgdm2025,
+     prismlayers2025 (3_MAGICK), wonderplay2025, cameranoise2026, liu2025equivdm (4_GWTF).
+  2. cameranoise2026 had a WRONG TITLE (real: "CameraNoise: Enabling Faithful Camera Control in
+     Video Diffusion through Geometry-Flow-Guided Noise Warping", arXiv 2605.30774).
+  3. EquiVDM was RETITLED on arXiv v2+ to "On Equivariance and Fast Sampling in Video Diffusion
+     Models Trained with Warped Noise" — kept v1 title (prose says "EquiVDM"), flagged for Ryan.
+  4. zhou2017scene in 2_DiffIllusions had corrupted author "olei Zhou, ..." (commas, truncated) — fixed.
+  5. deepfloyd in 3_MAGICK had no author/year (bibtex warnings) — filled to match GWTF's entry.
+- Lesson: bib stubs created during the June impact drafting ("and others") were never backfilled;
+  when adding placeholder citations, log them in the TODO immediately so they don't reach a build.
+
+## 2026-08-03 — Two frenzies: MAGICK largest-claim re-verify (10 Haiku, adversarial) + GWTF notes research (8 Sonnet)
+- MAGICK "no bigger public general-domain RGBA dataset since" — FINAL: HOLDS, zero surviving
+  counterexamples from 10 refutation-hunters. Two false refutations overturned by Claude's own
+  audits: (1) PrismLayers "200K" = fragmented stylized repos (Plus 80.8K + MultiRes 91.4K
+  resolution-variants + Pro 20K; anime/Pokemon/doodle styles; multi-layer comps ≠ individual
+  RGBA images; no 200K repo exists); (2) nyuuzyou/openclipart "178K" ships NO images (metadata
+  + SVG text + URLs only). Lesson: Haiku agents report paper/abstract claims as releases —
+  always audit the actual repos before accepting a refutation or confirmation.
+- Qualifiers are load-bearing: "public" + "general-domain" + "individual captioned RGBA
+  images"; count phrased "over 140,000" (GitHub) not 150K (paper) to be bulletproof.
+- GWTF research (Ryan's new bracketed notes in tex): 6 rendering-backbone papers pass the
+  strict would-not-exist test (WonderPlay ICCV'25 HL, NewtonGen ICLR'26, VideoFrom3D SIGGRAPH
+  Asia'25, VLIPP, PSIVG, FOFPred) + RealWonder technique-transfer. EquiVDM v1 said
+  "concurrent", v2 recanted post-CVPR-acceptance. InfRes (ICLR'25, Burgert co-author, arXiv
+  Nov'24) = concurrent sibling; GWTF calls it "the concurrent InfRes". Variants: CameraNoise/
+  UniCam, HumANDiff, UniCaMo, Phi-Noise, IF-V2V. Cites 117 S2 / 120 GS. Virtually Being
+  fine-tunes GWTF checkpoint but is own-group (Burgert co-author) - excluded from external
+  adoption. Ecosystem: 1,090 stars flat; both official HF demo Spaces broken (action item).
+- Full reports: .frenzy/magick_biggest_check/C1-C10, .frenzy/gwtf_impact2/D1-D8. Answers
+  annotated as %-comments in src/8_future_work.tex (MAGICK + GWTF sections).
+
+## 2026-08-03 — Findings folded into tex + manifest ("Modify the tex files accordingly")
+- GWTF \AI{} prose now names the 6 rendering-backbone papers + RealWonder, the 3D-structure
+  warped-noise variants (CameraNoise/HumANDiff/UniCaMo), InfRes as concurrent sibling, and
+  115+ citations. Ryan's 4 bracketed questions were PRINTING in the PDF - converted to
+  %-comments with answers adjacent.
+- 9 new bib entries in 4_GWTF/main.bib (authors pulled from arXiv API same-day). bibtex
+  error count unchanged (33 pre-existing duplicates) -> new entries parse clean.
+- MAGICK section: Ryan had rewritten it in his voice meanwhile. Two interventions, flagged
+  to him: (1) "presented and published at CVPR 2025" corrected to CVPR 2024 (proof:
+  manifest Core Papers table + PSDiffusion's citation "CVPR 2024, pp. 22595-22604");
+  (2) his commented-out "No bigger one has come out since" line restored as \AI{} with
+  committee-proof qualifiers + "150,000 total downloads" phrasing, per his instruction
+  "if it's true... we absolutely should claim it" (his commented line left untouched).
+- Manifest: new section "Verified Impact Findings (2026-08-03) — with proof" + change log.
+- MISTAKE LOG: two Edit calls failed because the MAGICK section changed on disk mid-session
+  (Ryan's rewrite). Lesson: in an actively-co-edited file, re-read the target section
+  immediately before every Edit, not just at session start.

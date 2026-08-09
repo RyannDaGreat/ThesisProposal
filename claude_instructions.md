@@ -229,6 +229,72 @@ Chronological by arXiv-v1 first-public date (CONFIRMED 2026-06-19): Peekaboo (No
 - Check if Kanchana has an "ongoing work" section — MotionV2V would go there
 - The intro should flow: motivation (control) → each paper as a step in the progression → impact → ongoing work
 
+## Verified Impact Findings (2026-08-03) — with proof
+
+These claims were verified by adversarial multi-agent frenzies plus Claude's direct audits.
+Full evidence (verbatim quotes, links, per-paper reports): `.frenzy/magick_factcheck/`,
+`.frenzy/magick_biggest_check/`, `.frenzy/gwtf_impact2/`. Cite these findings in the thesis
+freely; each has primary-source proof on file.
+
+### MAGICK (CVPR 2024 — NOT 2025; PSDiffusion cites it as "CVPR 2024, pp. 22595-22604")
+
+- **"Largest public general-domain dataset of individual captioned RGBA images, none bigger
+  released since" — TRUE as of Aug 2026.** 10 agents instructed to refute it found zero
+  surviving counterexamples. Proof of the two near-misses dying:
+  - PrismLayers (MSRA): advertised "200K" but HF org `artplus` hosts only fragments —
+    Plus 80.8K + MultiRes 91.4K (resolution-variants, same 10 style configs) + Pro 20K +
+    misc; style configs are literally `3D/Pokemon/anime/cartoon/doodle_art/furry/ink` =
+    stylized illustration, not general domain; rows are multi-layer compositions, not
+    individual RGBA images. Verified via datasets-server API + org listing, 2026-08-03.
+  - nyuuzyou/openclipart "178K": schema is title/description/tags/`image_urls`/`svg_content`
+    — it ships NO image data at all (metadata + SVG text + links). Verified via
+    datasets-server first-rows, 2026-08-03.
+  - LayerDiffuse 1M: never released — github.com/lllyasviel/LayerDiffuse issue #25 (Mar
+    2024) still open, README still says "planned". ART's 1M MLTD private; HIM-100K
+    inference-code only; Green100K ~88% re-composited existing data; VMReal unreleased.
+- **5 papers materially USE the dataset** (not just cite): Trans-Adapter (ICCV'25: "we merge
+  it with a subset of MAGICK, selecting 90% for training and reserving 10% for benchmarking";
+  LayerBench = 200/800 images from MAGICK), TKG-DM (CVPR'25 Highlight: "We collect 3,000
+  images from the MAGICK dataset"), PrismLayers ("The decoder is trained on both the MAGICK
+  dataset and an internal dataset"), LayeringDiff (arXiv'25, NOT AAAI: "For the foreground
+  dataset, we use the MAGICK dataset [3], which provides 150K RGBA foreground images"),
+  PSDiffusion (WACV'26: curates MAGICK assets into training set; "the RGBA layer is evaluated
+  against the MAGICK dataset"). The 6th candidate (portrait-matte, Pattern Recognition 2026)
+  replicates the chroma-key METHOD only — do not count it as a data user.
+- **Numbers to use**: count = "over 140,000" (GitHub says 140,000+; paper says 150K);
+  downloads = 158,640 all-time / 3,773 per month (HF API, 2026-08-03) — prefer the all-time
+  phrasing, monthly is declining; ~20 citations.
+
+### Go-with-the-Flow (CVPR 2025 Oral)
+
+- **Citations: 117 Semantic Scholar (22 "influential") / 120 Google Scholar** (Aug 2026).
+- **6 external papers use GWTF as their load-bearing renderer** (sim/planned motion → flow →
+  GWTF renders). Proof quotes on file; headline: WonderPlay (ICCV'25 Highlight) — "we
+  leverage a pre-trained motion-controlled image-to-video diffusion model, Go-with-the-Flow
+  [13], as our g." Others: NewtonGen (ICLR'26, 2509.21309), VideoFrom3D (SIGGRAPH Asia'25,
+  2509.17985), VLIPP (2503.23368), PSIVG (2603.06408, inherits GWTF's documented failure
+  modes), FOFPred (Salesforce, 2601.10781 — CAVEAT: co-author M. Ryoo overlaps GWTF authors).
+  RealWonder (2603.05449) re-implements the warping technique in its own model.
+- **EquiVDM priority evidence**: its arXiv v1 (Apr'25) called GWTF "concurrent work"
+  ("In concurrent works, [37] and [38] utilize the temporal consistent noise..."); v2
+  (Oct'25, post-CVPR-acceptance, retitled "On Equivariance and Fast Sampling...") removed
+  all concurrency language and frames GWTF as prior work. Safe to cite as follow-up theory.
+- **InfRes = the concurrent sibling**: "Infinite-Resolution Integral Noise Warping for
+  Diffusion Models", ICLR 2025 (Deng, Lin, Li, Smirnov, Burgert, Yu, Dedun, Taghavi;
+  arXiv 2411.01212, posted Nov 2024, BEFORE GWTF). GWTF Sec 4.2 calls it "the concurrent
+  InfRes". Frame as concurrent sibling with competing algorithm; the theoretical precursor
+  is HIWYN (Chang et al., ICLR 2024).
+- **Warped-noise variant papers**: CameraNoise (ICML'26) + UniCam (IJCV) — 3D camera
+  geometry; HumANDiff (2604.05961) — SMPL body surfaces; UniCaMo/"Track the Noise"
+  (2607.02798) — 3D point tracks; Phi-Noise (2605.24509) — frequency-domain alternative
+  that benchmarks against GWTF; IF-V2V.
+- **Own-group papers — do NOT count as external adoption**: Virtually Being (SIGGRAPH
+  Asia'25, fine-tunes the GWTF checkpoint, Burgert co-author); FOFPred (Ryoo overlap, flag).
+- **Ecosystem (2026-08-03)**: 1,090 stars main repo (flat since June); kijai/
+  ComfyUI-VideoNoiseWarp 162 stars; spacepxl ports on HF; NO new backbone ports (no Wan/LTX/
+  Mochi); ZeptaFrame moribund (repo 10 stars, site down). ACTION ITEM: both README-linked
+  HF demo Spaces are broken (PAUSED / RUNTIME_ERROR) — tell Eyeline.
+
 ## Critical Constraints
 
 - `source/` is the ONLY writable directory for thesis content
@@ -327,3 +393,17 @@ Chronological by arXiv-v1 first-public date (CONFIRMED 2026-06-19): Peekaboo (No
 
 - Intentionally shorter per Ryan's instruction ("adding is easier than removing")
 - Compilation: 231 pages, 0 LaTeX errors
+
+### Impact Findings Integration Session (2026-08-03)
+
+**Modified:**
+- `source/src/8_future_work.tex` — GWTF section: \AI{} rewrite folding in verified findings
+  (6 rendering-backbone papers, 3D-structure warped-noise variants, InfRes concurrent
+  sibling, 115+ citations); Ryan's bracketed questions converted to %-comments (were
+  printing); MAGICK section: CVPR 2025 -> CVPR 2024 fix, restored "none bigger since" as
+  \AI{} with committee-proof qualifiers + 150K-downloads phrasing (Ryan's commented line
+  left in place).
+- `source/src/4_GWTF/main.bib` — 9 new verified entries: deng2025infres, psivg2026,
+  newtongen2026, vlipp2025, videofrom3d2025, fofpred2026, realwonder2026, humandiff2026,
+  unicamo2026 (author lists from arXiv API, 2026-08-03).
+- `claude_instructions.md` — added "Verified Impact Findings (2026-08-03) — with proof".
