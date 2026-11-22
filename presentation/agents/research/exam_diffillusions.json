@@ -1,0 +1,89 @@
+{
+  "paper": "diffillusions",
+  "must_know": [
+    {
+      "q": "What problem does Diffusion Illusions solve, and how is an illusion formally defined?",
+      "answer": "It automatically generates optical illusions with a frozen text-to-image diffusion model. An illusion is a tuple of n physical prime images p_1..p_n and m arrangement operations a_j: P^n -> D; each arrangement of the primes yields a derived image d_j that should match its own target prompt t_j.",
+      "why": "The prime/derived/arrangement formalism is the paper's first claimed contribution and the frame for every other design choice."
+    },
+    {
+      "q": "What three illusion types are studied, and what are their arrangement operations (n primes, m derived)?",
+      "answer": "Flip (n=1, m=2): identity and 180-degree rotation. Rotation Overlay (n=2, m=4): d_j = k * p_1 * rot(p_2, 90j) for 4 rotations, k=2. Hidden Overlay (n=4, m=5): d_1..d_4 are the primes themselves, and d_5 = k * p_1*p_2*p_3*p_4 with k=3 reveals a hidden fifth image (for example a QR code).",
+      "why": "Overlay illusions with several primes are what separate this work from single-image contemporaries like Visual Anagrams."
+    },
+    {
+      "q": "Why is the overlay modeled as multiplication, and what is the brightness constant k?",
+      "answer": "Stacking light-filtering transparencies over a backlight multiplies transmittances, so the product models it (and is commutative, so layer order does not matter). Products of values in [0,1] get darker, so the result is scaled by k (2 for rotation, 3 for hidden) and normalized with tanh, which models a brighter backlight.",
+      "why": "An arrangement must be fixed, differentiable and physically realizable; this is where the physics enters the optimization."
+    },
+    {
+      "q": "What exactly is optimized, and how are the prime images parameterized?",
+      "answer": "Only the prime images are optimized. Each is a 512x512 RGB image represented by its own Fourier Feature Network (an MLP from coordinates to RGB, adapted from TRITON). Gradients flow from losses on derived images back through the arrangement ops into the MLP weights; the diffusion model (SDXL by default) stays frozen.",
+      "why": "Committee needs to know that this is inference-time optimization with no training of the generative model."
+    },
+    {
+      "q": "Why use a Fourier Feature Network instead of optimizing pixels directly?",
+      "answer": "Pixel-space optimization hid the derived image in very high-frequency patterns. It looked fine digitally but needed pixel-perfect printing and alignment, so the physical illusion broke. The FFN acts as a smoothness prior that pushes information into lower frequencies that survive fabrication.",
+      "why": "This is the key design choice linking the method to real-world fabrication, and it echoes Peekaboo and TRITON."
+    },
+    {
+      "q": "What are the two losses and how are they scheduled?",
+      "answer": "Phase 1 is Score Distillation Loss (as in DreamFusion, in SD latent space): noise the derived image at a random timestep, let the frozen UNet predict the noise conditioned on t_i, and use the L1 error (normalized by timestep) as a gradient with no backprop through the UNet. Phase 2 is the new Dream Target Loss: periodically run SDEdit img2img on each derived image to get a target z_i, then regress d_i to z_i with SSIM + MSE for about 1000 steps per target, with SDEdit strength decreasing from 0.90 to 0.01. The total is a weighted sum of per-image terms, with weights [1,1,1,1,3] for hidden overlay.",
+      "why": "This is the core mechanism exactly as implemented. Dream Target Loss is the paper's main technical novelty, and it is faster and less noisy than SDS."
+    },
+    {
+      "q": "How was the method evaluated, and what was the main result versus the baseline?",
+      "answer": "Hidden Overlay was evaluated on 4 styles x N=64 groups, each with 5 subjects sampled from the 19 PASCAL VOC classes (excluding person), and every method got 15 minutes on one A100. Metrics were CLIP cosine similarity (controllability), Vendi score with DINOv2/CLIP (diversity), the LAION aesthetics predictor (0-10), LLaVA-1.5 scores, and a new Independence Score: the minimum diagonal of the row- and column-softmaxed CLIP image-text matrix at tau=0.05. The default method C (500 SDS steps + 8 DTL steps, weights [1,1,1,1,3], SDXL) beat the baseline on all metrics except diversity. The results are reported only as distribution plots, with no numeric tables.",
+      "why": "This is the quantitative claim the committee will probe, including what the baseline is and why diversity is lower."
+    },
+    {
+      "q": "What are the stated limitations?",
+      "answer": "Generation is slow: minutes per illusion on an A100, faster than pure SDS but far slower than feed-forward methods like Visual Anagrams. Printing also causes color shifts, because inks and toner levels are not ideal multiplicative filters, so the physical result differs from the simulation. Finally, the method inherits SD/SDXL biases. Another finding is that prompt and style choice matter more than which method variant is used.",
+      "why": "A strong presenter states limitations before the committee does."
+    }
+  ],
+  "defense": [
+    {
+      "q": "What exactly is your baseline? 'Vanilla SDXL for one step of score distillation' sounds like a strawman. Why not compare against Visual Anagrams or IllusionDiffusion?",
+      "asker": "Samaras",
+      "good_answer": "Say that the baseline generates each of the 5 targets independently with SDXL, with no illusion constraint, so it bounds how much the constraint costs. Admit that it is not a competing illusion method. Visual Anagrams (Geng et al.) is contemporary and inspired by this work. It handles only single-prime illusions (flip and rotation, where the arrangement is a pixel permutation) and cannot express multiplicative overlays with several primes, so there is no direct competitor for Hidden or Rotation Overlay. Note the 15-minute A100 budget used for fairness.",
+      "weak_point": "Claiming to 'outperform the baseline' when the baseline is not an illusion method. Overstating SOTA without a head-to-head against Visual Anagrams on flip illusions."
+    },
+    {
+      "q": "You say there is no backpropagation through the diffusion model, but your SDS operates in latent space. Do you backprop through the VAE encoder? And is your L1-on-noise loss actually a valid gradient, or just a surrogate?",
+      "asker": "Sun",
+      "good_answer": "Yes, gradients go through the VAE encoder F_e (and through the arrangement ops and the FFN), but not through the UNet. That is the DreamFusion trick of dropping the UNet Jacobian. SDS is a surrogate whose gradient is a weighted (eps_hat - eps). Using L1 instead of the standard MSE-style residual changes the gradient to a sign-like residual, which is a heuristic choice and not derived from a variational bound. The timestep normalization is also heuristic. DTL instead gives an explicit regression objective (SSIM + MSE) toward an SDEdit target, which is a well-defined loss per outer iteration.",
+      "weak_point": "Not knowing that the encoder is differentiated through. Calling SDS a true loss. Not being able to justify L1."
+    },
+    {
+      "q": "Dream Target Loss looks like alternating optimization: generate a target with SDEdit, then regress to it. Does it converge, and what stops the targets from drifting or collapsing to a compromise none of the prompts like?",
+      "asker": "Sun",
+      "good_answer": "Each outer step solves a regression to fixed targets for 1000 inner steps, and the SDEdit strength anneals from 0.90 to 0.01, so the targets change less and less and the procedure settles. It resembles iterative projection between the prompt manifold, via SDEdit, and the set of images reachable by the arrangement. There is no formal convergence proof. The empirical evidence is that CLIP similarity and aesthetics rise monotonically with relative optimization time, and that the Independence Score catches compromise failures such as an overlay that looks like 'cow' instead of 'bottle'. The weight w_5=3 prioritizes the hidden image when the constraints conflict.",
+      "weak_point": "Claiming convergence guarantees. Not knowing the schedule. Ignoring the failure cases shown in the Independence Score figure."
+    },
+    {
+      "q": "How well does the simulation match the physical result? Multiplying RGB is not how toner on a transparency filters light. Did you calibrate?",
+      "asker": "Samaras",
+      "good_answer": "Admit that it is not calibrated. The paper shows simulated-vs-photographed comparisons with clear color shifts for both overlay types. The FFN is what makes the result robust to misalignment and print resolution, since pixel-space versions failed physically. Multiplication is commutative, which matches layer-order invariance under a strong backlight, apart from slight reflection off the top sheet. Printer-specific calibration (a learned or measured ink transmission model inside the arrangement op) is a natural extension, because the framework accepts any differentiable arrangement.",
+      "weak_point": "Claiming the fabrication is faithful. Not mentioning the color-shift figures. Having no story for adding a measured printer model."
+    },
+    {
+      "q": "Your Independence Score is a CLIP softmax over only 5 prompts at temperature 0.05. Isn't that easy to saturate and to game? Is it validated against humans?",
+      "asker": "Ryoo",
+      "good_answer": "It takes the minimum of the diagonal entries of the row- and column-softmaxed 5x5 CLIP image-text similarity matrix. That means every derived image must match its own prompt better than the other four, and every prompt must match its own image best. That catches leakage, such as seeing the sheep in the bus image, which plain CLIP similarity misses. Validation is qualitative only: randomly picked examples ranked by score look right. There is no human study, and it inherits CLIP's biases. LLaVA-1.5 scores were added as a second, independent judge.",
+      "weak_point": "Presenting it as validated. Not being able to explain what it measures beyond 'CLIP score'."
+    },
+    {
+      "q": "Your own analysis says prompts matter more than the method and that there is no one-size-fits-all variant. So what does the quantitative study actually establish about your method's design choices?",
+      "asker": "Ryoo",
+      "good_answer": "The study shows: (1) a gap over unconstrained generation on controllability, aesthetics and independence, with lower diversity explained by the extra constraints; (2) C vs D, where DTL after SDS improves aesthetics and keeps independence high compared with 4000 SDS steps alone, which supports DTL; (3) C vs B, where weight 3 on the hidden image helps; (4) SDXL (C) beats SD1.5 (A) on aesthetics; (5) the rotation-overlay ablation, where fewer derived images (2 vs 4) means better alignment and aesthetics. Be honest that the differences between variants are modest next to style effects, and that the results are distributions without significance tests.",
+      "weak_point": "Not knowing what A/B/C/D are. Not admitting that no numeric tables or significance tests are given."
+    },
+    {
+      "q": "This takes many minutes per illusion. How does it connect to the rest of the thesis, and why is optimization-based generation still worth it when feed-forward samplers exist?",
+      "asker": "Ryoo",
+      "good_answer": "The optimization view handles any differentiable arrangement, including multiplicative overlays across several separate physical images, which the noise-averaging sampling tricks of Visual Anagrams cannot express. Speed is the stated main limitation, and contemporary work traded generality for speed. Connect it to the thesis thread: reusing frozen pretrained diffusion priors through score distillation over custom parameterizations, as in Peekaboo and TRITON, with FFN implicit images as the shared tool.",
+      "weak_point": "Having no answer to 'why not just use Visual Anagrams'. Not tying the paper to the thesis narrative."
+    }
+  ]
+}

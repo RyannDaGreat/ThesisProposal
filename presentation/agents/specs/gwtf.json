@@ -1,0 +1,62 @@
+{
+  "section": "gwtf",
+  "slides": [
+    {
+      "title": "What about motion?",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_cat_input.png", "rect": [50, 130, 420, 280]},
+        {"kind": "text", "text": "“the cat yawns”", "rect": [50, 420, 420, 40], "size": 26, "color": "#000000"},
+        {"kind": "arrow", "from": [490, 270], "to": [600, 270], "color": "#000000"},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_gaussian_noise.png", "rect": [620, 130, 280, 280]},
+        {"kind": "text", "text": "The noise is the big input.", "rect": [560, 420, 400, 40], "size": 26, "color": "#C00000"}
+      ],
+      "speech": "Then video models showed up, and the gap got way worse. Say I want the orange cat here to yawn. I can type “the cat yawns,” but text can't say when, how wide, or which way its head goes. The model just makes that up. But a video model doesn't start from the text. It starts from this: pure random static, a block of noise for every frame, and it slowly cleans that up into a video. The text is a tiny input. The noise is the big one, and it already decides a lot. Same prompt, different noise, totally different video. So what if we made the noise itself move?"
+    },
+    {
+      "title": "Remember the RickRoll?",
+      "elements": [
+        {"kind": "video", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_rickroll_warped_noise.mp4", "rect": [30, 140, 900, 244]},
+        {"kind": "text", "text": "Every single frame is still pure static.", "rect": [130, 410, 700, 40], "size": 28, "color": "#C00000"}
+      ],
+      "speech": "Remember the RickRoll from the very start? That was it. On the left is the input video. In the middle is its optical flow: the arrows show where every pixel moves from one frame to the next. On the right is our warped noise. It's random static, but every speck of it travels along that flow. Pause it, and any single frame is pure static. You can't see Rick at all. Play it, and you can, because the only thing carrying him is motion."
+    },
+    {
+      "title": "Just warp it?",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_input.png", "rect": [60, 95, 400, 205]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_nearest.png", "rect": [500, 95, 400, 205]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_bilinear.png", "rect": [60, 320, 400, 205]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_ours.png", "rect": [500, 320, 400, 205]},
+        {"kind": "text", "text": "Nearest", "rect": [510, 100, 160, 30], "size": 20, "color": "#FFFFFF"},
+        {"kind": "text", "text": "Bilinear", "rect": [70, 325, 160, 30], "size": 20, "color": "#FFFFFF"},
+        {"kind": "text", "text": "Ours", "rect": [510, 325, 160, 30], "size": 20, "color": "#C00000"},
+        {"kind": "box", "rect": [500, 320, 400, 205], "color": "#C00000"}
+      ],
+      "speech": "Why do we need a new algorithm? Why not just warp the noise like an image? Top left is a roller coaster rushing forward, so everything stretches outward. Top right is nearest-neighbor warping: it copies noise pixels, so you get big smeared streaks. Bottom left is bilinear: it averages neighbors, so it goes blurry and gray. Neither is random static anymore: their spatial correlation, Moran's I, is around 0.3, and a diffusion model has only ever seen uncorrelated static, so you get garbage out. Bottom right is ours. It moves with the video, and its Moran's I is 0.0001. It's still pure static."
+    },
+    {
+      "title": "Noise as particles",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_algo_graph.png", "rect": [180, 92, 560, 372]},
+        {"kind": "text", "text": "In: Gaussian. Out: Gaussian. 26× faster.", "rect": [130, 476, 700, 40], "size": 28, "color": "#C00000"}
+      ],
+      "speech": "So how? We treat every noise pixel as a particle. The top row is four noise pixels in this frame, the bottom row is the next frame. The green arrows push each particle forward along the flow. When several land on the same pixel, like q-prime-two, we add them and rescale so it's still unit-variance noise, and we track a density, the red d, for how much noise got packed in there. When the scene stretches and leaves a hole nobody landed on, the circled pixels, we follow the blue arrows backwards and split one noise pixel into pieces, using conditional sampling from How I Warped Your Noise so every piece stays independent. We prove Gaussian in gives Gaussian out. It's linear time: 2 milliseconds a frame at 1024 by 1024, 26 times faster than How I Warped Your Noise."
+    },
+    {
+      "title": "Just swap the noise",
+      "elements": [
+        {"kind": "video", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_results.mp4", "rect": [118, 90, 724, 440]}
+      ],
+      "speech": "Fast mattered, because now we can warp noise for a whole dataset on the fly. We took four million videos, computed their optical flow, warped noise along it, and fine-tuned CogVideoX on that noise with its own training code. The only change is which noise goes in, no new layers. We also randomly mix in fresh noise during training, so at test time one knob sets how strictly it follows the motion. Then flow can come from anywhere: drag a polygon over the cat's mouth and it yawns, copy another video's camera move, or spin a crude 3D blob and get a squirrel. Forty people in our user study preferred it 82% of the time for cut-and-drag and 90% for camera turntables, and on DL3DV camera transfer our FID is 48 versus MotionClone's 83."
+    },
+    {
+      "title": "What became of it",
+      "elements": [
+        {"kind": "text", "text": "CVPR 2025 Oral", "rect": [80, 150, 800, 60], "size": 40, "color": "#000000"},
+        {"kind": "text", "text": "169 citations · 1.1k GitHub stars", "rect": [80, 230, 800, 60], "size": 40, "color": "#000000"},
+        {"kind": "text", "text": "The renderer behind physics-sim papers like WonderPlay", "rect": [80, 330, 800, 40], "size": 24, "color": "#C00000"}
+      ],
+      "speech": "It's a CVPR 2025 oral, with 169 citations and about 1,100 GitHub stars. It's become the go-to renderer for simulation papers: WonderPlay runs a physics simulator and hands the motion to Go-with-the-Flow to make real video. It has limits. Flow is 2D, the motion is a strong suggestion rather than an exact constraint, and you do have to fine-tune once. And it makes new videos. What if you already have a video and want to change how things move in it?"
+    }
+  ]
+}

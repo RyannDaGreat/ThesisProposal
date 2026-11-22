@@ -1,0 +1,527 @@
+{
+ "section": "frame",
+ "slides": [
+  {
+   "title": null,
+   "elements": [
+    {
+     "kind": "video",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_rickroll_warped_noise.mp4",
+     "rect": [
+      20,
+      145,
+      920,
+      249.8
+     ]
+    }
+   ],
+   "speech": "Before I say anything, look at this. On the right is a famous music video. On the left is pure random noise. Every single frame of it is just noise, but you can still see him dancing. Hold that thought."
+  },
+  {
+   "title": null,
+   "elements": [
+    {
+     "kind": "video",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/diffilu_hook1.mov",
+     "rect": [
+      20,
+      160,
+      560,
+      225.6
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/magick_rgba.png",
+     "rect": [
+      600,
+      120,
+      340,
+      303.6
+     ]
+    }
+   ],
+   "speech": "This is one picture. Flip it upside down and it becomes a different picture, and nobody painted it. And on the right, these are cutouts with real transparency, fire and feathers and fur, the white is what's solid. All of them were made by a model that can only output plain RGB, no transparency at all. By the end of this talk you'll know how every one of these works."
+  },
+  {
+   "title": null,
+   "elements": [
+    {
+     "kind": "text",
+     "text": "How to Control Your (Video) Diffusion Model",
+     "rect": [
+      40,
+      190,
+      880,
+      110
+     ],
+     "size": 44,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Ryan Burgert, Stony Brook University",
+     "rect": [
+      40,
+      320,
+      880,
+      40
+     ],
+     "size": 24,
+     "color": "#000000"
+    }
+   ],
+   "speech": "I'm Ryan Burgert, I'm a PhD student here at Stony Brook, and this is my thesis: how to control your video diffusion model. Five papers, one question. Let me show you the question first."
+  },
+  {
+   "title": "Just ask?",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/lion_fail.png",
+     "rect": [
+      30,
+      110,
+      900,
+      271.4
+     ]
+    }
+   ],
+   "speech": "Here's the prompt: a lion isolated on a solid green background. That's what you'd ask for if you wanted a cutout, because then you can key out the green. Five big models, DeepFloyd, Stable Diffusion XL, Midjourney, DALL-E 3, Stable Diffusion 1.5. Some of the backgrounds aren't solid, some lions get tinted green, one just gives up and puts him in a field. You can't key any of these cleanly."
+  },
+  {
+   "title": "Just ask?",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/lion_fail.png",
+     "rect": [
+      30,
+      110,
+      900,
+      271.4
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "The model decides everything you didn't say.",
+     "rect": [
+      30,
+      420,
+      900,
+      50
+     ],
+     "size": 30,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "And this is the core problem. A prompt is a handful of words, the output is millions of pixels. So the model fills in everything you didn't say, where things go, what's see-through, how things move, and it fills it in with what IT likes, its prior, and not what the artist wanted. Text alone just doesn't carry enough information."
+  },
+  {
+   "title": "One question",
+   "elements": [
+    {
+     "kind": "text",
+     "text": "How do you make a frozen diffusion model do what YOU want?",
+     "rect": [
+      40,
+      200,
+      880,
+      120
+     ],
+     "size": 40,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "So the question my whole thesis answers is this: how do you take a big pretrained diffusion model, that took a huge amount of compute to train, and get real control over it, without building a new one? Each paper adds one control handle the model never had, using the model frozen or barely fine-tuned. My claim is that the knowledge you need is already sitting inside the model. You just need the right handle to get it out."
+  },
+  {
+   "title": "Diffusion, fast",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_denoise.png",
+     "rect": [
+      60,
+      130,
+      840,
+      304.8
+     ]
+    }
+   ],
+   "speech": "Quick primer so the first two papers make sense. A diffusion model is trained on one job: you give it a noisy image and a prompt, here a puppy, and it predicts the noise that was added. Subtract that noise a little at a time, starting from pure static, and you get a brand new image. The snowflake means we never change its weights."
+  },
+  {
+   "title": "Score Distillation",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_full.png",
+     "rect": [
+      20,
+      120,
+      920,
+      311.4
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "The frozen model becomes a critic.",
+     "rect": [
+      20,
+      450,
+      920,
+      44
+     ],
+     "size": 30,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "Now the trick. Instead of generating, we use the model as a critic. Take any image you want to optimize, add random noise you know, and ask the model to predict it. The difference between what it predicted and the noise you actually added tells you how to change your image so it looks more like the prompt. Then you backprop that into whatever made the image. I call it a dream loss. It means you can optimize almost anything, a mask, a print, a 3D shape, against a model you never retrain."
+  },
+  {
+   "title": "Five handles",
+   "is_roadmap": true,
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_peekaboo.png",
+     "rect": [
+      25,
+      160,
+      110,
+      160
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Where",
+     "rect": [
+      10,
+      330,
+      140,
+      60
+     ],
+     "size": 22,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "Peekaboo",
+     "rect": [
+      10,
+      400,
+      140,
+      26
+     ],
+     "size": 16,
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_diffilu.png",
+     "rect": [
+      160,
+      160,
+      131,
+      160
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "From which angle",
+     "rect": [
+      145,
+      330,
+      161,
+      60
+     ],
+     "size": 22,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "Diffusion Illusions",
+     "rect": [
+      145,
+      400,
+      161,
+      26
+     ],
+     "size": 16,
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_magick.png",
+     "rect": [
+      316,
+      160,
+      179,
+      160
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "How see-through",
+     "rect": [
+      301,
+      330,
+      209,
+      60
+     ],
+     "size": 22,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "MAGICK",
+     "rect": [
+      301,
+      400,
+      209,
+      26
+     ],
+     "size": 16,
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_gwtf.png",
+     "rect": [
+      520,
+      160,
+      219,
+      160
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "How it moves",
+     "rect": [
+      505,
+      330,
+      249,
+      60
+     ],
+     "size": 22,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "Go-with-the-Flow",
+     "rect": [
+      505,
+      400,
+      249,
+      26
+     ],
+     "size": 16,
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_motionv2v.png",
+     "rect": [
+      764,
+      160,
+      170,
+      160
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Change the motion",
+     "rect": [
+      749,
+      330,
+      200,
+      60
+     ],
+     "size": 22,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "MotionV2V",
+     "rect": [
+      749,
+      400,
+      200,
+      26
+     ],
+     "size": 16,
+     "color": "#000000"
+    }
+   ],
+   "speech": "Here's the roadmap. Five papers, five handles. Where things are in the image, that's Peekaboo. What you see from each angle, that's Diffusion Illusions. How see-through things are, that's MAGICK. How things move, that's Go-with-the-Flow. And finally changing the motion of a video that already exists, that's MotionV2V. Along the way the method changes too: the first two need no training at all, then we make data, then we hack the noise, then we train a real control branch."
+  },
+  {
+   "insert_section": "peekaboo"
+  },
+  {
+   "roadmap": true
+  },
+  {
+   "insert_section": "diffillusions"
+  },
+  {
+   "roadmap": true
+  },
+  {
+   "insert_section": "magick"
+  },
+  {
+   "roadmap": true
+  },
+  {
+   "insert_section": "gwtf"
+  },
+  {
+   "roadmap": true
+  },
+  {
+   "insert_section": "motionv2v"
+  },
+  {
+   "title": "It kept going",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/other_papers/virtually_being.png",
+     "rect": [
+      20,
+      100,
+      620,
+      248
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/other_papers/vista4d_teaser.png",
+     "rect": [
+      660,
+      100,
+      280,
+      219.6
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/other_papers/go_with_the_track.png",
+     "rect": [
+      700,
+      330,
+      180,
+      196.3
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Virtually Being, SIGGRAPH Asia 2025 (uses Go-with-the-Flow)",
+     "rect": [
+      20,
+      370,
+      620,
+      30
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Vista4D, CVPR 2026: reshoot a video from a new camera path",
+     "rect": [
+      20,
+      410,
+      620,
+      30
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Go-with-the-Track, SIGGRAPH 2026: motion control from point tracks",
+     "rect": [
+      20,
+      450,
+      620,
+      30
+     ],
+     "size": 18,
+     "color": "#000000"
+    }
+   ],
+   "speech": "These handles got picked up. I helped on three more papers that build on them. Virtually Being fine-tunes a video model on volumetric studio captures, so you get the same person from any camera, and it uses Go-with-the-Flow's warped noise. Vista4D lets you reshoot a video you already filmed along a new camera path. And Go-with-the-Track, led by Koichi Namekata, controls motion and compositing with point tracks."
+  },
+  {
+   "title": "What's next",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/tile_motionv2v.png",
+     "rect": [
+      60,
+      120,
+      340,
+      320.8
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      420,
+      280
+     ],
+     "to": [
+      540,
+      280
+     ],
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "Any edit, any video.",
+     "rect": [
+      560,
+      250,
+      380,
+      60
+     ],
+     "size": 36,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "So what's next. Editing a video today mostly still means regenerating it. MotionV2V showed you can edit just the motion of a real video. The next step is one editor for any edit, appearance, motion, or both, basically an image editor like Nano Banana but for video. I call it I2I2V2V: use an image editor to change one frame, then propagate that edit through the whole clip. The other piece is LoraPlexer, combining several control LoRAs at once, like an edges LoRA plus a color LoRA, instead of training a new model for every combination."
+  },
+  {
+   "title": null,
+   "elements": [
+    {
+     "kind": "video",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_rickroll_warped_noise.mp4",
+     "rect": [
+      20,
+      145,
+      920,
+      249.8
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Thanks!",
+     "rect": [
+      20,
+      430,
+      920,
+      60
+     ],
+     "size": 40,
+     "color": "#000000"
+    }
+   ],
+   "speech": "So remember this guy dancing in pure noise. That's the whole thesis in one picture: the model already knows how to do it, you just have to give it the right handle. Thank you, I'm happy to take questions."
+  }
+ ]
+}

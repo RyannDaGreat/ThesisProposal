@@ -1,0 +1,89 @@
+{
+  "paper": "gwtf",
+  "must_know": [
+    {
+      "q": "What problem does Go-with-the-Flow solve, and what is its core idea?",
+      "answer": "It adds motion control to video diffusion models without changing the architecture or the training pipeline. Motion is encoded entirely in the initial noise: noise is warped along optical flow so it is temporally correlated, and the model (CogVideoX) is fine-tuned on (video, warped noise) pairs so that at inference the warped noise steers the output motion. It is 'just a change in data' and adds no parameters, memory, or runtime at inference.",
+      "why": "The committee must see that the contribution is a conditioning mechanism through the noise, not a new module, and why that matters (black-box, works with full-attention spatiotemporal models where attention-guidance methods do not)."
+    },
+    {
+      "q": "Why can't you just warp noise with bilinear/bicubic/nearest interpolation along the flow?",
+      "answer": "The diffusion model expects i.i.d. standard Gaussian noise per pixel. Interpolation averages neighbouring values, which reduces variance and creates spatial correlation; nearest duplicates pixels, which also creates correlation. In the paper, bilinear/bicubic/nearest have Moran's I of 0.24-0.30 (p=0.0) and K-S statistics 0.17-0.37 versus 0.00014 (p=0.84) and 0.060 for Go-with-the-Flow, and on DeepFloyd IF super-resolution LPIPS degrades to 0.55-0.62 versus 0.29.",
+      "why": "This is the reason the algorithm exists; without it, a listener cannot explain why a special warping algorithm is needed at all."
+    },
+    {
+      "q": "How does the noise warping algorithm work, step by step?",
+      "answer": "It warps frame to frame, keeping only the previous frame's noise q (H x W x C) and a per-pixel density p (H x W). It builds a bipartite graph between previous and next pixels: contraction edges follow the forward flow (each source pixel moves to v+f(v), like Lagrangian particles), and any next-frame pixel left with no incoming edge gets one expansion edge pulled back along the backward flow. Each source pixel with out-degree d is split into d pieces by conditional white-noise sampling from HIWYN (X_i = q/d + (Z_i - S/d)/sqrt(d)). Each target pixel is the density-weighted sum of its pieces (weight alpha = p/d), renormalized by sqrt of the summed variance, and its density is the sum of the alphas. Pixels with no source get fresh N(0,1).",
+      "why": "Samaras and Sun will ask exactly how expansion and contraction are handled and how Gaussianity is preserved; a vague 'we warp along flow' answer will not survive."
+    },
+    {
+      "q": "What are the algorithm's guarantees and how fast is it compared to HIWYN?",
+      "answer": "Proposition 1: if the previous-frame noise is i.i.d. N(0,1), the output frame is also i.i.d. N(0,1) (the split pieces have variance 1/d and zero covariance, and the final renormalization restores unit variance). Proposition 2: it is O(D) per frame because there are at most 2D edges. At 1024x1024 on an A100 it takes 2.14 ms versus 55.2 ms for HIWYN (about 26x faster) and 2.61 ms for InfRes, an order of magnitude faster than real time. HIWYN is slower because it rasterizes polygons and upsamples each pixel, and it warps each frame through a chain from the first frame, so its cost grows quadratically with frame count.",
+      "why": "Speed is what makes fine-tuning on 4M videos practical; the Gaussianity proof is the theoretical claim the committee will test."
+    },
+    {
+      "q": "How is the video model fine-tuned and at what cost?",
+      "answer": "CogVideoX-5B (T2V and I2V) is fine-tuned with the unchanged CogVideoX pipeline and standard MSE diffusion loss; the only change is that warped noise replaces Gaussian noise. Flow (RAFT) and warped noise are computed in image space, then downsampled to latent space (8x8 spatial mean-pooling multiplied by 8 to keep unit variance, nearest-neighbour over the 4x temporal factor). Training used a 4M-video dataset (>=720x480, 10-120 s, CogVLM2 captions), a rank-2048 LoRA, learning rate 1e-5, batch size 8, 30,000 iterations, 8 A100-80GB GPUs, 40 GPU-days. It also works on AnimateDiff (WebVid, 2 days on 8 A100-40GB), and the community ported it to HunyuanVideo.",
+      "why": "Ryoo and Sun will want to know what 'model-agnostic' costs in practice and that the claim was tested on more than one base model."
+    },
+    {
+      "q": "What is noise degradation (gamma) and how does it control motion strength?",
+      "answer": "During training the clean warped noise Q is mixed with fresh Gaussian noise at a random level gamma in [0,1]: Q <- ((1-gamma)Q + gamma*zeta) / sqrt((1-gamma)^2 + gamma^2), which keeps unit variance. gamma -> 0 means clean warped noise (strict flow following); gamma -> 1 means plain Gaussian (no motion control). At inference the user picks gamma: about 0.5-0.7 for rough cut-and-drag object control, 0.2-0.5 for motion transfer; gamma about 0.5 is the general default. On I2V DAVIS, CoTracker mIoU rises from 0.50 at gamma=0.9 to 0.74 at gamma=0.5.",
+      "why": "It is the only user-facing knob and the answer to 'what if the user's flow is wrong or rough'."
+    },
+    {
+      "q": "What are the main quantitative results against baselines?",
+      "answer": "On VIPSeg local object motion control: FID 41.1 vs 61.4 (SG-I2V) and 85.2 (MotionClone), mIoU 0.75 vs 0.63/0.71, FVD 0.47k vs 1.06k/1.26k. Camera movement transfer I2V on DL3DV: FID 48.4 vs 82.7 (MotionClone), mIoU 0.83 vs 0.71, FVD 0.34k vs 1.11k. Motion transfer I2V on DAVIS: mIoU 0.74 vs 0.72 (MotionClone) and 0.52 (base CogVideoX). User study with 40 participants: 82% win rate for cut-and-drag object control and 90% for turntable camera control. For training-free image-diffusion editing, it has the lowest warping error on DeepFloyd IF super-resolution (152.04 vs 164.35 HIWYN) at equal image quality.",
+      "why": "The committee will want hard numbers that show both motion fidelity and visual quality improve, not just demo videos."
+    },
+    {
+      "q": "What are the main limitations?",
+      "answer": "Motion is only as good as the flow and survives only at latent resolution: noise is pooled 8x8 spatially and the model sees one of every 4 frames, so fine or fast motion below that scale is lost. It needs fine-tuning (40 GPU-days); the untuned base model responds to warped noise but shows artifacts. Flow cannot express new content appearing or occlusion semantics. It does not win everywhere: on T2V DAVIS motion transfer, DMT beats it on mIoU (0.85 vs 0.70) and flow error (0.28 vs 0.41), and the untuned CogVideoX-5B has slightly better FID on I2V DAVIS (76.62 vs 78.6). gamma has to be chosen by hand per task.",
+      "why": "A committee trusts a candidate who states where the method fails; claiming it wins everywhere is easy to disprove from the table."
+    }
+  ],
+  "defense": [
+    {
+      "q": "Your proposition says each output frame is i.i.d. Gaussian. But the frames are deliberately correlated in time. Isn't the model now seeing a noise distribution it was never trained on, and in what sense is that still 'Gaussian'?",
+      "asker": "Sun",
+      "good_answer": "The guarantee is spatial: each frame's marginal is i.i.d. N(0,1), so every per-frame denoising step sees in-distribution noise. The joint distribution over time is deliberately not i.i.d.; that temporal correlation is the conditioning signal. This is why fine-tuning is needed: the supplementary windmill ablation shows the untuned CogVideoX follows the motion at gamma=0.5 but with visible artifacts. The degradation gamma mixes in fresh noise so training spans from correlated to fully i.i.d., and the base prior is kept. Results show quality holds: VBench subject consistency 0.88 vs 0.85 for the base model on I2V DAVIS.",
+      "weak_point": "Saying 'it is still Gaussian, so nothing changes' contradicts the need to fine-tune; failing to separate spatial from temporal Gaussianity."
+    },
+    {
+      "q": "Walk me through the proof. You show the split pieces are uncorrelated. Why does that give independence, and why are pixels of q' independent of each other when several of them came from one source pixel?",
+      "asker": "Sun",
+      "good_answer": "All X_i are linear combinations of the jointly Gaussian variables q and Z, so they are jointly Gaussian and zero covariance implies independence. Each piece has mean 0 and variance 1/d. Each piece is popped exactly once and goes to one target pixel, so different target pixels are sums over disjoint sets of independent pieces and are therefore independent. The running sum s tracks the variance of the weighted sum, and dividing by sqrt(s) restores unit variance. Expansion and contraction are computed in one bipartite graph, so no source value is used twice. The supplementary example shows an expand-then-contract sequence recovers the original noise q and density 1 exactly.",
+      "weak_point": "Not knowing that the conditional sampling comes from HIWYN, or claiming 'uncorrelated implies independent' without the joint Gaussianity argument."
+    },
+    {
+      "q": "Flow is computed at pixel resolution, but CogVideoX works on latents pooled 8x8 spatially and 4x temporally. How much of your carefully Gaussian warping survives that, and what motion can you actually control?",
+      "asker": "Samaras",
+      "good_answer": "Warping is done in image space and then downsampled: spatial mean-pooling of 64 i.i.d. N(0,1) values gives variance 1/64, so multiplying by 8 restores unit variance and keeps latent noise i.i.d.; temporal downsampling uses nearest-neighbour (keeps one frame of every 4). The latent noise keeps the motion structure at latent resolution and is still Gaussian. The honest limit is that motion finer than about 8 pixels or faster than the 4-frame stride is approximated. Image-space warping is still better than warping in latent space because pixel-scale flow accumulates into sub-latent correlations that pooling preserves.",
+      "weak_point": "Not knowing the 8x8 / 4x factors or the times-8 rescaling, or claiming pixel-accurate control."
+    },
+    {
+      "q": "Your table says gamma near 1 is weak control, but the ablation text says increasing gamma tightens motion control. Which is it, and how should a user pick gamma?",
+      "asker": "Samaras",
+      "good_answer": "By the definition, gamma -> 1 is uncorrelated Gaussian, so lower gamma means tighter control. The table agrees: on I2V DAVIS, mIoU goes 0.50 (gamma=0.9), 0.68 (0.8), 0.74 (0.5), and flow error 0.65 -> 0.47 -> 0.36. The sentence in the ablation is inverted and is a writing error. Pick about 0.5 by default; 0.2-0.5 for motion transfer where the flow is accurate, 0.5-0.7 for rough user-drawn polygons so the model can correct imperfect masks. Going below 0.5 gives no further motion gain (0.74 at both 0.4 and 0.2) and FVD gets slightly worse (1.21 at 0.5 vs 1.27-1.29).",
+      "weak_point": "Repeating the inverted sentence, or not knowing that motion fidelity plateaus below gamma=0.5."
+    },
+    {
+      "q": "MotionClone and SG-I2V are training-free, and you fine-tuned a 5B model for 40 GPU-days on 4M videos. Is the comparison fair? And how much does the data matter?",
+      "asker": "Ryoo",
+      "good_answer": "The table marks training-free methods; DragAnything, MotionCtrl and ImageConductor are trained baselines and Go-with-the-Flow still beats them (for example ImageConductor DL3DV FID 89.2 vs 48.4). The fine-tuning is a one-time cost with zero inference overhead, while training-free guidance methods add test-time cost and need attention access. The data ablation shows data matters: 33% data gives FID 100.1 and 12.5% gives 105.2 vs 78.6 for the full set on I2V DAVIS, although mIoU barely changes (0.73, 0.71 vs 0.74), so motion is learned quickly and the extra data mainly buys visual quality. The original CogVideoX-5B with the same prompts and first frame gets mIoU 0.52, so the gain is from warped noise, not just more training.",
+      "weak_point": "Hiding the training cost, or not being able to separate the effect of fine-tuning on data from the effect of the warped-noise conditioning."
+    },
+    {
+      "q": "Where does the method lose to baselines, and why?",
+      "asker": "Ryoo",
+      "good_answer": "On T2V DAVIS motion transfer, DMT has better mIoU (0.85 vs 0.70) and flow error (0.28 vs 0.41), and MotionClone has better mIoU (0.75); DMT is a test-time optimization on the source video, so it fits motion more tightly at higher cost, while Go-with-the-Flow wins on CLIP text 0.33 and CLIP image 0.98. On I2V DAVIS, the untuned CogVideoX has slightly better FID (76.62 vs 78.6), because a free model drifts toward typical-looking frames while ours is constrained by the target motion. SG-I2V has better VBench subject/background consistency on VIPSeg (0.93/0.95 vs 0.91/0.92), partly because it often turns object motion into a global camera shift, which keeps the scene static-looking. Also, the 82%/90% user study figures come from 40 participants on the authors' own 40 samples.",
+      "weak_point": "Claiming state of the art on every row when the table shows otherwise."
+    },
+    {
+      "q": "Optical flow is only defined for visible pixels. What happens with occlusions, disocclusions, and objects entering the frame, and why use the backward flow at all?",
+      "asker": "Samaras",
+      "good_answer": "Forward flow moves noise like particles (contraction); pixels that receive nothing, which is what happens in disocclusions or zoom-in, are filled by pulling back along the backward flow (expansion), with the source split by conditional sampling so it stays Gaussian. Flows may leave the frame; a target with no valid source gets fresh i.i.d. N(0,1) noise, which is correct for new content entering the frame. Density tracks how much noise was merged into a pixel so that repeated contractions are weighted correctly over long videos. The released pseudocode approximates backward flow as minus forward flow for speed. Flow errors are tolerated because gamma lets the model ignore imperfect structure, and the roller-coaster example shows HIWYN becoming visibly non-Gaussian under heavy expansion while ours does not.",
+      "weak_point": "Not being able to say what happens to pixels with no source, or not knowing why density is tracked."
+    }
+  ]
+}

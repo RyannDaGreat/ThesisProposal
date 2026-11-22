@@ -21,3 +21,11 @@ No fork agents run. All work is done in the main session or by research subagent
 - [x] Draft v1 built (37 slides)
 - [ ] Fix v1 overlaps; review v1 with user; build draft in ai_presentation.pptx with DeckCraft (section agents + reviewer + assembler)
 - [ ] Ask: earlier root-level AGENTS.md, .mcp.json, agents/, .gitignore line (made before the scope change) — keep, move here, or delete?
+
+## One-hour iteration plan (started 18:43, deadline ~19:43; user asked to be notified when the hour is up)
+- [x] 18:48 section specs: peekaboo, diffillusions, magick, gwtf, motionv2v written; exams for all 5 written
+- [ ] frame spec (opener / problem / roadmap / close) — agent still writing
+- [ ] Round 1 (18:50-19:08): user_study.py per section (Sonnet listener sees only slides+frames+speech; Opus examiner grades vs exam, defense, bullshit, 5 fixes)
+- [ ] Round 2 (19:08-19:25): send examiner fixes to section agents, revise specs, re-test
+- [ ] 19:25-19:35: full build into ai_presentation.pptx, render + look at every slide, whole-talk listener for story
+- [ ] 19:35-19:43: commit, open in DeckCraft, notify user

@@ -1,0 +1,89 @@
+{
+  "paper": "motionv2v",
+  "must_know": [
+    {
+      "q": "What problem does MotionV2V solve, and why do existing methods fall short?",
+      "answer": "It edits the motion of an existing video (objects, camera, timing) while keeping its content, e.g. making the Corgi win a dog race the Bichon won. Prior motion-control methods (ATI, ReVideo, Go-with-the-Flow) are image-to-video: they see only the first frame, so anything that appears later is hallucinated, and appearance-editing tricks like DDIM inversion fail because changing motion breaks the frame-to-frame structural correspondence between input and output.",
+      "why": "The whole contribution rests on V2V vs I2V; a committee member must see why first-frame methods cannot preserve content that is not in frame 0."
+    },
+    {
+      "q": "What is a 'motion edit'?",
+      "answer": "The deviation between sparse point trajectories tracked in the input video (source tracks) and user-specified target trajectories. Users click points, they are tracked bidirectionally, then the user anchors some (keep original motion) and drags others with Bezier splines; the model generates a video that follows the target tracks.",
+      "why": "This is the control interface and the representation the model is conditioned on."
+    },
+    {
+      "q": "What is a motion counterfactual and how is the training data generated?",
+      "answer": "A pair of videos with the same content but different motion. From a real video, a 49-frame real clip is the target; the counterfactual input is made either by frame interpolation (a fine-tuned CogVideoX-5B video model conditioned on two random frames f_start^cf, f_end^cf, with LLM-written prompts like 'twirl') or by temporal resampling (49 frames evenly spaced between the two indices, giving speed changes, shifts and reversal). Random sliding crops, rotations and scale changes are then applied to the counterfactual and its tracks.",
+      "why": "No real dataset of same-content/different-motion pairs exists; the data pipeline is the main enabler of the method."
+    },
+    {
+      "q": "Which video is real and which is generated in a training pair, and why?",
+      "answer": "The target (output) is always the real clip; the counterfactual (input) is the generated or resampled one. This trains the model to produce realistic motion and appearance rather than imitate generator artifacts.",
+      "why": "It explains why output quality is not capped by the counterfactual generator, and it raises the train/test question of input distribution shift."
+    },
+    {
+      "q": "How are correspondences between the two videos obtained and how is motion represented for the model?",
+      "answer": "N ~ Uniform(1, 64) query points are tracked with TAPNext (bidirectional). For interpolation pairs, query times are restricted to the two anchor frames shared with the real video, and the interpolated frames are spliced into the full video before tracking. Tracks are rasterized as colored Gaussian blobs (sigma = 10 px, a distinct random color per point, drawn only when visible) on black, giving two RGB videos: counterfactual tracks and target tracks. Target tracks get higher dropout than counterfactual tracks.",
+      "why": "The representation determines what control is possible; distinct colors encode which input point maps to which target point."
+    },
+    {
+      "q": "What is the architecture?",
+      "answer": "CogVideoX-5B text-to-video DiT, frozen, plus a trained ControlNet-style control branch that copies the first 18 transformer blocks. Its input is the 3D-VAE latents of three conditioning videos (counterfactual video, counterfactual-track blobs, target-track blobs) concatenated to 48 = 3 x 16 channels; its tokens are added to the main branch through zero-initialized channel-wise MLPs. 49 frames at 480x720 (latent 13 x 60 x 90), L2 diffusion loss, lr 1e-4, batch 32, 15k iterations, 100k training videos, 8 H100s for one week.",
+      "why": "Committee will ask how the conditioning enters and what is trained versus frozen."
+    },
+    {
+      "q": "What are the main quantitative results against baselines?",
+      "answer": "User study (41 participants, 20 author-made test edits, pick best of 4): Ours 70/71/69% on content/motion/overall vs ATI 24/24/25%, ReVideo 1/2/1%, GWTF 5/3/5%. Reconstruction benchmark (100 held-out internet videos with content not visible in the first frame): L2 0.024 vs ATI 0.038, GWTF 0.067, ReVideo 0.096; LPIPS 0.031 vs 0.072 / 0.088 / 0.106.",
+      "why": "These are the evidence for state-of-the-art claims; ATI is the strongest baseline even though it uses the stronger Wan 2.1 base."
+    },
+    {
+      "q": "What are the main limitations?",
+      "answer": "The model only follows about 20 point correspondences at inference and fails with more; with pixel-perfect anchored points it copies the input (e.g. a duplicate basketball), which needs an inference-time jitter hack of U(-2, 2) px; iterated edits show subject drift; it is limited to 49 frames on a CogVideoX-5B base; and counterfactual quality depends on the generator, since there is no exact ground-truth motion edit. Proposed future work: synthetic 3D counterfactuals.",
+      "why": "A sharp committee expects the speaker to name failure modes unprompted."
+    }
+  ],
+  "defense": [
+    {
+      "q": "You train on generated or resampled inputs paired with real outputs, but at test time the input is a real video. How do you know the model does not depend on generator artifacts in the input, and how good are the counterfactuals?",
+      "asker": "Samaras",
+      "good_answer": "Temporal-resampling pairs use real frames on both sides, so part of the data has no generator artifacts; geometric augmentations (sliding crops, rotation, scale) are applied to all counterfactuals. Results on real held-out internet videos (100-video benchmark, L2 0.024 vs 0.038 for ATI) and on DAVIS (swan) show it transfers. Be honest that there is no quantitative filter or success rate for the generated counterfactuals or their TAPNext tracks; tracking is anchored only at the two real frames.",
+      "weak_point": "The paper never reports the counterfactual or track quality or the mix ratio between interpolation and resampling; claiming the data is 'clean' would be hand-waving."
+    },
+    {
+      "q": "Your quantitative benchmark reconstructs a temporally reversed half of a real video. Is that not close to your temporal-resampling training augmentation, which already includes reversal? And is the setup fair to the I2V baselines?",
+      "asker": "Sun",
+      "good_answer": "Yes, reversal is in-distribution for the training data, so the benchmark favors the method. The split is built so input and target share a frame, giving I2V baselines a valid first frame with matching tracks. Videos were selected so content appears mid-video but not in frame 0 (25 points tracked from the midpoint, keeping videos where many go occluded at both ends), which is exactly the case V2V is designed for. The benchmark measures content preservation where I2V cannot see the content; it is not a general motion-editing score.",
+      "weak_point": "Presenting the L2/LPIPS table as general evidence without saying it is selected for the I2V failure case and uses a training-like transformation."
+    },
+    {
+      "q": "Your SSIM numbers are 0.098 vs 0.094 vs 0.089 vs 0.080. SSIM near 0.1 is extraordinarily low for reconstruction and the gaps are tiny. What is going on, and do you have error bars or significance tests?",
+      "asker": "Sun",
+      "good_answer": "Acknowledge that SSIM at about 0.1 means frames are structurally far from the target for all methods (generated motion is never pixel-aligned), so SSIM barely separates them; LPIPS (0.031 vs 0.072) and L2 (0.024 vs 0.038) carry the result. There are no confidence intervals in the paper for the 100 videos or for the user study (41 people x 20 videos, about 70% vs 25% for ATI); report that the user-study gap is large but untested statistically.",
+      "weak_point": "Being unable to explain the SSIM scale or admitting there are no error bars only after being pushed."
+    },
+    {
+      "q": "The input video and the motion blobs are not spatiotemporally aligned with the output, yet you use a ControlNet-style additive branch, which assumes aligned conditioning. Why does that work, and did you ablate it?",
+      "asker": "Samaras",
+      "good_answer": "The control branch is 18 full DiT blocks with full 3D attention, not a convolutional ControlNet, so tokens can attend across space and time and route content from any input frame to any output location; the paper hypothesizes the transformer blocks do this non-trivial correspondence work. The branch takes 48 latent channels (3 videos x 16), is added through zero-initialized MLPs so training starts from the frozen CogVideoX-5B prior. Admit the only ablation reported is the jitter one; the depth of 18 blocks and the frozen main branch are not ablated.",
+      "weak_point": "No architecture ablation (branch depth, channel concatenation vs separate branches, fine-tuning the main branch); 'it works surprisingly' is a hypothesis, not evidence."
+    },
+    {
+      "q": "Why does the model fail beyond about 20 points, and what is the jitter fix really telling us?",
+      "asker": "Ryoo",
+      "good_answer": "Training used N ~ U(1, 64) with dropout, and target tracks dropped more than input tracks, so the model learned to use sparse cues plus the video prior. With many pixel-perfect anchored points, the only training case with exact alignment was 'copy the input', so the model copies identity (a second basketball appears). Adding U(-2, 2) px noise to every point at every frame at inference only (not trained) breaks that shortcut. This exposes a shortcut learned from the data distribution; the fix in principle is training-side, e.g. jittering during training or synthetic 3D counterfactuals with exact ground truth.",
+      "weak_point": "Presenting jitter as a feature rather than as evidence of a training shortcut, or having no story for why the point limit exists."
+    },
+    {
+      "q": "Your strongest baseline ATI runs on Wan 2.1, a stronger base model, and the other two score under 5%. Are the user-study baselines meaningful, and is the 4-way forced choice with author-made edits biased?",
+      "asker": "Sun",
+      "good_answer": "ATI on Wan 2.1 is a stronger backbone than CogVideoX-5B, so beating it (69% vs 25% overall) argues the gain comes from the V2V formulation, not model capacity. GWTF was run with a Wan 2.2 version, stronger than its original CogVideoX version, with tracks turned into flow via RAFT; ReVideo got the whole frame as the editable region and has no text input. Concede that the 20 test edits were made by the authors and many need content outside frame 0, which I2V cannot do by construction, so the study shows the V2V advantage, not a neutral sample of edits.",
+      "weak_point": "Not admitting that GWTF and ReVideo were adapted to a task they were not designed for, or that the test edits were hand-picked by the authors."
+    },
+    {
+      "q": "How does camera editing work, and what happens with disocclusions, shadows or physical consistency? Could motion counterfactuals be useful beyond VFX, e.g. robot learning?",
+      "asker": "Ryoo",
+      "good_answer": "Camera edits estimate a dynamic pointmap with MonST3R, reproject it with user-chosen extrinsics and intrinsics per frame, and turn the 2D displacement into target tracks; the generative prior fills disoccluded regions, using content from any input frame (swan zoom-out keeps vegetation and ripples). Physical effects (lighting, shading, contact) are not supervised, which is why future work proposes synthetic 3D counterfactuals with exact ground truth. Link to the thesis: counterfactual video pairs from the same scene with controlled motion are a way to make action- or trajectory-conditioned data, relevant to video world models.",
+      "weak_point": "Claiming physical plausibility or correct shadows without evidence; no failure cases from camera edits are shown."
+    }
+  ]
+}

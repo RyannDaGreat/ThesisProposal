@@ -1,0 +1,187 @@
+{
+  "section": "diffillusions",
+  "slides": [
+    {
+      "title": "Diffusion Illusions",
+      "elements": [
+        {
+          "kind": "video",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/diffilu_hook1.mov",
+          "rect": [
+            30,
+            150,
+            900,
+            362.6
+          ]
+        }
+      ],
+      "speech": "Peekaboo showed score distillation can optimize something that isn't the model. There it was a mask. Next question: what if we optimize several images at once, and they have to share the same pixels? These are flip illusions. Each square is one image. As it spins, watch it turn into a totally different picture upside down. Believe it or not, nobody trained a model for this. It's plain Stable Diffusion, frozen, zero training."
+    },
+    {
+      "title": "One print, two pictures",
+      "elements": [
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_flip_photo.png",
+          "rect": [
+            130,
+            100,
+            700,
+            370.2
+          ]
+        }
+      ],
+      "speech": "Here's one we actually printed. Right side up, it's a dog. Rotate the paper 180 degrees, and it's a sloth. The red words are just handwritten labels so you know which way is up. We call the piece of paper the prime image, that's the physical thing you hold. Each way of looking at it is an arrangement, and what you see is a derived image. So here: one prime, two arrangements, leave it alone or rotate it, so two derived images, each with its own prompt. Dog, and sloth."
+    },
+    {
+      "title": "But...how?",
+      "elements": [
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_flip_photo.png",
+          "rect": [
+            130,
+            100,
+            700,
+            370.2
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "Score distillation on EACH view, one shared image",
+          "rect": [
+            80,
+            484,
+            800,
+            40
+          ],
+          "size": 26,
+          "color": "#C00000"
+        },
+        {
+          "kind": "arrow",
+          "from": [
+            330,
+            484
+          ],
+          "to": [
+            250,
+            420
+          ],
+          "color": "#C00000"
+        },
+        {
+          "kind": "arrow",
+          "from": [
+            630,
+            484
+          ],
+          "to": [
+            690,
+            420
+          ],
+          "color": "#C00000"
+        }
+      ],
+      "speech": "But...how? Same trick as Peekaboo. We take the upright view and run score distillation with the prompt dog. We take the rotated view and run score distillation with the prompt sloth. Each one gives a gradient that says how that view should change to look more like its prompt. Rotating is differentiable, so both gradients flow back into the same single image, and we just add them up. Start from noise, repeat a few thousand times, and the image settles on something that works both ways. One detail: we store each prime as a small Fourier feature network instead of raw pixels, because raw pixels hide information in high frequency noise, and that doesn't survive a printer."
+    },
+    {
+      "title": "Stack them",
+      "elements": [
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_rotation_overlay.png",
+          "rect": [
+            150,
+            92,
+            660,
+            381.3
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "Light through two sheets = multiply the colors",
+          "rect": [
+            80,
+            484,
+            800,
+            40
+          ],
+          "size": 26,
+          "color": "#C00000"
+        }
+      ],
+      "speech": "Now it gets fun. People have drawn flip illusions by hand forever. So we asked, what else can an arrangement be? Print two images on transparency sheets and put them on a backlight. The base stays put, the rotator spins on top. Light goes through both sheets, so the color you see is the two colors multiplied. And multiplication is differentiable too! So: two primes, four arrangements, the rotator at 0, 90, 180 and 270 degrees, giving four derived images: cat, man, woman, dog. Four score distillation losses pushing on the same two sheets. These are photos of the real prints."
+    },
+    {
+      "title": "Hidden overlays",
+      "elements": [
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_hidden_qr_row.png",
+          "rect": [
+            20,
+            170,
+            920,
+            190.5
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "Four playgrounds hide a QR code.",
+          "rect": [
+            80,
+            420,
+            800,
+            40
+          ],
+          "size": 28,
+          "color": "#000000"
+        }
+      ],
+      "speech": "Or go further. Four primes. Each sheet on its own is a playground, so each prime is also a derived image. Stack all four, hold them up to the light, and you get a fifth derived image, a QR code, and it actually scans. For that one we gave it a target picture instead of a text prompt. Score distillation alone makes gritty, noisy images, so we added a second phase called dream targets: every so often we clean up each derived image with SDEdit, and pull the primes toward those cleaner versions. Then we print them on a regular color laser printer onto overhead transparencies."
+    },
+    {
+      "title": "What became of it",
+      "elements": [
+        {
+          "kind": "text",
+          "text": "“Not good, didn't like it.” — a reviewer",
+          "rect": [
+            80,
+            100,
+            800,
+            40
+          ],
+          "size": 26,
+          "color": "#7F7F7F"
+        },
+        {
+          "kind": "text",
+          "text": "CVPR 2023 Best Demo Award",
+          "rect": [
+            80,
+            170,
+            800,
+            44
+          ],
+          "size": 32,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "Steve Mould and Matt Parker made videos about it",
+          "rect": [
+            80,
+            225,
+            800,
+            40
+          ],
+          "size": 26,
+          "color": "#000000"
+        }
+      ],
+      "speech": "So does it work beyond cherry-picks? We generated hidden overlays over 19 PASCAL VOC subjects and four styles, against a baseline that runs score distillation on each image independently, same 15 minute budget on one A100. We win on prompt match, aesthetics, and a new independence score, and lose only on diversity, which makes sense, we add constraints. Honest limits: it's slow, printers shift colors, and sometimes the hidden fifth image turns black or leaks into the primes. One reviewer said, quote, not good, didn't like it. Well...other people did. It won Best Demo at CVPR 2023, Steve Mould and Matt Parker made YouTube videos about it, and follow-ups like Visual Anagrams and LookingGlass came after. But remember Peekaboo's masks? Blobby. Real transparency, like hair or glass, needs a real alpha channel, and Stable Diffusion doesn't output one. That's MAGICK: we get RGBA images by asking the model for green-screen backgrounds."
+    }
+  ]
+}

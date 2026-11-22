@@ -1,0 +1,89 @@
+{
+  "paper": "magick",
+  "must_know": [
+    {
+      "q": "What problem does MAGICK solve, and why can't existing data solve it?",
+      "answer": "Generative models cannot produce, or be conditioned on, accurate alpha mattes with hair, fur and transparency, because there is no large ground-truth alpha dataset. Matting datasets are tiny (alphamatting.com 27 images, Adobe DIM 431 objects, Semantic Matting 726), and large segmentation datasets have only hard, hand-traced boundaries.",
+      "why": "This is the motivation. Without it, a 150k synthetic dataset looks like data for its own sake."
+    },
+    {
+      "q": "What is the core idea for getting ground-truth-quality alpha at scale?",
+      "answer": "Generate each object on a solid, bright, saturated single-colour background (a virtual green screen), then extract alpha by chroma keying. Each sample is a pure-foreground RGB image F (no background colour mixed into edge pixels), an alpha matte, and the caption that made it.",
+      "why": "This is the one-sentence contribution. The committee must see that alpha comes from keying, not from a segmentation or matting network run on cluttered images."
+    },
+    {
+      "q": "How is the background colour chosen for each subject?",
+      "answer": "SDXL first generates the subject with the plain prompt. The pipeline builds a hue histogram weighted by saturation, smooths it with a Gaussian (sigma = 10 degrees), quantizes it into named colours, and picks the least common hue. The prompt then gets 'isolated on a solid <colour> background'. Green and blue make up over 90% of backgrounds.",
+      "why": "It avoids the 'green shirt on a green screen' failure. Committee members will ask how a colour conflict is avoided automatically."
+    },
+    {
+      "q": "Why two diffusion models (DeepFloyd, then SDEdit with SDXL), and what does each step do?",
+      "answer": "DeepFloyd gives clean, vibrant, spill-free backgrounds but foregrounds with no soft-edge detail. Its object is cut out with Photoshop Subject Selection and pasted onto a brighter, more saturated background of the same hue. SDXL img2img (SDEdit) at strength 0.95 then regenerates the object with fine detail, using the background colour as a negative prompt. The very saturated background survives at 0.95, while the negative prompt removes colour spill from the foreground.",
+      "why": "This is the non-obvious design choice that makes images 'keyable'. No single tested model (SDXL, Midjourney, DALL-E, SD, DeepFloyd) did it reliably."
+    },
+    {
+      "q": "How is alpha extracted, given that chroma keying is underconstrained?",
+      "answer": "Three different extractors run on each image: (1) a colour-difference chroma keyer changed to use a per-pixel background colour, made by removing the object and inpainting the background with Telea; (2) an internal deep-learning chroma-key model that takes an RGB image plus a background image; (3) Photoshop Subject Selection. Their alpha and F outputs are mixed into the 7 best alpha/F combinations as candidates.",
+      "why": "The extractors are diverse, and that diversity is what the automatic quality check depends on."
+    },
+    {
+      "q": "How is quality ensured, and how many samples come from each path?",
+      "answer": "Agreement acts as a proxy for correctness. Score S = the minimum over pairs of the three RGBA results of the mean MS-SSIM after compositing both on white and on black. The median S is 0.984. The top 50% by score are accepted automatically, with the pixel-wise chroma keyer as output: 110,000 samples, mostly solid objects, hair and fur. The rest go to humans, who pick the best candidate in a web tool with one click: 40,000 samples, mostly glass, water, smoke and fire. Total: 150,000.",
+      "why": "This is the core answer to 'why is your synthetic alpha trustworthy?'. It also shows the hardest cases (transparency) depend on humans."
+    },
+    {
+      "q": "What is the main quantitative result, and against what baselines?",
+      "answer": "The dataset was used to fine-tune ControlNet on SD1.5 for alpha-to-RGB generation, with targets composited on gray. The test set was the 27 unseen alphamatting.com mattes with GPT-4 prompts, 3 images per method. In a 52-person pairwise study, it was preferred 82% vs 16% over SD1.5 ControlNet with Canny edges, and 77% vs 23% over Sketch edges. In a side experiment, training the Dai et al. CVPR'23 matting model on a MAGICK+DIM mix beat DIM alone on the DIM test set (MSE 0.0277 -> about 0.0104, SAD 65.49 -> about 33).",
+      "why": "This is the only evidence that the dataset is useful. Expect a challenge on how strong it is."
+    },
+    {
+      "q": "What are the limitations and costs?",
+      "answer": "The data is synthetic, so it inherits diffusion artifacts and biases (for example, a 'stop sign' with misspelled text) and has a domain gap from real photos. The pipeline depends on proprietary parts (Photoshop Subject Selection, an internal chroma-key model, a proprietary caption set). Building it took 32 A100s for 3 weeks plus about 2 months of annotation for $30,000 ($0.30 per sample). About 0.15% of samples are flagged NSFW.",
+      "why": "A committee will expect the candidate to state these limits openly."
+    }
+  ],
+  "defense": [
+    {
+      "q": "Your quality filter is agreement between three extractors. Agreement is not correctness. They could all fail the same way, for example all keying out green-tinted hair. Did you ever measure alpha error against ground truth?",
+      "asker": "Samaras",
+      "good_answer": "Admit there is no direct ground-truth error measurement of MAGICK mattes, since no ground truth exists for generated images. Then argue the methods fail differently: one is colour-based, one is a learned keyer, one is a general segmenter/matter that resists spill, so agreement after compositing on white and on black (min pairwise MS-SSIM, median 0.984) is strong evidence. Only the top 50% are auto-accepted. Give the indirect evidence: humans checked the other 40k, and adding MAGICK improved DIM-test matting (SAD 65.49 -> about 33). Propose a future check: run the pipeline on real green-screen captures with known alpha, or re-key composites with known alpha.",
+      "weak_point": "Claiming 'ground-truth quality' while having no quantitative matte-accuracy number for the dataset itself."
+    },
+    {
+      "q": "The alpha-to-RGB baselines are Canny and Sketch ControlNets that never saw alpha. Isn't that a strawman? Why not compare with ControlNet fine-tuned on binary masks, or on DIM, or on matting-model output from real images?",
+      "asker": "Sun",
+      "good_answer": "Say honestly that no prior method takes alpha and follows soft edges. SegGen assumes several objects and makes no matte detail. ControlNet v1.1 segmentation is trained on ADE20K and ignored the alpha in tests. Canny and Sketch were chosen as the strongest available edge controls on the same SD1.5 base. Concede that the best ablation would be the same ControlNet trained on DIM (431 objects) or on binarized MAGICK masks, which would isolate the value of soft alpha and of scale. That is fair future work.",
+      "weak_point": "The 82% and 77% wins may come from fine-tuning on mask-like inputs at all, not from MAGICK's soft-alpha quality. There is no ablation on dataset size or quality."
+    },
+    {
+      "q": "The user study is 27 images, 52 raters, preference based on 'appearance and adherence to the prompt'. How does that measure adherence to the alpha matte? Is the result significant? And why do 0.16 + 0.82 not add up to 1?",
+      "asker": "Sun",
+      "good_answer": "Note the 27 alphamatting.com mattes are unseen, hard, real-world masks, and each method made 3 images per matte, shown as rows in random order. Admit the question asked about appearance and prompt, not about edge fidelity, so matte adherence is shown only by figures (the letter-'S' glyphs, the user-study figure). The remaining 2% is presumably ties or no choice. A stronger version would add a metric, for example re-matting the output and computing SAD or IoU against the input alpha.",
+      "weak_point": "No objective alpha-adherence metric, no significance test, a small test set, and a study question that does not match the claim."
+    },
+    {
+      "q": "Diffusion models are trained on real photos, with their own bias toward clean studio objects. Does training on MAGICK transfer to real images, or does it teach models the look of SDXL?",
+      "asker": "Ryoo",
+      "good_answer": "Point to the matting experiment, evaluated on DIM's real test set: mixing MAGICK with DIM beats DIM alone on every metric (MSE 0.0277 -> 0.0104, SAD 65.49 -> 33.03, Grad 44.54 -> 18.62), with the best mix reported as about 1/5 MAGICK. Pure MAGICK also does well, so the domain gap is real but the data still helps. Admit the main limitation: the data is synthetic, inherits diffusion artifacts (for example, misspelled text), and has a domain gap the paper itself notes.",
+      "weak_point": "The text says the best mix is '1/5 MAGICK, 4/5 DIM', but the table's best row is labelled ratio 4/5, and the text defines ratio as the MAGICK fraction. The candidate must know which is right, or a sharp reader will catch the contradiction."
+    },
+    {
+      "q": "The pipeline relies on Photoshop Subject Selection, an internal Adobe chroma-key network and a proprietary caption dataset. Can anyone reproduce or extend MAGICK, and how much of the quality comes from those closed parts?",
+      "asker": "Samaras",
+      "good_answer": "Be open about it: these came from the Adobe collaboration. The dataset itself (150k RGBA plus captions) and the annotation tool are what get released, so users need not rerun the pipeline. Photoshop only does a rough cut-out before SDEdit at 0.95, so its errors are largely regenerated away (the dandelion example). For auto-selected samples, the final output is the open pixel-wise chroma keyer (colour-difference keying plus Telea inpainting). Open substitutes such as SAM or ViTMatte could replace the closed parts.",
+      "weak_point": "Presenting it as a scalable 'method' when key parts are closed, without saying which parts matter."
+    },
+    {
+      "q": "Auto-selection keeps the top 50%, and the hard transparent cases (glass, smoke, fire) go to humans. So the automatic method works mainly on easy opaque objects. What did the pipeline generate in total, how much was thrown away, and does the threshold bias the dataset toward easy content?",
+      "asker": "Ryoo",
+      "good_answer": "Explain the numbers: 110k auto-accepted from the top 50% by similarity score, so about 220k scored candidates. The other 40k came from human choice among the 7 alpha/F candidates, at one click and $0.30 per sample, which is much cheaper than manual matting. Admit that auto samples lean toward solid objects with hair and fur. Transparency exists in the dataset only because of the manual pass. Propose a learned selector trained on the 40k human choices to replace annotators (stated as future work).",
+      "weak_point": "Not knowing the generation yield or discard rate, and suggesting the transparency coverage is automatic when it is human-curated."
+    },
+    {
+      "q": "Why go through chroma keying at all? Why not generate cluttered images with SDXL and run a state-of-the-art matting or segmentation model, or train a model that outputs RGBA directly?",
+      "asker": "Samaras",
+      "good_answer": "Matting and segmentation models on cluttered scenes give imperfect alpha, with artifacts at hair and transparency, and that would put the matting model's errors into the 'ground truth'. A solid, saturated background turns the problem into near-well-posed keying of I = alpha*F + (1-alpha)*B with B known per pixel, and it also gives the decontaminated F. Direct RGBA generation needs exactly the training data MAGICK supplies, so MAGICK enables it rather than competes with it (named as future use).",
+      "weak_point": "Unable to say why keying gives better alpha than off-the-shelf matting, or to explain the role of known B and colour decontamination."
+    }
+  ]
+}

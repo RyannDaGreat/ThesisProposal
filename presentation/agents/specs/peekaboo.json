@@ -1,0 +1,65 @@
+{
+  "section": "peekaboo",
+  "slides": [
+    {
+      "title": "Peekaboo",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_input.png", "rect": [300, 100, 360, 360]},
+        {"kind": "text", "text": "“Harry Potter”", "rect": [280, 470, 400, 50], "size": 32, "color": "#C00000"}
+      ],
+      "speech": "So here's the first handle. Peekaboo. The question is: can a model that was only ever trained to make pictures also tell you where things are in a picture? I give you this photo and the words \"Harry Potter\", and I want a mask of just Harry. Normally you'd train a segmentation network on a pile of hand-labeled masks. Peekaboo uses zero training. It takes Stable Diffusion, frozen, exactly as you download it, and pulls the mask out of it at inference time."
+    },
+    {
+      "title": "Still Harry Potter",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_input.png", "rect": [30, 160, 160, 160]},
+        {"kind": "arrow", "from": [198, 240], "to": [232, 240], "color": "#000000"},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_composite_163.png", "rect": [240, 175, 130, 131]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_composite_164.png", "rect": [380, 175, 130, 130]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_composite_165.png", "rect": [520, 175, 129, 130]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_composite_166.png", "rect": [660, 175, 130, 130]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/harry_composite_167.png", "rect": [800, 175, 130, 130]},
+        {"kind": "text", "text": "...the background doesn’t matter.", "rect": [130, 380, 700, 50], "size": 32, "color": "#C00000"}
+      ],
+      "speech": "Here's the intuition. This is a picture of Harry Potter. If I cut Harry out and paste him on a red background, that's still a picture of Harry Potter. Green background, still Harry Potter. Black, white, blue, they're ALL Harry Potter. The background doesn't matter. So the mask I want is the one where I can swap in any background, and the diffusion model still looks at it and says, yep, Harry Potter. And we already have a way to ask the model that question: the score distillation loss from a minute ago."
+    },
+    {
+      "title": "Let's optimize it!",
+      "elements": [
+        {"kind": "video", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/vid_fourier_no_gravity.mp4", "rect": [0, 190, 960, 153]}
+      ],
+      "speech": "So let's optimize it. The mask, we call it alpha, starts as random noise, that's the second column. Every step I blend the photo over a random solid color using that mask, that's the five columns on the right, and push each one through score distillation with the prompt. The prompt in this run is the line at the top: \"Harry Potter boy, Daniel Radcliffe, man with glasses\". The gradient only goes into the mask. Stable Diffusion stays frozen. But watch: it keeps almost everything. Hermione, the hallway, all of it. Nothing tells it to give anything up, and the whole photo is still a fine picture of Harry Potter."
+    },
+    {
+      "title": "Let's optimize it!",
+      "elements": [
+        {"kind": "video", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/vid_fourier_with_gravity.mp4", "rect": [0, 190, 960, 153]},
+        {"kind": "text", "text": "+ alpha penalty", "rect": [280, 380, 400, 50], "size": 32, "color": "#C00000"}
+      ],
+      "speech": "So we add one more term: an alpha penalty. It's just the sum of the mask, so every pixel you keep costs a little. Now the goal is the smallest mask that still makes every composite look like Harry Potter. Pixels that matter to the prompt get strong gradients from the diffusion model and fight to stay. Pixels that don't matter have no reason to stay, so the penalty pulls them to zero. Hermione's gone. Better! But look at his shirt. It's getting chopped into pieces."
+    },
+    {
+      "title": "Let's optimize it!",
+      "elements": [
+        {"kind": "video", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/vid_raster_bilateral.mp4", "rect": [0, 190, 960, 153]},
+        {"kind": "text", "text": "+ alpha penalty", "rect": [280, 380, 400, 50], "size": 32, "color": "#C00000"},
+        {"kind": "text", "text": "+ bilateral filter", "rect": [280, 430, 400, 50], "size": 32, "color": "#C00000"}
+      ],
+      "speech": "The fix is a bilateral filter. Instead of learning every pixel of the mask on its own, we blur the mask, guided by the colors of the photo. Areas with similar color get similar alpha, because they probably belong to the same object. So the white shirt moves as one piece, and the mask edges snap to the edges in the image. And that's the whole method: random backgrounds, score distillation, an alpha penalty, and a bilateral filter. About two hundred steps per image."
+    },
+    {
+      "title": "Finds the essence",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/emma_watson_essence.png", "rect": [335, 100, 290, 313]}
+      ],
+      "speech": "Ask for \"Emma Watson\" in this photo, and the red outline is what it grabs: her face and hair, not the dress. A dress doesn't make you Emma Watson. Her face does. Peekaboo finds the part of the image that's essential to the words. On RefCOCO it gets 0.20 mIoU against GroupViT's 0.11, and GroupViT trained for two days on sixteen GPUs. Peekaboo trained for zero. Models trained directly for segmentation, like LSeg, still beat it. And with one-word prompts it sometimes hallucinates an object shape out of background texture."
+    },
+    {
+      "title": "Bonus: transparency",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/rgba_generation_timeline.png", "rect": [100, 100, 760, 382]}
+      ],
+      "speech": "One more thing. If I make the image learnable too, not just the mask, the same loss generates pictures with transparency from pure noise. The checkerboard is the transparent part. An avocado armchair, a globe, Pikachu, a cat in a box. As far as we know, that was the first attempt at transparent images from a model that only knows RGB. Peekaboo went out at a CVPR 2023 workshop and has about forty citations, including \"Your Diffusion Model is Secretly a Zero-Shot Classifier\". And that score distillation loss? What happens if I optimize several images at once? That's Diffusion Illusions."
+    }
+  ]
+}
