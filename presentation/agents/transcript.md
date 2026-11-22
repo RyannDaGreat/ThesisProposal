@@ -32,3 +32,10 @@ Near-verbatim, courtroom style. The user dictates by voice-to-text; clear speech
 
 ## After draft v1 (2026-11-22 18:41)
 > Yeah, this looks like generic garbage. This looks so lazy. This looks beyond lazy. I can't present this. You just took random figures and slapped them on with no understanding of what any of them were or how I would present them. None of it makes any sense. This is terrible. Most slides are just a single picture with like nothing more going on. It doesn't enhance any understanding of these papers or how they connect or what anything about them. You're not even explaining the papers. Like, I can't even explain a single one of these papers or how it works and what you put in there. And when you copy random LaTeX and bullshit into it, it does not help.
+
+## The test (2026-11-22 18:43)
+> If you launched an agentic user study, I guarantee none of your agents who read this presentation for the first time would have any clue what the hell I'm talking about. Now what you could have is a potential transcript where you simulate what I'm saying out loud, which again, has to be assuming that I have one hour to present, talking at a normal human voice word rate, the things that I could say to bring them to understand. One of these thesis committee members has never read any of my papers before. This is going to be their first time seeing these things. They understand about what AI is, and that's about a- they understand generative AI, that's a-
+>
+> That, by the way, should be your test.
+>
+> You now have one hour to iterate and make it better. You can use a genetic frenzy if you have to. Do whatever you want, but it has to pass agentic user studies that assume, you know what, not even one hour. We're gonna give it that I'm gonna give a 30 minute talk. I'm gonna go through my different papers and they have to understand them. Everything in here has to be understood, given what I say on a given slide and then what they're actually looking at.
