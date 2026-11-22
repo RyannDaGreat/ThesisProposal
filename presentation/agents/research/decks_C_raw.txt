@@ -1,0 +1,284 @@
+## AlphaGenFigures.pptx
+slides=26 size=45.60x38.20 in
+[0] pics=19 vid=0 | BEST RGBA IMAGES FROM LAION: CHERRYPICKED TO BE GOOD
+[1] pics=9 vid=0 | BEST RGBA IMAGES FROM LAION: CHERRYPICKED TO BE GOOD
+[2] pics=6 vid=0 | Color Aversion || Uses negative prompting. Not a complete subsitite for LLM’s (blueberries are still blue for example) / But helps disambiguate random “coincidence” colors  (aka || NEGATIVE CHROMAKEY PROMPTING / WITHOUT IM2IM  ON FIREFLY || NOTE HOW MANY OF THE BACKGROUNDS ARE DESATURATED
+[3] pics=0 vid=0 | 
+[4] pics=2 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || “magenta” || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || SDXL /  / Text to  / Image
+[5] pics=3 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || SDXL /  / Text to  / Image || 2
+[6] pics=6 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || SDXL /  / Text to  / Image || 2
+[7] pics=6 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || Text to /    / Image || 2
+[8] pics=6 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || Text to /    / Image || 2
+[9] pics=6 vid=0 | a lemon is splashing into the water with a splash of water on it s side and a slice of lemon on the other side of the water with a with a || 1 || Random Subject || “a bottle of water” /  / “a fluffy puppy” /  / “lemon splashing in water” /  / “a robot exoskeleton” /  / “girl combing her hair” || Text to /    / Image || 2
+[10] pics=9 vid=0 | Prompt: / subject + “isolated on a solid” + least common hue + ”background” /  /  = “young beautiful girl with hair blowing in wind / isolated on a solid green  || DeepFloyd Output || Photoshop Subject Selection || Composite on pure green background || SDXL Im2Im Output || BaW316jTuk
+[11] pics=21 vid=0 | Deep Floyd || Stable Diffusion XL || Adobe Firefly 1.0 || Midjourney 5 || OpenAI Dalle 3 || But due to legal restrictions
+[12] pics=27 vid=0 | Deep Floyd || Stable Diffusion XL || Adobe Firefly 1.0 || Midjourney 5 || OpenAI Dalle 3 || But due to legal restrictions
+[13] pics=12 vid=0 | Before Img2Img || After Img2Img || Before Img2Img || After Img2Img
+[14] pics=13 vid=0 | cXtc8dwxnJ || RGB Input || Pixel-Wise / Chromakey || Deep-Learning / Chromakey || Photoshop / Subject Select || RGB Input
+[15] pics=8 vid=0 | Before Img2Img || After Img2Img || Before Img2Img || After Img2Img || Before Img2Img || After Img2Img
+[16] pics=5 vid=0 | Similarity Score Distribution / (shown on two graphs, one zoomed in) || Example of Low Similarity Score: .802 || Example of High Similarity Score: .995 || Pixel-Wise / Chromakey || Deep-Learning / Chromakey || Photoshop / Subject Select
+[17] pics=6 vid=0 | 
+[18] pics=4 vid=0 | Our Alpha-to-RGB || Sketch Edges || Adobe Text Effects || Our Alpha-to-RGB || Sketch Edges || Adobe Text Effects
+[19] pics=14 vid=0 | 
+[20] pics=12 vid=0 | 
+[21] pics=7 vid=0 | 
+[22] pics=5 vid=0 | 
+[23] pics=3 vid=0 | 
+[24] pics=2 vid=0 | Slightly Innacurate but whatever /  / Most common DFXL nouns
+[25] pics=0 vid=0 | 
+
+## AlphagenSelectionGuide.pptx
+slides=7 size=13.33x7.50 in
+[0] pics=3 vid=0 | They all look the same from afar. Given multiple good options, try the one on the left… || Worse: / Low detail alpha || ✘ || ✓ || Better
+[1] pics=4 vid=0 | None are perfect. But some are good. || ✓ || ✘ || Worst: / Missing tree  / branch || Medium: / Bird has very transparent holes || Best: / Bird has holes, but they’re subtle
+[2] pics=5 vid=0 | #1 Medium: / Mostly good, but there’s a gray region where alpha should be black.  /  / There’s a better one to the right. || Look closely at the colors and alpha! || ✓ || ✘ || Worst: / Missing tree  / branch || Medium: / Bird has very transparent holes
+[3] pics=4 vid=0 | #1 Medium: / Mostly good, but there’s a gray region where alpha should be black.  /  / There’s a better one to the right. || Shadows are ok, as long as they look good! || ✓ || ✘ || Worst: / Missing tree  / branch || Medium: / Bird has very transparent holes
+[4] pics=4 vid=0 | #1 Medium: / Mostly good, but there’s a gray region where alpha should be black.  /  / There’s a better one to the right. || High detail is good! || ✓ || ✘ || Worst: / Missing tree  / branch || Medium: / Bird has very transparent holes
+[5] pics=4 vid=0 | #1 Medium: / Mostly good, but there’s a gray region where alpha should be black.  /  / There’s a better one to the right. || Be careful: watch out for greenspill on the hair! || ✓ || ✘ || Worst: / Missing tree  / branch || Medium: / Bird has very transparent holes
+[6] pics=0 vid=0 | TODO: / g4PiucneOq / uX6UKLSVvf /  / TODO: Zoomable tiles on spacebar for brian (along with a and i keys as well). /  /  / TODO: Many examples with multi-select
+
+## SIGGRAPH_DiffiluPoster.pptx
+slides=9 size=43.00x24.00 in
+[0] pics=16 vid=0 | Label Peekaboo Loss Somewhere Here / Then Pseudocode (super duper short!!) || The Flip Illusion: ||  diffusionillusions.com || Diffusion Illusions: Hiding Images in Plain Sight || Ryan Burgert, Xiang Li, Abe Leite, Kanchana Ranasinghe, Michael Ryoo || Pseudo-code goes here. Format it with
+[1] pics=16 vid=0 | Label Peekaboo Loss Somewhere Here / Then Pseudocode (super duper short!!) || The Flip Illusion: ||  diffusionillusions.com || Diffusion Illusions: Hiding Images in Plain Sight || Ryan Burgert, Xiang Li, Abe Leite, Kanchana Ranasinghe, Michael Ryoo || Pseudo-code goes here. Format it with
+[2] pics=13 vid=0 | Peekaboo can also generate images with transparency / (An RGB image and mask are jointly optimized with Peekaboo loss) || Cropped Pascal-VOC Dataset ||  diffusionillusions.com || Diffusion Illusions: Hiding Images in Plain Sight || Ryan Burgert, Xiang Li, Abe Leite, Kanchana Ranasinghe, Michael Ryoo || Goal: open-vocabulary zero-shot segmentation, without any training.  / Given an image and a prompt, Peekaboo aims to segment that region.
+[3] pics=31 vid=0 |  ryanndagreat.github.io/MAGICK || Ryan Burgert, Brian Price, Jason Kuen, Yijun Li, Michael Ryoo || MAGICK is a giant RGBA image dataset: over 150,000 images / It contains complex alpha mattes and text captions at 1k resolution || MAGICK: A Large-scale Captioned Dataset from / Matting Generated Images using Chroma Keying || MAGICK is synthetic – it uses chroma-keying (i.e. greenscreen) || Many diffusion models fail at green-screening
+[4] pics=29 vid=0 |  diffusionillusions.com || Ryan Burgert, Brian Price, Jason Kuen, Yijun Li, Michael Ryoo || MAGICK is a giant RGBA image dataset: over 150,000 images / It contains complex alpha mattes and text captions at 1k resolution || MAGICK: A Large-scale Captioned Dataset from / Matting Generated Images using Chroma Keying || MAGICK is synthetic – it uses chroma-keying (i.e. greenscreen) || Many diffusion models fail at green-screening
+[5] pics=5 vid=0 | 
+[6] pics=3 vid=0 | 
+[7] pics=2 vid=0 | . || . || . || . || . || .
+[8] pics=2 vid=0 | . || . || . || . || . || .
+
+## Presentation_New.pptx
+slides=156 size=13.33x7.50 in
+[0] pics=0 vid=0 | TRITON: Neural Neural Textures  / make Sim2Real Consistent || Peekaboo: Text to Image Diffusion Models / are Zero Shot Segmentors || and || Ryan Burgert / Research Preliminary 2023 /  / Committee Members: Dimitris Samaras, Minh Hoai, Michael Ryoo || 1
+[1] pics=0 vid=0 | TRITON Background / TRITON / Peekaboo Background / Peekaboo / Extras || General Overview || 2
+[2] pics=24 vid=0 | Photos: p1…N || TB➔A || Fake UVL Scenes and Projections:  / (ŝ1…N, π̂1…N) || Adversarial Losses: ℓadv || Projections: π1…N || Fake Photos: p̂1…N
+[3] pics=2 vid=0 | TRITON: Training Losses || Full Training Pipeline || Unprojection Consistency Loss /  / makes sure obiect surfaces look the same across different scenes by minimizing the variance between observed object surfaces || Ordinary im2im losses: / 1. GAN Losses / 2. Cycle Consistency losses / Special losses: / 3. Surface Consistency Losses || 4
+[4] pics=17 vid=3 | Learned   / Neural Neural Textures* || Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Qualitative Comparisons || 3d Simulator
+[5] pics=3 vid=1 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Qualitative Comparisons || Consistent, / reliable, / photorealistic || 6
+[6] pics=5 vid=0 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Full Training Pipeline || Unprojection Consistency Loss /  / makes sure obiect surfaces look the same across different scenes by minimizing the variance between observed object surfaces || TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by learning textures 
+[7] pics=0 vid=4 | Dirty Laundry || Correct translation  || Mismatched Labels  || Sometimes TRITON converges to the wrong object. You can usually fix that by re-running it though || 8
+[8] pics=0 vid=0 | TRITON Qualitative /Quantitative Experiments and Animations /  / (shadows for dimitris) || 9
+[9] pics=0 vid=0 | TRITON Robotic Experiments / (show robot videos!!) || 10
+[10] pics=0 vid=0 | [END TRITON] || 11
+[11] pics=0 vid=0 | IMPLICIT NEURAL REPS: /  / NERF, Fourier Feature Networks /  / SIREN, PiGAN, FiLM / Polynomial nerf? || 12
+[12] pics=0 vid=0 | Neural Textures: / Surgical Video Translation (no neural neural, unpaired) / Original Neural Texture (tiny u-net – aliasing in video) / [Vladen Kolton’s stuff?] || Only put in what I can explain well? || 13
+[13] pics=0 vid=0 | Im2Im Stuff: / CUT, MUNIT, UNIT, CycleGAN / RL-CycleGAN, RetinaGAN / (briefly skim over others) / (also a little vid2vid including stable diffusion ones and lat || 14
+[14] pics=0 vid=0 | Im2Im Stuff: / CUT, MUNIT, UNIT, CycleGAN / RL-CycleGAN, RetinaGAN / (briefly skim over others) / (also a little vid2vid including stable diffusion ones and lat || 15
+[15] pics=0 vid=0 | Im2Im Stuff: / CUT, MUNIT, UNIT, CycleGAN / RL-CycleGAN, RetinaGAN / (briefly skim over others) / (also a little vid2vid including stable diffusion ones and lat || 16
+[16] pics=0 vid=0 | Image Metric Stuff: / SSIM, MSSSIM, LPIPS / (used in TRITON in multiple places. Old but very important.) || 17
+[17] pics=0 vid=1 | TRITON: Makes simulations look realistic || 18 || Better simulations  Better Robot Policies
+[18] pics=0 vid=0 | Pix2Pix / CycleGAN / UNIT / MUNIT / CUT || General-Purpose Image Translation || TRITON Background: || 19
+[19] pics=4 vid=0 | Pix2PixPaired Image Translation || Translator: || Discriminator: Fully Convolutional /  /  / Loss: L1 Loss + Gan Loss || Visual Loss Comparisons || 20
+[20] pics=3 vid=0 | CycleGAN Unpaired Image Translation || 21
+[21] pics=2 vid=0 | CycleGAN Unpaired Image Translation || Domains: X=Horse, Y=Zebra / Architecture: / Two discriminators: Dx and Dy                          Patch GANs like Pix2Pix  / Two generator U-Nets: G: XY and F || 22
+[22] pics=2 vid=0 | CycleGAN Unpaired Image Translation || It works well on still images || 23
+[23] pics=1 vid=1 | CycleGAN Unpaired Image Translation || It works badly on videos || 24
+[24] pics=1 vid=1 | CycleGANUnpaired Image Translation || It’s not temporally consistent || 25
+[25] pics=1 vid=1 | CycleGAN Unpaired Image Translation || ...but we’ll revisit this issue later || 26
+[26] pics=4 vid=0 | UNITUNsupervised Image Translation || Same goal as CycleGAN, slightly different implementation || 27
+[27] pics=2 vid=0 | UNITUNsupervised Image Translation || Shared latent space assumption: /  The same latent code can produce good, similar images from both decoders || 28
+[28] pics=2 vid=0 | UNITUNsupervised Image Translation || Architecture: / No U-Net; instead two VAE’s / It encodes with one VAE and  /          decodes with another /  / Losses: / VAE Loss (trains E1, E2, G1, G2  / to  || 29
+[29] pics=2 vid=0 | UNITUNsupervised Image Translation || Architecture: / No U-Net; instead two VAE’s / It encodes with one VAE and  /          decodes with another /  / Losses: / VAE Loss (trains E1, E2, G1, G2  / to  || 30
+[30] pics=3 vid=0 | UNITUNsupervised Image Translation || Architecture: / No U-Net; instead two VAE’s / It encodes with one VAE and  /          decodes with another /  / Losses: / VAE Loss (trains E1, E2, G1, G2  / to  || 31
+[31] pics=2 vid=0 | MUNITMultimodal UNsupervised Image Translation || It’s like UNIT, but with style variants || 32
+[32] pics=2 vid=0 | MUNITMultimodal UNsupervised Image Translation || Started 4:42pm || Very much like UNIT (cycle consistency, GAN losses, etc) /  / What’s different: / Separates the “Content” from the ”Style” of an image. / Unlike UNIT, it assume || 33
+[33] pics=2 vid=0 | MUNIT 3/5Multimodal UNsupervised Image Translation || Started 4:42pm || The encoder separates style from content, and samples from a random style code / during inference. You can also use the style code of a given image. || 34
+[34] pics=3 vid=0 | CUTContrastive Unpaired Translation || Started 5:57 || Trains faster with less memory  /          than the previous algorithms /  / Is one-way – there is only an XY network / (this means NO cycles) || 35
+[35] pics=3 vid=0 | CUTContrastive Unpaired Translation || Started 5:57 || Trains faster with less memory  /          than the previous algorithms /  / Is one-way – there is only an XY network / (this means NO cycles) || Instead, it uses a contrastive patch-wise loss /  / The idea is that before patches should have / similar information to after patches || 36
+[36] pics=2 vid=0 | CUTContrastive Unpaired Translation || Started 5:57 || Instead, it uses a contrastive patch-wise loss /  / The idea is that before patches should have / similar information to after patches || Trains faster with less memory  /          than the previous algorithms /  / Is one-way – there is only an XY network / (this means NO cycles) || Losses: / GAN Loss / Contrastive Loss / It recycles the generator’s encoder / then adds a classifier || 37
+[37] pics=0 vid=0 | TRITON Background: || RL-CycleGAN / RetinaGAN / Pfeiffer et al* (their algorithm didn’t have a name) || Image Translation for Sim2Real || 38
+[38] pics=2 vid=0 | RL-CycleGAN || Started 6:54pm || ☆ Helped motivate TRITON || Modifies CycleGAN to get better rewards || 39
+[39] pics=2 vid=0 | RL-CycleGAN || Started 6:54pm || A policy is trained concurrently / with the image translator || keeps RL-important details from disappearing /  / trains Qreal and Qsim from scratch, and penalizes differences between the two /  / requires real-world robotic || (kinda annoying!) || 40
+[40] pics=2 vid=1 | RL-CycleGAN || Started 6:54pm || CycleGAN alone improves scores... /  / ...turns out realistic-looking simulators are good! /  / But they take it further. || 41
+[41] pics=2 vid=0 | RL-CycleGAN || Started 6:54pm || CycleGAN alone improves scores... /  / ...turns out realistic-looking simulators are good! /  / But they take it further. || 42
+[42] pics=3 vid=0 | RetinaGAN || Started 7:26pm || 43 || Perception consistency: objects detected in sim should be detected in real /  / Uses a pre-trained object detector* || *that was pre-trained with 44,000 labeled images
+[43] pics=3 vid=0 | RetinaGAN vs RL-CycleGAN || Started 7:26pm || RetinaGAN || RL-CycleGAN
+[44] pics=4 vid=0 | RetinaGAN vs CycleGAN || Started 7:26pm || RetinaGAN || CycleGAN
+[45] pics=2 vid=0 | Started 7:26pm || More RetinaGAN comparisons
+[46] pics=2 vid=0 | More RetinaGAN comparisons || Started 7:26pm
+[47] pics=1 vid=1 | RetinaGAN || Started 7:26pm || 48 || Temporal consistency suffers though... see 2:31
+[48] pics=1 vid=0 | Brief tangent... /  / SSIM and MSSSIM / (structural image similarity     and      multi-scale SSIM) || It’s an image similarity metric from 2004, / made to measure signal quality. || unlike L2 similarity, spatial structure matters || MSSSIM is just SSIM across an image pyramid
+[49] pics=1 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 50 || Pfeiffer et al
+[50] pics=2 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 51 || Pfeiffer et al || This is mainly a medical paper / Creates synthetic surgical data for downstream tasks /  / It’s based on MUNIT / It uses MSSSIM to make the input look like the  || Without MSSIM loss || With MSSIM loss
+[51] pics=0 vid=0 | Pfeiffer et al 2 (they made a second one!) / Deferred Neural Rendering || Neural Textures || TRITON Background: || 52
+[52] pics=1 vid=0 | UV Maps || Standard technique / Maps textures  3d
+[53] pics=1 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 54 || This second paper is *DIRECTLY* relevant to TRITON || Pfeiffer et al 2
+[54] pics=2 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 55 || Pfeiffer et al 2 || This paper is an extension of their first one: /  / temporal consistency!!
+[55] pics=1 vid=1 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 56 || Their last paper || Their new paper || ReCycleGAN: / a vid2vid algorithm || Pfeiffer et al 2
+[56] pics=3 vid=0 | Pfeiffer et al 2 || They’re arbitrary colors, but have semantic meaning || Neural Textures || Learnable “Neural Textures” are projected onto / the 3d objects, to create a new input
+[57] pics=2 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || Pfeiffer et al 2
+[58] pics=2 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || Pfeiffer et al 2
+[59] pics=1 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 60 || Deferred Neural Rendering || That paper wasn’t the first to use neural textures... / ...this was. || What made Pfeiffer et al special was that it was unpaired.
+[60] pics=3 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || 61 || Deferred Neural Rendering || This is a paired image translator with neural textures. /  / It applies neural textures, then runs it through a tiny U-Net /  / It coined the term “Neural Textu
+[61] pics=1 vid=1 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || Deferred Neural Rendering
+[62] pics=0 vid=0 | Fourier Feature Networks || Implicit Neural Representations || TRITON Background: || 63
+[63] pics=1 vid=1 | 64 || NERF: Neural Radiance Fields || You’ve probably heard of this before. || This learns 3d volumes from photos. /  / An alternative to voxels. /  / It’s MLP that takes XYZ positional embeddings and returns RGB colors. /  / These positio
+[64] pics=2 vid=0 | 65 || Fourier Feature Networks || It’s an implicit representation, like NERF. / The key is its fourier features
+[65] pics=3 vid=0 | 66 || Fourier Feature Networks || We use it to make “Neural Neural Textures”
+[66] pics=2 vid=2 | Sim      || Real || Better than CycleGAN! || Simulations -> Photos! || *Now with more ducks! || Works with any 3D simulator!
+[67] pics=0 vid=0 | Neural Neural Textures / Make Sim2Real Consistent || 68
+[68] pics=0 vid=0 | exture || ecovering || mage || ranslati     n || etwork || 69
+[69] pics=4 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image (simulated) || Fake Photo || 70
+[70] pics=4 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image (simulated) || Fake Photo || 71
+[71] pics=4 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image (simulated) || Fake Photo || 72
+[72] pics=0 vid=1 | Global Temporal Consistency || Input Image || Output Image || 73
+[73] pics=12 vid=0 | Simulation Images || Photographs || Unpaired || Unpaired Image Translation: Training || (...as a black-box) || 74
+[74] pics=13 vid=0 | (...as a black-box) || Unpaired Image Translation: Training || 3d Simulator || 75
+[75] pics=5 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[76] pics=7 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[77] pics=7 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[78] pics=11 vid=0 | 3d Simulator || Projections || Learned  Textures || duck || rubik’s cube || pepper
+[79] pics=10 vid=0 | 3d Simulator || Sim Image || Projections || Learned  Textures || duck || rubik’s cube
+[80] pics=5 vid=1 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Introduction: TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by lear || Compairsons || TRITON is more consistent than the other image translation algorithms.
+[81] pics=5 vid=1 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Introduction: TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by lear || Compairsons || TRITON is more consistent than the other image translation algorithms.
+[82] pics=0 vid=4 | Dirty Laundry / It can mismatch textures while training || 83
+[83] pics=0 vid=0 | How exactly does it work?
+[84] pics=2 vid=0 | Training Procedures /  / Don’t panic! We’ll break this down piece by piece || TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by learning textures  || Introduction || Consistent, / reliable, / photorealistic || Full Training Pipeline || Unprojection Consistency Loss /  / makes sure obiect surfaces look the same across different scenes by minimizing the variance between observed object surfaces
+[85] pics=2 vid=0 | Unprojection Consistency Loss /  / makes sure obiect surfaces look the same across different scenes by minimizing the variance between observed object surfaces || 86
+[86] pics=13 vid=0 | Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u || Neural Neural Textures: ψ 1…L(u, v)
+[87] pics=23 vid=0 | Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u || Neural Neural Textures: ψ 1…L(u, v)
+[88] pics=23 vid=0 | Projections: π1…N || 1...L || v || u || Neural Neural Textures: ψ 1…L(u, v) || UVL Scenes: s1…N
+[89] pics=23 vid=0 | Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u || Neural Neural Textures: ψ 1…L(u, v)
+[90] pics=14 vid=0 | TRITON-specific / surface consistency losses / (makes temporal consistency!) || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[91] pics=16 vid=0 | TRITON-specific / unprojection consistency loss || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[92] pics=15 vid=0 | TRITON-specific / unprojection consistency loss || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[93] pics=15 vid=0 | TRITON-specific / unprojection consistency loss || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[94] pics=4 vid=0 | Photos || TRITON || CUT || CycleGAN
+[95] pics=15 vid=0 | TRITON-specific / unprojection consistency loss || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[96] pics=15 vid=0 | TRITON-specific / surface consistency losses / (grounds the neural neural textures) || Projections: π1…N || Fake Photos: p̂1…N || 1...L || v || u
+[97] pics=7 vid=0 | Projections: π1…N || Unprojection Consistency Loss / Texture Realism Loss:      ↑  image similarity between textured scene and final output || Fake Photos: p̂1…N || Texture Realism Loss: ℓTR || TRITON-specific / surface consistency losses / (grounds the neural neural textures) || 98
+[98] pics=13 vid=0 | Projections: π1…N || Unprojection Consistency Loss / Texture Realism Loss:      ↑  image similarity between textured scene and final output || Fake Photos: p̂1…N || Texture Realism Loss: ℓTR || TRITON-specific / surface consistency losses / (grounds the neural neural textures) || Without Texture / Realism Loss
+[99] pics=2 vid=0 | https://arxiv.org/pdf/1907.02882.pdf /  /  / First pfeiffer: uses msssim to preserve image stuff, uses noise during translation, || Pfeiffer et al 2
+[100] pics=24 vid=0 | Photos: p1…N || TB➔A || Fake UVL Scenes and Projections:  / (ŝ1…N, π̂1…N) || Adversarial Losses: ℓadv || Projections: π1…N || Fake Photos: p̂1…N
+[101] pics=23 vid=0 | Photos: p1…N || TB➔A || Fake UVL Scenes and Projections:  / (ŝ1…N, π̂1…N) || Adversarial Losses: ℓadv || Fake Photos: p̂1…N || Bidirectional / Image-to-Image / Translator: T
+[102] pics=14 vid=0 | Photos: p1…N || TB➔A || Fake UVL Scenes and Projections:  / (ŝ1…N, π̂1…N) || Adversarial Losses: ℓadv || Fake Photos: p̂1…N || Bidirectional / Image-to-Image / Translator: T
+[103] pics=0 vid=0 | Experiments
+[104] pics=0 vid=2 | 105 || Experiments || Qualitative Comparisons
+[105] pics=1 vid=0 | Fixed Camera || Robot Arm
+[106] pics=0 vid=1 | 107 || Experiments || Reaching Experiment
+[107] pics=1 vid=0 | 108 || Experiments || Reaching Experiment || Conclusion: TRITON is the best
+[108] pics=0 vid=1 | 109 || Pose Prediction
+[109] pics=0 vid=1 | 110 || Pose Prediction
+[110] pics=1 vid=0 | 111 || Experiments || Robot Arm Experiment #1: Find the object! || Robot Arm Experiment #2: Predict the pose!
+[111] pics=1 vid=0 | 112 || Pose Prediction || Conclusion: TRITON is the best || It helped the policy predict poses from a new viewpoint purely in simulation
+[112] pics=0 vid=1 | 113 || Deformable Objects || Robot Arm Experiment #2: Predict the pose! || Experiment: Deformable Objects
+[113] pics=0 vid=1 | 114 || Deformable Objects
+[114] pics=1 vid=0 | 115 || Deformable Objects
+[115] pics=0 vid=1 | Shine and Shadows || 116 || Robot Arm Experiment #2: Predict the pose! || UVL Input || TRITON Output || Recovered Textures / (Average TRITON output)
+[116] pics=0 vid=1 | 117 || Robot Arm Experiment #2: Predict the pose! || More Qualitative Results
+[117] pics=1 vid=0 | Peekaboo || Text to Image Diffusion Models are Zero Shot Segmentors
+[118] pics=0 vid=0 | Background Material || Peekaboo
+[119] pics=0 vid=0 | Diffusion Models / CLIP–based optimization / Score Distillation Loss || Peekaboo Background: || 120
+[120] pics=0 vid=0 | Diffusion  / Dalle2 / Imagen / Glide / Stable Diffusion || Diffusuion Models || Peekaboo Background: || 121
+[121] pics=2 vid=0 | How Diffusion Models Work || They denoise images || Credit to this explanation: https://twitter.com/tomgoldsteincs || The denoising U-Net removes gaussian noise
+[122] pics=2 vid=0 | How Diffusion Models Work || Credit to this explanation: https://twitter.com/tomgoldsteincs || We get training pairs by adding varying levels of noise to clean images
+[123] pics=2 vid=0 | How Diffusion Models Work || Credit to this explanation: https://twitter.com/tomgoldsteincs || Now we can denoise random gauss noise to get an image! /  /  / ....er, kinda... /  / L1 loss encourages blurryness
+[124] pics=2 vid=0 | How Diffusion Models Work || Credit to this explanation: https://twitter.com/tomgoldsteincs || Instead of doing one step, we do it iteratively. || This process is called “DDPM Sampling”
+[125] pics=2 vid=0 | How Diffusion Models Work || Credit to this explanation: https://twitter.com/tomgoldsteincs || Instead of doing one step, we do it iteratively, /  / adding less and less noise until 0.
+[126] pics=2 vid=0 | Credit to this explanation: https://twitter.com/tomgoldsteincs || Modulate the denoising network using text prompts + CLIP /  / Used in Dalle-2, GLIDE, Imagen and  / Stable Diffusion || Text-to-Image Diffusion Models
+[127] pics=2 vid=0 | VQGan-CLIP || Another way to do text-to-image: / Use CLIP as a critic / to optimize a latent || 2022 || CLIP measures / similarity between / text and images
+[128] pics=2 vid=0 | VQGan-CLIP || My point: sample generation via a loss
+[129] pics=1 vid=3 | DreamFields: / Text to 3d Model / Uses CLIP to optimize a NeRF || a robotic dog.  / a robot in the shape of a dog. || matte painting of a bonsai tree; trending on artstation. || a boat on the water tied down to a stake.
+[130] pics=0 vid=1 | DreamFusion: Score Distillation Loss || 2d Diffusion Model  3d
+[131] pics=1 vid=0 | DreamFusion: Score Distillation Loss || score distillation loss = (denoised image) - (clean image)
+[132] pics=1 vid=0 | DreamFusion: Score Distillation Loss || Score Distillation Loss = (True noise – predicted noise) || Score Distillation Loss
+[133] pics=0 vid=0 | Peekaboo! /  / [Follow notes] || 134
+[134] pics=0 vid=0 | DreamFusion, DreamFields, || 135
+[135] pics=0 vid=0 | Diffusion Models / (latent diffusion, VQVAE, || 136
+[136] pics=0 vid=0 | Referring image seg / Other image segmentations / The CORL one with CLIP... /  (GroupVIT, Lseg, more recent im2im things. Go through papers. ) || 137
+[137] pics=0 vid=0 | Diffusion Models / (latent diffusion, VQVAE, || 138
+[138] pics=0 vid=1 | Peekaboo / Text to Image Diffusion Models / are Zero-Shot Segmentors || Peekaboo is a zero-shot segmentation algorithm, / built on Stable Diffusion. /  / It requires 0 training. /  / Prompt: “Harry Potter”
+[139] pics=0 vid=1 | Peekaboo / Text to Image Diffusion Models / are Zero-Shot Segmentors || Peekaboo is a zero-shot segmentation pipeline, / built on Stable Diffusion. /  / It requires 0 training. /  / Prompt: “Harry Potter”
+[140] pics=1 vid=0 | Peekaboo / Text to Image Diffusion Models / are Zero-Shot Segmentors || This is a picture of / “Harry Potter”
+[141] pics=3 vid=0 | This is also a picture of / “Harry Potter”
+[142] pics=2 vid=0 | ...and this one too! Harry potter.
+[143] pics=6 vid=0 | ...and that one!
+[144] pics=5 vid=0 | ...they’re ALL “Harry Potter”
+[145] pics=7 vid=0 | ...the background doesn’t matter. || Optimized / Alpha / (neural neural  / texture) || Input || Random-Color Composite Images
+[146] pics=7 vid=0 | Learned / Alpha || Input || ––––––––– Random-Color Composite Images ––––––––– || ScoreDistillationLoss(“Harry Potter”) || Goal: Find alpha map such that all composite images satisfy “Harry Potter”
+[147] pics=0 vid=1 | Learned / Alpha /  / (alpha is a neural neural texture) || Input || ––––––––– Random-Color Composite Images ––––––––– || ScoreDistillationLoss(“Harry Potter”) || This is how is starts. Let’s optimize it!
+[148] pics=0 vid=1 | Learned / Alpha /  / (alpha is a neural neural texture) || Input || ––––––––– Random-Color Composite Images ––––––––– || ScoreDistillationLoss(“Harry Potter”) || better! but why is it chopping up his shirt? || Alpha  / Penalty
+[149] pics=0 vid=1 | Learned / Alpha /  / (alpha is a neural neural texture) || Input || ––––––––– Random-Color Composite Images ––––––––– || ScoreDistillationLoss(“Harry Potter”) || solution: / bilateral filtering || Alpha  / Regularization
+[150] pics=0 vid=1 | Learned / Alpha /  / (alpha is a neural neural texture) || Input || ––––––––– Random-Color Composite Images ––––––––– || ScoreDistillationLoss(“Harry Potter”) || Alpha  / Penalty || NEW Goal: Find^ a minimal alpha map such that all composite images satisfy “Harry Potter”
+[151] pics=2 vid=0 |  || Bilateral Filter || blends areas of similar color / regions with similar color should have similar alpha, because they probably belong to the same object
+[152] pics=1 vid=0 | 153 || Peekaboo Main Diagram || Score Distillation Loss
+[153] pics=0 vid=0 | See more results at  /  / peekaboopaper.github.io
+[154] pics=0 vid=0 | Brifly mention ClipPY, / GroupVIT, Lseg, and other newer ones
+[155] pics=2 vid=1 | 
+
+## TRITON Final Poster.pptx
+slides=20 size=13.33x7.50 in
+[0] pics=17 vid=3 | Learned   / Neural Neural Textures* || Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Qualitative Comparisons || 3d Simulator
+[1] pics=3 vid=1 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Qualitative Comparisons || Consistent, / reliable, / photorealistic
+[2] pics=5 vid=0 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Full Training Pipeline || Unprojection Consistency Loss /  / makes sure obiect surfaces look the same across different scenes by minimizing the variance between observed object surfaces || TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by learning textures 
+[3] pics=0 vid=4 | Dirty Laundry || Correct translation  || Mismatched Labels  || Sometimes TRITON converges to the wrong object. You can usually fix that by re-running it though
+[4] pics=3 vid=2 | Sim      || Real || Better than CycleGAN! || Simulations -> Photos! || *Now with more ducks! || Works with any 3D simulator!
+[5] pics=3 vid=0 | Neural Neural Textures / Make Sim2Real Consistent || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo / Stony Brook Computer Science Department || tritonpaper.github.io 
+[6] pics=1 vid=0 | exture || ecovering || mage || ranslati     n || etwork
+[7] pics=5 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image || Output Image
+[8] pics=5 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image || Output Image
+[9] pics=5 vid=0 | Unpaired Image Translation: Inference || (...as a black-box) || Input Image || Output Image
+[10] pics=1 vid=1 | Global Temporal Consistency || Input Image || Output Image
+[11] pics=13 vid=0 | Simulation Images || Photographs || Unpaired || Unpaired Image Translation: Training || (...as a black-box)
+[12] pics=14 vid=0 | (...as a black-box) || Unpaired Image Translation: Training || 3d Simulator
+[13] pics=6 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[14] pics=8 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[15] pics=8 vid=0 | 3d Simulator || Sim Image || Learned  Textures || Projections || duck || rubik’s cube
+[16] pics=11 vid=0 | 3d Simulator || Sim Image || Projections || Learned  Textures || duck || rubik’s cube
+[17] pics=12 vid=0 | 3d Simulator || Projections || Learned  Textures || duck || rubik’s cube || pepper
+[18] pics=5 vid=1 | Neural Neural Textures Make Sim2Real Consistent || tritonpaper.github.io  || Ryan Burgert, Jinghuan Shang, Xiang Li, Michael Ryoo || Introduction: TRITON stands for Texture Recovering Image Translation Network: an unpaired sim2real algorithm that produces temporally consistent results by lear || Results || TRITON is more consistent than the other image translation algorithms.
+[19] pics=0 vid=4 | Dirty Laundry
+
+## Grade11_Gen Alg and NN Presentation (Downloads).pptx
+slides=45 size=10.00x7.50 in
+[0] pics=2 vid=0 | Ryan B. Port Jefferson 2014 Al Kalfus Long Island Math Fair Competition || Controlling Artificial  / Neural Networks / With Genetic Algorithms
+[1] pics=2 vid=0 | What My Program Does || -    “Processing” is a free, open source programming language.     (it can be downloaded at www.processing.org) / “Magic Bullet Looks”, created by Red Giant (a  || vs.
+[2] pics=1 vid=0 | 
+[3] pics=1 vid=0 | 
+[4] pics=2 vid=0 | What My Program Does || My program can do the same thing. It uses the before and after pictures as training data, and tries to create  /            a filter that most closely mimics th || Example 1: || Their ‘Before’ Picture: || My NN’s Output Picture: || Their ‘After’ Picture:
+[5] pics=4 vid=0 | Example 1   (Continued): || Now that the NN has been trained, we can apply it to a new image… || Their ‘Before’ Picture: || My NN’s Output Picture: || Their ‘After’ Picture: || 
+[6] pics=4 vid=0 | Example 2: || Now that the NN has been trained, we can apply it to a new image… || Their ‘Before’ Picture: || My NN’s Output Picture: || Their ‘After’ Picture: || 
+[7] pics=0 vid=0 | My Project’s Goal || This presentation will explain how I accomplished this / By the end of this presentation, you will hopefully have the knowledge needed to your own genetic algor || Introduction
+[8] pics=7 vid=0 | ? || ??
+[9] pics=1 vid=0 | Random Configuration 1 || Random Configuration 2 || Random Configuration 3 || Random Configuration 4 || Random Configuration 5 || Random Configuration 6
+[10] pics=1 vid=0 | Test Configuration 1      ?m || Test Configuration 2      ?m || Test Configuration 3      ?m || Test Configuration 4      ?m || Test Configuration 5      ?m || Test Configuration 6      ?m
+[11] pics=1 vid=0 | Test Configuration 1      127m || Test Configuration 2      81m || Test Configuration 3      34m || Test Configuration 4      2m || Test Configuration 5      3m || Test Configuration 6      139m
+[12] pics=5 vid=0 | Test Configuration 1      127m || Test Configuration 2      81m || Test Configuration 3      34m || Test Configuration 4      2m || Test Configuration 5      3m || Test Configuration 6      139m
+[13] pics=1 vid=0 | (Child) Configuration 1     ?m || (Child) Configuration 2      ?m || (Child) Configuration 3      ?m || (Child) Configuration 4      ?m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[14] pics=6 vid=0 | (Child) Configuration 1     ?m || (Child) Configuration 2      ?m || (Child) Configuration 3      ?m || (Child) Configuration 4      ?m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[15] pics=1 vid=0 | (Child) Configuration 1     ?m || (Child) Configuration 2      ?m || (Child) Configuration 3      ?m || (Child) Configuration 4      ?m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[16] pics=1 vid=0 | (Child) Configuration 1     93m || (Child) Configuration 2   142m || (Child) Configuration 3   129m || (Child) Configuration 4   101m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[17] pics=1 vid=0 | (Child) Configuration 1   93m || (Child) Configuration 2   142m || (Child) Configuration 3   93m || (Child) Configuration 4   101m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[18] pics=5 vid=0 | (Child) Configuration 1   126m || (Child) Configuration 2   142m || (Child) Configuration 3   93m || (Child) Configuration 4   101m || (Parent) Configuration 5  127m || (Parent) Configuration 6   139m
+[19] pics=3 vid=0 | 
+[20] pics=1 vid=1 | Watermelon/Quadrilateral Demo || Watch a GA in action / Variables: / 40 quadrilaterals / Each quadrilateral has it’s own respective R,G and B value / Each quadrilateral has it’s own transparenc || Quadrilateral Output: || Target Image:
+[21] pics=0 vid=1 | A note about Neural Networks… || This is a video of a neural network that somebody else made, and posted on YouTube. They set up a physics simulator, and controlled the ragdoll’s joints with a 
+[22] pics=1 vid=0 | Before We Continue…. || All colors seen on a computer are composed of three values: R,G, and B.   (Red, Green, and Blue)
+[23] pics=2 vid=0 | Before We Continue…. || All Images are composed of pixels / Each pixel has it’s own RGB color, and XY position coordinates / We can think of each pixel in an image as a function. X and
+[24] pics=0 vid=1 | Introduction to Neural Networks || A neural network is a type of machine learning algorithm / A neural network is a type of function, like the quadrilaterals, that uses a set of variables to corr
+[25] pics=5 vid=0 | Introduction to Neural Networks
+[26] pics=0 vid=0 | X || Y || R || G || B || Hidden Layer: / The values of these nodes are calculated / behind-the-scenes; we don’t see them
+[27] pics=0 vid=0 | X || Y || X+Y || X+Y || X+Y || X+Y
+[28] pics=0 vid=0 | X || Y || wX+wY || wX+wY || wX+wY || wX+wY
+[29] pics=0 vid=0 | X || Y || wX+wY+b || wX+wY+b || wX+wY+b || wX+wY+b
+[30] pics=1 vid=0 | Output Layer: / The values the neural network / returns as outputs. Calculated the same / way the hidden layer is calculated, except / Based off the hidden laye || X || Y || f(wX+wY+b) || f(wX+wY+b) || f(wX+wY+b)
+[31] pics=0 vid=0 | Hidden Layer: 16 neurons / (only 4 shown) || My Program: NN Structure (per pixel) || Input Layer: / (pixels from input image) || Output Layer: || R || G
+[32] pics=4 vid=0 | Back to my program… || My program uses a genetic algorithm to train a neural network, to return / RGB values as close as possible to their ‘after picture’ when given the / correspondi || Their ‘Before’ Picture: || My NN’s Output Picture: || Their ‘After’ Picture:
+[33] pics=0 vid=0 | R || G || B || X || Y || R
+[34] pics=3 vid=0 | R || G || B || X || Y || R
+[35] pics=3 vid=0 | Input Pixels: || Target Pixels: || Child NN 1: || Child NN 2: || Child NN 3: || R
+[36] pics=3 vid=0 | Input Pixels: || Target Pixels: || Test NN 1: || Test NN 2: || Test NN 3: || R
+[37] pics=6 vid=0 | Input Pixels: || Target Pixels: || Test NN 1: || Test NN 2: || Test NN 3: || R
+[38] pics=8 vid=0 | Input Pixels: || Target Image || Test NN 1: || Test NN 2: || Test NN 3: || R
+[39] pics=0 vid=0 | R || G || B || X || Y || R
+[40] pics=1 vid=0 | R || G || B || X || Y || R
+[41] pics=0 vid=0 | …fin
+[42] pics=0 vid=0 | 
+[43] pics=0 vid=0 | 
+[44] pics=3 vid=0 | (fin)
+
+## ThesisProposal.pptx
+slides=1 size=13.33x7.50 in
+[0] pics=0 vid=0 | 
