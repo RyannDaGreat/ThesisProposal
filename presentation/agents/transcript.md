@@ -29,3 +29,6 @@ Near-verbatim, courtroom style. The user dictates by voice-to-text; clear speech
 > Your Sonnet [sic: "jsonnet"] agents can be medium or high effort depending on whatever you want, and if there is something truly difficult, feel free to use Opus agents. That's always on the table.
 
 > /Users/rburgert/Documents/ThesisProposal/presentation
+
+## After draft v1 (2026-11-22 18:41)
+> Yeah, this looks like generic garbage. This looks so lazy. This looks beyond lazy. I can't present this. You just took random figures and slapped them on with no understanding of what any of them were or how I would present them. None of it makes any sense. This is terrible. Most slides are just a single picture with like nothing more going on. It doesn't enhance any understanding of these papers or how they connect or what anything about them. You're not even explaining the papers. Like, I can't even explain a single one of these papers or how it works and what you put in there. And when you copy random LaTeX and bullshit into it, it does not help.
