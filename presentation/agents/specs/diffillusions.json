@@ -125,7 +125,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "What if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. Nobody trained a model for this. It's frozen Stable Diffusion, and SDXL for the quantitative runs."
+   "speech": "What if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. Nobody trained anything. It's Peekaboo's recipe, a frozen prior plus score distillation, over a new parameterization: Stable Diffusion, and SDXL for the numbers."
   },
   {
    "title": "One print, two pictures",
@@ -585,7 +585,7 @@
     },
     {
      "kind": "image",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/vio_div.png",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/vio_div_clip.png",
      "rect": [
       60,
       122,
@@ -669,7 +669,7 @@
      "align": "center"
     }
    ],
-   "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The baseline is what the paper calls vanilla SDXL score distillation, so read it as an ablation, not a rival. Independence is a soft score we made up: each image must match its own prompt more than the other four. We win there and on aesthetics, and lose on diversity, since we add constraints. Honestly, style mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
+   "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The thesis defines the baseline as vanilla SDXL score distillation, each target independently, for one step. It's not a rival method. Independence is a soft score we made up: each image must pick its own prompt, each prompt its own image, and we take the worst of the five. We win there and on aesthetics, and lose on diversity, since we add constraints. Honestly, style mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
   },
   {
    "title": "Limits and legacy",

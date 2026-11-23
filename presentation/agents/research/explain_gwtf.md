@@ -89,3 +89,16 @@ Workspace: `/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratc
   - a 40-person study: 82% on cut-and-drag, 90% on turntables.
 - Slide 6: the limit now reads "Motion under 8 px or 4 frames is only approximated" instead of "lost".
 - Not done (examiner r3 extras): the SR warping-error line (152 vs 164 HIWYN / 191 InfRes), the relighting trap (bilinear warping error 47.5 vs ours 85.8), and the untuned FID 76.6 vs 78.6 on screen. The first two are worth knowing for questions.
+
+## Likely committee questions (final examiner leftovers, not on slides)
+
+| Question | Answer |
+|---|---|
+| Is 0.52 a controlled ablation? | No. It is the original CogVideoX-5B, untuned, with the same prompt and first frame. The same-weights control is γ=0.9 → 0.50 vs γ=0.5 → 0.74: same LoRA, with the warp signal mostly gone. |
+| Fair to compare against training-free baselines? | On DL3DV there is also the trained ImageConductor: FID 89.2 vs ours 48.4, mIoU 0.61 vs 0.83. MotionClone gets FID 82.7. SG-I2V was not evaluated on DL3DV. |
+| Where do you lose? | T2V DAVIS mIoU: DMT 0.85, MotionClone 0.75, ours 0.70. Untuned FID is slightly better, 76.6 vs 78.6. SG-I2V has better VBench consistency. The user study used our own 40 samples. |
+| What does your warp buy over InfRes / HIWYN? | All of them reach Moran's I ≈ 0 and LPIPS 0.28–0.29; InfRes gets 0.28. Ours has the lowest SR warping error: 152.0 vs 164.4 HIWYN and 190.8 InfRes (`4_experiments_thesis.tex:24`). Speed is 2.14 ms vs 2.61 InfRes and 55.2 HIWYN. Relighting is the trap: bilinear 47.5 vs ours 85.8. |
+| Why is HIWYN slow? | It rasterizes polygons and re-warps from frame 0, so cost grows with the frame count. Ours stores only the previous frame. |
+| Is the noise per frame? | Per latent frame. CogVideoX keeps 1 of every 4 frames (nearest in time) and mean-pools 8×8 then multiplies by 8 in space (`3_method_thesis.tex:106`). |
+| Sub-pixel motion? | The pseudocode uses integer flow (f: D → ℕ²). Sub-pixel motion per frame is not addressed in the paper. Small motions accumulate through density/rounding only approximately; γ absorbs flow error. |
+| Is the cat cut-and-drag top row the output? | No. The top row is the crude cut-and-paste input (cloned jaw); the bottom row is the model's yawn. |

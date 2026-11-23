@@ -60,3 +60,7 @@ Not used, on purpose: the SDS internals (noise → frozen model → predicted no
 - Step counts: method C in the eval is 500 SDS steps, then 8 dream-target rounds. The appendix pseudocode (X_suppl_thesis.tex:154, 171) shows `range(10000)` and a 90-step strength schedule from .90 to .01. If asked, the pseudocode is the general recipe and C is the evaluated budget. How the 8 rounds sample the .90 to .01 schedule is not stated.
 - Dropped "the hidden image goes black" (it appears only in a commented-out line) and "the QR actually scans" (it isn't shown).
 - Kept Ryan's reviewer joke. It now comes after the evidence and the limits.
+
+## Final-round notes
+- The Vendi plot on slide 7 is `vio_div_clip.png`. The raw eval data is not in the repo, so I couldn't re-run seaborn with cut=0. I cut the image at Vendi = 1, the metric's minimum, whitened everything below it, and closed each violin with a flat edge. If Ryan has the data, re-plot it with `cut=0`.
+- Baseline speech now quotes the definition at main_thesis.tex:279 exactly ("vanilla SDXL ... independently for one step"). It drops "ablation", which the tex doesn't support. The independence contradiction with X_suppl_thesis.tex:258 is still open.

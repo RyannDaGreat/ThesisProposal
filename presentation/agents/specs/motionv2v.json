@@ -48,7 +48,7 @@
         },
         {
           "kind": "text",
-          "text": "Make the corgi win",
+          "text": "Slow the corgi, flip the race",
           "rect": [
             140,
             472,
@@ -59,7 +59,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "On top, a bichon and a corgi racing down a sidewalk, finishing about side by side. The dots and lines are point tracks, pink for the bichon's face, red for the corgi's. I want the corgi to win, so I drag its red track forward. The bottom row is the output. In the red box, the corgi's in front. Same dogs, same street, new motion. That's MotionV2V."
+      "speech": "On top, a bichon and a corgi racing down a sidewalk. The dots and lines are point tracks, pink for the bichon's face, red for the corgi's. The edit: slow the corgi down to flip the race, so I pull its red track back. The bottom row is the output. Same dogs, same street, new motion. That's MotionV2V."
     },
     {
       "title": "Why not GWTF?",
@@ -98,7 +98,7 @@
         },
         {
           "kind": "text",
-          "text": "ATI, ReVideo, GWTF: first frame in, rest generated",
+          "text": "ATI, GWTF: first frame in, rest generated",
           "rect": [
             40,
             446,
@@ -109,7 +109,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "So why can't GWTF do this? General point and flow motion control, ATI, ReVideo, and my own GWTF, is image-to-video. It takes this first frame and generates the rest. Anything that's not in frame one, like a car that drives in later, gets made up. And the classic editing trick, invert the video back to noise and regenerate it, needs the output to line up with the input frame by frame. Change the motion, and that breaks."
+      "speech": "So why can't GWTF do this? ATI and my own GWTF are image-to-video. It takes this first frame and generates the rest. Anything that's not in frame one, like a car that drives in later, gets made up. ReVideo keeps the original outside an edit mask, and breaks when the camera moves. And the classic editing trick, invert the video back to noise and regenerate it, needs the output to line up with the input frame by frame. Change the motion, and that breaks."
     },
     {
       "title": "Motion Counterfactuals",
@@ -375,7 +375,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "At test time: a guy roasting a marshmallow next to a sleeping dog. I click points, a tracker follows them, and those are the source tracks. I drag them where I want them, and those are the target tracks, in the red box. The model gets each track as a colored blob on black, one color per point. It's a frozen CogVideoX, plus a trained copy of its first eighteen blocks, added back through zero-initialized layers. The target tracks line up with the output, like a normal ControlNet input. Your video doesn't. We think it works because these blocks attend across all frames. We didn't ablate that."
+      "speech": "At test time: a guy roasting a marshmallow next to a sleeping dog. I click points, a tracker follows them, and those are the source tracks. I drag them where I want them, and those are the target tracks, in the red box. The lines are just a visualization. The model actually gets each track as colored dots on black, one color per point, plus your video. It's a frozen CogVideoX, plus a trained copy of its first eighteen blocks, added back through zero-initialized layers. The target tracks line up with the output, like a normal ControlNet input. Your video doesn't. We think it works because these blocks attend across all frames. We didn't ablate that."
     },
     {
       "title": "Results",
@@ -507,7 +507,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "User study: 41 people, pick the best of four, on 20 edits we chose ourselves, so there's selection bias. Ours got 69%, ATI 25, even on a stronger base model. For reconstruction, we cut each video at the middle. One half, reversed, is the input, the other half is the target, and both start on the middle frame, so image-to-video methods get a fair first frame. Reversal's in our training data, so this tests keeping content, not editing in general. SSIM is about 0.1 for everyone, since generated motion is never pixel-aligned, so L2 and LPIPS carry it. No error bars. Limits are on the right. We trained on 1 to 64 points, so past about twenty it stops following, and pixel-perfect points make it copy the input. This is CVPR 2026, code's not out."
+      "speech": "User study: 41 people, pick the best of four, on 20 edits we chose ourselves, so there's selection bias. Ours got 69%, ATI 25, even on a stronger base model. For reconstruction, we cut each video at the middle. One half, reversed, is the input, the other half is the target, and both start on the middle frame, so image-to-video methods get a fair first frame. Reversal's in our training data, so this tests keeping content, not editing in general. SSIM is suspiciously low for every method, so I'm re-checking that eval. No error bars. Limits are on the right. We trained on 1 to 64 points, yet past about twenty it stops following. We don't know why. And pixel-perfect points make it copy the input. This is CVPR 2026, code's not out."
     }
   ]
 }

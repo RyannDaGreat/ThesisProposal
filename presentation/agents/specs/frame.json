@@ -107,7 +107,7 @@
      "color": "#000000"
     }
    ],
-   "speech": "I'm Ryan Burgert, I'm a PhD student here at Stony Brook, and this is my thesis: how to control your video diffusion model. Five papers, one question. Let me show you the question first."
+   "speech": "I'm Ryan Burgert, I'm a PhD student here at Stony Brook, and this is my thesis: how to control your video diffusion model. Five papers, one question. First, a quick puzzle."
   },
   {
    "title": "Just ask?",
@@ -795,7 +795,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Next: one handle for any edit to any video."
+   "speech": "Next: carry any image edit through a whole video."
   },
   {
    "insert_section": "future"
@@ -996,7 +996,7 @@
      "color": "#000000"
     }
    ],
-   "speech": "So: Peekaboo got masks with no training. Illusions got one print, many pictures. MAGICK got real transparency from an RGB model. Go-with-the-Flow got motion from warped noise. MotionV2V edits motion in real videos. Three follow-ups I co-authored already build on these. And that RickRoll? Warped noise like that is all a video model needs to follow Rick's motion. Thank you, happy to take questions."
+   "speech": "So: Peekaboo got masks with no training. Illusions got one print, many pictures. MAGICK got real transparency from an RGB model. Go-with-the-Flow got motion from warped noise. MotionV2V edits motion in real videos. Three follow-ups I co-authored already build on these. And that RickRoll? Warped noise, plus one fine-tune, is how a video model follows Rick. Thank you, happy to take questions."
   }
  ]
 }

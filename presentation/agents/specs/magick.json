@@ -276,7 +276,7 @@
       "speech": "Catch is, SDXL, Midjourney and DALL-E make dark gradient screens or tint the subject green. DeepFloyd, left, gives a flat screen, but mushy hair. So we chain them. Cut DeepFloyd's girl out roughly with Photoshop, paste her on brighter green, and run SDEdit, SDXL image-to-image, at strength 0.95. That repaints almost everything, the rough cut included, so DeepFloyd only donates layout and a clean screen."
     },
     {
-      "title": "Three keyers",
+      "title": "Three extractors",
       "elements": [
         {
           "kind": "image",
@@ -310,7 +310,7 @@
         },
         {
           "kind": "text",
-          "text": "keyers: pixel-wise · learned chroma key · Photoshop subject select",
+          "text": "pixel-wise keyer · learned keyer · Photoshop Subject Select",
           "rect": [
             20,
             394,
@@ -334,7 +334,7 @@
         },
         {
           "kind": "text",
-          "text": "Score: worst-pair MS-SSIM · above median 0.984: auto, 110k · human picks 1 of 7: 40k",
+          "text": "worst-pair MS-SSIM · top half auto (110k) · rest to humans, pick 1 of 7 → 40k kept",
           "rect": [
             20,
             472,
@@ -345,7 +345,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "Three keyers that fail differently: a per-pixel color-difference keyer, Adobe's internal learned chroma keyer, and Photoshop subject select. Top row cutouts, bottom row alphas. The score composites each cutout on white and on black and takes the worst pair's MS-SSIM. Right, 0.995, all agree. Left, a glass of water, they don't. Agreement is a proxy, not proof: generated images have no ground truth, but keyers that work differently rarely agree on the same wrong answer. Above the median, 0.984, we auto-accept with the open pixel-wise keyer: 110,000. For 40,000 more, mostly glass and smoke, a human picked one of seven."
+      "speech": "Three extractors that fail differently: a per-pixel color-difference keyer, Adobe's internal learned chroma keyer, and Photoshop subject select. Top row cutouts, bottom row alphas. The score composites each cutout on white and on black and takes the worst pair's MS-SSIM. Right, 0.995, all agree. Left, a glass of water, they don't. Agreement is a proxy, not proof: generated images have no ground truth, but keyers that work differently rarely agree on the same wrong answer. Above the median, 0.984, we auto-accept with the open pixel-wise keyer: 110,000. For 40,000 more, mostly glass and smoke, a human picked one of seven alpha and color combos. Subject Select turns glass solid, so glass never scores high. That's why transparency comes only from humans."
     },
     {
       "title": "150,000 cutouts",
@@ -374,7 +374,7 @@
         },
         {
           "kind": "text",
-          "text": "Limits: synthetic · relies on Adobe tools and captions · auto path favors opaque objects",
+          "text": "Limits: synthetic · auto gate needs two Adobe tools, open swaps untested",
           "rect": [
             20,
             430,
@@ -397,7 +397,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "That's MAGICK: 150,000 objects, each with foreground colors, an alpha matte and a caption. We trained a matting network on DIM, on MAGICK, and on mixes, and tested on real DIM images. Either dataset alone scores 36 or 65; the best mix gets 33. Mixing beats either alone. Limits: it's synthetic, so a stop sign gets a perfect matte and misspelled text. It leans on Adobe tools and captions, though the auto samples use the open keyer. Auto-accept favors opaque things; transparency was human-picked. Cost: 30,000 dollars of annotation plus 32 A100s for three weeks."
+      "speech": "That's MAGICK: 150,000 objects, each with foreground colors, an alpha matte and a caption. We trained a matting network on DIM, on MAGICK, and on mixes, and tested on real DIM images. Either dataset alone scores 36 or 65; the best mix gets 33. Mixing beats either alone. Limits: it's synthetic, so a stop sign gets a perfect matte and misspelled text. The auto gate itself needs two Adobe tools; open replacements are untested. Cost: 30,000 dollars of annotation plus 32 A100s for three weeks."
     },
     {
       "title": "Alpha in, image out",

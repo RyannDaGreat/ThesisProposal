@@ -208,7 +208,7 @@
         },
         {
           "kind": "text",
-          "text": "Ours  I=0.0001  SR LPIPS 0.29",
+          "text": "Ours  I=0.00014  SR LPIPS 0.29",
           "rect": [
             511,
             298,
@@ -229,7 +229,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "Why not warp the noise like an image? Top left, a roller coaster zooming forward. Top right, nearest-neighbor copies the same noise pixel into streaks. Bottom left, bilinear averages neighbors: average four unit-variance values and variance drops as low as one quarter, so it goes gray, and neighbors share inputs, so it goes blurry. Both have strong spatial correlation, that's the I; ours has none, same as fresh noise. And the model notices: in DeepFloyd super-resolution, bilinear noise doubles LPIPS, 0.29 to 0.60."
+      "speech": "Why not warp the noise like an image? Top left, a roller coaster zooming forward. Top right, nearest-neighbor copies the same noise pixel into streaks. Bottom left, bilinear averages neighbors: average four unit-variance values and variance drops as low as one quarter, so it goes gray, and neighbors share inputs, so it goes blurry. Both have strong spatial correlation, that's the I; ours has none. Other Gaussian warps get that too; ours has the lowest warping error at about InfRes speed. And the model notices: in DeepFloyd super-resolution, bilinear noise doubles LPIPS, 0.29 to 0.60."
     },
     {
       "title": "Noise as particles",
@@ -468,7 +468,7 @@
         },
         {
           "kind": "text",
-          "text": "No warped noise, DAVIS: mIoU 0.52; ours 0.74",
+          "text": "untuned CogVideoX 0.52 · ours γ=0.9 0.50 · ours γ=0.5 0.74",
           "rect": [
             30,
             468,
@@ -491,7 +491,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "Why fine-tune? Untuned CogVideoX roughly follows warped noise, but frames fall apart. Each frame is still Gaussian, but across time it deliberately isn't, and it's never seen that. So we warp noise in pixel space for four million videos, mean-pool it to the latent times 8 so variance stays one, and train a rank-2048 LoRA, 40 A100-days. No new modules: the LoRA merges back in, so zero extra inference cost. Gamma is how much fresh noise we mix in; it's random during training, so at inference you just pick it. Lower is stricter: on DAVIS, gamma 0.5 gives tracking mIoU 0.74, 0.9 gives 0.50, and with no warped noise at all, 0.52. Top row is the input motion, bottom row is ours. Against the training-free baselines SG-I2V and MotionClone we win FID and mIoU on VIPSeg objects and DL3DV camera."
+      "speech": "Why fine-tune? Untuned CogVideoX roughly follows warped noise, but with visible artifacts. Each frame is still Gaussian, but across time it deliberately isn't, and it's never seen that. So we warp noise in pixel space for four million videos, mean-pool it to the latent times 8 so variance stays one, and train a rank-2048 LoRA, 40 A100-days. No new modules: the LoRA merges back in, so zero extra inference cost. Gamma is how much fresh noise we mix in; it's random during training, so at inference you just pick it. Lower is stricter: on DAVIS, gamma 0.5 gives tracking mIoU 0.74, while 0.9 is nearly fresh noise, so control fades to 0.50, no better than untuned CogVideoX at 0.52. Top row is the input motion, a crude cut-and-paste; bottom row: the cat actually yawns. On VIPSeg objects we beat SG-I2V and MotionClone on FID and mIoU; on DL3DV camera we beat MotionClone."
     },
     {
       "title": "What became of it",

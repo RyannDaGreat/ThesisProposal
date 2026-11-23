@@ -93,6 +93,19 @@ The full speech and element rects are in the JSON (644 words). Summary below. It
 
 ## Likely committee questions (answers verified in the chapter / impact_verified.md)
 
+From the final examiner (study/motionv2v/final/examiner.md). These are not in the speech:
+- **SSIM 0.098 vs LPIPS 0.031 contradict each other.** This is probably a metric bug (data range, [-1,1] input, latents, or resolution). The speech now says "suspiciously low, I'm re-checking". Re-run before the defense, or drop the column.
+- **Eval split, which half was reversed?** experiments.tex says V1 (the second half) is reversed and that "last frame of V0 matches first frame of V1′", which is wrong as written. The protocol paragraph says V0 is input and V1 is target. Know which one was run, and admit that the paper text is wrong.
+- **Why fail past ~20 points when trained on 1-64?** Unknown. Hypothesis: heavy target-track dropout taught it to treat targets as hints. Untested.
+- **Jitter:** ±2 px at test time only. It is the only ablation in the paper, and it shows a learned shortcut (exact points mean copy).
+- **Hero example:** both dogs are visible in frame 1, so the race is not a "content missing from frame 1" case. Better failure cases are comparison edits #3 (cyclist), #5 (balloon), and #8 (off-screen motorcyclist). The dog race story follows edit #4: slow the corgi and reverse the race outcome. The intro ("Bichon wins") and teaser caption ("tied race") disagree with it.
+- **"Frames both videos contain" (slide 4) is loose.** Interpolation anchors are drawn from the full video, independent of the target cut. The generated clip is spliced into the full video and tracked once with TAPNext, then points start on its two real frames. Generated clips and tracks are not filtered, so the failure rate is unknown.
+- **Architecture details:** the three conditioning videos (input, source blobs, target blobs) are VAE-encoded and stacked to 48 = 3×16 channels. There is also a text prompt. Training: 100k videos on 8×H100 for about a week. The paper also says "500,000 samples" elsewhere, which is inconsistent. The recon table caption says "ATR".
+- **Baselines:** GWTF used its Wan 2.2 version, with blob tracks turned into flow via RAFT. ReVideo ran with the whole frame editable and no text.
+- **Is the walking man real?** It looks generated, so treat it as an illustration if asked.
+- **Camera control / Ryoo:** MonST3R pointmap, reprojected with new cameras, and the shift becomes target tracks. The model fills in revealed areas (swan zoom-out). Counterfactual pairs, the same scene with controlled motion, are trajectory-conditioned data for world models. Physics, shadows and contact are not supervised. The fix is 3D synthetic counterfactuals with exact ground truth.
+- **Is an 18-block trained copy still a "handle"?** The base stays frozen. The branch is large (story listener's point).
+
 - **Why not just use GWTF or another I2V model with the first frame?** It is first-frame only, so content after frame 1 gets hallucinated. Slide 2.
 - **Why not DDIM inversion plus editing?** A motion edit breaks pixel correspondence between input and output, and inversion-based editing depends on that correspondence. Slide 2.
 - **Where do training pairs come from?** A real clip is the target. The counterfactual is made by first/last-frame interpolation with an LLM prompt or by temporal resampling, then crops, rotation and scale. Tracks come from TAPNext, N~U(1,64) points. Slides 3-4.

@@ -137,7 +137,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "One editor has to take many control signals at once, edges, depth, relighting, a style, and right now each is its own LoRA, and stacked LoRAs fight. So the second piece is LoraPlexer: many control handles in one small add-on to the same pretrained model, and you switch between them. This is a proof of concept: a hundred community LoRAs merged into one rank-32 LoRA with no training, running six different modes with the same prompt and the same seed. The next step is distilling them properly, across noise levels and with classifier-free guidance still working. [CONFIRM: the six tile labels \"3D animated\", \"storybook\", \"live action\", \"soft 3D\", \"2D anime\", \"3D + live mix\" were guessed from how each tile looks; swap in the real mode names.]"
+   "speech": "One editor has to take many control signals at once, edges, depth, relighting, a style, and right now each is its own LoRA, and stacked LoRAs fight. So the second piece is LoraPlexer: many control handles in one small add-on to the same pretrained model, and you switch between them. This is a proof of concept, so far with style LoRAs only: a hundred community LoRAs merged into one rank-32 LoRA with no training, running six different modes with the same prompt and the same seed. The next step is distilling them properly, across noise levels and with classifier-free guidance still working, and then control LoRAs. [CONFIRM: the six tile labels \"3D animated\", \"storybook\", \"live action\", \"soft 3D\", \"2D anime\", \"3D + live mix\" were guessed from how each tile looks; swap in the real mode names.]"
   },
   {
    "title": "Where the data comes from",

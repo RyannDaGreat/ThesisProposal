@@ -119,7 +119,7 @@
      "align": "center"
     }
    ],
-   "speech": "This is a picture of Harry Potter. Paste Harry on red, still Harry Potter. Green, black, white, blue: they're ALL Harry Potter. The background doesn't matter. These are real Peekaboo cutouts, a bit rough. So I want the mask where any background swap still reads as \"Harry Potter\" to the diffusion model."
+   "speech": "This is a picture of Harry Potter. Paste Harry on red, still Harry Potter. Green, black, white, blue: they're ALL Harry Potter. The background doesn't matter. So I want the mask where any background swap still reads as \"Harry Potter\" to the diffusion model."
   },
   {
    "title": "Let's optimize it!",
@@ -210,7 +210,7 @@
      "align": "center"
     }
    ],
-   "speech": "Left is the photo, then the mask, alpha, starting as random noise. Each step we draw one random solid color, blend the photo over it with the mask, push that through the frozen VAE encoder, add noise at a random timestep, and take the score distillation gradient with the prompt. Only the mask gets updated. The color columns just preview it. On the right is where it ends up: Hermione and the hallway stay in. Nothing pushes it to drop anything."
+   "speech": "Left is the photo, then the mask, alpha, starting as random noise. Each step we draw one random solid color, blend the photo over it with the mask, push that through the frozen VAE encoder, add noise at a random timestep, and take the score distillation gradient with the prompt. Only the mask gets updated. On the right is where it ends up: Hermione and the hallway stay in. Nothing rewards dropping the wrong pixels. Credit where due: compositing over random backgrounds with an opacity penalty is from Dream Fields, and score distillation is DreamFusion's. What's new is aiming it at a real photo, learning only the mask, and the image-guided filter."
   },
   {
    "title": "Let's optimize it!",
@@ -441,6 +441,19 @@
       290,
       345
      ]
+    },
+    {
+     "kind": "text",
+     "text": "mIoU",
+     "rect": [
+      330,
+      120,
+      370,
+      36
+     ],
+     "size": 22,
+     "color": "#000000",
+     "align": "left"
     },
     {
      "kind": "text",
@@ -701,9 +714,22 @@
      "size": 22,
      "color": "#000000",
      "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "VOC-C: our 342 single-object VOC crops (not standard VOC)",
+     "rect": [
+      330,
+      470,
+      600,
+      30
+     ],
+     "size": 18,
+     "color": "#000000",
+     "align": "left"
     }
    ],
-   "speech": "So how good is it? RefCOCO gives you a phrase, and you mask that object. Honestly, this is coarse localization. Predicting the whole image gets 0.10. GroupViT gets 0.11. Peekaboo with the color filter I just showed gets 0.16. Guide the filter with depth from MiDaS instead and it's 0.20, but MiDaS is a supervised depth model, so that number isn't fully label-free. LSeg, trained on segmentation labels, wins. On VOC-C we lose to Clippy, GroupViT and LSeg; the depth variant just edges past Clippy. What it grabs can differ from the label: ask for \"Emma Watson\" and you get her face and upper body, not the dress. The prior can also overreach: with one-word prompts it sometimes carves a cat shape out of background texture. No training of our own isn't free, either: it leans on Stable Diffusion's pretraining and about two hundred U-Net passes per mask."
+   "speech": "RefCOCO gives you a phrase, and you mask that object. It's coarse localization: at IoU 0.6 we hit 1.8 percent, LSeg 5. Predicting the whole image gets 0.10. GroupViT gets 0.11. Peekaboo with the color filter I just showed gets 0.16. Guide the filter with depth from MiDaS instead and it's 0.20, but MiDaS is a supervised depth model, so that number isn't fully label-free. LSeg, trained on segmentation labels, wins. On VOC-C we lose to Clippy, GroupViT and LSeg; the depth variant just edges past Clippy. What it grabs can differ from the label: ask for \"Emma Watson\" and you get her face and upper body, not the dress. The prior can also overreach: with one-word prompts it sometimes carves a cat shape out of background texture. No training of our own isn't free, either: it leans on Stable Diffusion's pretraining and about two hundred U-Net passes per mask."
   },
   {
    "title": "Bonus: transparency",
@@ -719,7 +745,7 @@
      ]
     }
    ],
-   "speech": "Make the image learnable too, not just the mask, and the same loss generates images with transparency, starting from noise. No photo here, so no bilateral filter. The checkerboard is the transparent part. To our knowledge that was the first text-to-RGBA generation from an RGB-only model. It's qualitative only. Peekaboo was a CVPR 2023 workshop paper, about forty citations so far."
+   "speech": "Make the image learnable too, not just the mask, and the same loss generates images with transparency, starting from noise. No photo here, so no bilateral filter. The checkerboard is the transparent part. Qualitative only, and Dream Fields did something similar with CLIP in 3D. Peekaboo was a CVPR 2023 workshop paper, about forty citations so far."
   }
  ]
 }
