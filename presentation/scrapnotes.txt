@@ -1,0 +1,96 @@
+THESIS PRESENTATION
+
+Michael: Give announcement text
+Dimitris: Organize on Calendar
+
+
+OUTLINE:
+- Introduction to Me [quick lol]
+- Introduction to Thesis : How to Control your Video Diffusion Model
+    - Index: What I'll be going over:
+        - 5 Main Papers
+        - Impact of each "This is part where I boast "
+        - Ziyu, Vista4D, Koichi: 3 Extra Papers
+        - Proposed next project:
+            - LoraPlexer + Vid2Vid Editing
+        - CLAUDE: Can it make a better video for my warped noise explanation?
+- Extras:
+    - Pictures from TRITON + The Ducks
+    - 3D Warped Noise
+    - High School Project
+    - Other Papers throughout my PhD (unrelated)
+    - Live demo of MAGICK
+    - 
+- 
+
+
+
+[Xiang Learn]
+- Try to tie them into one question
+- Discuss impact
+- Talk about LoraPlexer + Noise
+- Eigen Paper with EidgenSD thing
+
+
+Loraplexer:
+- 3D View Change from Synthetic + Lighting Changes
+- Multi-Distillation
+- MAGICK
+- I2I2V2V [In a web browser?]
+- Multi Noise Levels
+- CFG (with and without model)
+- Demo Case: To-Edges LoRA + 2-bit color LoRA + Edges of my Dog to train on + 2-Bit of my dog --> Can it reproduce my dog?
+- 
+
+
+First
+Who Am I
+BANG BANG BANG [cool things - unexplained - warped noise rickroll, diffusion illusions,  MAGICK (how to make an RGBA dataset from an RGB model alone)]
+
+Start from beginning: 
+I 
+
+Gather:
+- All PPT's (where is the MAGICK one?)
+- Diffusion Illusion Printouts
+- Ducks!!! Asap!!! [Duck Photos]
+- Peekaboo with Diffilu: AIM FOR FLOW
+- Live MAGICK demo
+- 3D Glasses
+- Live Noise Warp Demo
+- Origin Story [High School]. Keep?
+- Other papers!
+    - Vista4D
+    - Koichi's
+    - Other papers I coauthored [fast forward through them]
+    - Ziyu's paper
+
+PROPOSAL:
+- Let's do a user study right now lol [show before/after MAGICK's]
+
+SECTIONS:
+- What became of my papers
+    - Followups!
+    - The awards that were won from Diffilu followups
+    - Steve Mould etc 
+    - "Not Good, Didn't Like It" well, other people did
+    - GWTF's impact
+- Intro: How to tie it together?
+
+WHAT NEXT:
+- I2I2V2V + MAGICK
+
+/Users/ryan/DiffiluVideos/DiffiluSigPresent.pptx
+/Users/ryan/CleanCode/Projects/TRITON/TRITON Final Poster.pptx
+/Users/ryan/CleanCode/Projects/RPE/Presentation/Presentation.pptx
+/Users/ryan/CleanCode/Projects/RPE/Presentation/Presentation_New.pptx
+/Users/ryan/Downloads/TRITON Presentation.pptx
+/Users/ryan/Library/CloudStorage/GoogleDrive-ryan.burgert@stonybrook.edu/My Drive/Exobyte Stony Brook Nexus/Ryan Burgert/Grade11_Gen Alg and NN Presentation.pptx
+/Users/ryan/CleanCode/Projects/Peekaboo/DiffusionIllusions/SIGGRAPH_DiffiluPoster.pptx
+/Users/ryan/Library/Mobile Documents/com~apple~CloudDocs/GoogleDocsDump/Grade11_Gen Alg and NN Presentation.pptx
+/Users/ryan/Downloads/Grade11_Gen Alg and NN Presentation.pptx
+/Users/ryan/Library/CloudStorage/GoogleDrive-ryan.burgert@stonybrook.edu/My Drive/Exobyte Stony Brook Nexus/Internships/Air Techniques/Ryan B/OCTAVE Workspace/ExplanationForMTFCode.pptx
+/Users/ryan/Library/CloudStorage/GoogleDrive-ryan.burgert@stonybrook.edu/My Drive/Exobyte Stony Brook Nexus/Internships/Air Techniques/Explanation.pptx
+
+
+
