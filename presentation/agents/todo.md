@@ -10,6 +10,7 @@ No fork agents run. All work is done in the main session or by research subagent
 | 4 | Videos from ref decks + other-papers research | 0 (docs) | in `5997239`. Assets in .scratchpad (git-ignored) |
 | 5 | Draft v1 deck: 37 slides from thesis figures | +262 (build_v1.py) | `5997239`, not pushed. ai_presentation.pptx is 140 MB, git-ignored. Not checked in PowerPoint. Known bugs: label/red-line overlap on roadmap slide 19 and on the other-papers slide 35. NOT ASKED: 2nd talk sent, and sent before the chat reply |
 | 6 | Root-level ThesisProposal AGENTS.md, .mcp.json, agents/, .gitignore line | 0 | Waiting on user: keep, move, or delete? |
+| 7 | v2 deck: specs, builder, listener/examiner harness, 52-slide talk (~29 min) | build_v2.py + user_study.py | `2e9094d`..`528fbc2`, not pushed. Final scores 6-6.5/8 each. Open questions in open_questions_for_ryan.md |
 
 # TODO
 
@@ -24,11 +25,12 @@ No fork agents run. All work is done in the main session or by research subagent
 
 ## One-hour iteration plan (started 18:43, deadline ~19:43; user asked to be notified when the hour is up)
 - [x] 18:48 section specs: peekaboo, diffillusions, magick, gwtf, motionv2v written; exams for all 5 written
-- [ ] frame spec (opener / problem / roadmap / close) — agent still writing
-- [ ] Round 1 (18:50-19:08): user_study.py per section (Sonnet listener sees only slides+frames+speech; Opus examiner grades vs exam, defense, bullshit, 5 fixes)
-- [ ] Round 2 (19:08-19:25): send examiner fixes to section agents, revise specs, re-test
-- [ ] 19:25-19:35: full build into ai_presentation.pptx, render + look at every slide, whole-talk listener for story
-- [ ] 19:35-19:43: commit, open in DeckCraft, notify user
+- [x] frame spec (opener / problem / roadmap / close) — agent still writing
+- [x] Round 1 (18:50-19:08): user_study.py per section (Sonnet listener sees only slides+frames+speech; Opus examiner grades vs exam, defense, bullshit, 5 fixes)
+- [x] Round 2 (19:08-19:25): send examiner fixes to section agents, revise specs, re-test
+- [x] 19:25-19:35: full build into ai_presentation.pptx, render + look at every slide, whole-talk listener for story
+- [x] 19:35-19:43: commit, open in DeckCraft (done 7:25 PM EST)
+- [ ] Notify user at 7:43 PM EST (timer) + the one `say`
 
 ## Rations (user, 18:54)
 - Talk (macOS `say`): ONE left, use only when the hour's work is finished. Earlier ones are spent.
