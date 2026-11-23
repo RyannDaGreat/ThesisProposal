@@ -312,7 +312,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "So here's the whole objective. Top line is the composite. Bottom line: score distillation on that composite, plus lambda times the sum of alpha. That second term makes every kept pixel cost something, so only pixels the prompt actually pulls on survive. One caveat: score distillation isn't the gradient of a real loss. It drops the U-Net Jacobian, so it's a noisy update direction. We run a fixed two hundred SGD steps, and convergence is empirical. On the right, Hermione's gone. But his shirt is getting chopped into pieces."
+   "speech": "So here's the whole objective. Top line is the composite. Bottom line: score distillation on that composite, plus lambda times the sum of alpha. Lambda is 0.05: too big drops everything, too small keeps background. That second term makes every kept pixel cost something, so only pixels the prompt actually pulls on survive. Score distillation's update is the U-Net's predicted noise minus the noise we added; it skips the U-Net Jacobian, so it's not a real loss gradient. We run a fixed two hundred SGD steps, and convergence is empirical. On the right, Hermione's gone. But his shirt is getting chopped into pieces."
   },
   {
    "title": "Let's optimize it!",

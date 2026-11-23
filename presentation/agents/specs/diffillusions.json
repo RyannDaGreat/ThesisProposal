@@ -125,7 +125,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "What if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. Nobody trained anything. It's Peekaboo's recipe, a frozen prior plus score distillation, over a new parameterization: Stable Diffusion, and SDXL for the numbers."
+   "speech": "What if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. No model is fine-tuned. It's Peekaboo's recipe, a frozen prior plus score distillation, over a new parameterization: Stable Diffusion, and SDXL for the numbers."
   },
   {
    "title": "One print, two pictures",
@@ -169,7 +169,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "But...how? Here's the whole pipeline. Each prime is a small Fourier feature network, an MLP from pixel coordinates to color. The arrangements turn primes into derived images. On each derived image we run score distillation with its prompt: encode, add noise, the frozen model predicts the noise, and the error is a gradient on that view. No backprop through the U-Net, only through the encoder, the arrangements and the MLPs, so every view's gradient sums onto the shared primes. Why an MLP? With raw pixels, the second picture hid in high-frequency noise, and that dies the moment you print."
+   "speech": "But...how? Here's the whole pipeline. Each prime is a small Fourier feature network, an MLP from pixel coordinates to color. The arrangements turn primes into derived images. On each derived image we run score distillation with its prompt: encode, add noise, the frozen model predicts the noise, and the error is a gradient on that view. No backprop through the U-Net, only through the encoder, the arrangements and the MLPs, so every view's gradient sums onto the shared primes. Why an MLP? Fourier features plus a small MLP make a smooth image, so the second picture can't hide in pixel noise that printing would wipe out."
   },
   {
    "title": "Stack them",
@@ -351,7 +351,7 @@
      "align": "center"
     }
    ],
-   "speech": "What else can an arrangement be? Print two images on transparencies over a backlight. The base stays, the rotator spins on top. Light goes through both, so the color you see is the product. Order doesn't matter, multiplication commutes. Products get dark, so we scale by two and squash with a tanh, like a brighter backlight. Two primes, four rotations, four derived images: cat, man, woman, dog. These are photos of the real prints."
+   "speech": "What else can an arrangement be? Print two images on transparencies over a backlight. The base stays, the rotator spins on top. Light goes through both, so the color you see is the product. Order doesn't matter, multiplication commutes. Products get dark, so we multiply by two, a brighter backlight, and a tanh keeps it in range. Two primes, four rotations, four derived images: cat, man, woman, dog. Simulated here; the paper has photos of the prints."
   },
   {
    "title": "Hidden overlays",
@@ -540,7 +540,7 @@
     },
     {
      "kind": "text",
-     "text": "SSIM + MSE; strength 0.90 → 0.01; QR weight 3×; 500 SDS steps, then 8 rounds",
+     "text": "SSIM + MSE to SDEdit targets; 500 SDS, then 8 dream-target steps; hidden image weighted 3×",
      "rect": [
       20,
       494,
@@ -552,7 +552,7 @@
      "align": "center"
     }
    ],
-   "speech": "Score distillation alone gives gritty images: top row, four Mikus hiding Captain Picard. So phase two: each round, we SDEdit every derived image into a cleaner target, the middle row, and regress the primes toward it with SSIM plus MSE for about a thousand steps. The edit strength shrinks from 0.9 to 0.01, so targets move less each round. Bottom row is after."
+   "speech": "Score distillation alone gives gritty images: top row, four Mikus hiding Captain Picard. So phase two: each round, we SDEdit every derived image into a cleaner target, the middle row, and regress the primes toward it with SSIM plus MSE. Our default: 500 score distillation steps, then 8 dream-target steps, with the hidden image weighted 3. Bottom row is after."
   },
   {
    "title": "Does it work?",
@@ -669,7 +669,7 @@
      "align": "center"
     }
    ],
-   "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The thesis defines the baseline as vanilla SDXL score distillation, each target independently, for one step. It's not a rival method. Independence is a soft score we made up: each image must pick its own prompt, each prompt its own image, and we take the worst of the five. We win there and on aesthetics, and lose on diversity, since we add constraints. Honestly, style mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
+   "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The baseline is vanilla SDXL score distillation; the thesis notes its images bleed into each other. It's not a rival method. Independence is a soft score we made up: each image must pick its own prompt, each prompt its own image, and the score is the weakest match. We win there and on aesthetics, and lose on diversity, since we add constraints. Honestly, style mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
   },
   {
    "title": "Limits and legacy",
