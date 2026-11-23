@@ -41,3 +41,10 @@ No fork agents run. All work is done in the main session or by research subagent
 - Whole-talk story listener (Sonnet) -> full_r1/story_listener.md
 - Visual QA of all 47 slides at full scale -> full_r1/visual_qa.md
 - Fixed: build_v2.py command file is now per-output (parallel builds clobbered each other)
+
+## Status 7:09 PM EST
+- [x] Full build r3 (52 slides, 4372 words) copied to presentation/ai_presentation.pptx for user peek (7:07 PM)
+- [x] 4 visual QA agents (.scratchpad/full_r3/qa_*.md) + whole-talk listener (.scratchpad/full_r3/story_listener.md, 383-word cut list)
+- [ ] Section agents applying QA fixes + cuts (due ~7:16 PM): frame, peekaboo, diffillusions (local 4), magick (lion callback), gwtf (gamma), future (story tie-in). MotionV2V done.
+- [ ] Final build r4 → ai_presentation.pptx, look at every slide, commit, open in DeckCraft, notify at 7:43 PM, one `say`
+- Open for Ryan: MAGICK SAD direction; DI baseline definition; dog race; future-work image rights / LoRA-Mux = LoraPlexer / what Ryan built; thesis bugs (GWTF density fig, gamma sentence, Peekaboo Algorithm box)
