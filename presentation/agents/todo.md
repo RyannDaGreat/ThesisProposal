@@ -10,6 +10,7 @@ No fork agents run. All work is done in the main session or by research subagent
 | 4 | Videos from ref decks + other-papers research | 0 (docs) | in `5997239`. Assets in .scratchpad (git-ignored) |
 | 5 | Draft v1 deck: 37 slides from thesis figures | +262 (build_v1.py) | `5997239`, not pushed. ai_presentation.pptx is 140 MB, git-ignored. Not checked in PowerPoint. Known bugs: label/red-line overlap on roadmap slide 19 and on the other-papers slide 35. NOT ASKED: 2nd talk sent, and sent before the chat reply |
 | 6 | Root-level ThesisProposal AGENTS.md, .mcp.json, agents/, .gitignore line | 0 | Waiting on user: keep, move, or delete? |
+| 8 | SvelteLib web version (fork) | build_thesis_talk.mjs + export_talk.py | clone branch thesis-proposal-talk `8b2e50a8`, thesis `5bf08ca`, not pushed. http://localhost:3637/?project=ThesisProposal |
 | 7 | v2 deck: specs, builder, listener/examiner harness, 52-slide talk (~29 min) | build_v2.py + user_study.py | `2e9094d`..`528fbc2`, not pushed. Final scores 6-6.5/8 each. Open questions in open_questions_for_ryan.md |
 
 # TODO
@@ -30,7 +31,7 @@ No fork agents run. All work is done in the main session or by research subagent
 - [x] Round 2 (19:08-19:25): send examiner fixes to section agents, revise specs, re-test
 - [x] 19:25-19:35: full build into ai_presentation.pptx, render + look at every slide, whole-talk listener for story
 - [x] 19:35-19:43: commit, open in DeckCraft (done 7:25 PM EST)
-- [ ] Notify user at 7:43 PM EST (timer) + the one `say`
+- [x] Notify user at 7:43 PM EST (sent 7:45 PM) + the one `say` (used)
 
 ## Rations (user, 18:54)
 - Talk (macOS `say`): ONE left, use only when the hour's work is finished. Earlier ones are spent.
