@@ -16,7 +16,7 @@
     },
     {
      "kind": "text",
-     "text": "Edit one frame. The video follows.",
+     "text": "I2I2V2V: edit one frame, the video follows.",
      "rect": [
       40,
       444,
@@ -27,35 +27,117 @@
      "color": "#C00000"
     }
    ],
-   "speech": "So what's next. Every handle so far was one specific thing: where, which angle, how see-through, how it moves, change the motion. MotionV2V showed you can edit a real video without regenerating it, but only its motion. What I want now is one editor for any edit. On images that already exists: Nano Banana takes a picture and an instruction and changes just that. Video doesn't have it. So the plan is I2I2V2V: you edit one frame with an image editor, and a video model carries that edit through the whole clip. Here's an early result. Driving video on the left, an edited first frame below it, and the edited video on the right. Same rocket launch, new look. Tobias Gerts made this one in ComfyUI. The part I built is the GenFlow model underneath it: the training data and the LoRAs it runs on."
+   "speech": "MotionV2V showed you can edit a real video without regenerating it, but only its motion. On images, any edit already works: Nano Banana takes a picture and an instruction and changes just that. Video editors exist too, like VACE and AnyV2V, but each is built for a few kinds of edit, and I'll compare against them. So the plan is I2I2V2V: you edit one frame with an image editor, and a video model carries that edit through the whole clip. Here's an early result. Driving video, plus an edited first frame, gives the edited video. Same rocket launch, new look. Tobias Gerts made this one in ComfyUI, on a video model from my internship."
   },
   {
-   "title": "One model, many handles",
+   "title": "LoraPlexer: one LoRA, many modes",
    "elements": [
     {
      "kind": "image",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/loramux_grid.png",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/lmux_row1.png",
      "rect": [
-      30,
-      96,
-      900,
-      332.8
+      110,
+      88,
+      740,
+      132.6
      ]
     },
     {
      "kind": "text",
-     "text": "One small LoRA, six modes, no training.",
+     "text": "3D animated",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      112.2,
+      222.6,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "storybook",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      360.0,
+      222.6,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "live action",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      606.7,
+      222.6,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/lmux_row2.png",
+     "rect": [
+      110,
+      254.6,
+      740,
+      135.7
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "soft 3D",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      112.2,
+      392.29999999999995,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "2D anime",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      360.0,
+      392.29999999999995,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "3D + live mix",
+     "size": 16,
+     "color": "#606060",
+     "rect": [
+      606.7,
+      392.29999999999995,
+      240,
+      24
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "100 community LoRAs merged into one rank-32 LoRA. Same prompt, same seed.",
      "rect": [
       40,
-      440,
+      448,
       880,
-      50
+      44
      ],
-     "size": 28,
+     "size": 22,
      "color": "#C00000"
     }
    ],
-   "speech": "The second piece is LoraPlexer. Right now every control signal, edges, depth, relighting, a style, is its own LoRA, and stacking them tends to fight. LoraPlexer packs many of them into one adapter you switch between. This is a proof of concept: a hundred community LoRAs merged into one rank-32 LoRA with no training, and here it's running six different modes with the same prompt and the same seed. The next step is distilling them properly, across noise levels and with classifier-free guidance still working."
+   "speech": "One editor has to take many control signals at once, edges, depth, relighting, a style, and right now each is its own LoRA, and stacked LoRAs fight. So the second piece is LoraPlexer: many control handles in one small add-on to the same pretrained model, and you switch between them. This is a proof of concept: a hundred community LoRAs merged into one rank-32 LoRA with no training, running six different modes with the same prompt and the same seed. The next step is distilling them properly, across noise levels and with classifier-free guidance still working. [CONFIRM: the six tile labels \"3D animated\", \"storybook\", \"live action\", \"soft 3D\", \"2D anime\", \"3D + live mix\" were guessed from how each tile looks; swap in the real mode names.]"
   },
   {
    "title": "Where the data comes from",
@@ -83,14 +165,14 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Data is the same trick as MAGICK. There I got transparency data out of a model that can't make transparency. Here, image editors can already edit many frames of a clip at once and keep them consistent, so I use them to build paired before-and-after video data. Same person, same motion, different hair, clothes, even a puppet. The test case I like: take my dog, train with an edges LoRA and a two-bit color LoRA, and ask whether the combined model can rebuild the real dog from just those two."
+   "speech": "Data is the same trick as MAGICK. There I got transparency data out of a model that can't make transparency. Here, image editors can already edit many frames of a clip at once and keep them consistent, so I use them to build paired before-and-after video data. Same person, same motion, different hair, clothes, even a puppet."
   },
   {
    "title": "The plan",
    "elements": [
     {
      "kind": "text",
-     "text": "Now\u2013Feb: data (image-editor edits + MAGICK-style pairs)",
+     "text": "Now–Feb: data (image-editor edits + MAGICK-style pairs)",
      "rect": [
       60,
       110,
@@ -103,7 +185,7 @@
     },
     {
      "kind": "text",
-     "text": "Feb\u2013Apr: train I2I2V2V + merge LoRAs into LoraPlexer",
+     "text": "Feb–Apr: train I2I2V2V + merge LoRAs into LoraPlexer",
      "rect": [
       60,
       182,
@@ -116,7 +198,7 @@
     },
     {
      "kind": "text",
-     "text": "Apr\u2013Jun: evaluate vs per-frame editing, VACE, AnyV2V",
+     "text": "Apr–Jun: evaluate vs per-frame editing, VACE, AnyV2V",
      "rect": [
       60,
       254,
@@ -142,7 +224,7 @@
     },
     {
      "kind": "text",
-     "text": "Measure: did it edit, did it preserve the rest, does it flicker.",
+     "text": "Measure: did it edit, did it keep the rest, does it flicker, user study.",
      "rect": [
       60,
       410,
@@ -155,15 +237,15 @@
     },
     {
      "kind": "text",
-     "text": "PROPOSED",
+     "text": "Proposed timeline",
      "rect": [
-      820,
-      500,
-      120,
-      24
+      680,
+      492,
+      240,
+      30
      ],
-     "size": 12,
-     "color": "#808080",
+     "size": 16,
+     "color": "#606060",
      "align": "right"
     }
    ],

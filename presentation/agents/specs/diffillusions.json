@@ -1,551 +1,751 @@
 {
-  "section": "diffillusions",
-  "slides": [
+ "section": "diffillusions",
+ "slides": [
+  {
+   "title": "Diffusion Illusions",
+   "elements": [
     {
-      "title": "Diffusion Illusions",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_giraffe.png",
-          "rect": [
-            20,
-            130,
-            180,
-            179.6
-          ]
-        },
-        {
-          "kind": "arrow",
-          "from": [
-            208,
-            220
-          ],
-          "to": [
-            242,
-            220
-          ],
-          "color": "#C00000"
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_giraffe_rot.png",
-          "rect": [
-            250,
-            130,
-            180,
-            179.6
-          ]
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_dogele.png",
-          "rect": [
-            530,
-            130,
-            180,
-            179.6
-          ]
-        },
-        {
-          "kind": "arrow",
-          "from": [
-            718,
-            220
-          ],
-          "to": [
-            752,
-            220
-          ],
-          "color": "#C00000"
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_dogele_rot.png",
-          "rect": [
-            760,
-            130,
-            180,
-            179.6
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Giraffe",
-          "rect": [
-            20,
-            318,
-            180,
-            30
-          ],
-          "size": 22
-        },
-        {
-          "kind": "text",
-          "text": "Penguin",
-          "rect": [
-            250,
-            318,
-            180,
-            30
-          ],
-          "size": 22
-        },
-        {
-          "kind": "text",
-          "text": "Dog",
-          "rect": [
-            530,
-            318,
-            180,
-            30
-          ],
-          "size": 22
-        },
-        {
-          "kind": "text",
-          "text": "Elephant",
-          "rect": [
-            760,
-            318,
-            180,
-            30
-          ],
-          "size": 22
-        },
-        {
-          "kind": "text",
-          "text": "Same image, rotated 180°.",
-          "rect": [
-            80,
-            420,
-            800,
-            40
-          ],
-          "size": 28,
-          "color": "#C00000"
-        }
-      ],
-      "speech": "Peekaboo optimized a mask through a frozen diffusion model. Same loss here, new question: what if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. Nobody trained a model for this. It's frozen Stable Diffusion, and SDXL for the quantitative runs."
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_giraffe.png",
+     "rect": [
+      20,
+      130,
+      167.4,
+      179.6
+     ]
     },
     {
-      "title": "One print, two pictures",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_flip_photo.png",
-          "rect": [
-            100,
-            100,
-            760,
-            401.9
-          ]
-        }
-      ],
-      "speech": "Here's one we printed. Right side up, a dog. Rotate the paper, a sloth. The red words are just handwritten labels. The paper is the prime image, the thing you hold. Each way of looking at it is an arrangement, a fixed function that's differentiable and physically doable. What you see is a derived image, and each one gets its own prompt. One prime, two arrangements, identity and rotate 180."
+     "kind": "arrow",
+     "from": [
+      208,
+      220
+     ],
+     "to": [
+      242,
+      220
+     ],
+     "color": "#C00000"
     },
     {
-      "title": "But...how?",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/arch.png",
-          "rect": [
-            30,
-            92,
-            900,
-            372.6
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Every view gets a loss; all gradients land on the shared primes.",
-          "rect": [
-            40,
-            480,
-            880,
-            40
-          ],
-          "size": 24,
-          "color": "#C00000"
-        }
-      ],
-      "speech": "But...how? Here's the whole pipeline. Each prime is a small Fourier feature network, an MLP from pixel coordinates to color. The arrangements turn primes into derived images. On each derived image we run score distillation with its prompt: encode, add noise, the frozen model predicts the noise, and the error is a gradient on that view. No backprop through the U-Net, only through the encoder, the arrangements and the MLPs, so every view's gradient sums onto the shared primes. Why an MLP? With raw pixels, the second picture hid in high-frequency noise, and that dies the moment you print."
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_giraffe_rot.png",
+     "rect": [
+      250,
+      130,
+      167.4,
+      179.6
+     ]
     },
     {
-      "title": "Stack them",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_rotation_overlay.png",
-          "rect": [
-            190,
-            88,
-            580,
-            335.1
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Light through two sheets = multiply the colors",
-          "rect": [
-            80,
-            436,
-            800,
-            36
-          ],
-          "size": 26,
-          "color": "#C00000"
-        },
-        {
-          "kind": "text",
-          "text": "d_j = tanh(2 · p1 · rot(p2, 90°·j)),  j = 0, 1, 2, 3",
-          "rect": [
-            80,
-            482,
-            800,
-            34
-          ],
-          "size": 22
-        }
-      ],
-      "speech": "What else can an arrangement be? Print two images on transparencies over a backlight. The base stays, the rotator spins on top. Light goes through both, so the color you see is the product. Order doesn't matter, multiplication commutes. Products get dark, so we scale by two and squash with a tanh, like a brighter backlight. Two primes, four rotations, four derived images: cat, man, woman, dog. These are photos of the real prints."
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_dogele.png",
+     "rect": [
+      530,
+      130,
+      180,
+      179.6
+     ]
     },
     {
-      "title": "Hidden overlays",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_play1.png",
-          "rect": [
-            10,
-            130,
-            208.6,
-            200
-          ]
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_play2.png",
-          "rect": [
-            228,
-            130,
-            200.4,
-            200
-          ]
-        },
-        {
-          "kind": "arrow",
-          "from": [
-            438,
-            230
-          ],
-          "to": [
-            478,
-            230
-          ],
-          "color": "#C00000"
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_stack.png",
-          "rect": [
-            488,
-            130,
-            184.8,
-            200
-          ]
-        },
-        {
-          "kind": "arrow",
-          "from": [
-            683,
-            230
-          ],
-          "to": [
-            713,
-            230
-          ],
-          "color": "#C00000"
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_qr.png",
-          "rect": [
-            723,
-            130,
-            222.4,
-            200
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Playground",
-          "rect": [
-            10,
-            340,
-            208,
-            30
-          ],
-          "size": 20
-        },
-        {
-          "kind": "text",
-          "text": "Playground",
-          "rect": [
-            228,
-            340,
-            200,
-            30
-          ],
-          "size": 20
-        },
-        {
-          "kind": "text",
-          "text": "Stack all four",
-          "rect": [
-            478,
-            340,
-            205,
-            30
-          ],
-          "size": 20
-        },
-        {
-          "kind": "text",
-          "text": "QR code",
-          "rect": [
-            723,
-            340,
-            222,
-            30
-          ],
-          "size": 20
-        },
-        {
-          "kind": "text",
-          "text": "Four playgrounds hide a QR code.",
-          "rect": [
-            80,
-            430,
-            800,
-            40
-          ],
-          "size": 28,
-          "color": "#C00000"
-        }
-      ],
-      "speech": "Or go further. Four primes, each a playground on its own, so they're also derived images one through four. Stack all four on the light and the product, scaled by three, is a fifth image: a QR code. We used a target picture for that one instead of a prompt. We printed these on a normal color laser printer."
+     "kind": "arrow",
+     "from": [
+      718,
+      220
+     ],
+     "to": [
+      752,
+      220
+     ],
+     "color": "#C00000"
     },
     {
-      "title": "Dream targets",
-      "elements": [
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/dreams_grid.png",
-          "rect": [
-            20,
-            90,
-            534.8,
-            400
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Before",
-          "rect": [
-            575,
-            147,
-            370,
-            32
-          ],
-          "size": 22,
-          "align": "left"
-        },
-        {
-          "kind": "text",
-          "text": "SDEdit targets",
-          "rect": [
-            575,
-            286,
-            370,
-            32
-          ],
-          "size": 22,
-          "align": "left",
-          "color": "#2E7D32"
-        },
-        {
-          "kind": "text",
-          "text": "After",
-          "rect": [
-            575,
-            424,
-            370,
-            32
-          ],
-          "size": 22,
-          "align": "left"
-        },
-        {
-          "kind": "text",
-          "text": "Regress with SSIM + MSE; strength 0.90 → 0.01; QR weighted 3×",
-          "rect": [
-            20,
-            498,
-            920,
-            32
-          ],
-          "size": 20,
-          "color": "#C00000"
-        }
-      ],
-      "speech": "Score distillation alone gives gritty images, top row, four Mikus hiding Captain Picard. So phase two: each round, we SDEdit every derived image into a cleaner version, the middle row, and regress the primes toward those targets with SSIM plus MSE for about a thousand steps. The SDEdit strength starts at 0.9 and shrinks toward 0.01, so targets move less each round. The QR image gets weight three. Bottom row is after. Our default: 500 score distillation steps, then 8 rounds."
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/flip_dogele_rot.png",
+     "rect": [
+      760,
+      130,
+      180,
+      179.6
+     ]
     },
     {
-      "title": "Does it work?",
-      "elements": [
-        {
-          "kind": "text",
-          "text": "Prompt match",
-          "rect": [
-            57,
-            92,
-            220,
-            28
-          ],
-          "size": 18
-        },
-        {
-          "kind": "text",
-          "text": "Diversity",
-          "rect": [
-            285,
-            92,
-            220,
-            28
-          ],
-          "size": 18
-        },
-        {
-          "kind": "text",
-          "text": "Aesthetics",
-          "rect": [
-            513,
-            92,
-            220,
-            28
-          ],
-          "size": 18
-        },
-        {
-          "kind": "text",
-          "text": "Independence",
-          "rect": [
-            736,
-            92,
-            220,
-            28
-          ],
-          "size": 18
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/base.png",
-          "rect": [
-            20,
-            124,
-            920,
-            230
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "Brown = baseline,  green = ours (C)",
-          "rect": [
-            80,
-            368,
-            800,
-            30
-          ],
-          "size": 20
-        },
-        {
-          "kind": "text",
-          "text": "Ours wins everywhere except diversity.",
-          "rect": [
-            80,
-            420,
-            800,
-            40
-          ],
-          "size": 28,
-          "color": "#C00000"
-        }
-      ],
-      "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The baseline is what the paper calls vanilla SDXL score distillation, so read it as an ablation, not a rival method. Green is ours: better prompt match, aesthetics, and independence, a soft score we made up where each image has to match its own prompt more than the other four, and vice versa. We lose on diversity, since we add constraints. Dream targets also beat 4000 plain score distillation steps on aesthetics. Honestly, style and prompt mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
+     "kind": "text",
+     "text": "Giraffe",
+     "rect": [
+      20,
+      318,
+      180,
+      30
+     ],
+     "size": 22
     },
     {
-      "title": "What became of it",
-      "elements": [
-        {
-          "kind": "text",
-          "text": "Simulated",
-          "rect": [
-            10,
-            140,
-            150,
-            30
-          ],
-          "size": 20,
-          "align": "right"
-        },
-        {
-          "kind": "text",
-          "text": "Printed",
-          "rect": [
-            10,
-            258,
-            150,
-            30
-          ],
-          "size": 20,
-          "align": "right"
-        },
-        {
-          "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/simreal.png",
-          "rect": [
-            170,
-            92,
-            620,
-            237.1
-          ]
-        },
-        {
-          "kind": "text",
-          "text": "CVPR 2023 Best Demo Award",
-          "rect": [
-            80,
-            360,
-            800,
-            44
-          ],
-          "size": 32,
-          "color": "#C00000"
-        },
-        {
-          "kind": "text",
-          "text": "SIGGRAPH 2024 · Steve Mould and Matt Parker videos",
-          "rect": [
-            80,
-            414,
-            800,
-            36
-          ],
-          "size": 24
-        }
-      ],
-      "speech": "Limits first. It's slow, minutes per illusion. And printing shifts colors: top is simulated, bottom is the photo. We never calibrated the printer, but a measured ink model would just be another differentiable arrangement. One reviewer said, quote, not good, didn't like it. Well...other people did. It won Best Demo at CVPR 2023, became a SIGGRAPH 2024 paper, and Steve Mould and Matt Parker made YouTube videos about it. Next: Peekaboo's masks were blobby. Real transparency needs real alpha, and MAGICK gets RGBA images by asking the model for green-screen backgrounds."
+     "kind": "text",
+     "text": "Penguin",
+     "rect": [
+      250,
+      318,
+      180,
+      30
+     ],
+     "size": 22
+    },
+    {
+     "kind": "text",
+     "text": "Dog",
+     "rect": [
+      530,
+      318,
+      180,
+      30
+     ],
+     "size": 22
+    },
+    {
+     "kind": "text",
+     "text": "Elephant",
+     "rect": [
+      760,
+      318,
+      180,
+      30
+     ],
+     "size": 22
+    },
+    {
+     "kind": "text",
+     "text": "Same image, rotated 180°.",
+     "rect": [
+      80,
+      420,
+      800,
+      40
+     ],
+     "size": 28,
+     "color": "#C00000"
     }
-  ]
+   ],
+   "speech": "What if we optimize several images at once, and they have to share pixels? Look at the giraffe. Turn it upside down, and it's a penguin. This dog, upside down, is an elephant. Nobody trained a model for this. It's frozen Stable Diffusion, and SDXL for the quantitative runs."
+  },
+  {
+   "title": "One print, two pictures",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/crop_flip_photo.png",
+     "rect": [
+      100,
+      100,
+      760,
+      401.9
+     ]
+    }
+   ],
+   "speech": "Here's one we printed. Right side up, a dog. Rotate the paper, a sloth. The red words are just handwritten labels. The paper is the prime image, the thing you hold. Each way of looking at it is an arrangement, a fixed function that's differentiable and physically doable. What you see is a derived image, and each one gets its own prompt. One prime, two arrangements, identity and rotate 180."
+  },
+  {
+   "title": "But...how?",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/arch.png",
+     "rect": [
+      30,
+      92,
+      900,
+      372.6
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Every view gets a loss; all gradients land on the shared primes.",
+     "rect": [
+      40,
+      480,
+      880,
+      40
+     ],
+     "size": 24,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "But...how? Here's the whole pipeline. Each prime is a small Fourier feature network, an MLP from pixel coordinates to color. The arrangements turn primes into derived images. On each derived image we run score distillation with its prompt: encode, add noise, the frozen model predicts the noise, and the error is a gradient on that view. No backprop through the U-Net, only through the encoder, the arrangements and the MLPs, so every view's gradient sums onto the shared primes. Why an MLP? With raw pixels, the second picture hid in high-frequency noise, and that dies the moment you print."
+  },
+  {
+   "title": "Stack them",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_base.png",
+     "rect": [
+      60,
+      100,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Base (fixed)",
+     "rect": [
+      30,
+      254,
+      210,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_rotator.png",
+     "rect": [
+      60,
+      292,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Rotator (spins)",
+     "rect": [
+      30,
+      446,
+      210,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      228,
+      270
+     ],
+     "to": [
+      290,
+      270
+     ],
+     "color": "#C00000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_cat.png",
+     "rect": [
+      300,
+      190,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Cat, 0°",
+     "rect": [
+      294,
+      346,
+      162,
+      28
+     ],
+     "size": 18,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_man.png",
+     "rect": [
+      462,
+      190,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Man, 90°",
+     "rect": [
+      456,
+      346,
+      162,
+      28
+     ],
+     "size": 18,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_woman.png",
+     "rect": [
+      624,
+      190,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Woman, 180°",
+     "rect": [
+      618,
+      346,
+      162,
+      28
+     ],
+     "size": 18,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/rot_dog.png",
+     "rect": [
+      786,
+      190,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Dog, 270°",
+     "rect": [
+      780,
+      346,
+      162,
+      28
+     ],
+     "size": 18,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Light through two sheets = multiply the colors",
+     "rect": [
+      290,
+      400,
+      660,
+      34
+     ],
+     "size": 24,
+     "color": "#C00000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "d_j = tanh(2 · p1 · rot(p2, 90°·j)),  j = 0..3",
+     "rect": [
+      290,
+      442,
+      660,
+      30
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    }
+   ],
+   "speech": "What else can an arrangement be? Print two images on transparencies over a backlight. The base stays, the rotator spins on top. Light goes through both, so the color you see is the product. Order doesn't matter, multiplication commutes. Products get dark, so we scale by two and squash with a tanh, like a brighter backlight. Two primes, four rotations, four derived images: cat, man, woman, dog. These are photos of the real prints."
+  },
+  {
+   "title": "Hidden overlays",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_play1.png",
+     "rect": [
+      30,
+      130,
+      193,
+      185
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_play2.png",
+     "rect": [
+      233,
+      130,
+      185.4,
+      185
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      428,
+      222
+     ],
+     "to": [
+      462,
+      222
+     ],
+     "color": "#C00000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_stack.png",
+     "rect": [
+      472,
+      130,
+      171,
+      185
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      653,
+      222
+     ],
+     "to": [
+      683,
+      222
+     ],
+     "color": "#C00000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/hid_qr.png",
+     "rect": [
+      693,
+      130,
+      205.7,
+      185
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Playground",
+     "rect": [
+      30,
+      325,
+      193,
+      30
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Playground",
+     "rect": [
+      233,
+      325,
+      185,
+      30
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Stack all four",
+     "rect": [
+      462,
+      325,
+      191,
+      30
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "QR code",
+     "rect": [
+      693,
+      325,
+      206,
+      30
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Two of four playgrounds shown; together they hide a QR code.",
+     "rect": [
+      60,
+      420,
+      840,
+      40
+     ],
+     "size": 24,
+     "color": "#C00000",
+     "align": "center"
+    }
+   ],
+   "speech": "Or go further. Four primes, each a playground on its own, so they're also derived images one through four. Here are two of them. Stack all four on the light and the product, scaled by three, is a fifth image: a QR code, from a target picture instead of a prompt. Printed on a normal laser printer."
+  },
+  {
+   "title": "Dream targets",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/dreams_grid.png",
+     "rect": [
+      20,
+      90,
+      534.8,
+      400
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Before",
+     "rect": [
+      575,
+      147,
+      370,
+      32
+     ],
+     "size": 22,
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "SDEdit targets",
+     "rect": [
+      575,
+      286,
+      370,
+      32
+     ],
+     "size": 22,
+     "align": "left",
+     "color": "#2E7D32"
+    },
+    {
+     "kind": "text",
+     "text": "After",
+     "rect": [
+      575,
+      424,
+      370,
+      32
+     ],
+     "size": 22,
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "SSIM + MSE; strength 0.90 → 0.01; QR weight 3×; 500 SDS steps, then 8 rounds",
+     "rect": [
+      20,
+      494,
+      920,
+      30
+     ],
+     "size": 20,
+     "color": "#C00000",
+     "align": "center"
+    }
+   ],
+   "speech": "Score distillation alone gives gritty images: top row, four Mikus hiding Captain Picard. So phase two: each round, we SDEdit every derived image into a cleaner target, the middle row, and regress the primes toward it with SSIM plus MSE for about a thousand steps. The edit strength shrinks from 0.9 to 0.01, so targets move less each round. Bottom row is after."
+  },
+  {
+   "title": "Does it work?",
+   "elements": [
+    {
+     "kind": "text",
+     "text": "Diversity",
+     "rect": [
+      60,
+      92,
+      391,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Independence",
+     "rect": [
+      500,
+      92,
+      400,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/vio_div.png",
+     "rect": [
+      60,
+      122,
+      390.7,
+      330
+     ]
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/vio_ind.png",
+     "rect": [
+      500,
+      122,
+      399.6,
+      330
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Baseline",
+     "rect": [
+      175,
+      455,
+      120,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Ours",
+     "rect": [
+      317,
+      455,
+      120,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Baseline",
+     "rect": [
+      625,
+      455,
+      120,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "Ours",
+     "rect": [
+      766,
+      455,
+      120,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "More independent, less diverse; aesthetics up too.",
+     "rect": [
+      60,
+      494,
+      840,
+      34
+     ],
+     "size": 24,
+     "color": "#C00000",
+     "align": "center"
+    }
+   ],
+   "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. The baseline is what the paper calls vanilla SDXL score distillation, so read it as an ablation, not a rival. Independence is a soft score we made up: each image must match its own prompt more than the other four. We win there and on aesthetics, and lose on diversity, since we add constraints. Honestly, style mattered more than our variants, and we never compared against Visual Anagrams, which can't do overlays."
+  },
+  {
+   "title": "Limits and legacy",
+   "elements": [
+    {
+     "kind": "text",
+     "text": "Simulated",
+     "rect": [
+      10,
+      140,
+      150,
+      30
+     ],
+     "size": 20,
+     "align": "right"
+    },
+    {
+     "kind": "text",
+     "text": "Printed",
+     "rect": [
+      10,
+      258,
+      150,
+      30
+     ],
+     "size": 20,
+     "align": "right"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_diffillusions/simreal.png",
+     "rect": [
+      170,
+      92,
+      620,
+      237.1
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Printing shifts colors",
+     "rect": [
+      170,
+      330,
+      620,
+      28
+     ],
+     "size": 20,
+     "color": "#000000",
+     "align": "center"
+    },
+    {
+     "kind": "text",
+     "text": "CVPR 2023 Best Demo Award",
+     "rect": [
+      80,
+      372,
+      800,
+      44
+     ],
+     "size": 32,
+     "color": "#C00000"
+    },
+    {
+     "kind": "text",
+     "text": "SIGGRAPH 2024 · Steve Mould and Matt Parker videos",
+     "rect": [
+      80,
+      424,
+      800,
+      36
+     ],
+     "size": 24
+    }
+   ],
+   "speech": "Limits first. It's slow, minutes per illusion. And printing shifts colors: top simulated, bottom photographed. We never calibrated the printer, though a measured ink model would just be another differentiable arrangement. One reviewer said, quote, not good, didn't like it. Well...other people did. Best Demo at CVPR 2023, a SIGGRAPH 2024 paper, and Steve Mould and Matt Parker made YouTube videos about it."
+  }
+ ]
 }

@@ -76,3 +76,5 @@ Round 3 (examiner r2): slide 6 is retitled "How good is it?" and the table now h
 - No cross-attention-map baseline exists. If asked: it's a gap. Attention maps are 64×64 or coarser and per-token, which makes long phrases hard; Peekaboo scores the whole prompt at full resolution.
 
 Render check (round 3, `.scratchpad/explain_peekaboo/check/`): slide 6 table widened so "RefCOCO" and the MiDaS row no longer wrap, names left-aligned, 22 pt. Slide 3 got a red line "...but nothing makes it drop anything." to fill the empty lower half. All text is 22 pt or larger.
+
+QA round (full_r3): column labels (photo | mask | mask previewed on 5 backgrounds, 20 pt) under each video strip. Static final-frame crops (mask | red composite, `final/vid_*_final.png`) are now on slides 3-5 with an 18 pt caption, so the narrated result shows even when the slide is paused, and the equations moved to the left half. Applied the story listener cuts #5 (slide 2 score-distillation line) and #6 (slide 7 handoff line). The handoff to Diffusion Illusions is now left to the next section. Plus small trims. Spoken words: 585.

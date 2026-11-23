@@ -6,16 +6,52 @@
    "elements": [
     {
      "kind": "video",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_rickroll_warped_noise.mp4",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/rick_nolabel.mp4",
      "rect": [
       20,
-      145,
+      175,
       920,
-      249.8
+      235.717017208413
      ]
+    },
+    {
+     "kind": "text",
+     "text": "The video",
+     "rect": [
+      20.0,
+      141,
+      306.6666666666667,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Its motion",
+     "rect": [
+      326.6666666666667,
+      141,
+      306.6666666666667,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Pure noise",
+     "rect": [
+      633.3333333333334,
+      141,
+      306.6666666666667,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
     }
    ],
-   "speech": "Before I say anything, look at this. On the right, that's a RickRoll. On the left, every single frame is pure random noise, and yet when it plays you can see Rick moving around in it. In about twenty minutes you'll know exactly how that works."
+   "speech": "On the left, a RickRoll. In the middle, how each pixel moves. On the right, every frame is pure random noise, and yet when it plays you can see Rick moving in it. In about twenty minutes you'll know how."
   },
   {
    "title": null,
@@ -41,7 +77,7 @@
      ]
     }
    ],
-   "speech": "This is a giraffe. Turn it upside down and it's a penguin, read the label at the bottom. Nobody painted it, a model made it. On the right are cutouts with real transparency, fire, feathers, fur. Next to each one, white is solid and black is see-through. They all came from a model that only outputs plain RGB, no transparency at all. By the end of this talk you'll know how both work."
+   "speech": "This is a giraffe. Turn it upside down and it's a penguin, read the label at the bottom. Nobody painted it, a model made it. On the right are cutouts with real transparency, fire, feathers, fur. Next to each one, white is solid and black is see-through. They all came from a model that only outputs plain RGB."
   },
   {
    "title": null,
@@ -78,20 +114,92 @@
    "elements": [
     {
      "kind": "image",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/lion_fail.png",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/lions_only.png",
      "rect": [
       30,
-      110,
+      140,
       900,
-      271.4
+      173.7265415549598
      ]
+    },
+    {
+     "kind": "text",
+     "text": "DeepFloyd",
+     "rect": [
+      30.0,
+      108,
+      180.0,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "SDXL",
+     "rect": [
+      210.0,
+      108,
+      180.0,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Midjourney 5",
+     "rect": [
+      390.0,
+      108,
+      180.0,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "DALL-E 3",
+     "rect": [
+      570.0,
+      108,
+      180.0,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "SD 1.5",
+     "rect": [
+      750.0,
+      108,
+      180.0,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Prompt: \u201cA lion isolated on a solid green background\u201d",
+     "rect": [
+      30,
+      325.7265415549598,
+      900,
+      32
+     ],
+     "size": 22,
+     "color": "#000000"
     },
     {
      "kind": "text",
      "text": "The model decides everything you didn't say.",
      "rect": [
       30,
-      420,
+      430,
       900,
       50
      ],
@@ -117,20 +225,100 @@
      "color": "#C00000"
     }
    ],
-   "speech": "So here's the one question my thesis answers: how do you get real control over a big pretrained diffusion model without building a new one? Each paper adds one handle the model never had. Sometimes the handle needs no training at all, sometimes it's a small add-on like a LoRA or a ControlNet branch, but the base model is always the one you started with. My claim is that the knowledge is already inside it. You just need the right handle to get it out."
+   "speech": "So here's the one question my thesis answers: how do you get real control over a big pretrained diffusion model without building a new one? Each paper adds one handle the model never had. You steer the pretrained model, you don't rebuild it."
   },
   {
    "title": "Diffusion, fast",
    "elements": [
     {
      "kind": "image",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_denoise.png",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_noisy.png",
      "rect": [
       60,
-      130,
-      840,
-      304.8
+      170,
+      200,
+      200
      ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      268,
+      270.0
+     ],
+     "to": [
+      312,
+      270.0
+     ],
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_model.png",
+     "rect": [
+      320,
+      170,
+      256.94444444444446,
+      200
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      627.3055555555555,
+      270.0
+     ],
+     "to": [
+      671.3055555555555,
+      270.0
+     ],
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_pred.png",
+     "rect": [
+      679.3055555555555,
+      170,
+      200,
+      200
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Noisy image",
+     "rect": [
+      60,
+      136,
+      200,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Frozen model + \u201ca puppy\u201d",
+     "rect": [
+      320,
+      136,
+      299.30555555555554,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Predicted noise",
+     "rect": [
+      679.3055555555555,
+      136,
+      200,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
     }
    ],
    "speech": "Quick primer so the first two papers make sense. A diffusion model is trained on one job: you give it a noisy image and a prompt, here a puppy, and it predicts the noise that was added. Subtract that noise a little at a time, starting from pure static, and you get a brand new image. The snowflake means we never change its weights."
@@ -140,28 +328,200 @@
    "elements": [
     {
      "kind": "image",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_full.png",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_opt_clean.png",
      "rect": [
-      20,
-      120,
-      920,
-      311.4
+      15,
+      180,
+      138.9855072463768,
+      140
      ]
+    },
+    {
+     "kind": "text",
+     "text": "+",
+     "rect": [
+      155,
+      230.0,
+      40,
+      40
+     ],
+     "size": 32,
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_rand.png",
+     "rect": [
+      195,
+      180,
+      140,
+      140
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      341,
+      250.0
+     ],
+     "to": [
+      369,
+      250.0
+     ],
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_noisy.png",
+     "rect": [
+      375,
+      180,
+      140,
+      140
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      521,
+      250.0
+     ],
+     "to": [
+      549,
+      250.0
+     ],
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_model.png",
+     "rect": [
+      555,
+      180,
+      179.86111111111111,
+      140
+     ]
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      770.5138888888889,
+      250.0
+     ],
+     "to": [
+      798.5138888888889,
+      250.0
+     ],
+     "color": "#000000"
+    },
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/sds_pred.png",
+     "rect": [
+      804.5138888888889,
+      180,
+      140,
+      140
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Our image",
+     "rect": [
+      5,
+      146,
+      160,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Random noise",
+     "rect": [
+      185,
+      146,
+      160,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Noisy image",
+     "rect": [
+      365,
+      146,
+      160,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Frozen model",
+     "rect": [
+      555,
+      146,
+      209.51388888888889,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Predicted noise",
+     "rect": [
+      794.5138888888889,
+      146,
+      160,
+      28
+     ],
+     "size": 18,
+     "color": "#000000"
+    },
+    {
+     "kind": "text",
+     "text": "Fix = predicted noise \u2212 random noise",
+     "rect": [
+      180,
+      390,
+      760,
+      44
+     ],
+     "size": 30,
+     "color": "#C00000"
+    },
+    {
+     "kind": "arrow",
+     "from": [
+      200,
+      400
+     ],
+     "to": [
+      85.0,
+      328
+     ],
+     "color": "#C00000"
     },
     {
      "kind": "text",
      "text": "The frozen model becomes a critic.",
      "rect": [
       20,
-      450,
+      460,
       920,
-      44
+      40
      ],
-     "size": 30,
+     "size": 24,
      "color": "#C00000"
     }
    ],
-   "speech": "Now the trick. Instead of generating, we use the model as a critic. Take any image you want to optimize, add random noise you know, and ask the model to predict it. The difference between what it predicted and the noise you actually added tells you how to change your image so it looks more like the prompt. Then you backprop that into whatever made the image. I call it a dream loss. It means you can optimize almost anything, a mask, a print, a 3D shape, against a model you never retrain."
+   "speech": "Now the trick: use the model as a critic. Take the image you want to optimize, add random noise you know, and ask the model to predict that noise. The gap between its guess and the real noise says how to change your image to look more like the prompt, and you backprop that into whatever made the image. I call it a dream loss. You can optimize a mask, a print, almost anything, against a model you never retrain."
   },
   {
    "title": "Five handles",
@@ -198,7 +558,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -232,7 +592,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -266,7 +626,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -300,7 +660,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -334,11 +694,11 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     }
    ],
-   "speech": "Here's the roadmap: five papers, five handles. Where things are, Peekaboo. What you see from each angle, Diffusion Illusions. How see-through, MAGICK. How things move, Go-with-the-Flow. And changing the motion of a video that already exists, MotionV2V. The method climbs too: the first two train nothing, then we make the training data, then we change the noise and fine-tune, then we train a control branch. Every time, the knowledge comes from the pretrained model."
+   "speech": "Here's the roadmap: five papers, five handles. Where things are, Peekaboo. What you see from each angle, Diffusion Illusions. How see-through, MAGICK. How things move, Go-with-the-Flow. And changing the motion of a video that already exists, MotionV2V. The method climbs too: the first two train nothing, then we make the training data, then we change the noise and fine-tune, then we train a control branch."
   },
   {
    "insert_section": "peekaboo"
@@ -357,7 +717,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Next handle: what you see from each angle. Same critic trick, but now one image has to satisfy several views at once."
+   "speech": "Same trick, but now we optimize the image itself, so it shows something different from each angle."
   },
   {
    "insert_section": "diffillusions"
@@ -376,7 +736,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Next handle: how see-through. Both of those optimize one result at a time, and Peekaboo's masks miss fine detail like hair, so this time we use the model to make training data instead."
+   "speech": "Next handle: how see-through."
   },
   {
    "insert_section": "magick"
@@ -395,7 +755,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Next handle: how things move. For video, text can't describe motion, so the handle becomes the noise itself."
+   "speech": "We made data to teach a new control. Next, we change the noise itself to control motion."
   },
   {
    "insert_section": "gwtf"
@@ -414,7 +774,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Last handle: changing the motion of a video that already exists."
+   "speech": "Last handle: editing the motion of a video that already exists."
   },
   {
    "insert_section": "motionv2v"
@@ -435,7 +795,7 @@
      "color": "#C00000"
     }
    ],
-   "speech": "Those are the five handles. What I want next is one handle for any edit to any video."
+   "speech": "Next: one handle for any edit to any video."
   },
   {
    "insert_section": "future"
@@ -474,7 +834,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -508,7 +868,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -542,7 +902,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -576,7 +936,7 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
@@ -610,17 +970,17 @@
       188,
       26
      ],
-     "size": 16,
+     "size": 18,
      "color": "#000000"
     },
     {
      "kind": "video",
-     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/assets/videos/gwtf_rickroll_warped_noise.mp4",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/rick_nolabel.mp4",
      "rect": [
       300,
       450,
       260,
-      70.6
+      66.61567877629064
      ]
     },
     {
@@ -636,7 +996,7 @@
      "color": "#000000"
     }
    ],
-   "speech": "So, to wrap up. Peekaboo: the model knows where things are, so you can get a mask out with no training. Diffusion Illusions: one image that reads as different pictures from different views, which won Best Demo at CVPR 2023. MAGICK: over 140,000 cutouts with real transparency, from a model that only makes RGB. Go-with-the-Flow: motion control by warping the noise, a CVPR 2025 Oral. And MotionV2V: changing the motion of a video that already exists. Other people already build on these; I co-authored three follow-ups, including Virtually Being, which uses warped noise. And Rick dancing in pure noise? The model already knew how. It just needed the right handle. Thank you, happy to take questions."
+   "speech": "So: Peekaboo got masks with no training. Illusions got one print, many pictures. MAGICK got real transparency from an RGB model. Go-with-the-Flow got motion from warped noise. MotionV2V edits motion in real videos. Three follow-ups I co-authored already build on these. And that RickRoll? Warped noise like that is all a video model needs to follow Rick's motion. Thank you, happy to take questions."
   }
  ]
 }

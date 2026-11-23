@@ -61,7 +61,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "Then video models showed up, and the gap got worse. Say I want this orange cat to yawn. I can type “the cat yawns,” but text can't say when, how wide, or which way. The model makes that up. But a video model doesn't start from text. It starts from this: random static, one block per frame. That noise already decides a lot. Same prompt, different noise, different video. So what if the noise itself moved?"
+      "speech": "So far, everything's been still images. Now, video. Say I want this orange cat to yawn. I can type “the cat yawns,” but text can't say when, how wide, or which way. The model makes that up. But a video model doesn't start from text. It starts from this: random static, one block per frame. That noise already decides a lot. Same prompt, different noise, different video. So what if the noise itself moved?"
     },
     {
       "title": "Remember the RickRoll?",
@@ -71,7 +71,7 @@
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/rickroll_nolabels.mp4",
           "rect": [
             30,
-            150,
+            170,
             900,
             231
           ]
@@ -81,11 +81,11 @@
           "text": "Input video",
           "rect": [
             30,
-            116,
+            132,
             300,
-            30
+            32
           ],
-          "size": 20,
+          "size": 22,
           "color": "#000000"
         },
         {
@@ -93,11 +93,11 @@
           "text": "Optical flow",
           "rect": [
             330,
-            116,
+            132,
             300,
-            30
+            32
           ],
-          "size": 20,
+          "size": 22,
           "color": "#000000"
         },
         {
@@ -105,24 +105,24 @@
           "text": "Our warped noise",
           "rect": [
             630,
-            116,
+            132,
             300,
-            30
+            32
           ],
-          "size": 20,
+          "size": 22,
           "color": "#C00000"
         },
         {
           "kind": "text",
-          "text": "Input video",
+          "text": "Every single frame is still pure static.",
           "rect": [
-            30,
-            116,
-            300,
-            30
+            80,
+            426,
+            800,
+            44
           ],
-          "size": 20,
-          "color": "#000000"
+          "size": 28,
+          "color": "#C00000"
         }
       ],
       "speech": "Remember the RickRoll from the start? That was it. Left, the input video. Middle, its optical flow, which way each pixel moves to the next frame. Right, our warped noise, where every speck travels along that flow. Any single frame is pure static. Only over time can you see Rick. That correlation across time is the control signal."
@@ -134,102 +134,102 @@
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_input.png",
           "rect": [
-            70,
-            114,
-            370,
-            190
+            75,
+            112,
+            354,
+            182
           ]
         },
         {
           "kind": "text",
           "text": "Roller coaster input",
           "rect": [
-            70,
-            88,
-            370,
-            24
+            55,
+            84,
+            394,
+            26
           ],
-          "size": 18,
+          "size": 20,
           "color": "#000000"
         },
         {
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_nearest.png",
           "rect": [
-            520,
-            114,
-            370,
-            190
+            531,
+            112,
+            354,
+            182
           ]
         },
         {
           "kind": "text",
           "text": "Nearest  I=0.26  SR LPIPS 0.55",
           "rect": [
-            520,
-            88,
-            370,
-            24
+            511,
+            84,
+            394,
+            26
           ],
-          "size": 18,
+          "size": 20,
           "color": "#000000"
         },
         {
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_bilinear.png",
           "rect": [
-            70,
-            336,
-            370,
-            190
+            75,
+            326,
+            354,
+            182
           ]
         },
         {
           "kind": "text",
           "text": "Bilinear  I=0.30  SR LPIPS 0.60",
           "rect": [
-            70,
-            310,
-            370,
-            24
+            55,
+            298,
+            394,
+            26
           ],
-          "size": 18,
+          "size": 20,
           "color": "#000000"
         },
         {
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/crop_coaster_ours.png",
           "rect": [
-            520,
-            336,
-            370,
-            190
+            531,
+            326,
+            354,
+            182
           ]
         },
         {
           "kind": "text",
           "text": "Ours  I=0.0001  SR LPIPS 0.29",
           "rect": [
-            520,
-            310,
-            370,
-            24
+            511,
+            298,
+            394,
+            26
           ],
-          "size": 18,
+          "size": 20,
           "color": "#C00000"
         },
         {
           "kind": "box",
           "rect": [
-            520,
-            336,
-            370,
-            190
+            531,
+            326,
+            354,
+            182
           ],
           "color": "#C00000"
         }
       ],
-      "speech": "Why not warp the noise like an image? Top left, a roller coaster zooming forward. Top right, nearest-neighbor copies the same noise pixel into streaks. Bottom left, bilinear averages neighbors: average four unit-variance values and variance drops as low as one quarter, so it goes gray, and neighbors share inputs, so it goes blurry. Moran's I, the spatial correlation, is 0.26 and 0.30, p of zero. Ours is 0.0001, p 0.84, same as fresh noise. And the model notices: in DeepFloyd super-resolution, bilinear noise doubles LPIPS, 0.29 to 0.60."
+      "speech": "Why not warp the noise like an image? Top left, a roller coaster zooming forward. Top right, nearest-neighbor copies the same noise pixel into streaks. Bottom left, bilinear averages neighbors: average four unit-variance values and variance drops as low as one quarter, so it goes gray, and neighbors share inputs, so it goes blurry. Both have strong spatial correlation, that's the I; ours has none, same as fresh noise. And the model notices: in DeepFloyd super-resolution, bilinear noise doubles LPIPS, 0.29 to 0.60."
     },
     {
       "title": "Noise as particles",
@@ -238,10 +238,10 @@
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/algo_graph_fixed.png",
           "rect": [
-            222,
+            246,
             84,
-            516,
-            343
+            468,
+            311
           ]
         },
         {
@@ -249,11 +249,23 @@
           "text": "X_i = q/d + (Z_i − S/d)/√d",
           "rect": [
             180,
-            432,
+            400,
             600,
-            34
+            32
           ],
           "size": 24,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "d = edges out of q,  Z_i = fresh noise,  S = Σ Z_i",
+          "rect": [
+            130,
+            436,
+            700,
+            28
+          ],
+          "size": 20,
           "color": "#000000"
         },
         {
@@ -263,24 +275,48 @@
             80,
             474,
             800,
-            36
+            34
           ],
           "size": 24,
           "color": "#C00000"
         }
       ],
-      "speech": "So how? Treat each noise pixel as a particle. Green arrows push particles forward along the flow; three land on q-prime-two. The orange pixels are holes nobody landed on, so blue arrows pull from q-two along the backward flow. Now q-two has three edges, contraction included, so we split it into three pieces with this formula from How I Warped Your Noise: q over d, plus fresh noise with its mean removed. The pieces are jointly Gaussian with zero covariance, so they're independent, and each is used exactly once. Each target sums its pieces and renormalizes, so if frame t is i.i.d. Gaussian, so is t plus one. The red p is density. It's not for Gaussianity; it keeps merged regions weighted right over long videos. It's linear in pixels, 2 milliseconds a frame, 26 times faster than How I Warped Your Noise."
+      "speech": "So how? Each noise pixel is a particle. Green arrows push particles forward along the flow; three land on q-prime-two. The orange pixels are holes nobody landed on, so blue arrows pull from q-two along the backward flow. Now q-two has three edges, contraction included, so we split it into three pieces with this formula from How I Warped Your Noise: q over d, plus fresh noise with its mean removed, so the pieces still sum to q. The pieces are jointly Gaussian with zero covariance, so they're independent, and each is used exactly once. Each target adds its pieces weighted by alpha, p over d, then rescales back to variance one, so if frame t is i.i.d. Gaussian, so is t plus one. The red p is density. q-prime-two now stands for seven-thirds of a pixel, so later merges weight it that much. And it's linear time, 26 times faster than How I Warped Your Noise."
     },
     {
-      "title": "Just swap the noise",
+      "title": "Fine-tune on warped noise",
       "elements": [
+        {
+          "kind": "text",
+          "text": "input",
+          "rect": [
+            0,
+            165.0,
+            66,
+            24
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "ours",
+          "rect": [
+            0,
+            299.0,
+            66,
+            24
+          ],
+          "size": 18,
+          "color": "#C00000"
+        },
         {
           "kind": "text",
           "text": "Cut-and-drag",
           "rect": [
-            30,
+            70,
             84,
-            200,
+            195,
             26
           ],
           "size": 18,
@@ -290,29 +326,29 @@
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_cat_in.mp4",
           "rect": [
-            30,
+            70,
             112,
-            200,
-            133
+            195,
+            130
           ]
         },
         {
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_cat_out.mp4",
           "rect": [
-            30,
-            249,
-            200,
-            133
+            70,
+            246,
+            195,
+            130
           ]
         },
         {
           "kind": "text",
           "text": "Camera",
           "rect": [
-            245,
+            275,
             84,
-            200,
+            195,
             26
           ],
           "size": 18,
@@ -322,29 +358,29 @@
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_camera_in.mp4",
           "rect": [
-            245,
+            275,
             112,
-            200,
-            133
+            195,
+            130
           ]
         },
         {
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_camera_out.mp4",
           "rect": [
-            245,
-            249,
-            200,
-            133
+            275,
+            246,
+            195,
+            130
           ]
         },
         {
           "kind": "text",
           "text": "3D blob",
           "rect": [
-            460,
+            480,
             84,
-            200,
+            195,
             26
           ],
           "size": 18,
@@ -354,40 +390,40 @@
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_turntable_in.mp4",
           "rect": [
-            460,
+            480,
             112,
-            200,
-            133
+            195,
+            130
           ]
         },
         {
           "kind": "video",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_gwtf/cell_turntable_out.mp4",
           "rect": [
-            460,
-            249,
-            200,
-            133
+            480,
+            246,
+            195,
+            130
           ]
         },
         {
           "kind": "text",
           "text": "Q ← ((1−γ)Q + γζ) / √((1−γ)²+γ²)",
           "rect": [
-            680,
-            130,
+            690,
+            112,
             260,
-            60
+            84
           ],
-          "size": 18,
+          "size": 20,
           "color": "#000000"
         },
         {
           "kind": "text",
-          "text": "γ = 0.9 → mIoU 0.50",
+          "text": "γ = 0.9 → 0.50",
           "rect": [
-            680,
-            210,
+            690,
+            240,
             260,
             28
           ],
@@ -396,10 +432,10 @@
         },
         {
           "kind": "text",
-          "text": "γ = 0.5 → mIoU 0.74",
+          "text": "γ = 0.5 → 0.74",
           "rect": [
-            680,
-            244,
+            690,
+            274,
             260,
             28
           ],
@@ -432,7 +468,7 @@
         },
         {
           "kind": "text",
-          "text": "Plain CogVideoX, no warped noise: mIoU 0.52; ours 0.74",
+          "text": "No warped noise, DAVIS: mIoU 0.52; ours 0.74",
           "rect": [
             30,
             468,
@@ -441,9 +477,21 @@
           ],
           "size": 20,
           "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "DAVIS mIoU",
+          "rect": [
+            690,
+            206,
+            260,
+            28
+          ],
+          "size": 20,
+          "color": "#000000"
         }
       ],
-      "speech": "Why fine-tune? Untuned CogVideoX roughly follows warped noise, but frames fall apart. Each frame is still Gaussian, but across time it deliberately isn't, and it's never seen that. So we warp noise in pixel space for four million videos, pool it down to the latent, and train a rank-2048 LoRA, 40 A100-days. No new modules: the LoRA merges back in, so zero extra inference cost. At inference you pick gamma, how much fresh noise to mix in. Lower is stricter: gamma 0.5 gives tracking mIoU 0.74, gamma 0.9 only 0.50. Top row is input motion, bottom is ours: cut-and-drag, camera transfer, a 3D blob into a squirrel. On VIPSeg object motion we beat SG-I2V and MotionClone on both FID and mIoU, same story on DL3DV camera, and plain CogVideoX drops to 0.52. In a 40-person study, ours won 82% on cut-and-drag and 90% on turntables."
+      "speech": "Why fine-tune? Untuned CogVideoX roughly follows warped noise, but frames fall apart. Each frame is still Gaussian, but across time it deliberately isn't, and it's never seen that. So we warp noise in pixel space for four million videos, mean-pool it to the latent times 8 so variance stays one, and train a rank-2048 LoRA, 40 A100-days. No new modules: the LoRA merges back in, so zero extra inference cost. Gamma is how much fresh noise we mix in; it's random during training, so at inference you just pick it. Lower is stricter: on DAVIS, gamma 0.5 gives tracking mIoU 0.74, 0.9 gives 0.50, and with no warped noise at all, 0.52. Top row is the input motion, bottom row is ours. Against the training-free baselines SG-I2V and MotionClone we win FID and mIoU on VIPSeg objects and DL3DV camera."
     },
     {
       "title": "What became of it",
@@ -509,7 +557,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "It has limits. DMT optimizes per video and beats us on text-to-video motion transfer, 0.85 versus 0.70. Motion finer than the latent grid is only approximated. Flow is 2D, so it can't say what's behind something or what appears. And every base model needs its own fine-tune. Still, it was a CVPR oral, and follow-ups like WonderPlay use it as their motion-to-video stage. But it makes new videos. What if you already have one and want to change how things move in it?"
+      "speech": "It has limits. DMT optimizes per video and beats us on text-to-video motion transfer, 0.85 versus 0.70. Motion finer than the latent grid is only approximated. Flow is 2D, so it can't say what's behind something or what appears. And every base model needs its own fine-tune. Still, it was a CVPR oral, and follow-ups like WonderPlay use it as their motion-to-video stage."
     }
   ]
 }

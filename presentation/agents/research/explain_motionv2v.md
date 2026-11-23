@@ -34,6 +34,14 @@ Not used: `megacomparisonfigurev2.jpg` (8 comparison rows, too dense for one sli
 
 **motion_a/b/c.mp4 (from AutoplayAll) are NOT MotionV2V.** They show side-by-side appearance edits. motion_a: a gray untextured boat render turned into a photoreal boat in sunny water. motion_b: a Jack Russell running on a beach turned into the same dog running on snow, with the motion preserved. motion_c: a brown clay-like render of a fish monster turned into photoreal salmon chunks and teeth. motion_b and motion_c have a Gemini/Veo-style sparkle watermark in the corner. Frames are in `frames/motion_{a,b,c}_tile.png`. They might fit the future-work "any edit to any video" slide, but only if Ryan confirms they are his own (GenFlow?) and not Google's Veo output.
 
+## Round 3b (full-deck QA, slides 41-46)
+
+- Slide 6: basketball panel and its speech are cut (the jitter fix is now Q&A only). Bigger tables (~21 pt; "User study, 41 people"). TestPrep with its burned labels cropped off. Limits are a red 20 pt list on the right.
+- Captions are now 22-24 pt. Slide 3 strip enlarged. Slide 2 gets an "ATI, ReVideo, GWTF: first frame in, rest generated" line. Slide 5: image shrunk, the caption is no longer at the edge, and the labels are "Source tracks / Target tracks / Output".
+- "make him twirl" cut.
+- Story-listener cuts: the GWTF lead-in on slide 1 is gone (slide 40 handles the handoff), the ending is now "That's MotionV2V.", and "Motion's one kind of edit..." is gone from slide 6. Slide 6 overclaim: the speech now says the 20 edits were chosen by us, so there's selection bias. Speech is now 562 words.
+- Not addressed: the listener points out that the word "handle" never appears in this section, and that a trained 18-block copy is a big branch. Ryan should answer that in Q&A (committee question 1 on the thesis scope).
+
 ## Round 3 revision (r2 examiner fixes + visual QA)
 
 - Slide 2: `race_dimmed.png` is the full tied strip with frames 2-3 washed out. Frame 1 is in a red box. This replaces the old cut-off frame-1 crop, so the tracks no longer run off the edge.

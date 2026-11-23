@@ -1,6 +1,6 @@
 # What's next (future section)
 
-Machine-readable spec: `presentation/agents/specs/future.json` (generator: `presentation/agents/.scratchpad/scratchpad_agent_7.py`). 4 slides, 425 spoken words. Slide 4 was redone as a 4-row left-aligned timeline (26 pt) plus one 20 pt metrics line and a small grey "PROPOSED" in the corner; edits applied by `scratchpad_agent_7b.py` on top of the generator output. Text elements on slide 4 carry `"align"` (left/right), a new key the builder may need to support. This section replaces frame slide 11 ("What's next"). Crops are in `presentation/agents/.scratchpad/explain_future/`.
+Machine-readable spec: `presentation/agents/specs/future.json`. 4 slides, 372 spoken words (revision 3, after full-deck QA and the story-listener cuts). Latest render: `presentation/agents/.scratchpad/study/future/r3/` (section.commands.txt, section.pptx, slides/). Slide 2 is now two cropped rows (`lmux_row1.png`, `lmux_row2.png`) with a 16 pt label under each tile; slide 4 tag is 16 pt "Proposed timeline". Text elements may carry `"align"`.
 
 ## Sources and what they actually say
 - `source/src/8_future_work.tex` (Future Work): the only thesis direction is "turn a general image-to-image editor into a general video-to-video editor, basically Nano Banana but for video", any edit (appearance, motion, or both) without disturbing what you didn't ask to change. MotionV2V is framed as the early step for motion.
@@ -16,7 +16,7 @@ Machine-readable spec: `presentation/agents/specs/future.json` (generator: `pres
 ## Talk track
 1. **What's next** (rocket). Every handle so far was one specific thing. MotionV2V edits a real video without regenerating it, but only the motion. Next: one editor for any edit, Nano Banana for video. I2I2V2V = edit one frame with an image editor, a video model carries it through the clip. Early result: driving video + edited first frame -> edited video.
 2. **One model, many handles** (LoRA-Mux grid). Every control signal is its own LoRA and stacking them fights. LoraPlexer packs many into one switchable adapter. Proof of concept: 100 community LoRAs merged into one rank-32 LoRA, no training, 6 modes, same prompt and seed. Next: distill properly across noise levels with CFG intact.
-3. **Where the data comes from** (Nano Banana frames). Same trick as MAGICK: get the data out of models that already exist. Image editors edit many frames consistently -> paired before/after video. Dog test case: edges LoRA + 2-bit color LoRA, can the combined model rebuild the real dog.
+3. **Where the data comes from** (Nano Banana frames). Same trick as MAGICK: get the data out of models that already exist. Image editors edit many frames consistently -> paired before/after video. (Dog test case cut from speech: no dog visual exists, and the listener found it off-topic here. Keep it as a Q&A answer for LoraPlexer evaluation.)
 4. **The plan** (timeline: Now–Feb data, Feb–Apr train, Apr–Jun evaluate, Summer paper + thesis + defense; dates PROPOSED BY AI). Data -> train -> evaluate -> paper -> thesis. Baselines, three metrics, user study, two risks with fallbacks.
 
 ### Why it's the natural next handle (the through-line)
@@ -44,7 +44,10 @@ None of this is in the sources. It is a reasonable default, not a done plan.
 - **Sun: "When you merge 100 LoRAs into rank 32, what are you actually solving?"** A low-rank approximation of the summed weight deltas, so the interesting question is how much the modes overlap. If they don't fit, quality per mode drops and that's measurable. Distillation across several noise levels is the training version of the same thing. (Ryan: confirm how LoRA-Mux actually merges, e.g. SVD of stacked deltas, before claiming this.)
 - **Sun: "Does distillation across noise levels converge, and does CFG survive?"** Honest answer: unknown yet. That's why the plan scores each mode against its original LoRA, with and without CFG.
 - **Any: "What if it doesn't work in time?"** MotionV2V is already a complete V2V edit for motion. The fallback thesis chapter is I2I2V2V for appearance edits only, with LoraPlexer as a separate result.
-- Slide 1 speech now says: "Tobias Gerts made this one in ComfyUI. The part I built is the GenFlow model underneath it: the training data and the LoRAs it runs on." The second sentence is inferred from GenFlowMay4 slide 5 (LoRA A/B/C training plan in Ryan's deck); **Ryan must confirm or correct it.**
+- Slide 1 speech now says: "Tobias Gerts made this one in ComfyUI, on a video model from my internship." (True either way; say which part you built if asked.) The name GenFlow was dropped from speech because the talk never explains it; it still shows in the credit box baked into the image.
+- Slide 2 tile labels ("3D animated", "storybook", "live action", "soft 3D", "2D anime", "3D + live mix") are **AI descriptions of what each tile looks like**. The source slide (GenFlowMay4 slide 16) does not name the six modes. Ryan should swap in the real mode names if he knows them. The slide-2 speaker notes end with a [CONFIRM: ...] note saying so.
+- Slide 1 now says video editors exist (VACE, AnyV2V) but each covers a few kinds of edit; this replaces "Video doesn't have it", which contradicted the baselines on slide 4.
+- Slide 2 now opens with why LoraPlexer is in this thesis: one editor needs many control signals at once, stacked LoRAs fight, so LoraPlexer puts many control handles in one small add-on to the same pretrained model.
 - **Any: "Is the rocket result yours?"** It was made by Tobias Gerts in ComfyUI with the GenFlow checkpoint. Say exactly that, and say what part you built.
 
 ## Uncertain

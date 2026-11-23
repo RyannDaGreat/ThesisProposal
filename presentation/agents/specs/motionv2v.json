@@ -59,7 +59,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "So Go-with-the-Flow makes new videos. What about the video you already have? On top, a bichon and a corgi racing down a sidewalk, finishing about side by side. The dots and lines are point tracks, pink for the bichon's face, red for the corgi's. I want the corgi to win, so I drag its red track forward. The bottom row is the output. In the red box, the corgi's in front. Same dogs, same street, new motion. That's MotionV2V: editing the motion of a video that already exists."
+      "speech": "On top, a bichon and a corgi racing down a sidewalk, finishing about side by side. The dots and lines are point tracks, pink for the bichon's face, red for the corgi's. I want the corgi to win, so I drag its red track forward. The bottom row is the output. In the red box, the corgi's in front. Same dogs, same street, new motion. That's MotionV2V."
     },
     {
       "title": "Why not GWTF?",
@@ -95,6 +95,18 @@
           ],
           "size": 28,
           "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "ATI, ReVideo, GWTF: first frame in, rest generated",
+          "rect": [
+            40,
+            446,
+            880,
+            32
+          ],
+          "size": 22,
+          "color": "#000000"
         }
       ],
       "speech": "So why can't GWTF do this? General point and flow motion control, ATI, ReVideo, and my own GWTF, is image-to-video. It takes this first frame and generates the rest. Anything that's not in frame one, like a car that drives in later, gets made up. And the classic editing trick, invert the video back to noise and regenerate it, needs the output to line up with the input frame by frame. Change the motion, and that breaks."
@@ -115,12 +127,12 @@
         {
           "kind": "arrow",
           "from": [
-            244,
+            480,
             204
           ],
           "to": [
-            244,
-            238
+            480,
+            226
           ],
           "color": "#000000"
         },
@@ -128,22 +140,22 @@
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_target_nocap.png",
           "rect": [
-            24,
-            242,
-            440,
-            105
+            190,
+            230,
+            580,
+            139
           ]
         },
         {
           "kind": "text",
           "text": "Real clip = target",
           "rect": [
-            24,
-            352,
-            440,
-            28
+            190,
+            376,
+            580,
+            34
           ],
-          "size": 18,
+          "size": 24,
           "color": "#000000"
         }
       ],
@@ -170,7 +182,7 @@
           ],
           "to": [
             244,
-            238
+            232
           ],
           "color": "#000000"
         },
@@ -179,7 +191,7 @@
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_target_nocap.png",
           "rect": [
             24,
-            242,
+            236,
             440,
             105
           ]
@@ -189,11 +201,11 @@
           "text": "Real clip = target",
           "rect": [
             24,
-            352,
+            344,
             440,
-            28
+            32
           ],
-          "size": 18,
+          "size": 22,
           "color": "#000000"
         },
         {
@@ -204,7 +216,7 @@
           ],
           "to": [
             716,
-            222
+            218
           ],
           "color": "#C00000"
         },
@@ -213,21 +225,21 @@
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_twirl.png",
           "rect": [
             496,
-            226,
+            220,
             440,
             104
           ]
         },
         {
           "kind": "text",
-          "text": "Generated in-between, or real frames resampled",
+          "text": "Generated, or real frames resampled",
           "rect": [
-            496,
-            332,
-            440,
-            26
+            476,
+            326,
+            480,
+            32
           ],
-          "size": 18,
+          "size": 22,
           "color": "#000000"
         },
         {
@@ -235,7 +247,7 @@
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_counterfactual_nocap.png",
           "rect": [
             496,
-            364,
+            362,
             440,
             106
           ]
@@ -245,11 +257,11 @@
           "text": "+ crop and zoom on all",
           "rect": [
             496,
-            472,
+            470,
             440,
-            26
+            32
           ],
-          "size": 18,
+          "size": 22,
           "color": "#000000"
         },
         {
@@ -257,26 +269,26 @@
           "text": "Fake in, real out",
           "rect": [
             24,
-            420,
+            410,
             440,
-            44
+            50
           ],
           "size": 32,
           "color": "#C00000"
         }
       ],
-      "speech": "Then we make a fake version with different motion. That's a motion counterfactual. Two ways. Top right, a video model fills in between two real frames, with a prompt like make him twirl. Or we resample the real frames, faster, slower, reversed, so those pairs are real frames on both sides. Then crop and zoom on all of them, bottom right. To match points, we run one tracker and start points only on real frames both videos contain. For a generated clip, that's its two real end frames. So each dot should be the same physical point, as far as the tracker gets it right. Fake video and tracks in, real video out."
+      "speech": "Then we make a fake version with different motion. That's a motion counterfactual. Two ways. Top right, a video model fills in between two real frames. Or we resample the real frames, faster, slower, reversed, so those pairs are real frames on both sides. Then crop and zoom on all of them, bottom right. To match points, we run one tracker and start points only on real frames both videos contain. For a generated clip, that's its two real end frames. So each dot should be the same physical point, as far as the tracker gets it right. Fake video and tracks in, real video out."
     },
     {
       "title": "The Model",
       "elements": [
         {
           "kind": "text",
-          "text": "Your video",
+          "text": "Source tracks",
           "rect": [
-            194,
+            197,
             88,
-            139,
+            150,
             30
           ],
           "size": 20,
@@ -286,9 +298,9 @@
           "kind": "text",
           "text": "Target tracks",
           "rect": [
-            347,
+            343,
             88,
-            140,
+            150,
             30
           ],
           "size": 20,
@@ -298,9 +310,9 @@
           "kind": "text",
           "text": "Output",
           "rect": [
-            627,
+            609,
             88,
-            140,
+            150,
             30
           ],
           "size": 20,
@@ -310,19 +322,19 @@
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/framework_center.png",
           "rect": [
-            194,
+            207,
             124,
-            573,
-            380
+            543,
+            360
           ]
         },
         {
           "kind": "box",
           "rect": [
-            346,
+            352,
             121,
-            142,
-            386
+            133,
+            366
           ],
           "color": "#C00000"
         },
@@ -330,8 +342,8 @@
           "kind": "text",
           "text": "Diffusion",
           "rect": [
-            498,
-            290,
+            492,
+            280,
             120,
             28
           ],
@@ -342,8 +354,8 @@
           "kind": "text",
           "text": "model",
           "rect": [
-            498,
-            316,
+            492,
+            306,
             120,
             28
           ],
@@ -355,9 +367,9 @@
           "text": "Frozen CogVideoX-5B + trained copy of its first 18 blocks, zero-init",
           "rect": [
             24,
-            508,
+            494,
             912,
-            28
+            30
           ],
           "size": 20,
           "color": "#000000"
@@ -370,52 +382,42 @@
       "elements": [
         {
           "kind": "image",
-          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/basketball.png",
-          "rect": [
-            24,
-            90,
-            190,
-            181
-          ]
-        },
-        {
-          "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/table_userstudy.png",
           "rect": [
-            228,
-            90,
-            186,
-            187
+            24,
+            88,
+            246,
+            240
           ]
         },
         {
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/table_recon.png",
           "rect": [
-            430,
-            90,
-            366,
-            187
+            290,
+            88,
+            469,
+            240
           ]
         },
         {
           "kind": "image",
           "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/testprep_crop.png",
           "rect": [
-            300,
-            286,
-            520,
-            190
+            24,
+            338,
+            422,
+            140
           ]
         },
         {
           "kind": "text",
           "text": "Input: first half, reversed",
           "rect": [
-            300,
-            478,
-            260,
-            24
+            4,
+            482,
+            236,
+            28
           ],
           "size": 18,
           "color": "#000000"
@@ -424,28 +426,88 @@
           "kind": "text",
           "text": "Target: second half",
           "rect": [
-            560,
-            478,
-            260,
-            24
+            244,
+            482,
+            202,
+            28
           ],
           "size": 18,
           "color": "#000000"
         },
         {
           "kind": "text",
-          "text": "Limits: about 20 points \u00b7 copies on pixel-perfect points \u00b7 chained edits drift \u00b7 fake training inputs \u00b7 49 frames",
+          "text": "Limits",
           "rect": [
-            24,
-            506,
-            912,
-            28
+            500,
+            336,
+            436,
+            26
           ],
-          "size": 16,
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "about 20 points",
+          "rect": [
+            500,
+            362,
+            436,
+            26
+          ],
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "copies on pixel-perfect points",
+          "rect": [
+            500,
+            388,
+            436,
+            26
+          ],
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "chained edits drift",
+          "rect": [
+            500,
+            414,
+            436,
+            26
+          ],
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "fake training inputs",
+          "rect": [
+            500,
+            440,
+            436,
+            26
+          ],
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "49 frames",
+          "rect": [
+            500,
+            466,
+            436,
+            26
+          ],
+          "size": 20,
           "color": "#C00000"
         }
       ],
-      "speech": "On this basketball, the ball went through the hoop, but a second ball showed up where the original went. Plus or minus two pixels of noise at test time, not in training, fixed it. It's a shortcut: exact points means copy. User study: 41 people, 20 edits we made, pick the best of four. Ours got 69%, ATI 25, even on a stronger base model. For reconstruction, we cut each video at the middle. One half, reversed, is the input, the other half is the target, and both start on the middle frame, so image-to-video methods get a fair first frame. Reversal's in our training data, so this tests keeping content, not editing in general. SSIM is about 0.1 for everyone, since generated motion is never pixel-aligned, so L2 and LPIPS carry it. No error bars. Limits are on the bottom. We trained on 1 to 64 points, with more dropout on targets, and past about twenty it stops following. This is CVPR 2026, code's not out. Motion's one kind of edit. Next, I want any edit."
+      "speech": "User study: 41 people, pick the best of four, on 20 edits we chose ourselves, so there's selection bias. Ours got 69%, ATI 25, even on a stronger base model. For reconstruction, we cut each video at the middle. One half, reversed, is the input, the other half is the target, and both start on the middle frame, so image-to-video methods get a fair first frame. Reversal's in our training data, so this tests keeping content, not editing in general. SSIM is about 0.1 for everyone, since generated motion is never pixel-aligned, so L2 and LPIPS carry it. No error bars. Limits are on the right. We trained on 1 to 64 points, so past about twenty it stops following, and pixel-perfect points make it copy the input. This is CVPR 2026, code's not out."
     }
   ]
 }

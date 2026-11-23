@@ -4,71 +4,476 @@
     {
       "title": "Hair is hard",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s1_hair_alpha.jpg", "rect": [110, 96, 324, 429]},
-        {"kind": "text", "text": "Largest general-purpose matting set: 726 objects", "rect": [470, 260, 450, 90], "size": 28, "color": "#C00000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s1_photo_and_alpha.jpg",
+          "rect": [
+            60,
+            104,
+            500,
+            308
+          ]
+        },
+        {
+          "kind": "box",
+          "rect": [
+            310,
+            104,
+            250,
+            308
+          ],
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "photo",
+          "rect": [
+            60,
+            418,
+            250,
+            30
+          ],
+          "size": 20,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "alpha matte",
+          "rect": [
+            310,
+            418,
+            250,
+            30
+          ],
+          "size": 20,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "white = object",
+          "rect": [
+            590,
+            170,
+            340,
+            36
+          ],
+          "size": 24,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "black = background",
+          "rect": [
+            590,
+            230,
+            340,
+            36
+          ],
+          "size": 24,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "gray = partly see-through",
+          "rect": [
+            590,
+            290,
+            340,
+            36
+          ],
+          "size": 24,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "Largest general-purpose matting set: 726 objects",
+          "rect": [
+            60,
+            466,
+            840,
+            40
+          ],
+          "size": 26,
+          "color": "#C00000"
+        }
       ],
-      "speech": "Peekaboo and Illusions steer pixels the model already makes. Transparency it can't make at all, it only outputs RGB, and Peekaboo's blobby masks showed that gap. This is an alpha matte: white is the object, black is background, gray strands are partly see-through. Matting datasets are made by hand, so they stop at a few hundred objects; the largest general-purpose one has 726. Segmentation sets like COCO are huge, but their edges are hard outlines. So here the handle is data: can a frozen RGB model build a big alpha dataset for us?"
+      "speech": "Transparency it can't make at all, it only outputs RGB. This is an alpha matte: white is the object, black is background, gray strands are partly see-through. Matting datasets are made by hand, so they stop at a few hundred objects; the largest general-purpose one has 726. Segmentation sets like COCO are huge, but their edges are hard outlines. So here the handle is data: can a frozen RGB model build a big alpha dataset for us?"
     },
     {
       "title": "The trick",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2_pine_needles.jpg", "rect": [200, 88, 560, 288]},
-        {"kind": "text", "text": "I = αF + (1−α)B", "rect": [200, 382, 560, 46], "size": 34, "color": "#000000"},
-        {"kind": "text", "text": "B = the screen color, known at every pixel", "rect": [100, 430, 760, 36], "size": 22, "color": "#C00000"},
-        {"kind": "text", "text": "\"...isolated on a solid [color] background\"", "rect": [100, 474, 760, 36], "size": 22, "color": "#000000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_frame/lions_only.png",
+          "rect": [
+            180,
+            90,
+            600,
+            116
+          ]
+        },
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2_pine_needles.jpg",
+          "rect": [
+            270,
+            212,
+            420,
+            216
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "green screen",
+          "rect": [
+            270,
+            430,
+            210,
+            26
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "blue screen",
+          "rect": [
+            480,
+            430,
+            210,
+            26
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "I = αF + (1−α)B",
+          "rect": [
+            200,
+            458,
+            560,
+            36
+          ],
+          "size": 28,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "B = the screen color, known at every pixel",
+          "rect": [
+            100,
+            498,
+            760,
+            30
+          ],
+          "size": 20,
+          "color": "#C00000"
+        }
       ],
-      "speech": "The trick is embarrassingly simple: ask for the object on a solid green screen, then chroma key it like Hollywood. Every pixel is alpha times foreground plus one minus alpha times background. A matting network on a normal image has to guess B too, and its mistakes would become our labels. On a flat screen B is known at every pixel, so that unknown is gone. It's still three equations for four unknowns, so a keyer still guesses. That's why we run three. And pine needles on green? The key eats them. On blue, much better."
+      "speech": "Remember the lion? Asking for green wasn't the problem; the screen wasn't flat. Make it flat and B is known. Then we chroma key it like Hollywood. Every pixel is alpha times foreground plus one minus alpha times background. A matting network on a normal image has to guess B too, and its mistakes would become our labels. It's still three equations for four unknowns, so a keyer still guesses. That's why we run three. And pine needles on green? The key eats them. On blue, much better."
     },
     {
       "title": "Pick the screen",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2b_hue_histogram.jpg", "rect": [40, 100, 880, 384]}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2b_hue_histogram.jpg",
+          "rect": [
+            40,
+            112,
+            880,
+            384
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "plain SDXL image",
+          "rect": [
+            40,
+            452,
+            300,
+            30
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "hue histogram: least-used hue = screen color",
+          "rect": [
+            370,
+            452,
+            520,
+            30
+          ],
+          "size": 18,
+          "color": "#C00000"
+        }
       ],
       "speech": "So we pick the screen color per prompt. Generate the plain prompt once with SDXL, take a hue histogram weighted by saturation, and choose the named color the object uses least. She's all reds and some blues, so she gets green. Over 90 percent of the dataset ends up green or blue."
     },
     {
       "title": "Keyable images",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_deepfloyd.jpg", "rect": [70, 92, 340, 343]},
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_sdxl_img2img.jpg", "rect": [550, 92, 340, 343]},
-        {"kind": "arrow", "from": [425, 263], "to": [535, 263], "color": "#C00000"},
-        {"kind": "text", "text": "DeepFloyd", "rect": [40, 448, 400, 36], "size": 22, "color": "#000000"},
-        {"kind": "text", "text": "SDEdit (SDXL), strength 0.95", "rect": [470, 448, 460, 36], "size": 22, "color": "#C00000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_deepfloyd.jpg",
+          "rect": [
+            70,
+            108,
+            340,
+            343
+          ]
+        },
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_sdxl_img2img.jpg",
+          "rect": [
+            550,
+            108,
+            340,
+            343
+          ]
+        },
+        {
+          "kind": "arrow",
+          "from": [
+            425,
+            279
+          ],
+          "to": [
+            535,
+            279
+          ],
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "DeepFloyd",
+          "rect": [
+            40,
+            462,
+            400,
+            36
+          ],
+          "size": 22,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "SDEdit (SDXL), strength 0.95",
+          "rect": [
+            470,
+            462,
+            460,
+            36
+          ],
+          "size": 22,
+          "color": "#C00000"
+        }
       ],
-      "speech": "Catch is, SDXL, Midjourney and DALL-E make dark gradient screens or tint the subject green. DeepFloyd, left, gives a flat screen, but mushy hair. So we chain them. Cut DeepFloyd's girl out roughly with Photoshop, paste her on brighter green, and run SDEdit, SDXL image-to-image, at strength 0.95. That repaints almost everything, Photoshop's rough cut included, so DeepFloyd only donates the layout and a clean screen. Green goes in the negative prompt: it strips spill off the girl, but the screen is too saturated to suppress."
+      "speech": "Catch is, SDXL, Midjourney and DALL-E make dark gradient screens or tint the subject green. DeepFloyd, left, gives a flat screen, but mushy hair. So we chain them. Cut DeepFloyd's girl out roughly with Photoshop, paste her on brighter green, and run SDEdit, SDXL image-to-image, at strength 0.95. That repaints almost everything, the rough cut included, so DeepFloyd only donates layout and a clean screen."
     },
     {
       "title": "Three keyers",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_disagree_low.jpg", "rect": [20, 100, 450, 296]},
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_agree_high.jpg", "rect": [490, 100, 450, 296]},
-        {"kind": "box", "rect": [486, 96, 458, 304], "color": "#C00000"},
-        {"kind": "text", "text": "Agreement is our proxy for correctness.", "rect": [80, 414, 800, 44], "size": 28, "color": "#C00000"},
-        {"kind": "text", "text": "Score: worst-pair MS-SSIM · above median 0.984: auto, 110k · human picks 1 of 7: 40k", "rect": [20, 466, 920, 36], "size": 18, "color": "#000000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_disagree_low.jpg",
+          "rect": [
+            20,
+            92,
+            450,
+            296
+          ]
+        },
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_agree_high.jpg",
+          "rect": [
+            490,
+            92,
+            450,
+            296
+          ]
+        },
+        {
+          "kind": "box",
+          "rect": [
+            486,
+            88,
+            458,
+            304
+          ],
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "keyers: pixel-wise · learned chroma key · Photoshop subject select",
+          "rect": [
+            20,
+            394,
+            920,
+            28
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "Agreement is our proxy for correctness.",
+          "rect": [
+            80,
+            426,
+            800,
+            40
+          ],
+          "size": 26,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "Score: worst-pair MS-SSIM · above median 0.984: auto, 110k · human picks 1 of 7: 40k",
+          "rect": [
+            20,
+            472,
+            920,
+            32
+          ],
+          "size": 18,
+          "color": "#000000"
+        }
       ],
-      "speech": "Three keyers that fail differently: a per-pixel color-difference keyer, using a background we get by deleting the object and inpainting; Adobe's internal learned chroma keyer; and Photoshop subject select. Top row cutouts, bottom row alphas. The score composites each cutout on white and on black and takes the worst pair's MS-SSIM. Right, 0.995, all agree. Left, a glass of water, they don't. Agreement is a proxy, not proof: generated images have no ground truth, but keyers that work differently rarely agree on the same wrong answer. Above the median, 0.984, we auto-accept with the open pixel-wise keyer: 110,000. For 40,000 more, mostly glass and smoke, a human picked one of seven."
+      "speech": "Three keyers that fail differently: a per-pixel color-difference keyer, Adobe's internal learned chroma keyer, and Photoshop subject select. Top row cutouts, bottom row alphas. The score composites each cutout on white and on black and takes the worst pair's MS-SSIM. Right, 0.995, all agree. Left, a glass of water, they don't. Agreement is a proxy, not proof: generated images have no ground truth, but keyers that work differently rarely agree on the same wrong answer. Above the median, 0.984, we auto-accept with the open pixel-wise keyer: 110,000. For 40,000 more, mostly glass and smoke, a human picked one of seven."
     },
     {
       "title": "150,000 cutouts",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s5_dataset_grid.jpg", "rect": [130, 88, 700, 292]},
-        {"kind": "text", "text": "Matting error on DIM test (SAD, lower is better): either dataset alone 36 / 65 → mix 33", "rect": [20, 386, 920, 34], "size": 18, "color": "#000000"},
-        {"kind": "text", "text": "Limits: synthetic (artifacts, domain gap) · uses Photoshop, an internal Adobe keyer, Adobe captions · auto path favors opaque objects", "rect": [20, 424, 920, 58], "size": 18, "color": "#000000"},
-        {"kind": "text", "text": "3,700-6,400 downloads a month", "rect": [180, 488, 600, 34], "size": 22, "color": "#C00000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s5_dataset_grid.jpg",
+          "rect": [
+            130,
+            88,
+            700,
+            292
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "Matting error on DIM test (SAD, lower is better): either dataset alone 36 / 65 → mix 33",
+          "rect": [
+            20,
+            390,
+            920,
+            34
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "Limits: synthetic · relies on Adobe tools and captions · auto path favors opaque objects",
+          "rect": [
+            20,
+            430,
+            920,
+            34
+          ],
+          "size": 18,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "3,700-6,400 downloads a month",
+          "rect": [
+            180,
+            478,
+            600,
+            34
+          ],
+          "size": 22,
+          "color": "#C00000"
+        }
       ],
-      "speech": "That's MAGICK: 150,000 objects, each with foreground colors, an alpha matte and a caption. Does it help real matting? We trained a matting network on DIM, on MAGICK, and on mixes, and tested on real DIM images. Either dataset alone scores 36 or 65; the best mix gets 33. Mixing beats either alone. Thousands of downloads a month. Limits: it's synthetic, so a stop sign gets a perfect matte and misspelled text. The pipeline leans on Photoshop, Adobe's keyer and Adobe captions, though the auto samples use the open keyer. Auto-accept favors opaque things; transparency was human-picked. Cost: 30,000 dollars of annotation plus 32 A100s for three weeks."
+      "speech": "That's MAGICK: 150,000 objects, each with foreground colors, an alpha matte and a caption. We trained a matting network on DIM, on MAGICK, and on mixes, and tested on real DIM images. Either dataset alone scores 36 or 65; the best mix gets 33. Mixing beats either alone. Limits: it's synthetic, so a stop sign gets a perfect matte and misspelled text. It leans on Adobe tools and captions, though the auto samples use the open keyer. Auto-accept favors opaque things; transparency was human-picked. Cost: 30,000 dollars of annotation plus 32 A100s for three weeks."
     },
     {
       "title": "Alpha in, image out",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s7_alpha2rgb_study_row.jpg", "rect": [40, 92, 880, 271]},
-        {"kind": "text", "text": "alpha", "rect": [40, 370, 220, 32], "size": 20, "color": "#000000"},
-        {"kind": "text", "text": "ours (MAGICK)", "rect": [260, 370, 220, 32], "size": 20, "color": "#C00000"},
-        {"kind": "text", "text": "sketch edges", "rect": [480, 370, 220, 32], "size": 20, "color": "#000000"},
-        {"kind": "text", "text": "Canny edges", "rect": [700, 370, 220, 32], "size": 20, "color": "#000000"},
-        {"kind": "text", "text": "52 raters, 27 unseen masks: ours 82% vs Canny 16%, 77% vs sketch 23%", "rect": [40, 430, 880, 40], "size": 22, "color": "#C00000"}
+        {
+          "kind": "image",
+          "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s7_alpha2rgb_study_row.jpg",
+          "rect": [
+            40,
+            100,
+            880,
+            271
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "alpha",
+          "rect": [
+            40,
+            378,
+            220,
+            32
+          ],
+          "size": 20,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "ours (MAGICK)",
+          "rect": [
+            260,
+            378,
+            220,
+            32
+          ],
+          "size": 20,
+          "color": "#C00000"
+        },
+        {
+          "kind": "text",
+          "text": "sketch edges",
+          "rect": [
+            480,
+            378,
+            220,
+            32
+          ],
+          "size": 20,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "Canny edges",
+          "rect": [
+            700,
+            378,
+            220,
+            32
+          ],
+          "size": 20,
+          "color": "#000000"
+        },
+        {
+          "kind": "text",
+          "text": "52 raters, 27 unseen masks: ours 82% vs Canny 16%, 77% vs sketch 23%",
+          "rect": [
+            40,
+            440,
+            880,
+            40
+          ],
+          "size": 22,
+          "color": "#C00000"
+        }
       ],
-      "speech": "With that data we fine-tuned an SD1.5 ControlNet: give it an alpha matte plus a prompt, and it paints a matching image. No prior model takes alpha, so we compared against sketch-edge and Canny-edge ControlNets on the same base. On 27 unseen masks, 52 people picked the better set for looks and prompt fit. The outputs follow the matte's edges, as you can see, but the study measured looks and prompt fit, not edge accuracy; that metric is future work. So now we control what's in a frame. Nothing yet controls how it moves over time. That's the next handle."
+      "speech": "With that data we fine-tuned an SD1.5 ControlNet: give it an alpha matte plus a prompt, and it paints a matching image. No prior model takes alpha, so we compared against sketch-edge and Canny-edge ControlNets on the same base. On 27 unseen masks, 52 people picked the better set for looks and prompt fit. The outputs follow the matte's edges, but the study measured looks and prompt fit, not edge accuracy; that's future work."
     }
   ]
 }
