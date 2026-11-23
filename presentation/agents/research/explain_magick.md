@@ -78,3 +78,12 @@ Slide numbers refer to the 7-slide section.
 - "726" is the largest *general-purpose* matting set per 6_appendix_thesis.tex:256 (SIM). Portrait sets such as P3M-10k are larger, hence "general-purpose".
 - Matting mix ratio (see above) — kept vague on purpose.
 - 150k (paper) vs "140,000+" (HF/GitHub page): used 150,000 as in the thesis.
+
+## Round-3 changes (polish)
+- Slide 2: equation `I = αF + (1−α)B` on slide with red "B = the screen color, known at every pixel"; speech uses "three equations for four unknowns... that's why we run three"; prompt caption "...isolated on a solid [color] background".
+- Slide 4: images shrunk to 340 pt, label gets its own box at y448 (no more clipped wrap).
+- Slide 5: numbers on slide (worst-pair MS-SSIM, median 0.984, auto 110k, human 1-of-7 40k); "proxy, not proof" in speech.
+- Slide 6: SAD line and limits on slide; cost = $30k annotation plus 32 A100s for three weeks; open keyer for auto samples and 0.95 repaint stated (slide 4 and 6 speech).
+- Slide 7: seg-ControlNet panel swapped for the alphamatting row of `alpha2rgbResults.png` (alpha | ours | sketch | Canny), crop `.scratchpad/explain_magick/crops/s7_alpha2rgb_study_row.jpg`; caption with 82/16 and 77/23; "edge accuracy is future work" said aloud.
+- SAD DIRECTION: OPEN QUESTION FOR RYAN. Per the coordinator, the slide takes no side: "either dataset alone 36 / 65 → mix 33", and the speech says "mixing beats either alone". Ryan: which is MAGICK-only, 36 or 65? Fix 6_appendix_thesis.tex:166-168 so the definition and the table agree. Earlier analysis follows: the examiner wanted "DIM only 65 · MAGICK only 36". `6_appendix_thesis.tex:168` defines the ratio as the MAGICK fraction, but the same paragraph says the optimum is 1/5 MAGICK + 4/5 DIM (the best row is ratio 4/5), and the old caption in `6_appendix.tex:275` says a higher ratio means more DIM. Two of the three statements say the ratio is the DIM fraction, so ratio 0 = MAGICK only = 65.49 and ratio 1 = DIM only = 36.27. The slide says "MAGICK only 65 · DIM only 36 · mix 33". Ryan must confirm this; line 168 contradicts itself either way and needs fixing in the thesis.
+- Small (~11 pt) labels remain baked into the figure images on slides 3 and 5 (axis ticks, keyer names); all added text is ≥18 pt.

@@ -1,6 +1,6 @@
 # Diffusion Illusions: talk section
 
-Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/diffillusions.json`. 6 slides (one of them a build), 628 spoken words (about 4.7 min). Revised in round 2 against exam_diffillusions.json.
+Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/diffillusions.json`. 8 slides, 647 spoken words. Round 3: rebuilt per r2 examiner (asymmetric flip hook, architecture diagram, formula, dream-target grid, baseline violin plot, sim-vs-print before awards).
 
 ## Plain explanation
 
@@ -52,3 +52,11 @@ Not used, on purpose: the SDS internals (noise → frozen model → predicted no
 - The evaluation has no headline numbers (plots only), so none are quoted.
 - Checked in the source: N=64 groups (main_thesis.tex:252; the older main.tex:477 has an author comment "[xl: number by average, not true!]" next to it, so don't lean on N), the SDEdit strength schedule starting at 0.90 (X_suppl_thesis.tex:169), 500 SDS steps + 8 dream-target rounds, weights [1,1,1,1,3], the 15 min A100 budget, and the tanh scaling. Not re-checked: k=2/3 and the L1 residual, which come from the exam file.
 - "Over a million views" is unverified and left out.
+
+## Round-3 notes (r2 examiner)
+- New visuals, all in `.scratchpad/explain_diffillusions/` and all checked in a render (`check/sheet.png`): `flip_giraffe*.png`/`flip_dogele*.png` (FlipGallery.pdf tiles, the second copy rotated 180), `arch.png` (architecture.v3.drawio.pdf), `hid_*.png` (teaser bottom row split into separate images, captions at 20 pt), `dreams_grid.png` (approaching_dreams.png without its legend), `base.png` (fig-overall-baseline.pdf, with our own 18 pt metric labels on top), `simreal.png` (SimRealHidAdjust.jpg without its tiny labels).
+- Verified k: the commented-out table in figs/illusion_table.tex has `tanh(2 * p_1 * rot(p_2, 90j))` and `tanh(3 * p_1*p_2*p_3*p_4)`.
+- **The baseline is unresolved. Ryan, check the code.** main_thesis.tex:279 calls it "vanilla SDXL ... independently for one step using score distillation loss". X_suppl_thesis.tex:258 says the baseline images are "heavily interfered with by others in the same group and the overlay image", which can't happen if the images were truly independent. The speech now says only "what the paper calls vanilla SDXL score distillation, read it as an ablation, not a rival method". It no longer claims the baseline is unconstrained.
+- Step counts: method C in the eval is 500 SDS steps, then 8 dream-target rounds. The appendix pseudocode (X_suppl_thesis.tex:154, 171) shows `range(10000)` and a 90-step strength schedule from .90 to .01. If asked, the pseudocode is the general recipe and C is the evaluated budget. How the 8 rounds sample the .90 to .01 schedule is not stated.
+- Dropped "the hidden image goes black" (it appears only in a commented-out line) and "the QR actually scans" (it isn't shown).
+- Kept Ryan's reviewer joke. It now comes after the evidence and the limits.

@@ -74,3 +74,5 @@ Round 3 (examiner r2): slide 6 is retitled "How good is it?" and the table now h
 - The SDS term is written as MSE in the equation but `abs(...).sum()` (L1) in the pseudocode. Make them agree.
 - `source/src/1_Peekaboo/alltex_thesis.tex` line 188 writes L = L_s + L_α with no λ, but the appendix uses λ = 0.05.
 - No cross-attention-map baseline exists. If asked: it's a gap. Attention maps are 64×64 or coarser and per-token, which makes long phrases hard; Peekaboo scores the whole prompt at full resolution.
+
+Render check (round 3, `.scratchpad/explain_peekaboo/check/`): slide 6 table widened so "RefCOCO" and the MiDaS row no longer wrap, names left-aligned, 22 pt. Slide 3 got a red line "...but nothing makes it drop anything." to fill the empty lower half. All text is 22 pt or larger.

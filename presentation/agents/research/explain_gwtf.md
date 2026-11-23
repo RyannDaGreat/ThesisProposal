@@ -72,3 +72,20 @@ Workspace: `/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratc
 - The cat in the results video: I claim "drag a polygon over the cat's mouth and it yawns" from the input/output frames; I did not confirm the exact polygon. The input frame shows a smeared tail at the bottom (the drag preview), which may draw a question.
 - EquiVDM is not mentioned (cut for length). Slide 6's on-slide line names WonderPlay and NewtonGen, and the speech covers both.
 - Handoff to MotionV2V is the last sentence of slide 6.
+
+## Round 4 + visual QA changes (final)
+
+- Slide 2: the RickRoll video is re-encoded without its 8 pt burned-in label bar (`.scratchpad/explain_gwtf/rickroll_nolabels.mp4`, crop 1046x268 from y=16). Native 20 pt captions sit above it.
+- Slide 3: captions are now 18 pt black text on white above each panel. That fixes the low-contrast "Nearest" label.
+- Slide 4: the piece formula `X_i = q/d + (Z_i − S/d)/√d` is on screen. The red line now reads "Pieces are jointly Gaussian with zero covariance, so independent." The speech says density is not what makes the noise Gaussian; it keeps merged regions weighted correctly over long videos.
+- Slide 5 layout: 3 video columns, input on top and output below (`cell_{cat,camera,turntable}_{in,out}.mp4`, 720x480 crops of gwtf_results.mp4). On the right are the γ formula and γ 0.9 → mIoU 0.50 / 0.5 → 0.74. Below is the baseline strip; every number is checked against `4_experiments_thesis.tex:173-176,195-209`:
+  - VIPSeg FID 41.1 vs 61.4 / 85.2, mIoU 0.75 vs 0.63 / 0.71
+  - DL3DV mIoU 0.83 vs 0.71
+  - plain CogVideoX 0.52
+- Slide 5 speech:
+  - pixel-space warp then pool to the latent;
+  - "no new modules: the LoRA merges back in, so zero extra inference cost". I used that wording instead of "no new parameters" because a LoRA does add trainable weights during training.
+  - the user picks γ at inference;
+  - a 40-person study: 82% on cut-and-drag, 90% on turntables.
+- Slide 6: the limit now reads "Motion under 8 px or 4 frames is only approximated" instead of "lost".
+- Not done (examiner r3 extras): the SR warping-error line (152 vs 164 HIWYN / 191 InfRes), the relighting trap (bilinear warping error 47.5 vs ours 85.8), and the untuned FID 76.6 vs 78.6 on screen. The first two are worth knowing for questions.

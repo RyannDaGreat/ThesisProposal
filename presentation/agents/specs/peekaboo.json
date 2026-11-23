@@ -24,7 +24,8 @@
       50
      ],
      "size": 32,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     }
    ],
    "speech": "First handle: Peekaboo. Can a model that was only trained to make pictures tell you where things are? I give you this photo and the words \"Harry Potter\", and I want a mask of just Harry. Normally you'd train a segmentation network on hand-labeled masks. Peekaboo does no training of its own. It takes Stable Diffusion, frozen, as you download it, and optimizes a mask against it, one image at a time."
@@ -114,7 +115,8 @@
       50
      ],
      "size": 32,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     }
    ],
    "speech": "Here's the intuition. This is a picture of Harry Potter. Paste Harry on red, still Harry Potter. Green, black, white, blue: they're ALL Harry Potter. The background doesn't matter. These are real Peekaboo cutouts, a bit rough. So I want the mask where any background swap still reads as \"Harry Potter\" to the diffusion model. Score distillation from the primer is the same trick: it tells us which way to nudge the mask."
@@ -131,6 +133,19 @@
       960,
       137
      ]
+    },
+    {
+     "kind": "text",
+     "text": "...but nothing makes it drop anything.",
+     "rect": [
+      130,
+      300,
+      700,
+      50
+     ],
+     "size": 32,
+     "color": "#C00000",
+     "align": "center"
     }
    ],
    "speech": "So let's optimize. Left is the photo. Second column is the mask, alpha, and it starts as random noise. Each step we draw one random solid color, blend the photo over it with the mask, push that through the frozen VAE encoder, add noise at a random timestep, and take the score distillation gradient with the prompt. Only the mask gets updated. The five color columns just preview the current mask on five backgrounds. But look: Hermione and the hallway stay in. Nothing pushes it to drop anything."
@@ -222,7 +237,8 @@
       50
      ],
      "size": 32,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     }
    ],
    "speech": "The fix is a bilateral filter. We still learn every pixel of the mask, but every step the raw mask goes through a blur guided by the photo's colors, then a sigmoid. It's inside the forward pass, not post-processing, so similar colors get pulled to similar alpha and the edges follow the image. On VOC-C, our cropped single-object subset of Pascal VOC, that takes us from 0.34 to 0.52 mIoU. It's not perfect: see the holes at the glasses and the tie, and the halo around his hair."
@@ -234,251 +250,271 @@
      "kind": "image",
      "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_peekaboo/final/emma_watson_essence.png",
      "rect": [
-      30,
+      25,
       110,
-      250,
-      297
+      290,
+      345
      ]
     },
     {
      "kind": "text",
      "text": "RefCOCO",
      "rect": [
-      700,
-      108,
-      110,
+      680,
+      120,
+      165,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "VOC-C",
      "rect": [
-      810,
-      108,
-      110,
+      825,
+      120,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "Whole image",
      "rect": [
-      300,
-      150,
-      400,
+      330,
+      170,
+      370,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": ".102",
      "rect": [
       700,
-      150,
-      110,
+      170,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".281",
      "rect": [
-      810,
-      150,
-      110,
+      825,
+      170,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "Clippy",
      "rect": [
-      300,
-      192,
-      400,
+      330,
+      220,
+      370,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": "–",
      "rect": [
       700,
-      192,
-      110,
+      220,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".539",
      "rect": [
-      810,
-      192,
-      110,
+      825,
+      220,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "GroupViT",
      "rect": [
-      300,
-      234,
-      400,
+      330,
+      270,
+      370,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": ".112",
      "rect": [
       700,
-      234,
-      110,
+      270,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".578",
      "rect": [
-      810,
-      234,
-      110,
+      825,
+      270,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "Peekaboo, color filter",
      "rect": [
-      300,
-      276,
-      400,
+      330,
+      320,
+      370,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": ".163",
      "rect": [
       700,
-      276,
-      110,
+      320,
+      125,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".520",
      "rect": [
-      810,
-      276,
-      110,
+      825,
+      320,
+      125,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "Peekaboo, MiDaS depth filter",
      "rect": [
-      300,
-      318,
-      400,
+      330,
+      370,
+      370,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": ".204",
      "rect": [
       700,
-      318,
-      110,
+      370,
+      125,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".551",
      "rect": [
-      810,
-      318,
-      110,
+      825,
+      370,
+      125,
       36
      ],
      "size": 22,
-     "color": "#C00000"
+     "color": "#C00000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": "LSeg (trained on masks)",
      "rect": [
-      300,
-      360,
-      400,
+      330,
+      420,
+      370,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "left"
     },
     {
      "kind": "text",
      "text": ".235",
      "rect": [
       700,
-      360,
-      110,
+      420,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     },
     {
      "kind": "text",
      "text": ".678",
      "rect": [
-      810,
-      360,
-      110,
+      825,
+      420,
+      125,
       36
      ],
      "size": 22,
-     "color": "#000000"
+     "color": "#000000",
+     "align": "center"
     }
    ],
    "speech": "So how good is it? RefCOCO gives you a phrase, and you mask that object. Honestly, this is coarse localization. Predicting the whole image gets 0.10. GroupViT gets 0.11. Peekaboo with the color filter I just showed gets 0.16. Guide the filter with depth from MiDaS instead and it's 0.20, but MiDaS is a supervised depth model, so that number isn't fully label-free. LSeg, trained on segmentation labels, wins. On VOC-C we lose to Clippy, GroupViT and LSeg; the depth variant just edges past Clippy. What it grabs can differ from the label: ask for \"Emma Watson\" and you get her face and upper body, not the dress. The prior can also overreach: with one-word prompts it sometimes carves a cat shape out of background texture. And no training of our own doesn't mean free. It leans on Stable Diffusion's pretraining and about two hundred U-Net passes per mask."

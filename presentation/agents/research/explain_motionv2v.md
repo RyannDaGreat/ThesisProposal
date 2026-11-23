@@ -34,6 +34,30 @@ Not used: `megacomparisonfigurev2.jpg` (8 comparison rows, too dense for one sli
 
 **motion_a/b/c.mp4 (from AutoplayAll) are NOT MotionV2V.** They show side-by-side appearance edits. motion_a: a gray untextured boat render turned into a photoreal boat in sunny water. motion_b: a Jack Russell running on a beach turned into the same dog running on snow, with the motion preserved. motion_c: a brown clay-like render of a fish monster turned into photoreal salmon chunks and teeth. motion_b and motion_c have a Gemini/Veo-style sparkle watermark in the corner. Frames are in `frames/motion_{a,b,c}_tile.png`. They might fit the future-work "any edit to any video" slide, but only if Ryan confirms they are his own (GenFlow?) and not Google's Veo output.
 
+## Round 3 revision (r2 examiner fixes + visual QA)
+
+- Slide 2: `race_dimmed.png` is the full tied strip with frames 2-3 washed out. Frame 1 is in a red box. This replaces the old cut-off frame-1 crop, so the tracks no longer run off the edge.
+- Slides 3-4 are a build:
+  - Full real strip on top.
+  - Left: `dg_target_nocap.png` at 440x105 with the native 18 pt caption "Real clip = target".
+  - Right: `dg_twirl.png` ("Generated in-between, or real frames resampled") and `dg_counterfactual_nocap.png` ("+ crop and zoom on all").
+  - "Fake in, real out" in red at 32 pt.
+  - Burned captions are cropped off.
+  - Speech: "start points only on real frames both videos contain"; "should be the same physical point, as far as the tracker gets it right"; "resampled pairs are real frames on both sides".
+- Slide 5:
+  - `framework_center.png` shows only the source-tracks, target-tracks, model and output columns. The burned "Diffusion Model" label is painted over.
+  - Native 20 pt labels: "Your video", "Target tracks" (red), "Output", "Diffusion model".
+  - Caption: "Frozen CogVideoX-5B + trained copy of its first 18 blocks, zero-init".
+  - Speech covers zero-init, says the target tracks align like a ControlNet input but your video doesn't, and ends with "We didn't ablate that."
+  - The swap from polyline to blob frame was NOT done (no blob frame available). The speech says the input is blobs.
+- Slide 6:
+  - Separate user-study and reconstruction tables, with SSIM.
+  - `testprep_crop.png` (paper's TestPrep figure, title and tiny labels cut off) with native labels "Input: first half, reversed" and "Target: second half".
+  - Red limits line on screen.
+  - Speech gives the exact middle-cut protocol, "±2 px at test time, not in training" and "SSIM about 0.1 for everyone … no error bars", and says the 1-64 points / target-dropout training explains the ~20-point limit.
+- 632 spoken words. Rendered at `.scratchpad/study/motionv2v/r3/slides/s0..s5.png`; all 6 slides checked, nothing off-slide.
+- Dog race kept neutral: "finishing about side by side", "make the corgi win".
+
 ## Round 2 revision (after the r1 listener and examiner)
 
 - Slide 1: a red box on the last frame of the output, and the speech now says "I drag the corgi's red track forward". The original is described as "finishing about side by side", because that is what the crop shows. **The paper is inconsistent about this**: the intro says the Bichon wins originally, comparison edit #4 says "decelerate the Corgi to reverse the race outcome", and the teaser caption says "given a tied race". Ryan should pick one version.
