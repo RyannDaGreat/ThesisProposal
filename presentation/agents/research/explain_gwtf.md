@@ -1,6 +1,15 @@
 # Go-with-the-Flow: explanation + slide spec
 
-Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/gwtf.json`. 6 slides, 653 spoken words (~4.8 min at 135 wpm).
+Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/gwtf.json`. 6 slides, 593 spoken words (~4.4 min at 135 wpm).
+
+Round 3 revision (examiner r2, 5/8, "right story, no mechanism"):
+- **The thesis diagram's densities are wrong.** Under Algorithm 1 (`source/src/4_GWTF/sec/3_method_thesis.tex:26-37`, α = p(v)/deg(v)), q2 has degree 3: a contraction edge to q'2 and expansion edges to q'1 and q'3. So α = 1/3 and p' = (1, 1/3, 7/3, 1/3), which sums to 4 like the input. The figure's .5/1.5/.5 sums to 3.5. I redrew it with PIL as `.scratchpad/explain_gwtf/algo_graph_fixed.png` (780x518): density renamed p, holes ringed in orange, blue dashed backward arrows, green forward arrows. Ryan should know the thesis figure (`fig/algo_diagram_2_layers.png`, caption at `3_method_thesis.tex:73`) has this error.
+- Slide 4 speech now says the key idea: every source splits into one independent piece per edge (contraction included), each piece is used exactly once, so no two output pixels share randomness. That is the Gaussianity argument.
+- Slide 3: variance reason (average of 4 → variance 1/4 = gray; shared inputs = blurry), p = 0 vs p = 0.84, LPIPS labeled DeepFloyd SR, with SR LPIPS on the panel labels.
+- Slide 5: windmill ablation (untuned CogVideoX roughly follows the motion but frames fall apart, `X_suppl_thesis.tex:78`) as the reason to fine-tune; "rank-2048 LoRA, 40 A100-days"; red on-screen "DAVIS image-to-video mIoU: 0.52 → 0.74" (0.52 = original CogVideoX, prompt only, `4_experiments_thesis.tex:195`). The user study is stated as "our own 40 examples".
+- Slide 6: 4 limitations on screen, popularity cut to one dated line; "renderer" changed to "motion-to-video stage".
+
+Round 2 revision (after examiner 5/8, speech-only critiques): slide 3 now gives benchmark Moran's I (nearest 0.26, bilinear 0.30, ours 0.0001 ~ fresh noise; the panel labels show these) and backs "it hurts" with DeepFloyd SR LPIPS 0.29 -> 0.6 instead of "garbage", plus "each frame i.i.d., only time correlated". Slide 4 states the density-weighted sum / divide by std, each piece to exactly one pixel, fresh noise for unreached pixels, and the per-frame i.i.d. guarantee. Slide 5 names gamma, its direction (lower = stricter) and defaults, the LoRA and 40 GPU-days, latent resolution (8x8 px, every 4th frame), the 3 user-study baselines, and DL3DV mIoU 0.83 vs 0.71 in place of FID. Slide 6 opens with where it loses (DMT, T2V DAVIS mIoU 0.85 vs 0.70) and limits, and names WonderPlay and NewtonGen as renderer users.
 
 ## Plain explanation
 
@@ -31,7 +40,8 @@ Workspace: `/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratc
 | crop_cat_output.png (720x480) | same, orange cat yawning (unused, spare) | same frame, box (970,394,1690,874) |
 | crop_gaussian_noise.png (384x384) | RGB Gaussian static, std 0.25 around gray, seed 0 | generated |
 | crop_coaster_{input,flow,ours,nearest,bilinear,hiwyn}.png (1152x590) | roller coaster, its flow, and 4 warping methods | `source/src/4_GWTF/fig/nongauss_vis.png` (3456x1272, 3x2 grid of 1152x636), label bar 46 px cut off. Bottom ~2 px has a thin dark line. |
-| crop_algo_graph.png (780x518) | bipartite graph q0..q3 -> q'0..q'3, densities in red, no legend | `fig/algo_diagram_2_layers.png` composited on white, box (185,0,965,518) |
+| algo_graph_fixed.png (780x518), used on slide 4 | redrawn bipartite graph, correct densities p=1 -> p'=1, 1/3, 7/3, 1/3 | PIL, scratchpad_agent_4.py |
+| crop_algo_graph.png (780x518), superseded | thesis graph with WRONG densities .5/1.5/.5 | `fig/algo_diagram_2_layers.png` composited on white, box (185,0,965,518) |
 | assets/videos/gwtf_rickroll_warped_noise.mp4 | 40 s, 1046x284, Input Video / Optical Flow / Our Warped Noise (Rick shots incl. a shoe close-up and sunglasses shot) | InternPresentation index 3-4 |
 | assets/videos/gwtf_results.mp4 | 3.3 s loop, 3430x2084, title + 6-cell results grid | InternPresentation index 5 |
 
@@ -46,7 +56,9 @@ Workspace: `/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratc
 | Is the output truly Gaussian? | Proposition: i.i.d. N(0,1) in -> i.i.d. N(0,1) out (proof in appendix). Contraction and expansion computed together to avoid cross-correlation; renormalize by sqrt of summed squared weights. | 4 |
 | Why does fine-tuning on structured noise work at all? | The model learns that noise correlation over time = motion correspondence; frame-wise the noise is still standard Gaussian, so the base model's per-frame prior is kept. Original CogVideoX-5B with no warped noise: mIoU 0.52 vs ours 0.74 on DAVIS I2V. | 5 |
 | How does it handle latent space? | Noise warped in pixel space, then downsampled to CogVideoX latents: 8x8 mean-pool x8 (keeps unit variance), 4x temporal nearest. | (not on slide; answer verbally) |
-| What is the strictness knob? | Degradation gamma: Q <- ((1-g)Q + g*fresh)/sqrt((1-g)^2+g^2), random during training. Lower gamma = tighter motion. 0.5-0.7 for cut-and-drag, 0.2-0.5 for motion transfer. | 5 |
+| What is the strictness knob? | Degradation gamma: Q <- ((1-g)Q + g*fresh)/sqrt((1-g)^2+g^2), random during training. Lower gamma = tighter motion. 0.5-0.7 for cut-and-drag, 0.2-0.5 for motion transfer. Careful: the paper's ablation sentence says "as gamma increases, control becomes tighter", which is backwards; the table (DAVIS I2V mIoU: g=0.9 0.50, 0.8 0.68, 0.5 0.74, 0.4 0.74, 0.2 0.74) shows lower = tighter, and the gain plateaus below 0.5. | 5 |
+| Why not InfRes, which is also fast? | InfRes (concurrent, Ryan co-author) runs 2.61 ms vs our 2.14 ms with similar Gaussianity, but worse SR warping error (190.8 vs 152.0) and an unstable background. | (answer verbally) |
+| Is it fair to compare a 40 GPU-day fine-tune to training-free baselines? | The trained baselines lose too: DragAnything (user-study set, FID 82.8 vs 74.3, flow err 0.62 vs 0.56), ImageConductor (DL3DV FID 89.2 vs 48.4, mIoU 0.61 vs 0.83), MotionCtrl (DAVIS T2V mIoU 0.47 vs 0.70). Data ablation: 33% / 12.5% of the data gives DAVIS I2V FID 100.1 / 105.2 vs 78.6. | 5 (baselines named) |
 | Main numbers vs baselines? | User study (40 people): 82% win cut-and-drag, 90% turntable camera. VIPSeg object motion FID 41.1 vs SG-I2V 61.4 / MotionClone 85.2. DL3DV camera FID 48.4 vs MotionClone 82.7, ImageConductor 89.2. | 5 |
 | Where does it lose? | DAVIS T2V motion transfer: DMT (training-free, per-video optimization) has better motion fidelity, mIoU 0.85 vs 0.70, flow err 0.28 vs 0.41. DAVIS I2V FID: original CogVideoX 76.6 vs ours 78.6 (motion control costs a little frame quality there). | not on slide; answer verbally |
 | Limitations? | No limitations section in the paper; these are my reading: flow is 2D, so 3D/occlusion only comes through whatever the flow encodes; control is soft (a strong suggestion, not a hard constraint), set by gamma; small objects limited by 8x latent downsampling; needs one fine-tune per base model (40 A100-days for CogVideoX-5B). | 6 (spoken briefly) |
@@ -58,5 +70,5 @@ Workspace: `/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratc
 - Citation count 169 comes from `presentation/agents/research/other_papers.md:17` (Nov 2026); the thesis text says "over 115" and intro says 62 (stale). Use 169 only if Ryan confirms.
 - InternPresentation index 1 says "CVPR 2026 Oral!"; that is a typo. It was CVPR 2025.
 - The cat in the results video: I claim "drag a polygon over the cat's mouth and it yawns" from the input/output frames; I did not confirm the exact polygon. The input frame shows a smeared tail at the bottom (the drag preview), which may draw a question.
-- Speech says EquiVDM nowhere now (cut for length); slide 6 on-slide line mentions only WonderPlay, which the speech covers.
+- EquiVDM is not mentioned (cut for length). Slide 6's on-slide line names WonderPlay and NewtonGen, and the speech covers both.
 - Handoff to MotionV2V is the last sentence of slide 6.

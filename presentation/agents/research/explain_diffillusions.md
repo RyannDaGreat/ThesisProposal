@@ -1,6 +1,6 @@
 # Diffusion Illusions: talk section
 
-Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/diffillusions.json`. 6 slides (one of them a build), 638 spoken words (about 4.7 min).
+Machine-readable spec (the source of truth for slides and full speech): `presentation/agents/specs/diffillusions.json`. 6 slides (one of them a build), 628 spoken words (about 4.7 min). Revised in round 2 against exam_diffillusions.json.
 
 ## Plain explanation
 
@@ -28,18 +28,27 @@ Why these visuals: the teaser panels are **photos of real prints**, so they prov
 
 Not used, on purpose: the SDS internals (noise → frozen model → predicted noise). They are assumed to be covered in the Peekaboo section. If Peekaboo does not cover them, reuse DiffiluSigPresent slides 29-37.
 
-## Likely committee questions
-- **Why not optimize pixels directly?** Pixel optimization hides each view's content in high-frequency patterns, which needs pixel-perfect alignment and breaks when printed. A Fourier feature network biases the primes toward printable frequencies. (Slide 3)
-- **Do you backprop through the diffusion model?** No. SDS skips the U-Net Jacobian: (predicted − true noise) is used directly as the gradient on the derived image, then backpropped through the arrangement and the FFN. (Slide 3)
-- **Why is multiplication a valid model of overlays?** Each transparency multiplies the transmitted light per channel. It commutes, so stack order doesn't matter. Output is scaled and tanh-normalized to keep dynamic range. The real prints show color shifts. (Slide 4, plus the limits on slide 6)
-- **What do dream targets add over SDS?** SDS gradients are high-variance, so the images come out gritty. SDEdit targets give a cleaner regression signal. In the eval, method C (500 SDS steps, then 8 dream-target rounds) is best on aesthetics, and C/D are highest on the independence score. (Slide 5)
-- **Quantitative evidence?** Hidden overlays, 19 PASCAL VOC subjects × 4 styles, against a baseline that runs SDXL score distillation on each image independently, with the same 15-minute budget on one A100. Ours beats it on CLIP similarity, aesthetics and independence, and loses on Vendi diversity (more constraints). The thesis reports this as score-distribution plots, not a single table of numbers, so there are no headline numbers to quote. (Slide 6)
-- **What is the independence score?** A new metric: each derived image should match its own prompt AND not match the other prompts. (Slide 6, verbal)
-- **How does this relate to Visual Anagrams?** Visual Anagrams (Geng et al., CVPR 2024) came out about the same time and says it was inspired by Diffusion Illusions. It handles single-image views (flips, permutations) by denoising directly, which is faster. It has no multi-prime overlays and no fabrication. (Slide 6)
-- **Failure modes?** The hidden 5th image is hard to recognize, turns black, or leaks visibly into the primes. Biases from Stable Diffusion's training data carry over. (Slide 6)
-- **Why so slow?** It is per-illusion optimization at inference time, with no amortized generator. Contemporary work has reduced this. (Slide 6)
+## Round-2 changes (graded against exam_diffillusions.json)
+- The mechanism is now explicit on slide 3: encode into SD latent space, add noise, frozen U-Net predicts it, prediction error is the gradient on each view, backprop goes through the VAE encoder + arrangement + FFN (never the U-Net), and the per-view gradients sum on the shared primes. Only the primes are optimized.
+- Arrangement definitions: slide 2 (identity/rot180, fixed + differentiable + physically doable), slide 4 (product, scaled by k and tanh), slide 5 (hidden: p_i = d_i, d_5 = product).
+- Step counts match the paper: 500 SDS steps, then 8 dream-target rounds, each regressing for about 1000 steps toward an SDEdit target, with strength annealing 0.90 to 0.01 (strength "shrinking" in the speech).
+- Evaluation is stated honestly: the baseline is unconstrained, independent SDXL; results are distribution plots only, with no tables and no Visual Anagrams comparison; and prompt/style matters more than the method variant.
+- Limitations stated: slow, uncalibrated printer color shift, hidden image turning black.
+
+## Likely committee questions (answer, and where it is covered)
+- **Why not optimize pixels?** Pixel optimization hid views in high frequencies, which need pixel-perfect printing and alignment, and the physical prints broke. The FFN (an MLP from coordinates to RGB, per prime, 512x512, adapted from TRITON) is a smoothness prior. (Slide 3)
+- **Backprop through the diffusion model? Through the VAE?** Not through the U-Net (DreamFusion drops its Jacobian), but yes through the VAE encoder, the arrangement and the FFN. SDS is a surrogate gradient, not a true loss. The paper uses an L1 noise residual normalized by timestep, which is a heuristic and not derived from a bound. Dream Target Loss, by contrast, is a well-defined regression (SSIM + MSE) toward a fixed target in each round. (Slide 3, details verbal)
+- **Why multiplication, and what is k?** Transparencies multiply transmittance per channel, and multiplication commutes, so stack order doesn't matter. Products darken, so the result is scaled by k (2 for rotation, 3 for hidden) and passed through tanh, which models a brighter backlight. It is not calibrated to the printer; the paper's sim-vs-photo figures show color shifts. Measured ink transmission could be dropped into the arrangement op, since any differentiable arrangement works. (Slide 4, slide 6)
+- **Does dream-target alternation converge? Does it drift?** There is no proof. Each round regresses to fixed targets for about 1000 steps, and the SDEdit strength anneals from 0.90 to 0.01, so the targets move less and less. It resembles alternating projection between "looks like the prompt" and "reachable by the arrangement". Evidence: the metrics rise monotonically with optimization time. Compromises (for example a hidden image that looks like "cow" instead of "bottle") are caught by low independence scores. w_5 = 3 prioritizes the hidden image. (Slide 5)
+- **Baseline is a strawman? Why no Visual Anagrams?** Admit it: the baseline is SDXL generating each of the 5 targets independently with no constraint, so it measures what the illusion constraint costs, and it is not a competing method. Visual Anagrams is contemporary (it cites DI as inspiration) and handles only single-prime pixel-permutation views, so it cannot express multi-prime multiplicative overlays. There is no head-to-head comparison, even on flips. Every method got the same 15-minute budget on one A100. (Slide 6)
+- **Evaluation details?** Hidden overlay, 4 styles x N=64 groups, each with 5 subjects drawn from 19 PASCAL VOC classes (person excluded). Metrics: CLIP cosine (controllability), Vendi with DINOv2/CLIP (diversity), LAION aesthetics, LLaVA-1.5, and the Independence Score. Distribution plots only, no significance tests. (Slide 6)
+- **Independence score: saturating, gameable, validated?** It is the minimum diagonal entry of the row- and column-softmaxed 5x5 CLIP image-text matrix (tau = 0.05), so each image must match its own prompt better than the other four, and vice versa. It catches leakage that plain CLIP misses. Validation is qualitative only (ranked random examples), with no human study and CLIP's biases inherited. LLaVA was added as a second judge. (Slide 6)
+- **What does the study say about your design choices?** C vs D: dream targets after SDS beat 4000 SDS steps alone on aesthetics. C vs B: weighting the hidden image 3x helps. C vs A: SDXL beats SD1.5. Rotation ablation: fewer derived images means better alignment. Differences between variants are modest next to style and prompt effects. (Slide 6 says "the prompt mattered most")
+- **Why optimization when feed-forward samplers exist?** Optimization handles any differentiable arrangement, including multiplicative overlays across separate physical sheets, which noise-averaging samplers can't express. Speed is the main stated limitation. Thesis thread: frozen diffusion priors via score distillation over custom parameterizations (Peekaboo masks, FFN images). (Slides 1, 6)
+- **Failure modes?** The hidden 5th image is hard to recognize, turns black, or shows through in the primes. SD/SDXL biases carry over. (Slide 6)
 
 ## Uncertain / unverified
-- The exact prompts for the three images in `diffilu_hook1.mov` are unknown, so the speech does not name them.
-- The thesis gives no headline numbers for the evaluation (plots only), so none were invented. The sample count (N=64 in my earlier notes) is unconfirmed and left out of the speech.
-- "Over a million views" for the YouTube videos is unverified and left out.
+- The prompts for the three images in `diffilu_hook1.mov` are unknown, so the speech doesn't name them.
+- The evaluation has no headline numbers (plots only), so none are quoted.
+- Checked in the source: N=64 groups (main_thesis.tex:252; the older main.tex:477 has an author comment "[xl: number by average, not true!]" next to it, so don't lean on N), the SDEdit strength schedule starting at 0.90 (X_suppl_thesis.tex:169), 500 SDS steps + 8 dream-target rounds, weights [1,1,1,1,3], the 15 min A100 budget, and the tanh scaling. Not re-checked: k=2/3 and the L1 residual, which come from the exam file.
+- "Over a million views" is unverified and left out.

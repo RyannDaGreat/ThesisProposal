@@ -14,7 +14,7 @@ import fire
 AGENTS = Path(__file__).resolve().parents[1]
 SPECS = AGENTS / "specs"
 OUT = AGENTS.parent / "ai_presentation.pptx"
-CMD_FILE = AGENTS / ".scratchpad" / "build_v2_commands.txt"
+# the command file sits next to the output deck, so parallel builds never share one
 
 FONT = "Futura"
 TITLE_RECT = [40, 16, 880, 64]
@@ -35,11 +35,11 @@ def cmd(name, params):
     return name + "=" + json.dumps(params)
 
 
-def text_cmds(text, rect, size, color):
-    """Pure function. Commands for a centered Futura text box. Example: text_cmds('Hi', [0,0,9,9], 28, '#000000')[0] -> 'insert.textBox={...}'"""
+def text_cmds(text, rect, size, color, align="center"):
+    """Pure function. Commands for a Futura text box (centered unless align given). Example: text_cmds('Hi', [0,0,9,9], 28, '#000000')[0] -> 'insert.textBox={...}'"""
     return [cmd("insert.textBox", {"rect": rect, "text": text}),
             cmd("format.fontDialog", {"family": FONT, "size": size, "color": color}),
-            cmd("format.align", {"align": "center"}),
+            cmd("format.align", {"align": align}),
             cmd("format.anchor", {"anchor": "middle"})]
 
 
@@ -58,7 +58,7 @@ def element_cmds(e):
         return [cmd("insert.video", {"path": e["path"], "rect": e["rect"]}),
                 cmd("media.options", {"autoplay": True, "loop": True})]
     if kind == "text":
-        return text_cmds(e["text"], e["rect"], e.get("size", TEXT_PT), e.get("color", "#000000"))
+        return text_cmds(e["text"], e["rect"], e.get("size", TEXT_PT), e.get("color", "#000000"), e.get("align", "center"))
     if kind == "arrow":
         return [cmd("shape.freeform", {"points": [e["from"], e["to"]]}),
                 cmd("shape.line", {"color": e.get("color", "#C00000"), "width": LINE_PT, "tail": "triangle", "tailSize": "lg"})]
@@ -97,7 +97,8 @@ def talk_slides(only=None):
         if "insert_section" in s:
             out += load(s["insert_section"])
         elif s.get("roadmap"):
-            out.append(roadmap)
+            # a repeat shows the roadmap tiles plus its own highlight box and one-line speech
+            out.append({**roadmap, "speech": s["speech"], "elements": roadmap["elements"] + s.get("add_elements", [])})
         else:
             out.append(s)
     return out
@@ -115,10 +116,10 @@ def main(out=str(OUT), only=None):
     slides = talk_slides(only)
     check_paths(slides)
     lines = [l for s in slides for l in slide_cmds(s)] + [cmd("slide.delete", {"index": 0})]
-    CMD_FILE.write_text("\n".join(lines) + "\n")
+    Path(out).with_suffix(".commands.txt").write_text("\n".join(lines) + "\n")
     words = sum(len(s.get("speech", "").split()) for s in slides)
     print(len(slides), "slides,", words, "spoken words (~%.1f min at 135 wpm)" % (words / 135))
-    subprocess.run(["deckcraft-cli", "run", "--cmd-file", str(CMD_FILE), "--save", out], check=True)
+    subprocess.run(["deckcraft-cli", "run", "--cmd-file", str(Path(out).with_suffix(".commands.txt")), "--save", out], check=True)
     print("saved", out)
 
 

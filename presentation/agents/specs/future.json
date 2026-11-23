@@ -1,0 +1,173 @@
+{
+ "section": "future",
+ "slides": [
+  {
+   "title": "What's next",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/rocket_i2i2v2v.png",
+     "rect": [
+      180,
+      96,
+      600,
+      337.5
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "Edit one frame. The video follows.",
+     "rect": [
+      40,
+      444,
+      880,
+      50
+     ],
+     "size": 28,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "So what's next. Every handle so far was one specific thing: where, which angle, how see-through, how it moves, change the motion. MotionV2V showed you can edit a real video without regenerating it, but only its motion. What I want now is one editor for any edit. On images that already exists: Nano Banana takes a picture and an instruction and changes just that. Video doesn't have it. So the plan is I2I2V2V: you edit one frame with an image editor, and a video model carries that edit through the whole clip. Here's an early result. Driving video on the left, an edited first frame below it, and the edited video on the right. Same rocket launch, new look. Tobias Gerts made this one in ComfyUI. The part I built is the GenFlow model underneath it: the training data and the LoRAs it runs on."
+  },
+  {
+   "title": "One model, many handles",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/loramux_grid.png",
+     "rect": [
+      30,
+      96,
+      900,
+      332.8
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "One small LoRA, six modes, no training.",
+     "rect": [
+      40,
+      440,
+      880,
+      50
+     ],
+     "size": 28,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "The second piece is LoraPlexer. Right now every control signal, edges, depth, relighting, a style, is its own LoRA, and stacking them tends to fight. LoraPlexer packs many of them into one adapter you switch between. This is a proof of concept: a hundred community LoRAs merged into one rank-32 LoRA with no training, and here it's running six different modes with the same prompt and the same seed. The next step is distilling them properly, across noise levels and with classifier-free guidance still working."
+  },
+  {
+   "title": "Where the data comes from",
+   "elements": [
+    {
+     "kind": "image",
+     "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_future/nb_multiframe.png",
+     "rect": [
+      60,
+      96,
+      840,
+      350.9
+     ]
+    },
+    {
+     "kind": "text",
+     "text": "The image editor makes the video training data.",
+     "rect": [
+      40,
+      460,
+      880,
+      50
+     ],
+     "size": 28,
+     "color": "#C00000"
+    }
+   ],
+   "speech": "Data is the same trick as MAGICK. There I got transparency data out of a model that can't make transparency. Here, image editors can already edit many frames of a clip at once and keep them consistent, so I use them to build paired before-and-after video data. Same person, same motion, different hair, clothes, even a puppet. The test case I like: take my dog, train with an edges LoRA and a two-bit color LoRA, and ask whether the combined model can rebuild the real dog from just those two."
+  },
+  {
+   "title": "The plan",
+   "elements": [
+    {
+     "kind": "text",
+     "text": "Now\u2013Feb: data (image-editor edits + MAGICK-style pairs)",
+     "rect": [
+      60,
+      110,
+      840,
+      50
+     ],
+     "size": 26,
+     "color": "#000000",
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "Feb\u2013Apr: train I2I2V2V + merge LoRAs into LoraPlexer",
+     "rect": [
+      60,
+      182,
+      840,
+      50
+     ],
+     "size": 26,
+     "color": "#000000",
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "Apr\u2013Jun: evaluate vs per-frame editing, VACE, AnyV2V",
+     "rect": [
+      60,
+      254,
+      840,
+      50
+     ],
+     "size": 26,
+     "color": "#000000",
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "Summer: paper, then write thesis and defend",
+     "rect": [
+      60,
+      326,
+      840,
+      50
+     ],
+     "size": 26,
+     "color": "#000000",
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "Measure: did it edit, did it preserve the rest, does it flicker.",
+     "rect": [
+      60,
+      410,
+      840,
+      50
+     ],
+     "size": 20,
+     "color": "#C00000",
+     "align": "left"
+    },
+    {
+     "kind": "text",
+     "text": "PROPOSED",
+     "rect": [
+      820,
+      500,
+      120,
+      24
+     ],
+     "size": 12,
+     "color": "#808080",
+     "align": "right"
+    }
+   ],
+   "speech": "Here's the plan. First couple months, data. Then train I2I2V2V on an open video model and fold the control LoRAs into one. Then evaluate against the obvious baselines: editing every frame separately with Nano Banana, which flickers, first-frame edit plus image-to-video, and VACE and AnyV2V. I'll measure three things: did it make the edit, did it leave everything else alone, and does it flicker, plus a user study like MotionV2V. Biggest risks: edits drifting over time, where my fallback is warped noise from Go-with-the-Flow, and LoRAs interfering when merged, where the fallback is keeping them separate and only sharing the base. Then paper, thesis, defense."
+  }
+ ]
+}

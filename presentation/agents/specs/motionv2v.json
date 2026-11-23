@@ -7,18 +7,19 @@
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/race_tied.png", "rect": [140, 92, 680, 165]},
         {"kind": "arrow", "from": [480, 262], "to": [480, 290], "color": "#C00000"},
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/race_corgi.png", "rect": [140, 295, 680, 165]},
+        {"kind": "box", "rect": [596, 292, 228, 171], "color": "#C00000"},
         {"kind": "text", "text": "Make the corgi win", "rect": [140, 472, 680, 40], "size": 28, "color": "#C00000"}
       ],
-      "speech": "So Go-with-the-Flow makes new videos. But what about the video you already have? Say I've got this clip on top: a bichon and a corgi racing down a sidewalk, and it's basically a tie. The dots and lines are point tracks. The pink one follows the bichon's face through time, the red one follows the corgi's. Now I want the corgi to win. The bottom row is our output. I dragged the corgi's track forward, and the model re-rendered the video so the corgi pulls ahead. Same dogs, same street, same lighting. Only the motion changed. That's MotionV2V: editing the motion of a video that already exists."
+      "speech": "So Go-with-the-Flow makes new videos. But what about the video you already have? Here's a clip on top: a bichon and a corgi racing down a sidewalk, finishing about side by side. The dots and lines are point tracks. Pink follows the bichon's face through time, red follows the corgi's. I want the corgi to win. So I drag the corgi's red track forward, and the bottom row is the output. In the red box, the corgi's out in front. Same dogs, same street. The motion is what changed. That's MotionV2V: editing the motion of a video that already exists."
     },
     {
       "title": "Why not GWTF?",
       "elements": [
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/race_frame1.png", "rect": [70, 140, 409, 300]},
         {"kind": "box", "rect": [66, 136, 417, 308], "color": "#C00000"},
-        {"kind": "text", "text": "Everything after frame 1 gets made up", "rect": [510, 250, 400, 80], "size": 28, "color": "#C00000"}
+        {"kind": "text", "text": "Anything not in frame 1 gets made up", "rect": [510, 250, 400, 80], "size": 28, "color": "#C00000"}
       ],
-      "speech": "So why can't Go-with-the-Flow just do this? GWTF, and pretty much every other motion control method, is image-to-video. It takes the first frame, this one, and generates everything after it. So anything that isn't in frame one, the model makes up. If someone walks in at second three, or the camera turns and shows more of the street, that gets hallucinated, and it's not your video anymore. And the classic editing trick, invert the video and regenerate it, assumes the output lines up with the input frame by frame. A motion edit breaks exactly that."
+      "speech": "So why can't Go-with-the-Flow do this? General point and flow motion control, ATI, ReVideo, and my own GWTF, is image-to-video. It only takes this first frame and generates the rest. Anything that's not in frame one, like a car that drives in at second three, gets made up, so it's not your video anymore. And the classic editing trick, invert the video back to noise and regenerate it, only works when the output lines up with the input frame by frame. Change the motion, and that breaks."
     },
     {
       "title": "Motion Counterfactuals",
@@ -27,7 +28,7 @@
         {"kind": "arrow", "from": [300, 208], "to": [250, 292], "color": "#000000"},
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_target.png", "rect": [40, 300, 420, 123]}
       ],
-      "speech": "So we have to train a model for this, and the problem is data. To learn motion editing you want pairs of videos with the exact same content but different motion, and those don't exist in the wild. Here's how we make them. Start with a real video, this guy walking down the street. Cut a clip out of it. That real clip is the target, the thing the model has to output. Because the target is always real footage, the model always learns to produce real-looking video."
+      "speech": "So we train a model, and the problem is data. You'd want pairs of videos with the exact same content and different motion, and those don't exist. So we make them. Start with a real video, this guy walking down the street. Cut a clip out of it. That real clip is the target, the thing the model has to output. The target is always real footage, so the model always learns to output real-looking video."
     },
     {
       "title": "Motion Counterfactuals",
@@ -39,24 +40,25 @@
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/dg_counterfactual.png", "rect": [500, 300, 420, 125]},
         {"kind": "text", "text": "Fake in, real out", "rect": [500, 450, 420, 40], "size": 28, "color": "#C00000"}
       ],
-      "speech": "Then we make a fake version of that same clip with different motion. That's a motion counterfactual. Either we take two frames from the real video and have a video diffusion model fill in between, with a prompt like make him twirl, or we just speed up, slow down or reverse the clip. Then we crop and zoom to fake a camera move. Same guy, same street, different motion. We track points in both, like the dot on his bag. Training is the fake video plus its tracks plus the real tracks in, and the real video out. At test time, your video plays the part of the fake."
+      "speech": "Then we make a fake version of that clip with different motion. That's a motion counterfactual. Either a video diffusion model fills in between two real frames, with a prompt like make him twirl, or we speed up, slow down or reverse the real frames. Then we crop and zoom to fake a camera move, that's this one. To match points, we run one tracker over the real video with the fake frames spliced in, and start points only on frames both clips share, so each dot is the same physical point in both. Training is the fake video, its tracks and the real tracks in, and the real video out."
     },
     {
       "title": "The Model",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/framework.png", "rect": [115, 90, 729, 440]},
-        {"kind": "box", "rect": [462, 180, 124, 346], "color": "#C00000"}
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/framework.png", "rect": [148, 88, 663, 400]},
+        {"kind": "box", "rect": [465, 170, 112, 315], "color": "#C00000"},
+        {"kind": "text", "text": "Frozen CogVideoX + trained copy of 18 blocks", "rect": [40, 494, 880, 36], "size": 24, "color": "#000000"}
       ],
-      "speech": "Here's test time. Input video: a guy roasting a marshmallow next to a sleeping dog. I click a few points, and a tracker follows them through the video. Those are the source tracks. Then I drag them where I want them to go. Those are the target tracks, in the red box. Yellow means feed the marshmallow to the dog, pink means the dog wakes up. Tracks go in as colored dots on black. The model is a big frozen text-to-video model, CogVideoX, plus a ControlNet-style copy of its first eighteen blocks that reads the input video and both track videos. Same theme as the whole talk: a new handle on a frozen model."
+      "speech": "At test time: a guy roasting a marshmallow, a sleeping dog. I click points, a tracker follows them, and those are the source tracks. I drag them to where I want them to go. Those are the target tracks, in the red box. Yellow means feed the dog, pink means the dog wakes up. The model actually gets each track as a colored blob on black, one color per point. It's a frozen CogVideoX, plus a trained copy of its first eighteen blocks that reads your video and both track videos. Unlike a normal ControlNet, none of that lines up with the output, and it works because those blocks attend across all the frames."
     },
     {
       "title": "Results",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/basketball.png", "rect": [40, 100, 346, 330]},
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/retiming.png", "rect": [410, 124, 510, 276]},
-        {"kind": "text", "text": "Picked about 70% of the time over 3 baselines", "rect": [40, 460, 880, 40], "size": 28, "color": "#C00000"}
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/basketball.png", "rect": [40, 100, 300, 286]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_motionv2v/numbers_table.png", "rect": [370, 110, 560, 253]},
+        {"kind": "text", "text": "4-way choice, 41 people, 20 edits", "rect": [370, 380, 560, 36], "size": 24, "color": "#000000"}
       ],
-      "speech": "Left: the ball bounces off the rim, we drag its track down, now it goes through the hoop. Right: retiming, the taxi was ahead and we made the green truck pass it. In a user study, 41 people compared us to ATI, ReVideo and GWTF, and picked ours about 70% of the time for content, motion and overall. On 100 test videos our pixel error is 0.024, versus 0.038 for ATI and 0.067 for GWTF. Limits: past about twenty points it stops following them, and chained edits drift. This is CVPR 2026, with Google. Code isn't out yet. And motion is just one kind of edit. Next, I want any edit."
+      "speech": "First try on this basketball, the ball went through the hoop, but a second ball showed up where the original went. The other points matched the input exactly, so it copied. Two pixels of noise on the points fixed it, but that's a shortcut the model learned. Numbers: in a four-way pick, 41 people on 20 edits we made, ours won about 70%. ATI got 25, even on a stronger base model. The error columns are reconstruction on 100 real videos where we reverse half, so there's ground truth, picked so key content isn't in frame one. Reversal's in our training data, so that tests keeping content, not editing in general. Limits: past about twenty points it stops following them, chained edits drift, and we train on fake inputs but test on real ones. This is CVPR 2026, and the code's not out yet. And motion's just one kind of edit. Next, I want any edit."
     }
   ]
 }

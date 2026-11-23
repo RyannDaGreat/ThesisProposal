@@ -37,3 +37,11 @@ Machine-readable spec: `presentation/agents/specs/frame.json` (generator: `prese
 - Presentation_New (4.9 GB) cannot be rendered by deckcraft-cli (2 GiB limit), so the primer reuses DiffiluSigPresent slide 33 instead of slides 121-132.
 - Go-with-the-Track teaser is dense and small on slide 10; caption carries it.
 - Next-project evaluation plan and risk need Ryan's own answer.
+
+## Round 2 changes (frame.json edited in place; the table above is the v1 layout)
+- 9 frame slides + 5 roadmap repeats, 780 spoken words in total (down from ~1130 counting the old repeats). The two "Just ask?" slides are merged; its speech leads straight into "One question" and says "we'll come back to this lion in MAGICK".
+- One-question text now: "How do you control a pretrained diffusion model without building a new one?" Speech and roadmap state the honest arc: no training -> make the training data -> change the noise and fine-tune -> train a control branch, with the knowledge coming from the pretrained model every time.
+- Opener names the RickRoll, avoids "dancing" over a still frame, and pays off with "in about twenty minutes". Slide 2 now uses the static giraffe/penguin flip crop (`explain_frame/tile_diffilu.png`) instead of a mid-flip video frame, and the MAGICK panel is bigger.
+- Roadmap repeats are `{"roadmap": true, "speech": one line, "add_elements": [red box on the next tile]}`. The repeat before DI, MAGICK and GWTF gives the "because" that the listener found missing (soft masks -> make data; text can't describe motion -> the noise becomes the handle). The last repeat adds "Next: any edit, any video." and leads into `{"insert_section": "future"}`.
+- "It kept going" and "What's next" removed. The close is a five-contribution summary with impact (Best Demo CVPR 2023, over 140,000 RGBA, CVPR 2025 Oral), one line on the three co-authored follow-ups, and the Rick callback (small video + "Thanks!").
+- BUILDER NOTE: build_v2.py line ~100 appends the roadmap slide as-is. Repeats need `{**roadmap, "speech": s["speech"], "elements": roadmap["elements"] + s.get("add_elements", [])}`.

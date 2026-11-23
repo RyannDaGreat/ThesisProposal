@@ -1,6 +1,6 @@
 # MAGICK — explanation, talk track, slide spec
 
-Machine-readable spec: `presentation/agents/specs/magick.json` (6 slides, ~600 spoken words). All crops are in `presentation/agents/.scratchpad/explain_magick/crops/` and were made by `presentation/agents/.scratchpad/scratchpad_agent_3.py`.
+Machine-readable spec: `presentation/agents/specs/magick.json` (7 slides, 649 spoken words; round 2 revision after examiner 5.5/8). All crops are in `presentation/agents/.scratchpad/explain_magick/crops/` and were made by `presentation/agents/.scratchpad/scratchpad_agent_3.py`.
 
 ## The paper in plain words
 
@@ -11,18 +11,31 @@ MAGICK makes a 150,000-object RGBA dataset from RGB models alone. The idea is Ho
 2. **Models can't make keyable screens.** SDXL/Midjourney/DALL-E give dark, gradient, or tinted screens; DeepFloyd gives flat screens but mushy edges. Fix: DeepFloyd image, cut out roughly with Photoshop Subject Select, paste onto a brighter saturated screen of the same hue, then SDXL img2img (SDEdit) at strength 0.95 with the screen color as a negative prompt. High strength repaints fine detail; the negative prompt removes color spill from the subject but can't touch the over-saturated screen.
 3. **Keying is under-constrained.** Run three keyers that fail differently: a per-pixel color-difference keyer (Wright) with a per-pixel background estimated by deleting the foreground and inpainting (Telea) — this also gives decontaminated foreground colors; Adobe's internal learned chroma-key net; Photoshop Subject Select. Score = min over pairs of the mean MS-SSIM of the two cutouts composited on white and on black. Agreement means success. Median score 0.984; the top 50% (110k) are auto-accepted using the pixel-wise keyer; the other 40k (glass, water, smoke, fire) were chosen by humans in a web UI, one click among 7 alpha/foreground combinations (5 workers x 112 h, $0.30/sample).
 
-Each sample: pure foreground colors F, alpha, caption, 1024 px. Prompts come from GPT-4/ChatGPT, procedural human templates, and an Adobe caption dataset with "clipping path"/"greenscreen" tags stripped.
+Each sample: pure foreground colors F, alpha, caption (resolution not stated in the thesis text; don't say 1024). Prompts come from GPT-4/ChatGPT, procedural human templates, and an Adobe caption dataset with "clipping path"/"greenscreen" tags stripped.
 
-Use: ControlNet (SD1.5) fine-tuned for alpha + prompt -> RGB. User study, 52 people, 27 alphamatting.com masks with GPT-4 prompts: preferred 82% vs SD1.5 Canny-edge ControlNet (16%), 77% vs Sketch-edge (23%). A MAGICK + DIM mix trains a better matting network (Dai et al. CVPR23) than either alone. Limits: synthetic, so it inherits diffusion flaws (misspelled stop sign), some shadows end up in the alpha, ~0.15% NSFW-flagged.
+Use: ControlNet (SD1.5) fine-tuned for alpha + prompt -> RGB. User study, 52 people, 27 alphamatting.com masks with GPT-4 prompts: preferred 82% vs SD1.5 Canny-edge ControlNet (16%), 77% vs Sketch-edge (23%). Each method made 3 images per mask; raters saw the prompt and two rows and picked the better row for appearance and prompt adherence. Baseline rationale (4_results_thesis.tex:17): no prior model takes alpha; ControlNet v1.1 seg is trained on ADE20K and ignores matted detail (it's the Fig. 1 comparison, not a study baseline). A MAGICK + DIM mix trains a better matting network (Dai et al. CVPR23, DIM test set, 6_appendix_thesis.tex:165-195): best SAD 33.03 / MSE .0104 for mixes vs 36.27 and 65.49 SAD for the two pure sets. Limits: synthetic, so it inherits diffusion flaws (misspelled stop sign), some shadows end up in the alpha, ~0.15% NSFW-flagged.
 
 ## Beats
 
-1. Problem: real alpha (hair) exists; no big data to learn it (726 max). Hand-off from Peekaboo's blobby masks.
-2. Key idea: prompt for a green screen + chroma key, with least-common-hue screen choice.
-3. Making screens keyable: DeepFloyd -> paste -> SDXL img2img + negative prompt.
-4. Getting alpha: three keyers, agreement = quality, 110k auto + 40k human.
-5. The dataset + impact + limits.
-6. What it enables: alpha-to-RGB, user study numbers, hand-off to GWTF.
+1. Problem: real alpha (hair) exists; matting data is hand-made (few hundred objects, largest general-purpose 726), segmentation sets have hard edges. Hand-off from Peekaboo's blobby masks.
+2. Key idea: prompt for a green screen + chroma key. Why keying, not a matting net on generated images: net errors would become ground truth; known flat B makes I = aF + (1-a)B nearly solvable and gives decontaminated F.
+3. Screen choice: saturation-weighted hue histogram of a plain SDXL image, least-used hue (>90% green/blue).
+4. Making screens keyable: DeepFloyd -> paste on brighter screen -> SDEdit (SDXL img2img) strength 0.95 + screen color as negative prompt.
+5. Getting alpha: three keyers, agreement as proxy for correctness, top 50% auto (110k) + 40k human-picked.
+6. Dataset + matting numbers + cost + limits.
+7. Alpha-to-RGB, user study setup and numbers, hand-off to GWTF.
+
+## Round 2 changes (examiner/listener flags in `.scratchpad/study/magick/r1/`)
+
+- "726" now "largest general-purpose matting set" (P3M-10k portraits are bigger); "objects" not "images"; why matting data doesn't scale and why segmentation sets don't count.
+- Added why keying beats matting-net-on-generated-images (compositing equation, known B).
+- New slide "Pick the screen" with the actual hue histogram; "lavishly" cut.
+- Slide "Keyable images": named SDEdit, explained the girl changes (DeepFloyd only gives layout + clean screen), why the negative prompt spares the screen; labels moved up and shortened so they don't clip.
+- "When they agree, it worked" replaced by "Agreement is our proxy for correctness"; added threshold (top 50%, median 0.984), Telea-style inpainted per-pixel background, Adobe-internal learned keyer, humans *picked* (best of 7 alpha/F combos), not fixed.
+- Cut overclaims: "the model made its own training data", "1024", "still the largest", "used to train layered generators". Added matting numbers, cost, limits.
+- Transitions (story listener rated both WEAK, `.scratchpad/full_r1/story_listener.md`): opening now follows from Illusions ("Peekaboo and Illusions steer pixels the model already makes; transparency it can't make at all... here the handle is data"); doesn't rely on Peekaboo's bonus transparency slide. Closing: "now we control what's in a frame down to a single hair, but nothing yet controls how it moves over time. That's the next handle." Kept "down to a single hair" instead of "how see-through", because the examiner flagged see-through as an overclaim (outputs are shown on gray, not RGBA).
+- Honest about training: the frozen RGB model makes the data, but the alpha-to-RGB ControlNet is trained ("With that data we fine-tuned..."), which answers the listener's "frozen vs trained" question for this section.
+- Stock panel relabeled "ControlNet v1.1 seg" and separated from the user-study baselines; user-study setup stated; "how see-through" overclaim cut.
 
 ## Slides
 
@@ -30,16 +43,17 @@ Slide is 960x540 pt, title drawn at top. Speech is in the JSON verbatim; summari
 
 | # | Title | Visual (all in `.scratchpad/explain_magick/crops/`) | On-slide text | What it shows |
 |---|---|---|---|---|
-| 1 | Hair is hard | `s1_hair_alpha.jpg` — top-left panel of `source/src/3_MAGICK/figs/fig1.jpg`, frac box (0,0,0.333,0.496): white silhouette with hundreds of thin gray hair strands on black. rect [110,96,324,429] | red "Biggest matting dataset: 726 objects" | what an alpha matte is, why we lack data |
-| 2 | The trick | `s2_pine_needles.jpg` — full `figs/GreenOnGreenBadGreenOnBlueGood.png` (Ryan's own: pine needles on green "maybe not the smartest idea..." vs on blue "much better!"). rect [100,88,760,390] | red prompt suffix | green screen + least common hue |
-| 3 | Keyable images | `s3_deepfloyd.jpg` and `s3_sdxl_img2img.jpg` — panels 2 and 5 of `figs/img2img_pipeline.pdf` rendered at 200 dpi (frac boxes (0.229,0.093,0.389,0.87) and (0.814,0.093,0.974,0.87)): same screaming girl, DeepFloyd with mushy hair on dull green vs SDXL img2img with crisp flyaway hair on bright green. Red arrow between. | labels; red "SDXL img2img, negative prompt "green"" | two-model chain |
-| 4 | Three keyers | `s4_disagree_low.jpg` (glass of water on violet, score .802, the three alphas disagree; Photoshop's is a solid block) and `s4_agree_high.jpg` (man with glasses on green, score .995, three identical silhouettes) — halves of `figs/sim_score_qualitative2.pdf` at 200 dpi, frac boxes (0.01,0,0.48,1) and (0.49,0,0.96,1). Red box on the agreeing one. | red "When they agree, it worked." | selection by agreement |
-| 5 | 150,000 cutouts | `s5_dataset_grid.jpg` — top-left 60% x 50% of `source/src/3_MAGICK/full_512.jpg`: 30 object/alpha pairs on gray (asparagus, lightbulb, fire, parrot, porcupine, basketball net, lightning, splash, wheelchair tennis player, flying hair). | red "3,700-6,400 downloads a month" | dataset, impact, limits |
-| 6 | Alpha in, image out | `s6_alpha_to_rgb.jpg` — full `figs/alpha2rgb.png`: inverted hair alpha / ours (strands follow the alpha) / stock ControlNet (ignores it). | column labels, middle in red | application + user study, hand-off |
+| 1 | Hair is hard | `s1_hair_alpha.jpg` — top-left panel of `source/src/3_MAGICK/figs/fig1.jpg`, frac box (0,0,0.333,0.496): white silhouette with hundreds of thin gray hair strands on black. rect [110,96,324,429] | red "Largest general-purpose matting set: 726 objects" | what an alpha matte is, why we lack data |
+| 2 | The trick | `s2_pine_needles.jpg` — full `figs/GreenOnGreenBadGreenOnBlueGood.png` (Ryan's own: pine needles on green "maybe not the smartest idea..." vs on blue "much better!"). rect [100,88,760,390] | red prompt suffix | green screen + chroma key, why keying |
+| 3 | Pick the screen | `s2b_hue_histogram.jpg` — full `figs/LeastCommonHueHistogram.png` (2934x1280): woman photo + prompt -> log-density hue histogram, dashed line at 100 deg, "Least Common Hue: green". rect [40,100,880,384] | none (figure has its own label) | least-common-hue choice |
+| 4 | Keyable images | `s3_deepfloyd.jpg` and `s3_sdxl_img2img.jpg` — panels 2 and 5 of `figs/img2img_pipeline.pdf` rendered at 200 dpi (frac boxes (0.229,0.093,0.389,0.87) and (0.814,0.093,0.974,0.87)): screaming girl, DeepFloyd with mushy hair on dull green vs SDEdit result with crisp flyaway hair on bright green. Red arrow between. rects [50,92,370,373] / [540,92,370,373] | labels at y474; red "SDEdit (SDXL), strength 0.95" | two-model chain |
+| 5 | Three keyers | `s4_disagree_low.jpg` (glass of water on violet, score .802, the three alphas disagree; Photoshop's is a solid block) and `s4_agree_high.jpg` (man with glasses on green, score .995, three identical silhouettes) — halves of `figs/sim_score_qualitative2.pdf` at 200 dpi, frac boxes (0.01,0,0.48,1) and (0.49,0,0.96,1). Red box on the agreeing one. | red "Agreement is our proxy for correctness." | selection by agreement |
+| 6 | 150,000 cutouts | `s5_dataset_grid.jpg` — top-left 60% x 50% of `source/src/3_MAGICK/full_512.jpg`: 30 object/alpha pairs on gray (asparagus, lightbulb, fire, parrot, porcupine, basketball net, lightning, splash, wheelchair tennis player, flying hair). | small: "Matting error (SAD): best mix 33, either set alone 36 / 65"; red "3,700-6,400 downloads a month" | dataset, matting, cost, limits |
+| 7 | Alpha in, image out | `s6_alpha_to_rgb.jpg` — full `figs/alpha2rgb.png`: inverted hair alpha / ours (strands follow the alpha) / ControlNet v1.1 seg (ignores it). rect [100,88,760,348] | column labels; red "52 raters preferred ours 82% vs Canny, 77% vs sketch" | application + user study, hand-off |
 
-Possible build: slide 4 can start with only the right image + red box, then add the left (glass) image; spoken order already follows that (right first). Slide 2 could build from the green half to the full image but the PNG is one piece, so left as a single slide.
+Possible build: slide 5 (Three keyers) can start with only the right image + red box, then add the left (glass) image; spoken order follows that. Slides 2-3 work as a build pair (pine needles -> histogram).
 
-Rejected visuals: `figs/PipelineOverview.png` (good summary but 5 steps + 6 images, too dense for one slide; slides 2-4 cover it step by step); `figs/priorcomparison.png` (5x2 grid, said in speech instead); `figs/MattingMethods.png` (redundant with slide 4); `figs/S3.png` letter-S glyphs (fun, but no budget — good backup slide); bottom half of `fig1.jpg` (park composite with ellipses; purpose not stated in the text, so not used).
+Rejected visuals: `figs/PipelineOverview.png` (5 steps + 6 images, too dense; slides 2-5 cover it step by step); `figs/priorcomparison.png` (5x2 grid, said in speech instead); `figs/MattingMethods.png` (redundant with slide 5); `figs/S3.png` letter-S glyphs (no budget, good backup slide); bottom half of `fig1.jpg` (purpose not stated in the text).
 
 ## Impact numbers used (from impact_verified.md)
 
@@ -47,18 +61,20 @@ Rejected visuals: `figs/PipelineOverview.png` (good summary but 5 steps + 6 imag
 
 ## Likely committee questions
 
-- **Isn't this just distilling Photoshop / your keyers? How is it ground truth?** It's not ground truth in the physical sense — it's alpha that three independent methods agree on (MS-SSIM on white and black composites, min over pairs). Disagreement cases went to humans. Slide 4.
-- **Why not run a matting network on ordinary generated images?** Natural-background matting is far less constrained than keying a flat screen; existing matting nets are trained on <1k objects and fail on hair/transparency, so they can't produce training-grade labels. Slides 1, 4.
-- **Why the 50% threshold?** Empirical: the top half (score above the 0.984 median) looked decent on inspection; the rest went to manual selection. Honest answer: chosen by eye, not tuned. Slide 4.
-- **Does the dataset carry color spill / shadow artifacts?** Negative prompt + pixel-wise decontamination reduce spill; some soft shadows remain in alpha; it's synthetic so it inherits diffusion errors (misspelled text). Slides 3, 5.
-- **Bias toward green/blue screens or toward what DeepFloyd can draw?** Screens are green/blue >90%; subject distribution is limited to what DeepFloyd+SDXL render well. Content is GPT-4 / procedural / caption-derived prompts, ~0.15% NSFW flagged. Slide 2.
-- **Is the user study fair? Baselines weren't trained on alpha.** No prior model takes alpha as input; stock ControlNet seg conditioning ignores fine alpha (slide 6 right panel), so we compared against edge-conditioned ControlNets on the same SD1.5 base. 52 participants, 27 unseen alphamatting.com masks, 82% / 77% preference. Slide 6.
-- **Does it help matting itself?** Yes, training Dai et al. (CVPR23) on a MAGICK + DIM mix beats either alone (mentioned on slide 5). Avoid quoting the exact ratio — the thesis text and table label disagree on which way the ratio goes.
-- **Cost?** 32 A100s for 3 weeks + 2 months annotation, about $30k. Not on slides.
-- **How does this connect to the thesis?** Another handle on a frozen model: the prompt suffix + least-common hue steers a frozen RGB model into producing keyable images, no retraining. Slides 2-3.
+Slide numbers refer to the 7-slide section.
+
+- **How is this ground truth? Isn't it just distilling your keyers?** It's alpha that three independent methods (color-difference keyer, Adobe's learned keyer, Photoshop Subject Select) agree on: min over pairs of the mean MS-SSIM of the cutouts composited on white and on black. Agreement is a proxy, said so on slide 5. Low-agreement cases go to humans or are dropped.
+- **Why not run a matting network on ordinary generated images?** Its errors become the labels (2_relatedwork_thesis.tex:30). With a flat screen B is known per pixel, so I = aF + (1-a)B is nearly solved and F comes out decontaminated. Slide 2.
+- **Why the 50% threshold?** The top half (above the 0.984 median) "yields decent results" (3_method_thesis.tex:164): chosen by inspection, not tuned. Appendix figure caption says the rest of the automatic pool is discarded. Slide 5.
+- **Color spill / shadows?** Screen color as negative prompt removes spill from the subject (screen too saturated to be affected); pixel-wise keyer with inpainted background gives decontaminated F; some soft shadows stay in alpha. Slides 4, 6.
+- **Bias?** Screens >90% green/blue; subjects limited to what DeepFloyd + SDXL draw well; synthetic text errors; ~0.15% NSFW-flagged. Slides 3, 6.
+- **Is the user study fair?** No prior model takes alpha (4_results_thesis.tex:17); ControlNet v1.1 seg (ADE20K-trained) ignores matted detail (slide 7 right panel, Fig. 1, not a study baseline). Study baselines: SD1.5 Canny-edge and sketch-edge ControlNets on the same base. 27 unseen alphamatting.com masks, GPT-4 prompts, 3 images per method, 52 raters picked the better row for appearance and prompt adherence. 82% vs Canny, 77% vs sketch. Slide 7.
+- **Does it help matting?** Dai et al. CVPR23 on DIM test: best mix SAD 33.03 (MSE .0104) vs 36.27 and 65.49 for the two pure sets. Don't say which pure set is which: the thesis text and old caption disagree on the ratio direction. Slide 6.
+- **Cost?** 32 A100s for 3 weeks + 2 months annotation, $30,000; manual part: 5 workers x 112 h, $0.30/sample. Slide 6.
+- **Frozen model? You trained a ControlNet.** The frozen RGB model (prompt suffix + least-common hue + SDEdit) makes the data with no retraining; the alpha-to-RGB ControlNet is then trained on it. The speech says this on slide 7. Slides 1-4, 7.
 
 ## Uncertain / not verified
 
-- "Biggest matting dataset: 726" is per the thesis intro (SIM extends DIM to 726); larger private sets may exist.
+- "726" is the largest *general-purpose* matting set per 6_appendix_thesis.tex:256 (SIM). Portrait sets such as P3M-10k are larger, hence "general-purpose".
 - Matting mix ratio (see above) — kept vague on purpose.
 - 150k (paper) vs "140,000+" (HF/GitHub page): used 150,000 as in the thesis.

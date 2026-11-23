@@ -29,3 +29,15 @@ No fork agents run. All work is done in the main session or by research subagent
 - [ ] Round 2 (19:08-19:25): send examiner fixes to section agents, revise specs, re-test
 - [ ] 19:25-19:35: full build into ai_presentation.pptx, render + look at every slide, whole-talk listener for story
 - [ ] 19:35-19:43: commit, open in DeckCraft, notify user
+
+## Rations (user, 18:54)
+- Talk (macOS `say`): ONE left, use only when the hour's work is finished. Earlier ones are spent.
+- Notification (`rp call ntfy_send`): due at ~19:43 (timer running).
+
+## Running in parallel (18:54)
+- Revising: peekaboo, magick, motionv2v, diffillusions, frame agents (deadline ~19:05-19:08)
+- Done revising: gwtf (621 words) -> study r2 running
+- Studies: diffillusions r1 rerun (first run hit build race), gwtf r2
+- Whole-talk story listener (Sonnet) -> full_r1/story_listener.md
+- Visual QA of all 47 slides at full scale -> full_r1/visual_qa.md
+- Fixed: build_v2.py command file is now per-output (parallel builds clobbered each other)

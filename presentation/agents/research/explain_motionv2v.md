@@ -34,9 +34,23 @@ Not used: `megacomparisonfigurev2.jpg` (8 comparison rows, too dense for one sli
 
 **motion_a/b/c.mp4 (from AutoplayAll) are NOT MotionV2V.** They show side-by-side appearance edits. motion_a: a gray untextured boat render turned into a photoreal boat in sunny water. motion_b: a Jack Russell running on a beach turned into the same dog running on snow, with the motion preserved. motion_c: a brown clay-like render of a fish monster turned into photoreal salmon chunks and teeth. motion_b and motion_c have a Gemini/Veo-style sparkle watermark in the corner. Frames are in `frames/motion_{a,b,c}_tile.png`. They might fit the future-work "any edit to any video" slide, but only if Ryan confirms they are his own (GenFlow?) and not Google's Veo output.
 
+## Round 2 revision (after the r1 listener and examiner)
+
+- Slide 1: a red box on the last frame of the output, and the speech now says "I drag the corgi's red track forward". The original is described as "finishing about side by side", because that is what the crop shows. **The paper is inconsistent about this**: the intro says the Bichon wins originally, comparison edit #4 says "decelerate the Corgi to reverse the race outcome", and the teaser caption says "given a tied race". Ryan should pick one version.
+- Slide 2: the text is now "Anything not in frame 1 gets made up", which fixes an overclaim. The scope is narrowed to general point- and flow-based motion control (ATI, ReVideo, GWTF). Inversion is defined as "invert the video back to noise and regenerate it".
+- Slide 4: the speech says the shown strip is the crop/zoom variant. The tracking sentence is corrected: one tracker run over the real video with the fake frames spliced in, with query points only on the shared frames (method_thesis.tex).
+- Slide 5: on-screen text "Frozen CogVideoX + trained copy of 18 blocks". The speech says the model input is one colored blob per point on black (the figure is only a visualization). It also explains why an unaligned ControlNet-style branch works (attention across all frames).
+- Slide 6: added `numbers_table.png` (Ours / ATI / GWTF / ReVideo: overall pick 69/25/5/1 %, L2 0.024/0.038/0.067/0.096, LPIPS 0.031/0.072/0.088/0.106, all checked against experiments_thesis.tex and the user-study figures). Added the text "4-way choice, 41 people, 20 edits". The speech now covers:
+  - the duplicate-basketball copy shortcut and the ±2 px jitter fix
+  - what the error benchmark is (100 real videos, half reversed to get ground truth, chosen so key content is missing from frame 1), and that reversal is in the training data
+  - ATI's stronger base model
+  - three limits: about 20 points, chained-edit drift, fake training inputs vs real test inputs
+  The retiming panel was dropped to make room.
+- Still not covered in speech (Q&A only): disocclusion, camera control via MonST3R, SSIM (~0.1 for all methods, gaps tiny, no error bars), and the counterfactual-quality success rate (never reported).
+
 ## Slides
 
-The full speech and element rects are in the JSON. Summary:
+The full speech and element rects are in the JSON (644 words). Summary below. It describes the round 1 version; see the Round 2 revision above for what changed:
 
 1. **Motion Editing**: tied race strip, a red arrow down, the corgi-wins strip, and the red text "Make the corgi win". The speech opens from GWTF: "GWTF makes new videos. But what about the video you already have?"
 2. **Why not GWTF?**: frame 1 in a red box, with the red text "Everything after frame 1 gets made up". Covers I2V hallucination and why inversion fails.
@@ -58,6 +72,10 @@ The full speech and element rects are in the JSON. Summary:
 - **Is this the first motion editor?** No. MotionEditor (2023), MotionFollower and ReVideo (2024) came earlier. The scoped claim is the first video-to-video, general-object motion editor. Lee et al. (CVPR 2026, 3D point tracks, dense) is concurrent. The talk never says "first".
 - **Does it build on GWTF?** No. GWTF is only a baseline. The connection is the motivation (first-frame limit), not shared code. Slide 2.
 - **Impact?** CVPR 2026 (pp. 35988-35997), with Google. About 11 citations, all positioning cites. The GitHub repo (~58 stars) is a project page only, with no code or weights. Slide 6 says plainly that the code isn't out.
+- **Is the error benchmark fair? Reversal is a training augmentation.** It is not fair as a general editing score, and the talk says so on slide 6. It tests content preservation where I2V cannot see the content. The split gives I2V baselines a valid shared first frame. SSIM is about 0.1 for every method (0.098/0.094/0.089/0.080), so it barely separates them. There are no error bars or significance tests.
+- **Train/test gap (fake inputs)?** Temporal-resampling pairs use real frames on both sides. Geometric augmentation is applied to all counterfactuals. The method transfers to real held-out videos and to DAVIS. No counterfactual or track success rate is reported. Say that plainly. Slide 6 names the gap.
+- **Disocclusion / new content from the edit?** The generative prior fills it, and it can pull content from any input frame (swan zoom-out keeps vegetation and ripples). Physics and shadows are not supervised. Future work: synthetic 3D counterfactuals with exact ground truth. Q&A only.
+- **Why did GWTF (your own paper) get 5%?** It was adapted to a task it wasn't designed for: it ran on a Wan2.2 version, with tracks turned into flow via RAFT, and it sees only frame 1. Slide 2 sets this up.
 - **Camera control and time?** Camera edits use MonST3R point-map reprojection to make target tracks. It can also retime (duck appears later). Retiming is on slide 6. Camera control is Q&A (the swan example in teaserv2.png is available for backup).
 
 ## Handoff

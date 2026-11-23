@@ -5,9 +5,9 @@
       "title": "Hair is hard",
       "elements": [
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s1_hair_alpha.jpg", "rect": [110, 96, 324, 429]},
-        {"kind": "text", "text": "Biggest matting dataset: 726 objects", "rect": [470, 270, 450, 60], "size": 30, "color": "#C00000"}
+        {"kind": "text", "text": "Largest general-purpose matting set: 726 objects", "rect": [470, 260, 450, 80], "size": 28, "color": "#C00000"}
       ],
-      "speech": "Peekaboo's masks were blobby. Fine for a dog, useless for hair. This is what we actually want, an alpha matte: white is the person, black is background, and every gray strand of hair is partly see-through. Diffusion models only output RGB. To train one that understands transparency you need data, and there wasn't any: the biggest matting dataset had 726 objects. You can't train a generative model on 726 images. So MAGICK asks: can we make a big RGBA dataset using nothing but an RGB model?"
+      "speech": "Peekaboo and Illusions steer pixels the model already makes. Transparency it can't make at all, it only outputs RGB, and Peekaboo's blobby masks showed that gap. This is an alpha matte: white is the object, black is background, every gray strand is partly see-through. To teach alpha you need data. Matting datasets are made by hand, so they stop at a few hundred objects; the largest general-purpose one has 726. Segmentation sets like COCO are huge, but their edges are hard traced outlines, no hair. So here the handle is data: can a frozen RGB model build a big alpha dataset for us?"
     },
     {
       "title": "The trick",
@@ -15,18 +15,25 @@
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2_pine_needles.jpg", "rect": [100, 88, 760, 390]},
         {"kind": "text", "text": "\"...isolated on a solid green background\"", "rect": [100, 486, 760, 40], "size": 26, "color": "#C00000"}
       ],
-      "speech": "The trick is lavishly simple: ask the model for the thing on a green screen. We add 'isolated on a solid green background' to the prompt, then do what Hollywood does, chroma key it: remove the screen color and what's left is the object plus its alpha. But pine needles on a greenscreen, maybe not the smartest idea, the key eats the needles. On blue, much better. So for every prompt we first generate a normal image, take a saturation-weighted histogram of its hues, and pick the screen color the object uses least. That's green or blue over ninety percent of the time."
+      "speech": "The trick is embarrassingly simple: ask for the object on a green screen, then chroma key it like Hollywood does. Why not run a matting network on generated images? Its mistakes would become our ground truth. With a flat screen the background color is known at every pixel, so the compositing equation, image equals alpha times foreground plus one minus alpha times background, is nearly solved, and we get spill-free foreground colors too. But pine needles on green: the key eats the needles. On blue, much better."
+    },
+    {
+      "title": "Pick the screen",
+      "elements": [
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s2b_hue_histogram.jpg", "rect": [40, 100, 880, 384]}
+      ],
+      "speech": "So we pick the screen color per prompt. Generate the plain prompt once with SDXL, take a hue histogram weighted by saturation, and choose the named color the object uses least. She's all reds and some blues, so she gets green. Over 90 percent of the dataset ends up green or blue."
     },
     {
       "title": "Keyable images",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_deepfloyd.jpg", "rect": [50, 92, 380, 383]},
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_sdxl_img2img.jpg", "rect": [530, 92, 380, 383]},
-        {"kind": "arrow", "from": [445, 283], "to": [515, 283], "color": "#C00000"},
-        {"kind": "text", "text": "DeepFloyd", "rect": [50, 482, 380, 36], "size": 24, "color": "#000000"},
-        {"kind": "text", "text": "SDXL img2img, negative prompt \"green\"", "rect": [500, 482, 440, 36], "size": 24, "color": "#C00000"}
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_deepfloyd.jpg", "rect": [50, 92, 370, 373]},
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s3_sdxl_img2img.jpg", "rect": [540, 92, 370, 373]},
+        {"kind": "arrow", "from": [435, 278], "to": [525, 278], "color": "#C00000"},
+        {"kind": "text", "text": "DeepFloyd", "rect": [50, 474, 370, 34], "size": 22, "color": "#000000"},
+        {"kind": "text", "text": "SDEdit (SDXL), strength 0.95", "rect": [540, 474, 370, 34], "size": 22, "color": "#C00000"}
       ],
-      "speech": "Catch is, models are bad at green screens. SDXL, Midjourney and DALL-E give dark gradient screens or tint the subject green. DeepFloyd, left, gives a perfectly flat screen, but look at the hair, it's mush. So we chain two models. We roughly cut DeepFloyd's girl out with Photoshop, paste her on pure bright green, and rerun SDXL image-to-image at strength 0.95, so it repaints almost everything but keeps the layout. And 'green' goes in the negative prompt, so green leaves the girl but not the screen, because that screen is too saturated to suppress. Right: clean screen, real flyaway hair."
+      "speech": "Catch is, SDXL, Midjourney and DALL-E make dark gradient screens or tint the subject green. DeepFloyd, left, gives a flat screen, but the hair is mush. So we chain them. Cut DeepFloyd's girl out roughly with Photoshop, paste her on brighter pure green, and run SDEdit, SDXL image-to-image, at strength 0.95. That repaints almost everything, so it's a new girl with real flyaway hair; DeepFloyd only donates the layout and a clean screen. And green goes in the negative prompt: it strips spill off the girl, but the screen is too bright and saturated to suppress."
     },
     {
       "title": "Three keyers",
@@ -34,27 +41,29 @@
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_disagree_low.jpg", "rect": [20, 110, 450, 296]},
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s4_agree_high.jpg", "rect": [490, 110, 450, 296]},
         {"kind": "box", "rect": [486, 106, 458, 304], "color": "#C00000"},
-        {"kind": "text", "text": "When they agree, it worked.", "rect": [180, 440, 600, 50], "size": 32, "color": "#C00000"}
+        {"kind": "text", "text": "Agreement is our proxy for correctness.", "rect": [130, 440, 700, 50], "size": 30, "color": "#C00000"}
       ],
-      "speech": "Now the alpha. Chroma keying is under-constrained, no single keyer always works. So we run three that fail differently: a classic per-pixel color-difference keyer, a learned chroma key network, and Photoshop's subject select. Top row is each cutout on a checkerboard, bottom row its alpha. Right: all three agree, score 0.995. The score is the worst pairwise MS-SSIM of the cutouts composited on white and on black. Left, a glass of water: they disagree, Photoshop makes it solid. When they agree, it worked. That auto-approved 110,000 images. The other 40,000, mostly glass, smoke and fire, humans fixed with one click each, picking the best candidate."
+      "speech": "Keying is under-constrained, so we run three keyers that fail differently: a classic per-pixel color-difference keyer, where we get the background by deleting the object and inpainting the hole, so gradients are fine; Adobe's internal learned chroma-key network; and Photoshop subject select. Top row cutouts, bottom row alphas. The score composites each cutout on white and on black and takes the worst pairwise MS-SSIM. Right, all three agree, 0.995. Left, a glass of water, they don't. The top half by score, above the median 0.984, is auto-accepted with the pixel-wise keyer: 110,000 images. For 40,000 more, mostly glass and smoke, a human clicked the best of seven alpha and color combos."
     },
     {
       "title": "150,000 cutouts",
       "elements": [
         {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s5_dataset_grid.jpg", "rect": [20, 96, 920, 383]},
-        {"kind": "text", "text": "3,700-6,400 downloads a month", "rect": [180, 488, 600, 40], "size": 28, "color": "#C00000"}
+        {"kind": "text", "text": "Matting error (SAD): best mix 33, either set alone 36 / 65", "rect": [20, 490, 560, 36], "size": 20, "color": "#000000"},
+        {"kind": "text", "text": "3,700-6,400 downloads a month", "rect": [600, 490, 340, 36], "size": 20, "color": "#C00000"}
       ],
-      "speech": "That's MAGICK: 150,000 objects, each with clean foreground colors, an alpha matte and a caption, 1024 pixels. Each pair is the object on gray, then its alpha. Look at the parrot, the lightning, the flying hair. The model made its own training data. Still the largest public general-purpose RGBA dataset, downloaded 3,700 to 6,400 times a month on Hugging Face, used to train transparent and layered generators. Mixed with the real Adobe matting dataset, it also trains a better matting network than either one alone. Limits: it's synthetic, so a stop sign gets a perfect matte and a misspelled STOP, and some mattes keep soft shadows."
+      "speech": "That's MAGICK: 150,000 objects, each with foreground colors, an alpha matte and a caption. Each pair is the object on gray, then its alpha. It helps matting too: training a matting network on a mix of MAGICK and the real DIM set gets error 33 on the DIM test, versus 36 and 65 for either set alone. Thousands of downloads a month. Cost: 32 A100s for three weeks plus two months of annotation, about 30,000 dollars. Limits: it's synthetic, so a stop sign gets a perfect matte and misspelled text, and some mattes keep soft shadows."
     },
     {
       "title": "Alpha in, image out",
       "elements": [
-        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s6_alpha_to_rgb.jpg", "rect": [40, 92, 880, 403]},
-        {"kind": "text", "text": "alpha", "rect": [40, 498, 323, 34], "size": 22, "color": "#000000"},
-        {"kind": "text", "text": "trained on MAGICK", "rect": [363, 498, 264, 34], "size": 22, "color": "#C00000"},
-        {"kind": "text", "text": "stock ControlNet", "rect": [627, 498, 293, 34], "size": 22, "color": "#000000"}
+        {"kind": "image", "path": "/Users/rburgert/Documents/ThesisProposal/presentation/agents/.scratchpad/explain_magick/crops/s6_alpha_to_rgb.jpg", "rect": [100, 88, 760, 348]},
+        {"kind": "text", "text": "alpha", "rect": [100, 440, 279, 32], "size": 20, "color": "#000000"},
+        {"kind": "text", "text": "ours (MAGICK)", "rect": [379, 440, 228, 32], "size": 20, "color": "#C00000"},
+        {"kind": "text", "text": "ControlNet v1.1 seg", "rect": [607, 440, 253, 32], "size": 20, "color": "#000000"},
+        {"kind": "text", "text": "52 raters preferred ours 82% vs Canny, 77% vs sketch", "rect": [100, 484, 760, 40], "size": 24, "color": "#C00000"}
       ],
-      "speech": "What can you do with it? We fine-tuned ControlNet so you give it an alpha matte plus a prompt, and it paints an image that fits. Left is the alpha, inverted so you can see the strands. Middle, ours: the hair lands exactly where the alpha says. Right, stock ControlNet ignores it. In a user study, 52 people, on the 27 alphamatting.com masks, ours won 82 percent against Canny edges and 77 against sketch edges. So we can control where things are and how see-through they are. But then video models arrived, and you can't describe motion with text."
+      "speech": "With that data we fine-tuned an SD1.5 ControlNet: you give it an alpha matte plus a prompt, and it paints a matching image. Left, the inverted alpha. Middle, ours: hair lands where the alpha says. Right, ControlNet's segmentation model ignores it. No prior model takes alpha, so in the user study we compared against Canny-edge and sketch-edge ControlNets on the same base, on 27 unseen alphamatting.com masks. 52 people picked the better set for looks and prompt fit. So now we control what's in a frame down to a single hair. But nothing yet controls how it moves over time. That's the next handle."
     }
   ]
 }

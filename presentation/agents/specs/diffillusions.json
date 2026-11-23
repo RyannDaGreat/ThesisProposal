@@ -15,7 +15,7 @@
           ]
         }
       ],
-      "speech": "Peekaboo showed score distillation can optimize something that isn't the model. There it was a mask. Next question: what if we optimize several images at once, and they have to share the same pixels? These are flip illusions. Each square is one image. As it spins, watch it turn into a totally different picture upside down. Believe it or not, nobody trained a model for this. It's plain Stable Diffusion, frozen, zero training."
+      "speech": "Peekaboo optimized a mask through a frozen model. Same loss here, new question: what if we optimize several images at once, and they have to share the same pixels? These are flip illusions. Each square is one image, and as it spins, upside down it becomes a totally different picture. No training at all. Plain Stable Diffusion, frozen."
     },
     {
       "title": "One print, two pictures",
@@ -31,7 +31,7 @@
           ]
         }
       ],
-      "speech": "Here's one we actually printed. Right side up, it's a dog. Rotate the paper 180 degrees, and it's a sloth. The red words are just handwritten labels so you know which way is up. We call the piece of paper the prime image, that's the physical thing you hold. Each way of looking at it is an arrangement, and what you see is a derived image. So here: one prime, two arrangements, leave it alone or rotate it, so two derived images, each with its own prompt. Dog, and sloth."
+      "speech": "Here's one we printed. Right side up, a dog. Rotate the paper 180 degrees, a sloth. The red words are just handwritten labels. The paper is the prime image, the physical thing you hold. Each way of looking at it is an arrangement, a fixed function that has to be differentiable and physically doable. What you see is a derived image, and each one gets its own prompt. So: one prime, two arrangements, identity and rotate 180, dog and sloth."
     },
     {
       "title": "But...how?",
@@ -83,7 +83,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "But...how? Same trick as Peekaboo. We take the upright view and run score distillation with the prompt dog. We take the rotated view and run score distillation with the prompt sloth. Each one gives a gradient that says how that view should change to look more like its prompt. Rotating is differentiable, so both gradients flow back into the same single image, and we just add them up. Start from noise, repeat a few thousand times, and the image settles on something that works both ways. One detail: we store each prime as a small Fourier feature network instead of raw pixels, because raw pixels hide information in high frequency noise, and that doesn't survive a printer."
+      "speech": "But...how? Score distillation, same as Peekaboo, on every derived image. Take the upright view, encode it into Stable Diffusion's latent space, add noise, and the frozen model predicts that noise conditioned on dog. Its prediction error becomes a gradient on that view. Same for the rotated view with sloth. We never backprop through the diffusion U-Net, only through the encoder and the rotation, so both gradients land on the same image and add up. Only the primes get optimized. One detail: each prime is a small Fourier feature network, an MLP from pixel coordinates to color. With raw pixels it hid the second picture in high-frequency noise, and that dies the moment you print it."
     },
     {
       "title": "Stack them",
@@ -111,7 +111,7 @@
           "color": "#C00000"
         }
       ],
-      "speech": "Now it gets fun. People have drawn flip illusions by hand forever. So we asked, what else can an arrangement be? Print two images on transparency sheets and put them on a backlight. The base stays put, the rotator spins on top. Light goes through both sheets, so the color you see is the two colors multiplied. And multiplication is differentiable too! So: two primes, four arrangements, the rotator at 0, 90, 180 and 270 degrees, giving four derived images: cat, man, woman, dog. Four score distillation losses pushing on the same two sheets. These are photos of the real prints."
+      "speech": "Now it gets fun. What else can an arrangement be? Print two images on transparencies and put them on a backlight. The base stays put, the rotator spins on top. Light passes through both sheets, so the color you see is the two colors multiplied. Stacking darkens things, so we scale it up and squash it with a tanh, like a brighter backlight. Multiplication is differentiable too! So two primes, four arrangements, rotator at 0, 90, 180 and 270, four derived images: cat, man, woman, dog. These are photos of the real prints."
     },
     {
       "title": "Hidden overlays",
@@ -139,7 +139,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "Or go further. Four primes. Each sheet on its own is a playground, so each prime is also a derived image. Stack all four, hold them up to the light, and you get a fifth derived image, a QR code, and it actually scans. For that one we gave it a target picture instead of a text prompt. Score distillation alone makes gritty, noisy images, so we added a second phase called dream targets: every so often we clean up each derived image with SDEdit, and pull the primes toward those cleaner versions. Then we print them on a regular color laser printer onto overhead transparencies."
+      "speech": "Or go further. Four primes, each a playground on its own, so they're also the first four derived images. Stack all four on the light and the product is a fifth image: a QR code that actually scans. That one used a target picture instead of a text prompt. Score distillation alone gives gritty images, so phase two is dream targets. We SDEdit each derived image into a cleaner version, regress the primes toward those targets for about a thousand steps, then make new targets, with the edit strength shrinking each round. Default: 500 score distillation steps, then 8 dream target rounds. Then we print on a regular color laser printer onto transparencies."
     },
     {
       "title": "What became of it",
@@ -181,7 +181,7 @@
           "color": "#000000"
         }
       ],
-      "speech": "So does it work beyond cherry-picks? We generated hidden overlays over 19 PASCAL VOC subjects and four styles, against a baseline that runs score distillation on each image independently, same 15 minute budget on one A100. We win on prompt match, aesthetics, and a new independence score, and lose only on diversity, which makes sense, we add constraints. Honest limits: it's slow, printers shift colors, and sometimes the hidden fifth image turns black or leaks into the primes. One reviewer said, quote, not good, didn't like it. Well...other people did. It won Best Demo at CVPR 2023, Steve Mould and Matt Parker made YouTube videos about it, and follow-ups like Visual Anagrams and LookingGlass came after. But remember Peekaboo's masks? Blobby. Real transparency, like hair or glass, needs a real alpha channel, and Stable Diffusion doesn't output one. That's MAGICK: we get RGBA images by asking the model for green-screen backgrounds."
+      "speech": "Does it work beyond cherry-picks? Hidden overlays, PASCAL VOC subjects, four styles, 15 minutes on one A100 each. Honestly, the baseline is SDXL making each of the five images independently, with no illusion constraint, so it measures what the constraint costs. We still beat it on CLIP prompt match, aesthetics, and a new independence score, which checks every image matches its own prompt better than the other four. We only lose on diversity, which makes sense. These are distribution plots, no tables, and no head-to-head with Visual Anagrams, which only does single-image illusions, no overlays. Biggest factor was the prompt, not our method variant. Limits: slow, printer colors shift since we never calibrated, and the hidden image sometimes goes black. One reviewer said, not good, didn't like it. Well...other people did. Best Demo at CVPR 2023, and Steve Mould and Matt Parker made YouTube videos about it. Next: Peekaboo's masks were blobby, and real transparency needs real alpha. MAGICK gets RGBA images by asking the model for green-screen backgrounds."
     }
   ]
 }
